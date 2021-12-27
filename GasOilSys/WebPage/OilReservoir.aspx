@@ -33,9 +33,8 @@
                 $("#backbtn").show();
                 $("#subbtn").show();
                 $("#mode").val("edit");
-                
-                $("input[name='checkArea']").attr('disabled', false);
-                $("#checkAreaOther").attr('disabled', false);
+
+                setDisplayed(false);
 
                 if ($("input[name='checkArea'][value='06']").is(":checked"))
                     setNothing();
@@ -176,6 +175,14 @@
             });
 
         }); // end js
+
+        function setDisplayed(status) {
+            $("input[name='checkArea']").attr("disabled", status);
+            if ($("input[name='checkArea'][value='05']").is(":checked"))
+                $("#checkAreaOther").attr("disabled", status);
+            else
+                $("#checkAreaOther").attr("disabled", !status);
+        }
 
         function setNothing() {
             $("input[name='checkArea'][value='01']").prop("checked", false);
