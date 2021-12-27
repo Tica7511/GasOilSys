@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.navgoco.css" rel="stylesheet" type="text/css" /><!-- 第二選單 -->
+<link href="css/collapse.css" rel="stylesheet" type="text/css" /><!-- 收合展開 -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.navgoco.min.js"></script><!-- 第二選單 -->
+<script type="text/javascript" src="js/jquery.collapse.js"></script><!-- 收合展開 -->
+<script type="text/javascript" src="js/jquery.collapse_storage.js"></script><!-- 收合展開:增加記憶功能 -->
+</head>
+<body class="bgG">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader HeaderG">
+            <div class="twocolR">
+                <div class="left padding10ALL">
+                    <div class="font-size9 IconTG font-shadowA font-bold">天然氣事業輸儲設備查核及檢測資訊系統</div>
+                </div><!-- left -->
+                <div class="right">
+                    <div class="loginfo padding10RL font-normal">
+                        <!--登入者：王晨峻-->
+                        <!-- RWD 外部連結 start -->
+                        <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <!--<li><a href="#">登出</a></li>-->
+                    </ul>
+                    </span>
+                        </div><!-- HeaderOtherLinkWrapper -->
+                        <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                        <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                            <div class="magpopupTitle textcenter">外部連結</div>
+                            <span id="HeaderOtherLinkCopy"></span>
+                        </div><!--magpopup -->
+                        <!-- RWD 外部連結 end -->
+                    </div><!-- loginfo -->
+                </div><!-- right -->
+            </div><!-- twocolR -->
+
+            <div class="MainMenu MainMenuG">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu superfishmenuG">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+
+
+
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">高雄供氣中心</span>
+                        <span class="btnright"><div id="filedown"></div></span>
+                    </div>
+
+                    <div class="row margin20T">
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <div id="navmenuV"></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+
+                            <div class="font-size3"><input type="checkbox" checked disabled> 用戶管線定期檢查：<input type="checkbox" checked disabled> 委外檢查</div>
+
+                            <div class="stripeMeG margin5T tbover">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <th >項目 </th>
+                                        <th width="45%" >用戶名稱 </th>
+                                        <th  colspan="2">檢查期限 </th>
+                                        <th  colspan="3">檢查結果 </th>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >1</td>
+                                        <td >台灣電力股份有限公司南部發電廠 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >2</td>
+                                        <td >台灣電力股份有限公司大林發電廠五號機 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >3</td>
+                                        <td >台灣電力股份有限公司大林發電廠六號機 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >4</td>
+                                        <td >衛普實業股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >5</td>
+                                        <td >燁聯鋼鐵股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >6</td>
+                                        <td >台灣塑膠工業股份有限公司(仁武廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >7</td>
+                                        <td >俊鼎機械廠股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio"  disabled> 合格 </td>
+                                        <td ><input type="radio" checked disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >8</td>
+                                        <td >中國石油化學工業開發股份有限公司(大社廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >9</td>
+                                        <td >高雄塑酯化學工業股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >10</td>
+                                        <td >中國鋼鐵股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >11</td>
+                                        <td >中鋼碳素化學股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >12</td>
+                                        <td >中國石油化學工業開發股份有限公司(小港廠-公用工廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >13</td>
+                                        <td >中國石油化學工業開發股份有限公司(小港廠-氫氣廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >14</td>
+                                        <td >唐榮鐵工廠股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >15</td>
+                                        <td >中鴻鋼鐵股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >16</td>
+                                        <td >盛餘股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >17</td>
+                                        <td >遠龍不銹鋼股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >18</td>
+                                        <td >第一伸銅科技股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >19</td>
+                                        <td >如欲企業有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >20</td>
+                                        <td >壹東實業股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >21</td>
+                                        <td >合興石化工業股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >22</td>
+                                        <td >信昌化學工業股份有限公司(公用工廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >23</td>
+                                        <td >信昌化學工業股份有限公司(氫氣廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >24</td>
+                                        <td >台灣科思創股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >25</td>
+                                        <td >南帝化學工業股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >26</td>
+                                        <td >台灣氯乙烯工業股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >27</td>
+                                        <td >台灣塑膠工業股份有限公司(林園廠)</td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >28</td>
+                                        <td >協勝發鋼鐵廠股份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" >29</td>
+                                        <td >巧新科技工業故份有限公司 </td>
+                                        <td ><input type="radio" checked disabled> 符合 </td>
+                                        <td ><input type="radio" disabled> 不符合 </td>
+                                        <td ><input type="radio" checked disabled> 合格 </td>
+                                        <td ><input type="radio" disabled> 不合格 </td>
+                                        <td ><input type="radio" disabled> 拒檢 </td>
+                                    </tr>
+                                </table>
+                            </div><!-- stripeMe -->
+
+                        </div><!-- col -->
+                    </div><!-- row -->
+
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#collapse1").collapse({
+        query: 'div.collapseTitle',//收合標題樣式名
+        persist: false,//是否記憶收合,需配合jquery.collapse_storage.js
+        open: function() {
+            this.slideDown(100);//動畫效果
+        },
+        close: function() {
+            this.slideUp(100);//動畫效果
+        },
+    });
+
+    $("#collapse1").trigger("open") // 預設全開啟
+//$("#collapse1").trigger("close") // 預設全關閉(default)
+    $("#collapse1 div:nth-child(1) div.collapseTitle a").trigger("open") // 控制第幾個開啟
+
+//全部收合展開按鈕動作
+    $("#collapse1open").click(function(){
+        $("#collapse1").trigger("open")
+    });
+    $("#collapse1close").click(function(){
+        $("#collapse1").trigger("close")
+    });
+
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuGas.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/SubMenuGasB.js"></script><!-- 內頁選單 -->
+<script type="text/javascript">
+    $("#navmenuV ul li:nth-child(1)").addClass("open");
+    $("#navmenuV ul li:nth-child(1) li:nth-child(2)").addClass("active");
+    $('.nav').navgoco();
+</script>
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿
+<ul class='nav'>
+    <li>
+        <a href='#' target='_self'>天然氣業者基本資料</a>
+        <ul class='navSa'>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasInfo.aspx" target='_self'>事業單位基本資料表</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasTubeCheckPlanAndResult.aspx" target='_self'>用戶管線定期檢查計畫及檢查結果</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasAreaSchematicDiagram.aspx" target='_self'>轄區管線示意圖</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasStationFlowChart.aspx" target='_self'>場站管線流程圖(PFD)</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasStationAboutDistribution.aspx" target='_self'>場站概況分佈圖</a></li>
+        </ul>
+    </li>
+    <li>
+        <a name="menubtn" href="javascript:void(0);" link="GasStorageTankInfo.aspx" target="_self">儲槽設施資料</a>
+    </li>
+    <li>
+        <a href='#' target='_self'>管線管理</a>
+        <ul class='navSb'>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasTubeInfo.aspx" target='_self'>管線基本資料</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasTubeEnvironment.aspx" target='_self'>管線路徑環境特質</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasTubeComplete.aspx" target='_self'>管線完整性管理作為</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasCheckSmartTubeCleaner.aspx" target='_self'>智慧型通管器檢查(ILI)</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasCIPS.aspx" target="_self">緊密電位檢測(CIPS)</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasUnusualRectifier.aspx" target="_self">異常整流站</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasTubeCheck.aspx" target='_self'>管線巡檢</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasTubeMaintain.aspx" target='_self'>管線維修或開挖</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasRiskAssessment.aspx" target='_self'>風險評估</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasInsideInspect.aspx" target='_self'>內部稽核</a></li>
+        </ul>
+    </li>
+    <li><a name="menubtn" href="javascript:void(0);" link="GasControl.aspx" target='_self'>控制室</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link="GasAccidentLearning.aspx" target='_self'>事故學習</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+</ul>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var pathAry = window.location.pathname.split('/');
+		var pathName = pathAry[(pathAry.length - 1)];
+		$("#navmenuV a[link='" + pathName + "']").parent().addClass("active");
+		$("#navmenuV a[link='" + pathName + "']").parent().parent().parent().addClass("open");
+		$('.nav').navgoco();
+
+        $("a[name='menubtn']").click(function () {
+            location.href = ($.getQueryString("cp") != "") ? $(this).attr("link") + "?cp=" + $.getQueryString("cp") : $(this).attr("link");
+		});
+	});
+</script>

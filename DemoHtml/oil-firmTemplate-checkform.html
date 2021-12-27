@@ -1,0 +1,1795 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.navgoco.css" rel="stylesheet" type="text/css" /><!-- 第二選單 -->
+<link href="css/collapse.css" rel="stylesheet" type="text/css" /><!-- 收合展開 -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.navgoco.min.js"></script><!-- 第二選單 -->
+<script type="text/javascript" src="js/jquery.collapse.js"></script><!-- 收合展開 -->
+<script type="text/javascript" src="js/jquery.collapse_storage.js"></script><!-- 收合展開:增加記憶功能 -->
+<script type="text/javascript" src="js/jquery.treetableV2.js"></script><!-- tree menu -->
+</head>
+<body class="bgB">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowB">
+<div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader HeaderB">
+            <div class="twocolR">
+                <div class="left padding10ALL">
+                    <div class="font-size9 IconTG font-shadowA font-bold">石油業輸儲設備查核及檢測資訊系統</div>
+                </div><!-- left -->
+                <div class="right">
+                    <div class="loginfo padding10RL font-normal">
+                        <!--登入者：王晨峻-->
+                        <!-- RWD 外部連結 start -->
+                        <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <!--<li><a href="#">登出</a></li>-->
+                    </ul>
+                    </span>
+                        </div><!-- HeaderOtherLinkWrapper -->
+                        <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                        <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                            <div class="magpopupTitle textcenter">外部連結</div>
+                            <span id="HeaderOtherLinkCopy"></span>
+                        </div><!--magpopup -->
+                        <!-- RWD 外部連結 end -->
+                    </div><!-- loginfo -->
+                </div><!-- right -->
+            </div><!-- twocolR -->
+
+            <div class="MainMenu MainMenuB">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu superfishmenuG">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+
+
+
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">石油業者</span>
+                        <span class="btnright"><div id="filedown"></div></span>
+                    </div>
+
+
+                            <div class="twocol">
+                                <div class="right font-normal">
+                                    <a href="#" id="btnallopen"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;全部展開</a>&nbsp;&nbsp;
+                                    <a href="#" id="btnallclose"><i class="fa fa-minus-square-o" aria-hidden="true"></i>&nbsp;全部收合</a>
+                                </div>
+                            </div>
+
+                            <div class="stripetreeB margin10T">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="plantable">
+                                    <thead>
+                                    <tr>
+                                        <th nowrap="nowrap">110年石油管線及儲油設施查核項目</th>
+                                        <th nowrap="nowrap" width="200">業者</th>
+                                        <th nowrap="nowrap" width="200">委員</th>
+                                        <th nowrap="nowrap">參考文件/現場位置</th>
+                                        <th nowrap="nowrap" width="300">委員建議</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-tt-id="01_00_00_00">
+                                        <td align="">一、管線管理</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_00_00" data-tt-parent-id="01_00_00_00" class="son">
+                                        <td align="">(一) 管線完整性</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">1.風險評估(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_01" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(1)風險評估執行是否依據公司之最新版本(第5版)</td>
+                                        <td align="center"><input type="radio" name="01_01_01_01"> 符合 <input type="radio" name="01_01_01_01"> 不符合 <input type="radio" name="01_01_01_01"> 不適用</td>
+                                        <td align="center"><input type="radio" name="01_01_01_01_C" class="editnotebtnclose"> 符合 <input type="radio" name="01_01_01_01_C" class="editnotebtnopen"> 不符合 <input type="radio" name="01_01_01_01_C" class="editnotebtnopen"> 不適用</td>
+                                        <td></td>
+                                        <td align="" class="font-normal"><span class="sugnote itemhint" title="委員建議內容，完整內容可以用tooltip方式顯示全部，滑鼠移上後顯示">委員建議內容，表格先顯示十五字...</span><a href="#checklistedit" class="colorboxM editnotebtn" title="編輯">編輯</a></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_02" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(2)風險評估結果每年檢視內容是否有較大變動(檢視紀錄或維運計畫書)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio" name="01_01_01_02_C" class="editnotebtnclose"> 符合 <input type="radio" name="01_01_01_02_C" class="editnotebtnopen"> 不符合 <input type="radio" name="01_01_01_02_C" class="editnotebtnopen"> 不適用</td>
+                                        <td></td>
+                                        <td align="" class="font-normal"><span class="sugnote itemhint" title="委員建議內容，完整內容可以用tooltip方式顯示全部，滑鼠移上後顯示">委員建議內容，表格先顯示十五字...</span><a href="#checklistedit" class="colorboxM editnotebtn" title="編輯">編輯</a></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_03" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(3)風險評估是否在有較大變動或5年即重新詳細評估</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_04" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(4)評估團隊的專長與訓練是否足夠</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_05" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(5)風險評估報告是否可以看到各段-各參數給分分數</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_06" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(6)風險評估是否納入管線路徑環境特質所致之影響(如：斷層帶、土壤液化潛勢區、土石流潛勢區及淹水潛勢區)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_07" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(7)個別管線風險評估分段原則是否符合公司要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_08" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(8)各別管線之給分是否恰當(不須自評)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_09" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(9)CIPS及ILI檢測結果是否納入風險評估考慮因素</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_10" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(10)管線陰極保護電位狀況是否納入風險評估考慮因素</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_11" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(11)高風險是否有減緩措施</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_12" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(12)減緩措施自評是否可以降到低風險</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_13" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(13)委員評估減緩措施有效性(不須自評)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_01_14" data-tt-parent-id="01_01_01_00" class="son3">
+                                        <td align="">(14)減緩措施落實執行情況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">2.強化作為執行狀況(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_01" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(1)無法執行ILI檢測之原因是否合理</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_02" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(2)無法執行ILI檢測之管線問題詳細說明(分岐管尺寸及設計)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_03" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(3)無法執行ILI檢測管線之強化作為規劃是否符合要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_04" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(4)強度測試之壓力是否為最大操作壓力的1.25倍(油)/1.1倍(氣)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_05" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(5)持壓時間是否符合要求(4小時)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_06" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(6)ECDA執行有效性</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_02_07" data-tt-parent-id="01_01_02_00" class="son3">
+                                        <td align="">(7)無法試壓的強化作為有效性(管線洩漏)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">3.ILI檢測結果改善執行情況(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_01" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(1)超過50%腐蝕點改善狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_02" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(2)超過50%腐蝕點未完成改善之因應作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_03" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(3)未達50%之追蹤改善機制是否落實執行</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_04" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(4)超過12%DENT改善狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_05" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(5)超過12%DENT未完成改善之因應作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_06" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(6)ILI檢測驗證準確性與後續作為是否會讓風險提高</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_07" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(7)ILI檢測外部腐蝕面積較大區域是否有相應作為(陰極保護系統、CIPS檢測報告)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_08" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(8)ILI再檢測之周期是否符合腐蝕速率及完整性之要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_09" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(9)管線內部腐蝕是否持續成長</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_03_10" data-tt-parent-id="01_01_03_00" class="son3">
+                                        <td align="">(10)異常位置改善紀錄是否納入管理</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">4.間接檢測結果(CIPS/ACCA)改善執行情況(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_01" data-tt-parent-id="01_01_04_00" class="son3">
+                                        <td align="">(1)自主檢測結果判定為A級改善執行情況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_02" data-tt-parent-id="01_01_04_00" class="son3">
+                                        <td align="">(2)檢測訊號異常排除是否依據程序進行現場第三方結構物驗證</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_03" data-tt-parent-id="01_01_04_00" class="son3">
+                                        <td align="">(3)第三方結構物確認結果是否納入管線管理相關資訊</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_04" data-tt-parent-id="01_01_04_00" class="son3">
+                                        <td align="">(4)CIPS異常改善完成後是否再以CIPS執行確認</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_05" data-tt-parent-id="01_01_04_00" class="son3">
+                                        <td align="">(5)CIPS異常若以ILI檢測結果進行確認，需評估其是否有意義。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_04_06" data-tt-parent-id="01_01_04_00" class="son3">
+                                        <td align="">(6)CIPS檢測極化電位高於-850mVCSE要求，是否有進行改善作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">5.陰極保護系統(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_01" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(1)測點之陰極保護電位是否符合國家標準要求(-850mVCSE或100mV極化量)  </td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_02" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(2)以ON電位取代極化電位為季檢測判定標準，是否有建立參考電位曲線且每三年重新執行一次。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_03" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(3)是否檢視各點之電位變化曲線(三季)進行後續作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_04" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(4)電位未達標準要求，是否有進行調整或改善作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_05" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(5)絕緣法蘭定期檢查並皆合格</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_06" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(6)整流站故障是否已經採取相應措施(其他整流站供應、維修進行中)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_07" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(7)整流站耗電量在無特別調整的情況下是否有耗電量異常狀況並進行探討分析</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_05_08" data-tt-parent-id="01_01_05_00" class="son3">
+                                        <td align="">(8)防蝕電位量測人員之職能是否足夠(至少CP Level 1)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_06_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">6.雜散電流監控(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_06_01" data-tt-parent-id="01_01_06_00" class="son3">
+                                        <td align="">(1)管線與高壓輸配線路平行或交匯位置是否有執行雜散電流監控(AC)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_06_02" data-tt-parent-id="01_01_06_00" class="son3">
+                                        <td align="">(2)管線與鐵路、高鐵、輕軌及捷運系統是否有執行雜散電流監控(DC)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_06_03" data-tt-parent-id="01_01_06_00" class="son3">
+                                        <td align="">(3)受雜散電流影響之管線是否採取因應作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_06_04" data-tt-parent-id="01_01_06_00" class="son3">
+                                        <td align="">(4)ILI檢測結果開挖驗證是否有發現雜散電流所致之腐蝕點，若有其後續作為是否可以排除雜散電流之影響。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_07_00" data-tt-parent-id="01_01_00_00" class="son2">
+                                        <td align="">7.管線管理人員職能與權責(文件審查+人員訪談)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_07_01" data-tt-parent-id="01_01_07_00" class="son3">
+                                        <td align="">(1)管線管理主管或工程師在管線管理相關工作經驗是否足夠</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_07_02" data-tt-parent-id="01_01_07_00" class="son3">
+                                        <td align="">(2)管線管理與控制室人員之組織架構是否可以確保管線事故之應變調度</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_07_03" data-tt-parent-id="01_01_07_00" class="son3">
+                                        <td align="">(3)管線管理人員對其轄屬管線狀況之掌握程度(不須自評)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_07_04" data-tt-parent-id="01_01_07_00" class="son3">
+                                        <td align="">(4)管線管理轄區單位與儲運轄區單位之溝通管道</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_01_07_05" data-tt-parent-id="01_01_07_00" class="son3">
+                                        <td align="">(5)管線管理人員對於事先規劃是否完善及落實執行，對可能之風險區域積極尋求解決之道。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_00_00" data-tt-parent-id="01_00_00_00" class="son">
+                                        <td align="">(二)洩漏偵測方案(LDP)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_00" data-tt-parent-id="01_02_00_00" class="son2">
+                                        <td align="">1.巡管作業(文件審查+人員訪談)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_01" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(1)作業方式是否可以有效即早發現管線洩漏問題</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_02" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(2)巡管範圍除既有管線路徑外，是否還涵蓋其他易蓄積處及洩漏油品流向。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_03" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(3)是否可以偵測微小洩漏</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_04" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(4)巡管人員是否配置洩漏偵測設備</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_05" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(5)巡管人員對於管線內容物認知是否正確</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_06" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(6)巡管人員對於洩漏偵測訓練是否足夠</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_01_07" data-tt-parent-id="01_02_01_00" class="son3">
+                                        <td align="">(7)針對巡管異常，是否有完整之紀錄。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_00" data-tt-parent-id="01_02_00_00" class="son2">
+                                        <td align="">2.第三方施工駐守(文件審查+人員訪談)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_01" data-tt-parent-id="01_02_02_00" class="son3">
+                                        <td align="">(1)是否有第三方施工駐守之作業程序書</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_02" data-tt-parent-id="01_02_02_00" class="son3">
+                                        <td align="">(2)作業程序書對防止第三方挖損之程序是否完善</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_03" data-tt-parent-id="01_02_02_00" class="son3">
+                                        <td align="">(3)駐守人員時間安排是否可以預防無人駐守所致之第三方挖損</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_04" data-tt-parent-id="01_02_02_00" class="son3">
+                                        <td align="">(4)人員對於管線埋深及管線上方特徵材料或標示認知是否足夠</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_05" data-tt-parent-id="01_02_02_00" class="son3">
+                                        <td align="">(5)人員對駐守地點地下管線資訊是否充分取得</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_02_06" data-tt-parent-id="01_02_02_00" class="son3">
+                                        <td align="">(6)人員對管線防蝕層在陰極保護之重要性認知</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_00" data-tt-parent-id="01_02_00_00" class="son2">
+                                        <td align="">3.管線監控軟硬體(文件審查+現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_01" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(1)是否實施警報管理(含趨勢圖檢視、異常判斷邏輯與警報設定之合理性)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_02" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(2)是否具備CPM系統</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_03" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(3)CPM系統型式? SCADA系統計算推估、煉研所洩漏偵測方案、LDS系統</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_04" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(4)CPM系統的最小洩漏量?</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_05" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(5)CPM系統的流量異常警報設定值?</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_06" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(6)CPM系統的壓力異常設定值是否合乎各管線操作特性</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_07" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(7)CPM系統對於累積量計算的準確度(誤差範圍)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_08" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(8)CPM系統是否針對累積量差異建檔分析趨勢</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_09" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(9)是否執行微小洩漏偵測方案(未輸送保壓)及其設定壓力</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_10" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(10)保壓測試是否估計最小可偵測洩漏量/孔徑</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_11" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(11)保壓測試之壓力計解析/靈敏度是否符合需求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_12" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(12)保壓測試的設定警報值是否可以達到微小洩漏之功能</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_03_13" data-tt-parent-id="01_02_03_00" class="son3">
+                                        <td align="">(13)控制室之相關軟體、硬體是否具備超壓警示或關斷功能，避免超壓爆管</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_04_00" data-tt-parent-id="01_02_00_00" class="son2">
+                                        <td align="">4.疑似洩漏點位置標定程序(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_04_01" data-tt-parent-id="01_02_04_00" class="son3">
+                                        <td align="">(1)是否制訂疑似洩漏點的查漏程序</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_04_02" data-tt-parent-id="01_02_04_00" class="son3">
+                                        <td align="">(2)查漏方式有效性(不須自評)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_02_04_03" data-tt-parent-id="01_02_04_00" class="son3">
+                                        <td align="">(3)查漏程序所設定之範圍是否可以涵蓋可能之洩漏</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_00_00" data-tt-parent-id="01_00_00_00" class="son">
+                                        <td align="">(三)控制室管理(文件審查+現場檢視+人員訪談)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_01_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(1)輸出端控制室人員是否對起停泵有主控權</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_02_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(2)控制室所掌控相關控制閥的狀態是否可以顯示在盤面上</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_03_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(3)控制室人員對於管線路徑之熟悉程度(不須自評)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_04_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(4)控制室人員對於管線沿線第三方施工駐守、或長期第三方施工之資訊掌握程度</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_05_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(5)控制室針對管線操作異常之應變是否有書面程序書及簡易之步驟說明。</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_06_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(6)控制室人員之訓練是否包含管線路徑及風險較高路段</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_07_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(7)控制室人員對於CPM系統之熟悉程度(不須自評)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_08_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(8)控制室盤面若有異常警報是否有依據程序進行處理後才解除</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_09_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(9)無CPM系統之控制室，是否針對輸出、接收量差異量進行分析比對</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_10_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(10)管線應變事故之啟動程序是否有明確規定負責人</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_11_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(11)控制室是否有防止非授權人員進入或操作控制設備的防護機制</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_03_12_00" data-tt-parent-id="01_03_00_00" class="son3">
+                                        <td align="">(12)是否實施警報管理(含趨勢圖檢視、異常判斷邏輯與警報設定之合理性)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_04_00_00" data-tt-parent-id="01_00_00_00" class="son">
+                                        <td align="">(四)事故學習(文件審查)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_04_01_00" data-tt-parent-id="01_04_00_00" class="son3">
+                                        <td align="">(1)針對轄區單位所發生管線相關異常或洩漏事故是否進行根因分析及改善措施</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_04_02_00" data-tt-parent-id="01_04_00_00" class="son3">
+                                        <td align="">(2)公司內其他轄區單位所發生之管線相關異常或洩漏事故是否進行盤點可能潛在威脅並進行改善措施</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_04_03_00" data-tt-parent-id="01_04_00_00" class="son3">
+                                        <td align="">(3)針對第三方開挖未駐點之事件，是否有執行有效之改善作為</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_00_00" data-tt-parent-id="01_00_00_00" class="son">
+                                        <td align="">(五)管線資料管理</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_01_00" data-tt-parent-id="01_05_00_00" class="son2">
+                                        <td align="">1.資訊系統</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_01_01" data-tt-parent-id="01_05_01_00" class="son3">
+                                        <td align="">(1)管線相關資料是否有管理系統可以呈現管線管理相關資訊</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_01_02" data-tt-parent-id="01_05_01_00" class="son3">
+                                        <td align="">(2)管線管理資料資訊系統輸入完整性</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_01_03" data-tt-parent-id="01_05_01_00" class="son3">
+                                        <td align="">(3)管線相關追蹤事項(ILI，CIPS)是否納入資訊系統持續追蹤提醒</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_02_00" data-tt-parent-id="01_05_00_00" class="son2">
+                                        <td align="">2.管線基本資料</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_02_01" data-tt-parent-id="01_05_02_00" class="son3">
+                                        <td align="">(1)資料管理方式是否利於人員異動之傳承</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_02_02" data-tt-parent-id="01_05_02_00" class="son3">
+                                        <td align="">(2)管線基本埋設資料是否包含後續相關改遷管資料</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_02_03" data-tt-parent-id="01_05_02_00" class="son3">
+                                        <td align="">(3)管束中之管線是否有局部換管之資料(過去10年之維修檢測汰換計畫執行成果)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="01_05_02_04" data-tt-parent-id="01_05_02_00" class="son3">
+                                        <td align="">(4)管線與週遭第三方結構物之紀錄(CIPS訊號異常現場勘查結果)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_00_00_00">
+                                        <td align="">二、災害防救</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_00_00" data-tt-parent-id="02_00_00_00" class="son">
+                                        <td align="">(一)災害防救</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_01_00" data-tt-parent-id="02_01_00_00" class="son2">
+                                        <td align="">1.災害防救業務計畫</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_01_01" data-tt-parent-id="02_01_01_00" class="son3">
+                                        <td align="">(1)是否有事業部的災害防救業務計畫</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_01_02" data-tt-parent-id="02_01_01_00" class="son3">
+                                        <td align="">(2)營業處是否有細部執行計畫</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_01_03" data-tt-parent-id="02_01_01_00" class="son3">
+                                        <td align="">(3)針對高風險管段，規劃建置多元化備援系統或緊急供應措施</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_01_04" data-tt-parent-id="02_01_01_00" class="son3">
+                                        <td align="">(4)是否有規劃通訊系統無法運作之替代方案</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_00" data-tt-parent-id="02_01_00_00" class="son2">
+                                        <td align="">2.緊急應變計畫</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_01" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(1)各轄區單位是否有包含災害防救業務計畫之要求(無災害防救業務計畫)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_02" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(2)緊急應變計劃書是否依各轄區單位之特質建置</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_03" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(3)災害應變中心設置時機與作業程序</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_04" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(4)緊急應變計畫書的內容是否符合轄區單位所轄管線之需求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_05" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(5)轄管碼頭管線設施之轄區單位是否有海洋汙染內容</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_06" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(6)訂定重大災害請求外援之時機、程序</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_07" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(7)事故通報、緊急聯絡人窗口資訊是否更新</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_08" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(8)事故通報時間是否符合法令</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_09" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(9)訂定與各醫療機構、地區消防隊及工業區聯防組織間之通報程序或相互支援協定，並定期實施演練</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_10" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(10)緊急應變協力廠商協助契約是否建立</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_11" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(11)緊急應變計畫演練是否每年執行並包含無預警及夜間應變演練</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_12" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(12)緊急應變演練腳本是否涵蓋所屬管線可能產生之事故型態、範圍(包括洩漏後與下水道/溝渠等相關水利系統之事故發展)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_13" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(13)應變計畫是否包含搜救、緊急醫療救護、運送及設施之搶修</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_14" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(14)應變計畫是否包含冷、暖、熱區之劃分與管制</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_02_15" data-tt-parent-id="02_01_02_00" class="son3">
+                                        <td align="">(15)緊急應變演練紀錄是否進行檢討</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_00" data-tt-parent-id="02_01_00_00" class="son2">
+                                        <td align="">3.緊急應變器材</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_01" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(1)是否建立緊急應變器材清單(包含搜救及緊急醫療救護與滅火)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_02" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(2)緊急應變器材是否自行評估足以應付可能之事故或契約廠商、聯防單位可以支應</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_03" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(3)應變器材之有效性是否定期盤點確認及進行功能測試</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_04" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(4)應變器材規格是否合乎目前法規之要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_05" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(5)緊急應變器材對於微小洩漏位置檢出之有效性</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_06" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(6)緊急發電機的備用油量是否符合公司規定</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_07" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(7)發電機是否定期空載及有載測試，並留有相關紀錄</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_08" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(8)夜間應變相關器材是否足夠（照明）</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_09" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(9)應變器材之放置地點、環境條件是否洽當?</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_03_10" data-tt-parent-id="02_01_03_00" class="son3">
+                                        <td align="">(10)應變器材之分類及取用是否方便?</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_00" data-tt-parent-id="02_01_00_00" class="son2">
+                                        <td align="">4.緊急應變人員</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_01" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(1)是否有專人負責24小時事故縱向與橫向之聯繫通報</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_02" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(2)應變指揮官的訓練是否足夠</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_03" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(3)前進指揮所運作機制</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_04" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(4)應變人員有無訓練機制，是否能符合應變編組需求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_05" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(5)應變人員職責交接是否有程序規定</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_06" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(6)應變人員編組之合理性</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_07" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(7)夜間或假日人員安排是否有特別考量</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_08" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(8)相關應變人員對於器材使用是否熟悉</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="02_01_04_09" data-tt-parent-id="02_01_04_00" class="son3">
+                                        <td align="">(9)緊急應變人員對於管內內容物特性的了解程度</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_00_00">
+                                        <td align="">三、儲槽管理</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_00" data-tt-parent-id="03_00_00_00" class="son2">
+                                        <td align="">1.儲槽完整性管理(文件審查+現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_01" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(1)轄區操作單位是否將個別儲槽相關檢查、維修報告整合歸檔</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_02" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(2)儲槽開放檢查所規劃之檢測計畫是否可以達到完整性之要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_03" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(3)檢測報告是否明確描述腐蝕點之狀況並區分內外部缺陷</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_04" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(4)腐蝕位置維修前之評估是否依據相關規範進行(維修合理性)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_05" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(5)檢測公司執行檢測工作之有效性</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_06" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(6)維修是否留下完整之紀錄(包含尺寸、詳細位置)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_07" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(7)開放檢查週期除了定期開放外，是否依據檢測結果進行壽命評估而縮短開放時間</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_08" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(8)檢測工作規畫是否可以達到全面檢測底板之功效，以掌握底板土壤側腐蝕狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_09" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(9)壁板之腐蝕點是否進行評估，確認符合相關法規要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_10" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(10)接地電阻量測位置是否完整，並聯之接地電阻是否小於10Ω</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_01_11" data-tt-parent-id="03_00_01_00" class="son3">
+                                        <td align="">(11)外浮頂之接地線狀況是否可以避免雷擊所致之火花</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_02_00" data-tt-parent-id="03_00_00_00" class="son2">
+                                        <td align="">2.沉陷量測(文件審查+現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_02_01" data-tt-parent-id="03_00_02_00" class="son3">
+                                        <td align="">(1)壁板沉陷量測點數量是否符合API 653之要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_02_02" data-tt-parent-id="03_00_02_00" class="son3">
+                                        <td align="">(2)壁板沉陷點高度及間距是否一致</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_02_03" data-tt-parent-id="03_00_02_00" class="son3">
+                                        <td align="">(3)壁板沉陷量測結果是否依據API 653之要求進行評估</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_02_04" data-tt-parent-id="03_00_02_00" class="son3">
+                                        <td align="">(4)底板是否有明顯隆起或凹陷現象且經過評估符合API 653之要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_00" data-tt-parent-id="03_00_00_00" class="son2">
+                                        <td align="">3.腐蝕防止措施(文件審查+現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_01" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(1)外部塗層狀況是否可以確保大氣腐蝕受到控制</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_02" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(2)底板與基礎間之防水措施是否可能造成包覆層下腐蝕問題</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_03" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(3)基礎設計是否可以防止雨水不易滲進底板與基礎之間</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_04" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(4)附屬結構與壁板間之接點無明顯腐蝕狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_05" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(5)風樑與壁板間的接合銲道周遭是否有腐蝕</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_06" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(6)風樑的排水孔設置位置可以確保不積水造成壁板腐蝕</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_07" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(7)頂板接合銲道位置腐蝕狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_08" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(8)鵝頸通風管或約束通風管的腐蝕防護狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_03_09" data-tt-parent-id="03_00_03_00" class="son3">
+                                        <td align="">(9)附屬結構物的狀況可以確保人員安全</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr data-tt-id="03_00_04_00" data-tt-parent-id="03_00_00_00" class="son2">
+                                        <td align="">4.底板陰極保護系統(文件審查+現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_01" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(1)底板陰極保護系統之電位是否達到-850mVCSE之要求(ON)</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_02" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(2)電位量測點是否為固定點且可以測到具代表性之電位值</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_03" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(3)電位量測位置是否儘量靠近底板</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_04" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(4)每季量測之電位值無異常變動狀況</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_05" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(5)電位量測值異常即安排檢查改善措施</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_06" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(6)整流站輸出正常</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_04_07" data-tt-parent-id="03_00_04_00" class="son3">
+                                        <td align="">(7)底板土壤側腐蝕狀況檢測結果可以反映陰極保護措施符合需求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr data-tt-id="03_00_05_00" data-tt-parent-id="03_00_00_00" class="son2">
+                                        <td align="">5.儲槽洩漏檢測(文件審查+現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_01" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(1)液位高度計是否定期比對</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_02" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(2)數位式液位計是否定期校正</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_03" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(3)是否設置未操作時液位監控系統，並有警報設定</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_04" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(4)儲槽底板下方是否設置油氣偵測管並定期量測</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_05" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(5)槽區漏油警報器是否正常開放</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_06" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(6)地下水監測井之設置位置是否在儲槽的下游區域</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_05_07" data-tt-parent-id="03_00_05_00" class="son3">
+                                        <td align="">(7)地下水質檢測結果與正常值之差異量是否有洩漏之虞</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr data-tt-id="03_00_06_00" data-tt-parent-id="03_00_00_00" class="son2">
+                                        <td align="">6.槽區管線(現場檢視)</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_06_01" data-tt-parent-id="03_00_06_00" class="son3">
+                                        <td align="">(1)有保溫包覆之油品管線是否有產生CUI問題之疑慮</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_06_02" data-tt-parent-id="03_00_06_00" class="son3">
+                                        <td align="">(2)管線支撐座之防蝕狀況是否符合規定</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="03_00_06_03" data-tt-parent-id="03_00_06_00" class="son3">
+                                        <td align="">(3)管線之防蝕包覆是否合乎要求</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+
+                                    <tr data-tt-id="04_00_00_00">
+                                        <td align="">四、內部稽核</td>
+                                        <td align="center"></td>
+                                        <td align="center"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="04_00_00_01" data-tt-parent-id="04_00_00_00" class="son3">
+                                        <td align="">(1)是否有執行內部稽核</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="04_00_00_02" data-tt-parent-id="04_00_00_00" class="son3">
+                                        <td align="">(2)內部稽核單位、稽核內容</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-tt-id="04_00_00_03" data-tt-parent-id="04_00_00_00" class="son3">
+                                        <td align="">(3)內部稽核改善是否落實執行</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td align="center"><input type="radio"> 符合 <input type="radio"> 不符合 <input type="radio"> 不適用</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div><!-- stripetree -->
+
+
+
+
+
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="checklistedit">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength03 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
+                    <div class="OchiCell width100">
+                        <textarea rows="8" cols="" class="inputex width100"></textarea>
+                    </div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $("#plantable").treetable({ expandable: true,column: 0 });
+    $("#btnallopen").click(function(){
+        $("#plantable").treetable('expandAll');
+        return false;
+    })
+    $("#btnallclose").click(function(){
+        $("#plantable").treetable('collapseAll');
+        return false;
+    })
+
+    //編輯按鈕控制
+    $(".editnotebtn,.sugnote").hide();
+    $(".editnotebtnopen").on("click",function(){
+        $(this).parent().next().next().children(".editnotebtn,span").fadeIn();
+    })
+    $(".editnotebtnclose").on("click",function(){
+        $(this).parent().next().next().children(".editnotebtn,span").fadeOut();
+    })
+
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuOil.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/SubMenuOilTemp.js"></script><!-- 內頁選單 -->
+<script type="text/javascript">
+    $(".container").css("max-width","1800px");
+
+</script>
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

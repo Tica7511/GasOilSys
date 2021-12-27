@@ -1,0 +1,5 @@
+@charset "utf-8";
+.ochirow:after{display:block; clear:both; content:"."; visibility:hidden; height:0;}
+.ochicol-xs-1, .ochicol-sm-1, .ochicol-md-1, .ochicol-lg-1, .ochicol-xs-2, .ochicol-sm-2, .ochicol-md-2, .ochicol-lg-2, .ochicol-xs-3, .ochicol-sm-3, .ochicol-md-3, .ochicol-lg-3, .ochicol-xs-4, .ochicol-sm-4, .ochicol-md-4, .ochicol-lg-4, .ochicol-xs-5, .ochicol-sm-5, .ochicol-md-5, .ochicol-lg-5, .ochicol-xs-6, .ochicol-sm-6, .ochicol-md-6, .ochicol-lg-6, .ochicol-xs-7, .ochicol-sm-7, .ochicol-md-7, .ochicol-lg-7, .ochicol-xs-8, .ochicol-sm-8, .ochicol-md-8, .ochicol-lg-8, .ochicol-xs-9, .ochicol-sm-9, .ochicol-md-9, .ochicol-lg-9, .ochicol-xs-10, .ochicol-sm-10, .ochicol-md-10, .ochicol-lg-10, .ochicol-xs-11, .ochicol-sm-11, .ochicol-md-11, .ochicol-lg-11, .ochicol-xs-12, .ochicol-sm-12, .ochicol-md-12, .ochicol-lg-12 {
+float:left;
+}

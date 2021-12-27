@@ -1,0 +1,1747 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.navgoco.css" rel="stylesheet" type="text/css" /><!-- 第二選單 -->
+<link href="css/collapse.css" rel="stylesheet" type="text/css" /><!-- 收合展開 -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.navgoco.min.js"></script><!-- 第二選單 -->
+<script type="text/javascript" src="js/jquery.collapse.js"></script><!-- 收合展開 -->
+<script type="text/javascript" src="js/jquery.collapse_storage.js"></script><!-- 收合展開:增加記憶功能 -->
+</head>
+<body class="bgG">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader HeaderG">
+            <div class="twocolR">
+                <div class="left padding10ALL">
+                    <div class="font-size9 IconTG font-shadowA font-bold">天然氣事業輸儲設備查核及檢測資訊系統</div>
+                </div><!-- left -->
+                <div class="right">
+                    <div class="loginfo padding10RL font-normal">
+                        <!--登入者：王晨峻-->
+                        <!-- RWD 外部連結 start -->
+                        <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <!--<li><a href="#">登出</a></li>-->
+                    </ul>
+                    </span>
+                        </div><!-- HeaderOtherLinkWrapper -->
+                        <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                        <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                            <div class="magpopupTitle textcenter">外部連結</div>
+                            <span id="HeaderOtherLinkCopy"></span>
+                        </div><!--magpopup -->
+                        <!-- RWD 外部連結 end -->
+                    </div><!-- loginfo -->
+                </div><!-- right -->
+            </div><!-- twocolR -->
+
+            <div class="MainMenu MainMenuG">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu superfishmenuG">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+
+
+
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">高雄供氣中心</span>
+                        <span class="btnright"><div id="filedown"></div></span>
+                    </div>
+
+                    <div class="row margin20T">
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <div id="navmenuV"></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="stripeMeG tbover" style="max-height: 500px; overflow-y: auto;">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <th nowrap=nowrap>長途管線識別碼 </th>
+                                        <th nowrap=nowrap>
+                                            轄區長途管線名稱 <br />
+                                            (公司)
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            銜接管線識別碼 <br />
+                                            (上游)
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            銜接管線識別碼 <br />
+                                            (下游)
+                                        </th>
+                                        <th nowrap=nowrap>起點 </th>
+                                        <th nowrap=nowrap>迄點 </th>
+                                        <th nowrap=nowrap>
+                                            管徑 <br />
+                                            吋
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            厚度 <br />
+                                            (mm)
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            管材 <br />
+                                            (詳細規格)
+                                        </th>
+                                        <th nowrap=nowrap>包覆材料 </th>
+                                        <th nowrap=nowrap>
+                                            轄管長度 <br />
+                                            (公里)
+                                        </th>
+                                        <th nowrap=nowrap>內容物 </th>
+                                        <th nowrap=nowrap>
+                                            緊急遮斷閥 <br />
+                                            (處)
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            建置 <br />
+                                            年
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            設計 <br />
+                                            壓力 <br />
+                                            (Kg/cm2)
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            使用 <br />
+                                            壓力 <br />
+                                            (Kg/cm<sup>2</sup>)
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            使用狀態 <br />
+                                            1.使用中 <br />
+                                            2.停用 <br />
+                                            3.備用
+                                        </th>
+                                        <th nowrap=nowrap>
+                                            附掛 <br />
+                                            橋樑 <br />
+                                            數量
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110017</td>
+                                        <td>永維幹線     </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>永安廠 </td>
+                                        <td>維新隔離站 </td>
+                                        <td>30</td>
+                                        <td>19.05</td>
+                                        <td>5L-X52</td>
+                                        <td>熱熔包覆 </td>
+                                        <td>7.331</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>79年 </td>
+                                        <td>69.65</td>
+                                        <td>60.34</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110018</td>
+                                        <td>維岡幹線     </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>維新隔離站 </td>
+                                        <td>岡山隔離站 </td>
+                                        <td>30</td>
+                                        <td>19.05</td>
+                                        <td>5L-X52</td>
+                                        <td>熱熔包覆 </td>
+                                        <td>7.008</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>79年 </td>
+                                        <td>69.65</td>
+                                        <td>59.43</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110019</td>
+                                        <td>岡鳳幹線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>岡山隔離站 </td>
+                                        <td>鳳山配氣站 </td>
+                                        <td>24</td>
+                                        <td>15.88</td>
+                                        <td>5L-X52</td>
+                                        <td>熱熔包覆 </td>
+                                        <td>22.060</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>79年 </td>
+                                        <td>69.65</td>
+                                        <td>59.43</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110020</td>
+                                        <td>鳳林幹線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>鳳山配氣站 </td>
+                                        <td>林園五號閥箱 </td>
+                                        <td>24</td>
+                                        <td>15.88</td>
+                                        <td>5L-X52</td>
+                                        <td>熱熔包覆 </td>
+                                        <td>16.624</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>79年 </td>
+                                        <td>69.65</td>
+                                        <td>50.89</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110021</td>
+                                        <td>鳳屏幹線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>鳳山配氣站 </td>
+                                        <td>屏東配氣站 </td>
+                                        <td>16</td>
+                                        <td>10.31</td>
+                                        <td>5L-X52</td>
+                                        <td>熱熔包覆 </td>
+                                        <td>7.872</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>79年 </td>
+                                        <td>69.65</td>
+                                        <td>50.89</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110022</td>
+                                        <td>大六專管大利段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>大寮開關站 </td>
+                                        <td>高松油庫 </td>
+                                        <td>24</td>
+                                        <td>15.88</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>8.472</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>69.65</td>
+                                        <td>49.56</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110023</td>
+                                        <td>大六專管沿海路段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>高松油庫 </td>
+                                        <td>中林路口 </td>
+                                        <td>24</td>
+                                        <td>15.88</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>2.456</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>69.65</td>
+                                        <td>49.28</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110024</td>
+                                        <td>大六專管大林蒲段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>中林路口 </td>
+                                        <td>大林蒲配氣站 </td>
+                                        <td>24</td>
+                                        <td>15.88</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>3.482</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>69.65</td>
+                                        <td>49.07</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110025</td>
+                                        <td>高南總管阿蓮段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>岡山嘉興陸橋閥箱 </td>
+                                        <td>阿蓮清管站 </td>
+                                        <td>16</td>
+                                        <td>11.13</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>6.634</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>29.89</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110026</td>
+                                        <td>高南總管岡山段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>寶米路口 </td>
+                                        <td>岡山嘉興陸橋閥箱 </td>
+                                        <td>16</td>
+                                        <td>11.13</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>4.262</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>29.89</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110027</td>
+                                        <td>高南總管橋頭段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>甲圍國小 </td>
+                                        <td>寶米路口 </td>
+                                        <td>16</td>
+                                        <td>11.13</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>7.104</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>29.89</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110028</td>
+                                        <td>高南總管楠梓段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>石油焦站 </td>
+                                        <td>甲圍國小 </td>
+                                        <td>16</td>
+                                        <td>11.13</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>5.127</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>29.89</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110029</td>
+                                        <td>楠鳳環線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>楠梓配氣站 </td>
+                                        <td>鳳山配氣站 </td>
+                                        <td>16</td>
+                                        <td>11.13</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>11.850</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>69.65</td>
+                                        <td>52.99</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110030</td>
+                                        <td>高南總管石焦段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>楠梓配氣站 </td>
+                                        <td>石油焦站 </td>
+                                        <td>10</td>
+                                        <td>9.27</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>2.702</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>29.89</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110031</td>
+                                        <td>林園至大林蒲幹線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園五號閥箱 </td>
+                                        <td>大林蒲配氣站 </td>
+                                        <td>16</td>
+                                        <td>10.31</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>6.857</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>79年 </td>
+                                        <td>69.65</td>
+                                        <td>49.77</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110032</td>
+                                        <td>大五專管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>大林蒲配氣站 </td>
+                                        <td>台電大林電廠五號機組 </td>
+                                        <td>16</td>
+                                        <td>10.31</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>2.289</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>21.77</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110033</td>
+                                        <td>高南總管燁聯支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>統一超商閥箱舊址 </td>
+                                        <td>燁聯計量站 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.380</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>28.77</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110034</td>
+                                        <td>高南總管燁興支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>寶米路閥箱舊址 </td>
+                                        <td>燁興計量站 </td>
+                                        <td>6</td>
+                                        <td>8</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.431</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>83年 </td>
+                                        <td>49.77</td>
+                                        <td>29.47</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110036</td>
+                                        <td>林園專管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園二、三號閥箱 </td>
+                                        <td>林園配氣站 </td>
+                                        <td>16</td>
+                                        <td>10.31</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>2.897</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>81年 </td>
+                                        <td>69.65</td>
+                                        <td>49.7</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110037</td>
+                                        <td>新園專管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園配氣站 </td>
+                                        <td>新園配氣站 </td>
+                                        <td>10</td>
+                                        <td>8.74</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>6.990</td>
+                                        <td>NG2</td>
+                                        <td>4</td>
+                                        <td>82年 </td>
+                                        <td>49.77</td>
+                                        <td>5.81</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110038</td>
+                                        <td>林園營業線南帝段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園配氣站 </td>
+                                        <td>南帝計量站 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.838</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>26.67</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110039</td>
+                                        <td>林園營業線拜耳段 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園配氣站 </td>
+                                        <td>拜耳計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.068</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>81年 </td>
+                                        <td>49.77</td>
+                                        <td>26.6</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110040</td>
+                                        <td>臨海營業線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>大林蒲配氣站 </td>
+                                        <td>大業北路閥箱 </td>
+                                        <td>12</td>
+                                        <td>9.53</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>8.450</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>79年 </td>
+                                        <td>49.77</td>
+                                        <td>21.7</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110041</td>
+                                        <td>大社營業線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>楠梓配氣站 </td>
+                                        <td>磐亞公司       (大社工業區)</td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-GR.B</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>3.142</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>38.29</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110042</td>
+                                        <td>仁武營業線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>水管路閥箱 </td>
+                                        <td>工業二路口閥箱 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-GR.B</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>2.023</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>81年 </td>
+                                        <td>49.77</td>
+                                        <td>37.73</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110043</td>
+                                        <td>仁大營業線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>水管路 </td>
+                                        <td>永宏巷 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-GR.B</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.932</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>81年 </td>
+                                        <td>49.77</td>
+                                        <td>37.73</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110044</td>
+                                        <td>仁武營業線工業一路支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>鳳仁路           三通 </td>
+                                        <td>工業一路閥箱 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-GR.B</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.011</td>
+                                        <td>NG2</td>
+                                        <td>4</td>
+                                        <td>81年 </td>
+                                        <td>49.77</td>
+                                        <td>37.73</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110045</td>
+                                        <td>臨海營業線壹東支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>遠龍計量站 </td>
+                                        <td>壹東計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.120</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>93年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110049</td>
+                                        <td>臨海營業線鴻立支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>盛餘計量站 </td>
+                                        <td>鴻立計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.405</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>86年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110050</td>
+                                        <td>臨海營業線永光路支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>利昌街 </td>
+                                        <td>永光路閥箱 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.639</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110051</td>
+                                        <td>臨海營業線螢和支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>壹東計量站 </td>
+                                        <td>螢和計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.232</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>90年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>3</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110052</td>
+                                        <td>南鎮梓官分管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>燁興計量站 </td>
+                                        <td>高25線截斷處 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.031</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>90年 </td>
+                                        <td>49.77</td>
+                                        <td>0</td>
+                                        <td valign="bottom">3</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110054</td>
+                                        <td>臨海營業線唐榮支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>北林路          三通(1)</td>
+                                        <td>唐榮計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.386</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110055</td>
+                                        <td>臨海營業線中石化支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>盛餘計量站 </td>
+                                        <td>中石化           計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.304</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>88年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110056</td>
+                                        <td>林園營業線台氯支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園大排        三通(1)</td>
+                                        <td>台氯計量站 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.005</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>26.39</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110057</td>
+                                        <td>林園營業線亞聚支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園大排       三通(2)</td>
+                                        <td>亞聚公司 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.004</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>26.39</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110058</td>
+                                        <td>林園營業線台苯支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林園大排       三通(3)</td>
+                                        <td>台苯公司 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.010</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>26.39</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110059</td>
+                                        <td>臨海營業線遠龍支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>大業南路       三通(1)</td>
+                                        <td>遠龍計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.013</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>82年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110060</td>
+                                        <td>臨海營業線盛餘支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>大業南路       三通(2)</td>
+                                        <td>盛餘計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.009</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110061</td>
+                                        <td>臨海營業線一銅支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>沿海路閥箱 </td>
+                                        <td>一銅計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.010</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>82年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110062</td>
+                                        <td>臨海營業線利昌支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>北林路           三通 </td>
+                                        <td>利昌街閥箱 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.516</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>79年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110063</td>
+                                        <td>大社營業線中石化支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>興工路           三通(1)</td>
+                                        <td>中石化大社廠計量站 </td>
+                                        <td>4</td>
+                                        <td>5.49</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.006</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>37.8</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110064</td>
+                                        <td>大社營業線高塑支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>興工路           三通(2)</td>
+                                        <td>高雄塑酯大社廠計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.005</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>37.8</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110065</td>
+                                        <td>大社營業線中纖支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>經建路           三通(1)</td>
+                                        <td>中纖大社廠 </td>
+                                        <td>4</td>
+                                        <td>5.49</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.009</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>37.8</td>
+                                        <td>3</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110066</td>
+                                        <td>大社營業線磐亞支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>經建路          三通(2)</td>
+                                        <td>磐亞大社廠外道路 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.009</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>37.8</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110067</td>
+                                        <td>臨海營業線遠東支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>嘉興路          閥箱 </td>
+                                        <td>遠東計量站 </td>
+                                        <td>4</td>
+                                        <td>5.49</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.109</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>93年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110068</td>
+                                        <td>大社營業線俊鼎分管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>中石化          計量站 </td>
+                                        <td>俊鼎計量站 </td>
+                                        <td>4</td>
+                                        <td>5.49</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.360</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>94年 </td>
+                                        <td>49.77</td>
+                                        <td>38.01</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110069</td>
+                                        <td>臨海營業線中鋼第二專管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>北林路           閥箱 </td>
+                                        <td>沿海路          中鋼管架橋關斷閥 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.229</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>95年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110070</td>
+                                        <td>林園營業線合興支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>林東二號       閥箱 </td>
+                                        <td>合興計量站 </td>
+                                        <td>4</td>
+                                        <td>5.49</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.773</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>95年 </td>
+                                        <td>49.77</td>
+                                        <td>5.88</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110071</td>
+                                        <td>臨海營業線中鋼鋁支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>東林路          閥箱 </td>
+                                        <td>中鋼鋁           計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.078</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>92年 </td>
+                                        <td>49.77</td>
+                                        <td>21.63</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110072</td>
+                                        <td>仁武營業線高福分管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>高速公路       南下側358K+123M三通 </td>
+                                        <td>水管路           閥箱 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.627</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>81年 </td>
+                                        <td>49.77</td>
+                                        <td>37.8</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110075</td>
+                                        <td>林園營業線台塑支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>石化一橋       三通 </td>
+                                        <td>台塑計量站 </td>
+                                        <td>8</td>
+                                        <td>8.18</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.215</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>26.46</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110077</td>
+                                        <td>林園營業線中美和支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>石化三橋        三通 </td>
+                                        <td>中美和          計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.249</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>26.39</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110078</td>
+                                        <td>仁武營業線台塑支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>水管路           三通 </td>
+                                        <td>台塑               計量站 </td>
+                                        <td>4</td>
+                                        <td>5.49</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.012</td>
+                                        <td>NG2</td>
+                                        <td>3</td>
+                                        <td>80年 </td>
+                                        <td>49.77</td>
+                                        <td>37.66</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110079</td>
+                                        <td>臨海營業線中鋼第三專管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>嘉興街           第二閥箱 </td>
+                                        <td>中鋼               第三冷軋廠計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.497</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>99年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110080</td>
+                                        <td>高南總管衛普2吋支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>高南總管石焦段三通接衛普閥箱 </td>
+                                        <td>衛普計量站 </td>
+                                        <td>2</td>
+                                        <td>3.91</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.083</td>
+                                        <td>NG2</td>
+                                        <td>4</td>
+                                        <td>100年 </td>
+                                        <td>49.77</td>
+                                        <td>38.01</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110081</td>
+                                        <td>高南總管衛普4吋預留管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>高南總管石焦段三通接衛普閥箱 </td>
+                                        <td>衛普公司4吋管盲斷處 </td>
+                                        <td>4</td>
+                                        <td>6.02</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.100</td>
+                                        <td>NG2</td>
+                                        <td>4</td>
+                                        <td>100年 </td>
+                                        <td>49.77</td>
+                                        <td>38.01</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110082</td>
+                                        <td>臨海營業線如欲第一支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>壹東計量站 </td>
+                                        <td>如欲第一計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>無 </td>
+                                        <td>0.003</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>98年 </td>
+                                        <td>49.77</td>
+                                        <td>21.7</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110083</td>
+                                        <td>臨海營業線如欲第二支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>如欲第一計量站 </td>
+                                        <td>如欲第二計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-Gr-B</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.495</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>100年 </td>
+                                        <td>49.77</td>
+                                        <td>21.7</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110084</td>
+                                        <td>燁聯支管中鴻分管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>燁聯計量站 </td>
+                                        <td>中鴻計量站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>無 </td>
+                                        <td>0.018</td>
+                                        <td>NG2</td>
+                                        <td>1</td>
+                                        <td>92年 </td>
+                                        <td>49.77</td>
+                                        <td>29.05</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110086</td>
+                                        <td>鳳大環線 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>鳳山配氣站 </td>
+                                        <td>大寮開關站 </td>
+                                        <td>16</td>
+                                        <td>11.13</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>10.165</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>102年 </td>
+                                        <td>69.65</td>
+                                        <td>50.89</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110087</td>
+                                        <td>臨海營業線協勝發支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>遠東支管轉彎處 </td>
+                                        <td>協勝發計量站 </td>
+                                        <td>4</td>
+                                        <td>6.02</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>0.192</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>107年 </td>
+                                        <td>49.77</td>
+                                        <td>21.49</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>805010110088</td>
+                                        <td>屏東營業線巧新支管 </td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td valign="top">&nbsp;</td>
+                                        <td>屏東配氣站 </td>
+                                        <td>巧新站 </td>
+                                        <td>6</td>
+                                        <td>7.11</td>
+                                        <td>5L-X52</td>
+                                        <td>
+                                            PE<br />
+                                            包覆
+                                        </td>
+                                        <td>1.465</td>
+                                        <td>NG2</td>
+                                        <td>2</td>
+                                        <td>108年</td>
+                                        <td>49.77</td>
+                                        <td>19.96</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                    </tr>
+                                </table>
+                            </div><!-- stripeMe -->
+
+                            <div class="margin5TB font-size2">
+                                註1：厚度請填寫到小數點後兩位，請依據ASME B36.10M Welded and Seamless Wrought Steel Pipe填寫公稱厚度，例如25.40 mm。<br>
+                                註2：管線長度單位公里，請填寫到小數點後三位，例如5.140公里。<br>
+                                註3：停用管線之內容物，請填如(氮封)、(空管)、(水)。<br>
+                                註4：緊急遮斷閥請填寫有幾處。<br>
+                                註5：設計壓力與使用壓力(請填寫近年內之MOP)單位請採用kg/cm<sup>2</sup>。<br>
+                                註6：請填寫同一管線附掛橋樑的數量。<br>
+                                註7：廢棄管線與非中油公司資產管線，請勿列入。<br>
+
+                            </div>
+
+                        </div><!-- col -->
+                    </div><!-- row -->
+
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="workitem">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">工作項次</div>
+                    <div class="OchiCell width100">
+                        <input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width30"> </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定完成執行內容</div>
+                    <div class="OchiCell width100"><textarea rows="5" cols="" class="inputex width100"></textarea></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+<div style="display:none;">
+    <div id="datesetting">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength04 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">開始日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">結束日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuGas.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/SubMenuGasB.js"></script><!-- 內頁選單 -->
+<script type="text/javascript">
+    $("#navmenuV ul li:nth-child(2)").addClass("open");
+    $("#navmenuV ul li:nth-child(2) li:nth-child(1)").addClass("active");
+    $('.nav').navgoco();
+</script>
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

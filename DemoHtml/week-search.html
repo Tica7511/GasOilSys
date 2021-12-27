@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+</head>
+<body class="bgO">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+    <div class="WrapperHeader HeaderO">
+        <div class="twocolR">
+            <div class="left padding10ALL">
+                <div class="font-size9 IconTO font-shadowA font-bold">週報、季報、月報管理系統</div>
+            </div><!-- left -->
+            <div class="right">
+                <div class="loginfo padding10RL font-normal">
+                    登入者：王晨峻
+                    <!-- RWD 外部連結 start -->
+                    <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <li><a href="#">登出</a></li>
+                    </ul>
+                    </span>
+                    </div><!-- HeaderOtherLinkWrapper -->
+                    <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                    <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                        <div class="magpopupTitle textcenter">外部連結</div>
+                        <span id="HeaderOtherLinkCopy"></span>
+                    </div><!--magpopup -->
+                    <!-- RWD 外部連結 end -->
+                </div><!-- loginfo -->
+            </div><!-- right -->
+        </div><!-- twocolR -->
+
+        <div class="MainMenu MainMenuO">
+            <!-- 側邊選單開關容器 -->
+            <div id="opensidemenu"></div>
+            <!-- 桌機主選單 -->
+            <div class="superfishmenu">
+
+            </div><!-- superfishmenu -->
+
+        </div><!-- MainMenu -->
+    </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">週報查詢</span>
+                    </div>
+
+                    <div class="BoxBgWa BoxRadiusA BoxBorderSa padding10ALL margin10T">
+                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
+                            <div class="OchiRow">
+                                <div class="OchiHalf">
+                                    <div class="OchiCell OchiTitle TitleSetWidth">起始日期</div>
+                                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                                </div><!-- OchiHalf -->
+                                <div class="OchiHalf">
+                                    <div class="OchiCell OchiTitle TitleSetWidth">結束日期</div>
+                                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                                </div><!-- OchiHalf -->
+                            </div><!-- OchiRow -->
+                        </div><!-- OchiTrasTable -->
+
+                        <div class="textright margin10T"><input type="submit" class="genbtn" value="查詢"> </div>
+                    </div>
+
+
+                    <div class="twocol margin10T">
+                        <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 查詢結果</div>
+                        <div class="right font-normal font-size3">
+                        </div>
+                    </div>
+
+                    <div class="stripeMeCS font-size3 margin10T">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                            <tr>
+                                <th nowrap="nowrap" width="100">工作項次</th>
+                                <th nowrap="nowrap" width="100">預定日期</th>
+                                <th nowrap="nowrap">預定完成執行內容</th>
+                                <th nowrap="nowrap" width="100">功能</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td align="center">1.2</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">查核委員行前會議、天然氣業者及地方主管機關查核行前說明會、石油業者及地方主管機關查核行前說明會時間及議程安排作業</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">2.2.1</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">石油業者管線定期檢查紀錄之抽查場次挑選</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">2.3.1</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">天然氣業者管線定期檢查紀錄之抽查場次挑選</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">3.1</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">收集台灣中油與台塑石化109年管線執行成果報告書</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">3.3</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">收集石油管線風險相關管線危害項目</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">3.7</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">撰寫國震對工研院的「石油與天然氣管線對土壤液化、過斷層帶與地震動之曝險研析」計畫書</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">4.0</td>
+                                <td align="center">02.04(四)</td>
+                                <td align="">討論石油與天然氣場站基本資料網頁整併內容</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">5.5</td>
+                                <td align="center">02.05(五)</td>
+                                <td align="">擬定年度系統開發功能需求，召開內部系統會議</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">6.2</td>
+                                <td align="center">02.01(一)</td>
+                                <td align="">110年啟始工作會議</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">6.2</td>
+                                <td align="center">02.01(一)</td>
+                                <td align="">台灣中油股份有限公司油氣管線安全監控議題說明會議</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            <tr>
+                                <td align="center">6.2</td>
+                                <td align="center">02.04(四)</td>
+                                <td align="">廉政教育課程</td>
+                                <td align="center" class="font-normal"><a href="#">刪除</a> <a href="#workitem" class="colorboxM" title="編輯工作項次">編輯</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- stripeMe -->
+
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="workitem">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">工作項次</div>
+                    <div class="OchiCell width100">
+                        <input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width30"> </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定完成執行內容</div>
+                    <div class="OchiCell width100"><textarea rows="5" cols="" class="inputex width100"></textarea></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="left"></div>
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuWeek.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

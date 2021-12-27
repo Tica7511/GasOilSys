@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.treetable.js"></script><!-- tree menu -->
+</head>
+<body class="bgO">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+    <div class="WrapperHeader HeaderO">
+        <div class="twocolR">
+            <div class="left padding10ALL">
+                <div class="font-size9 IconTO font-shadowA font-bold">週報、季報、月報管理系統</div>
+            </div><!-- left -->
+            <div class="right">
+                <div class="loginfo padding10RL font-normal">
+                    登入者：王晨峻
+                    <!-- RWD 外部連結 start -->
+                    <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <li><a href="#">登出</a></li>
+                    </ul>
+                    </span>
+                    </div><!-- HeaderOtherLinkWrapper -->
+                    <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                    <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                        <div class="magpopupTitle textcenter">外部連結</div>
+                        <span id="HeaderOtherLinkCopy"></span>
+                    </div><!--magpopup -->
+                    <!-- RWD 外部連結 end -->
+                </div><!-- loginfo -->
+            </div><!-- right -->
+        </div><!-- twocolR -->
+
+        <div class="MainMenu MainMenuO">
+            <!-- 側邊選單開關容器 -->
+            <div id="opensidemenu"></div>
+            <!-- 桌機主選單 -->
+            <div class="superfishmenu">
+
+            </div><!-- superfishmenu -->
+
+        </div><!-- MainMenu -->
+    </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">計畫書填報</span>
+                    </div>
+
+                    <div class="twocol margin15T">
+                        <div class="right font-normal">
+                            <a href="#" id="btnallopen"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;全部展開</a>&nbsp;&nbsp;
+                            <a href="#" id="btnallclose"><i class="fa fa-minus-square-o" aria-hidden="true"></i>&nbsp;全部收合</a>
+                        </div>
+                    </div>
+
+                    <div class="stripetree font-size3 margin10T">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="plantable">
+                            <thead>
+                            <tr>
+                                <th nowrap="nowrap" width="120">工作項次</th>
+                                <th nowrap="nowrap">內容</th>
+                                <th nowrap="nowrap" width="80">功能</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-tt-id="A01">
+                                <td align="center">1</td>
+                                <td align="">石油與天然氣輸儲設備查核</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A0101" data-tt-parent-id="A01" class="son">
+                                <td align="center">1.1</td>
+                                <td align="">成立石油業者及天然氣生產與進口事業輸儲設備查核專業團隊</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0102" data-tt-parent-id="A01" class="son">
+                                <td align="center">1.2</td>
+                                <td align="">辦理天然氣及石油業者查核委員及業者查核行前說明會，其中查核委員行前會議1場次進行查核表單及年度查核重點研商、天然氣業者及地方主管機關查核行前說明會1場次與石油業者及地方主管機關查核行前說明會1場次，共3場次</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0103" data-tt-parent-id="A01" class="son">
+                                <td align="center">1.3</td>
+                                <td align="">石油輸儲設施查核</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A010301" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.1</td>
+                                <td align="">修訂石油業者石油管線及儲油設施查核標準作業手冊</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010302" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.2</td>
+                                <td align="">辦理石油業者石油管線及儲油設施查核至少10場次，每場至少3位外部專家，查核內容應包含：管線及儲油設施完整性管理、陰極防蝕系統有效性、風險評估、管線維修及巡檢、監控中心管理、災害防救及儲槽檢查維修等</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010303" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.3</td>
+                                <td align="">針對前述石油業者石油管線及儲油設施查核結果提出改善建議及後續改善追蹤，並就歷年（含本年度）查核缺失，至少進行5場次以上之改善結果現場確認，並出具報告，上述查核與改善結果現場確認報告需登錄於石油與天然氣輸儲查核與檢測資料管理資訊系統</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010304" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.4</td>
+                                <td align="">辦理石油業者儲油設施查核12場次 (具備API 653 Inspector)，內容應包含：儲槽檢測規劃是否依據法規要求、檢查項目須可以確認下次開放檢查前的完整性(無洩漏)、異常狀況之改善強化作為、維修規劃及執行情形、代行檢查報告符合度等</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010305" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.5</td>
+                                <td align="">檢視石油管線智慧型通管器檢查(ILI)報告5場次</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010306" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.6</td>
+                                <td align="">配合本年度儲油設施之查核，挑選至少5場次，修訂輔導手冊，並邀請1位土壤及地下水污染防治整治專家進行輔導，及提出輔導建議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010307" data-tt-parent-id="A0103" class="son2">
+                                <td align="right">1.3.7</td>
+                                <td align="">依據石油管理法第33條規定，辦理石油業儲油設備代行檢查機構執行內外部定期檢查之檢查情形現場勘查4場次及辦理代行檢查業務精進與執行業務改善教育訓練1場次</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0104" data-tt-parent-id="A01" class="son">
+                                <td align="center">1.4</td>
+                                <td align="">天然氣輸儲設備查核</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A010401" data-tt-parent-id="A0104" class="son2">
+                                <td align="right">1.4.1</td>
+                                <td align="">修訂天然氣生產與進口事業輸儲設備查核標準作業手冊</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010402" data-tt-parent-id="A0104" class="son2">
+                                <td align="right">1.4.2</td>
+                                <td align="">辦理天然氣生產與進口事業輸儲設備查核至少17場次，每場至少3位外部專家，查核內容應包含：管線完整性管理、陰極防蝕系統有效性、風險評估、管線維修及巡檢、監控中心管理、輸儲設備檢查維修、供氣穩定性、災害防救、法規符合度等</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010403" data-tt-parent-id="A0104" class="son2">
+                                <td align="right">1.4.3</td>
+                                <td align="">針對前述天然氣生產與進口事業輸儲設備查核結果提出改善建議及後續改善追蹤，並就歷年（含本年度）查核缺失，至少進行3場次以上之改善結果現場確認，並出具報告，上述查核與改善結果現場確認報告需登錄於石油與天然氣輸儲查核與檢測資料管理資訊系統</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010404" data-tt-parent-id="A0104" class="son2">
+                                <td align="right">1.4.4</td>
+                                <td align="">執行天然氣生產與進口事業所轄各配氣站、隔離站、開關站、清管站等輸配氣站場天然氣管線現場檢測，以掌握輸氣管線之安全維護現況，至少36站場，並提出檢測報告</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A010405" data-tt-parent-id="A0104" class="son2">
+                                <td align="right">1.4.5</td>
+                                <td align="">檢視天然氣管線智慧型通管器檢查(ILI)報告5場次</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0105" data-tt-parent-id="A01" class="son">
+                                <td align="center">1.5</td>
+                                <td align="">召開石油業者及天然氣生產與進口事業輸儲設備查核結果建議事項改善執行情形及後續追蹤專家諮詢會議，至少4場次(石油業者2場次及天然氣事業2場次)</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A02">
+                                <td align="center">2</td>
+                                <td align="">石油業者與天然氣事業管線檢測</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A0201" data-tt-parent-id="A02" class="son">
+                                <td align="center">2.1</td>
+                                <td align="">修訂石油業者與天然氣事業管線檢測作業手冊</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0202" data-tt-parent-id="A02" class="son">
+                                <td align="center">2.2</td>
+                                <td align="">石油管線檢測</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A020201" data-tt-parent-id="A0202" class="son2">
+                                <td align="center">2.2.1</td>
+                                <td align="">辦理石油業者管線定期檢查紀錄（包覆電磁、緊密電位、管內檢測或雜散電流檢測相關資料等）之抽查至少10場次，查核檢測人員至少需有一位具備陰極防蝕CP2或LV2等級證照資格</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A020202" data-tt-parent-id="A0202" class="son2">
+                                <td align="center">2.2.2</td>
+                                <td align="">執行石油業者管線包覆電磁檢測、緊密電位及直流電位梯度檢測共15公里，執行檢測人員至少需有1位具備陰極防蝕CP2或LV2等級證照資格</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A020203" data-tt-parent-id="A0202" class="son2">
+                                <td align="center">2.2.3</td>
+                                <td align="">執行石油業者管線雜散電流監測長度至少16公里，監測時間至少3個月，執行檢測人員至少需有1位具備陰極防蝕CP2或LV2等級證照資格，並建置監測資料即時上傳系統，進行雜散電流影響研析</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0203" data-tt-parent-id="A02" class="son">
+                                <td align="center">2.3</td>
+                                <td align="">天然氣管線檢測</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A020301" data-tt-parent-id="A0203" class="son2">
+                                <td align="center">2.3.1</td>
+                                <td align="">辦理天然氣業者管線定期檢查紀錄（包覆電磁、緊密電位、管內檢測或雜散電流檢測相關資料等）之抽查至少10場次，查核檢測人員至少需有一位具備陰極防蝕CP2或LV2等級證照資格</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A020302" data-tt-parent-id="A0203" class="son2">
+                                <td align="center">2.3.2</td>
+                                <td align="">執行天然氣業者管線包覆電磁檢測、緊密電位及直流電位梯度檢測共15公里，執行檢測人員至少需有1位具備陰極防蝕CP2或LV2等級證照資格</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A020303" data-tt-parent-id="A0203" class="son2">
+                                <td align="center">2.3.3</td>
+                                <td align="">執行天然氣業者管線雜散電流監測長度至少16公里，監測時間至少3個月，執行檢測人員至少需有1位具備陰極防蝕CP2或LV2等級證照資格，並建置監測資料即時上傳系統，進行雜散電流影響研析</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0204" data-tt-parent-id="A02" class="son">
+                                <td align="center">2.4</td>
+                                <td align="">召開管線檢測報告之結果建議事項改善執行情形及後續追蹤專家諮詢會議，至少4場次(石油業者2場次及天然氣事業2場次)</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A03">
+                                <td align="center">3</td>
+                                <td align="">協助執行石油與天然氣輸儲設施監督及管理</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A0301" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.1</td>
+                                <td align="">辦理石油業者提報前一年管線檢測、汰換狀況書表與次一年管線維修檢測、汰換、防盜、防漏及緊急應變計畫專家諮詢會議4場次</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0302" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.2</td>
+                                <td align="">石油或天然氣管線洩漏事故研析1場，執行災害肇因研析與提出完整性管理改善建議，以降低洩漏發生風險</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0303" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.3</td>
+                                <td align="">石油管線風險地圖相關項目比重研擬及評估分析，並辦理1場次專家討論會議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0304" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.4</td>
+                                <td align="">第三方結構物(如人孔箱涵、排水箱涵及其他事業管線等)對於石油、天然氣管線陰極防蝕及電位量測影響研析，並辦理1場次專家討論會議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0305" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.5</td>
+                                <td align="">電磁脈衝(EMP)攻擊對石油與天然氣輸儲設備之影響研析，並辦理1場次專家討論會議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0306" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.6</td>
+                                <td align="">公用天然氣管線風險評估及維修、檢測、汰換建議指引，並辦理1場次專家討論會議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0307" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.7</td>
+                                <td align="">石油與天然氣管線對土壤液化、過斷層帶與地震動之曝險研析，並辦理1場次專家會議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0308" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.8</td>
+                                <td align="">國際規範對地下管線管理人員職能需求研析，並辦理1場次專家討論會議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0309" data-tt-parent-id="A03" class="son">
+                                <td align="center">3.9</td>
+                                <td align="">辦理石油與天然氣輸儲設備完整性管理及檢測技術之相關訓練4場次(如儲槽檢查與管理等國際現況、管線完整性管理、管線相關檢測技術與國際現況、地震等天然災會對輸儲設施的影響等)，每場次至少6小時</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A04">
+                                <td align="center">4</td>
+                                <td align="">石油與天然氣輸儲查核與檢測資料管理資訊系統維護</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A0401" data-tt-parent-id="A04" class="son">
+                                <td align="center">4.1</td>
+                                <td align="">機房及軟硬體更新維護等</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0402" data-tt-parent-id="A04" class="son">
+                                <td align="center">4.2</td>
+                                <td align="">資料更新，包含儲槽與管線基本資料、查核與複查報告、檢測報告及追蹤改善情形等</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0403" data-tt-parent-id="A04" class="son">
+                                <td align="center">4.3</td>
+                                <td align="">功能擴充</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A05">
+                                <td align="center">5</td>
+                                <td align="">協助辦理災害防救業務相關事項</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A0501" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.1</td>
+                                <td align="">辦理石油業石油輸儲設施災害應變無預警測試，包含1場次專家行前討論會議、2場次無預警測試及2場次檢討會議，並完成測試報告</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0502" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.2</td>
+                                <td align="">辦理1場次石油業關鍵基礎設施（或重要設施）防護計畫執行狀況勘查及協助業者辦理防護演習</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0503" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.3</td>
+                                <td align="">國內油氣災害事故應變諮詢監控與到場協助服務，維持24小時監控平台正常運作</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0504" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.4</td>
+                                <td align="">蒐集國外油氣事故調查案例(石油事故2例及天然氣事故2例)至少4例，並提出國內防災建議</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0505" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.5</td>
+                                <td align="">能源災情查報資訊系統功能維護，定期進行系統功能點檢測試、更新維護系統預防整備業務資料、系統弱點掃描與異常訊息修補</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0506" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.6</td>
+                                <td align="">辦理「公用氣體與油料管線、輸電線路災害防救業務研討會」1場次，課程至少6小時，參與人數約90人</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0507" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.7</td>
+                                <td align="">協助審閱災害防救業務相關計畫(如災害防救基本計畫、經濟部公用氣體與油料管線災害防救業務計畫、地區災害防救計畫、石油業災害防救業務計畫、公用天然氣事業災害防救業務計畫及其他)，並提出檢討修正意見，及其他災防相關(含諮詢意見提供、出席相關會議、相關計畫之擬訂、參加緊急應變小組或中央應變中心相關演練等及其他緊急配合事項)</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit-0507.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0508" data-tt-parent-id="A05" class="son">
+                                <td align="center">5.8</td>
+                                <td align="">辦理中央防災應變中心相關演練1場次</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A06">
+                                <td align="center">6</td>
+                                <td align="">其他</td>
+                                <td align="center" class="font-normal"></td>
+                            </tr>
+                            <tr data-tt-id="A0601" data-tt-parent-id="A06" class="son">
+                                <td align="center">6.1</td>
+                                <td align="">查核點說明</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit.html">編輯</a></td>
+                            </tr>
+                            <tr data-tt-id="A0602" data-tt-parent-id="A06" class="son">
+                                <td align="center">6.2</td>
+                                <td align="">配合能源局視需要規劃及舉辦相關專案會議與臨時交辦之重要工作</td>
+                                <td align="center" class="font-normal"><a href="week-page-report-edit-0602.html">編輯</a></td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div><!-- stripeMeCS -->
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="workitem">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">工作項次</div>
+                    <div class="OchiCell width100">
+                        <input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width30"> </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定完成執行內容</div>
+                    <div class="OchiCell width100"><textarea rows="5" cols="" class="inputex width100"></textarea></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+<div style="display:none;">
+    <div id="datesetting">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength04 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">開始日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">結束日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $("#plantable").treetable({ expandable: true,column: 0 });
+    $("#btnallopen").click(function(){
+        $("#plantable").treetable('expandAll');
+        return false;
+    })
+    $("#btnallclose").click(function(){
+        $("#plantable").treetable('collapseAll');
+        return false;
+    })
+
+
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuWeek.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

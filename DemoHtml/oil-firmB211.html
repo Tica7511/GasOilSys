@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.navgoco.css" rel="stylesheet" type="text/css" /><!-- 第二選單 -->
+<link href="css/collapse.css" rel="stylesheet" type="text/css" /><!-- 收合展開 -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.navgoco.min.js"></script><!-- 第二選單 -->
+<script type="text/javascript" src="js/jquery.collapse.js"></script><!-- 收合展開 -->
+<script type="text/javascript" src="js/jquery.collapse_storage.js"></script><!-- 收合展開:增加記憶功能 -->
+</head>
+<body class="bgB">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader HeaderB">
+            <div class="twocolR">
+                <div class="left padding10ALL">
+                    <div class="font-size9 IconTG font-shadowA font-bold">石油業輸儲設備查核及檢測資訊系統</div>
+                </div><!-- left -->
+                <div class="right">
+                    <div class="loginfo padding10RL font-normal">
+                        <!--登入者：-->
+                        <!-- RWD 外部連結 start -->
+                        <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <!--<li><a href="#">登出</a></li>-->
+                    </ul>
+                    </span>
+                        </div><!-- HeaderOtherLinkWrapper -->
+                        <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                        <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                            <div class="magpopupTitle textcenter">外部連結</div>
+                            <span id="HeaderOtherLinkCopy"></span>
+                        </div><!--magpopup -->
+                        <!-- RWD 外部連結 end -->
+                    </div><!-- loginfo -->
+                </div><!-- right -->
+            </div><!-- twocolR -->
+
+            <div class="MainMenu MainMenuB">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu superfishmenuG">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+
+
+
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">油銷部台南處豐德供油中心</span>
+                        <span class="btnright"><div id="filedown"></div></span>
+                    </div>
+
+                    <div class="row margin20T">
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <div id="navmenuV"></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="stripeMeB tbover">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" width="0">
+                                    <tr>
+                                        <th  rowspan="2" valign="top">轄區長途 <br>
+                                            管線識別碼 <br>
+                                            (國土資訊系統)<br>
+                                            8070101xxxxx </th>
+                                        <th  rowspan="2">最近一次 <br>
+                                            執行日期 <br>
+                                            (年/月)</th>
+                                        <th  rowspan="2">再評估時機 <br>
+                                            1.定期(5年)<br>
+                                            2.風險因子異動 </th>
+                                        <th  rowspan="2">管線長度 <br>
+                                            (公里)</th>
+                                        <th  rowspan="2">分段數量 </th>
+                                        <th  rowspan="2">已納入 <br>
+                                            ILI結果 <br>
+                                            (4)</th>
+                                        <th  rowspan="2">已納入CIPS結果 <br>
+                                            (5)</th>
+                                        <th  rowspan="2">已納入 <br>
+                                            巡管結果 <br>
+                                            1.是 <br>
+                                            2.否 <br>
+                                            (6)</th>
+                                        <th width="85" colspan="3">各等級風險 <br>
+                                            管段數量 </th>
+                                        <th  rowspan="2">降低中高風險管段之<br>相關作為文件名稱 </th>
+                                        <th  rowspan="2">改善後 <br>
+                                            風險等級 <br>
+                                            高、中、低 </th>
+                                    </tr>
+                                    <tr>
+                                        <th >高 </th>
+                                        <th >中 </th>
+                                        <th >低 </th>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109002</td>
+                                        <td >10910</td>
+                                        <td >2</td>
+                                        <td >30.866</td>
+                                        <td >10</td>
+                                        <td >1</td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >10</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109007</td>
+                                        <td >10910</td>
+                                        <td >2</td>
+                                        <td >30.866</td>
+                                        <td >10</td>
+                                        <td >1</td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >10</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109008</td>
+                                        <td >10910</td>
+                                        <td >2</td>
+                                        <td >30.866</td>
+                                        <td >10</td>
+                                        <td >1</td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >10</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109011</td>
+                                        <td >10507</td>
+                                        <td >2</td>
+                                        <td >13500</td>
+                                        <td >4</td>
+                                        <td >未 </td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >4</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109012</td>
+                                        <td >105/07</td>
+                                        <td >2</td>
+                                        <td >13500</td>
+                                        <td >4</td>
+                                        <td >未 </td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >4</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109013</td>
+                                        <td >10507</td>
+                                        <td >2</td>
+                                        <td >13500</td>
+                                        <td >4</td>
+                                        <td >未 </td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >4</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >807010109015</td>
+                                        <td >10507</td>
+                                        <td >2</td>
+                                        <td >33200</td>
+                                        <td >4</td>
+                                        <td >未 </td>
+                                        <td >低 </td>
+                                        <td >1</td>
+                                        <td >&nbsp;</td>
+                                        <td >&nbsp;</td>
+                                        <td >4</td>
+                                        <td >&nbsp;</td>
+                                        <td >低 </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="margin5TB font-size2">
+                                (1) 風險評估相關教育訓練：包含公司內部自行辦理或至其他機構辦理之風險評估教育訓練。<br>
+                                (2) 訓練課程屬於內部訓練者，請填1；外部訓練者，請填2。<br>
+                                (3) 再評估時機：最近一次所執行之評估是公司定期規劃(例：每5年一次)，或因風險評估之因子有所異動 (例：遷管、換管)而執行。<br>
+                                (4) 執行該管線風險評估時，已將ILI檢測結果納入評估參數，請填寫檢測時間，若尚未考量ILI檢測結果，或該管線尚未執行ILI檢測者，請填NA。<br>
+                                (5) 執行該管線風險評估時，已將CIPS檢測結果納入評估參數，請填檢測時間，若尚未考量CIPS檢測結果者，請填NA。<br>
+                                (6) 執行該管線風險評估時，已將巡管結果(如：未會勘而開挖頻度)納入評估參數，請填「1」，若尚未考量巡管結果者，請填「2」。<br>
+                                (7) 各等級風險管段數量：請分別填入高、中、低風險之管段數量。<br>
+                                (8) 若評估結果有中高風險管段，應於「降低中高風險管段之作為」欄位註明相對應之作為或其作為相關文件名稱，並於「改善後風險等級」欄位中，填入改善後之風險等級(高、中、低)。
+
+
+                            </div>
+
+                        </div><!-- col -->
+                    </div><!-- row -->
+
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="workitem">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">工作項次</div>
+                    <div class="OchiCell width100">
+                        <input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width30"> </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定完成執行內容</div>
+                    <div class="OchiCell width100"><textarea rows="5" cols="" class="inputex width100"></textarea></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuOil.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/SubMenuOilA.js"></script><!-- 內頁選單 -->
+<script type="text/javascript">
+    $(".container").css("max-width","1800px");
+    $("#navmenuV ul li:nth-child(3)").addClass("open");
+    $("#navmenuV > ul > li:nth-child(3) li:nth-child(11)").addClass("active");
+    $('.nav').navgoco();
+</script>
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

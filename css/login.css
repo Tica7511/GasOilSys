@@ -1,0 +1,88 @@
+@charset "utf-8";
+/*  ===== 基本覆寫 ===== */
+*{font-family:Verdana,微軟正黑體, Microsoft JhengHei, Arial, Helvetica, sans-serif;}
+html,body{height:100%; margin:0; padding:0;}
+body{
+	background:url("../images/bodybgC.jpg") top center fixed;background-size: cover;
+}
+/*  ===== 系統layout ===== */
+.loginwrapper{padding-top:60px;}
+.loginblock{
+	width: 100%;
+	max-width:600px;
+	margin:0 auto;
+	border-radius: 10px;
+	-webkit-box-shadow: 0 0 15px rgba(10,10,10,0.5);
+	-moz-box-shadow: 0 0 15px rgba(10,10,10,0.5);
+	box-shadow: 0 0 15px rgba(10,10,10,0.5);
+	background-color:#fff;
+
+}
+.loginheader{
+	background:url("../images/loginheader.jpg") top center;background-size: cover;
+	padding: 10px; border-radius: 10px 10px 0 0;
+}
+a.fullbtn,input.fullbtn,button.fullbtn{
+	background-image: -webkit-linear-gradient(top, #fafafa, #dddddd);
+	background-image: -moz-linear-gradient(top, #fafafa, #dddddd);
+	background-image: -ms-linear-gradient(top, #fafafa, #dddddd);
+	background-image: -o-linear-gradient(top, #fafafa, #dddddd);
+	background-image: linear-gradient(to bottom, #fafafa, #dddddd);
+	border: 0;
+	border-radius:0 0 10px 10px;
+	border-top:1px solid #e5e5e5;
+	color:#000000; font-size: 24px;
+	transition: all ease-in-out 0.2s;
+	width: 100%; text-align: center;
+	padding:10px 12px;*padding:3px;_padding:3px;
+	display: inline-block;
+}
+a.fullbtn:hover,input.fullbtn:hover,button.fullbtn:hover{
+	cursor:pointer;color:#fff;border:0;text-decoration:none;
+	border-top:1px solid #e5e5e5;
+	background-image: -webkit-linear-gradient(top, #6d6d6d, #171717);
+	background-image: -moz-linear-gradient(top, #6d6d6d, #171717);
+	background-image: -ms-linear-gradient(top, #6d6d6d, #171717);
+	background-image: -o-linear-gradient(top, #6d6d6d, #171717);
+	background-image: linear-gradient(to bottom, #6d6d6d, #171717);
+}
+
+.font-shadowA{text-shadow: 1px 1px 5px #fff}
+.enterblock{
+	width: 100%;
+	max-width:900px;
+	margin:0 auto;
+	border-radius: 10px;
+	-webkit-box-shadow: 0 0 15px rgba(10,10,10,0.5);
+	-moz-box-shadow: 0 0 15px rgba(10,10,10,0.5);
+	box-shadow: 0 0 15px rgba(10,10,10,0.5);
+	background-color:#fff;
+
+}
+.entertable td{padding: 5px;}
+a.enerbtn,input.enerbtn,button.enerbtn{
+	background-image: -webkit-linear-gradient(top, #fafafa, #dddddd);
+	background-image: -moz-linear-gradient(top, #fafafa, #dddddd);
+	background-image: -ms-linear-gradient(top, #fafafa, #dddddd);
+	background-image: -o-linear-gradient(top, #fafafa, #dddddd);
+	background-image: linear-gradient(to bottom, #fafafa, #dddddd);
+	border: 1px solid #e5e5e5;
+	color:#4a6e75;
+	border-radius:6px;
+	transition: all ease-in-out 0.2s;
+	width: 100%; text-align: center;
+	padding:10px 12px;*padding:3px;_padding:3px;
+	display: inline-block;
+}
+a.enerbtn:hover,input.enerbtn:hover,button.enerbtn:hover{
+	cursor:pointer;color:#fff;text-decoration:none;
+	border: 1px solid #e5e5e5;
+	background-image: -webkit-linear-gradient(top, #6d6d6d, #171717);
+	background-image: -moz-linear-gradient(top, #6d6d6d, #171717);
+	background-image: -ms-linear-gradient(top, #6d6d6d, #171717);
+	background-image: -o-linear-gradient(top, #6d6d6d, #171717);
+	background-image: linear-gradient(to bottom, #6d6d6d, #171717);
+}
+
+.font-sizeIcon{font-size:5em;}
+/*  ===== 系統使用套件 ===== */

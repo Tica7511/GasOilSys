@@ -1,0 +1,450 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.navgoco.css" rel="stylesheet" type="text/css" /><!-- 第二選單 -->
+<link href="css/collapse.css" rel="stylesheet" type="text/css" /><!-- 收合展開 -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.navgoco.min.js"></script><!-- 第二選單 -->
+<script type="text/javascript" src="js/jquery.collapse.js"></script><!-- 收合展開 -->
+<script type="text/javascript" src="js/jquery.collapse_storage.js"></script><!-- 收合展開:增加記憶功能 -->
+</head>
+<body class="bgB">
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader HeaderB">
+            <div class="twocolR">
+                <div class="left padding10ALL">
+                    <div class="font-size9 IconTG font-shadowA font-bold">石油業輸儲設備查核及檢測資訊系統</div>
+                </div><!-- left -->
+                <div class="right">
+                    <div class="loginfo padding10RL font-normal">
+                        <!--登入者：-->
+                        <!-- RWD 外部連結 start -->
+                        <div class="HeaderOtherLinkWrapper">
+                    <span id="HeaderOtherLink">
+                    <ul>
+                        <!--<li><a href="#">登出</a></li>-->
+                    </ul>
+                    </span>
+                        </div><!-- HeaderOtherLinkWrapper -->
+                        <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                        <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                            <div class="magpopupTitle textcenter">外部連結</div>
+                            <span id="HeaderOtherLinkCopy"></span>
+                        </div><!--magpopup -->
+                        <!-- RWD 外部連結 end -->
+                    </div><!-- loginfo -->
+                </div><!-- right -->
+            </div><!-- twocolR -->
+
+            <div class="MainMenu MainMenuB">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu superfishmenuG">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+
+
+
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">油銷部台南處豐德供油中心</span>
+                        <span class="btnright"><div id="filedown"></div></span>
+                    </div>
+
+                    <div class="row margin20T">
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <div id="navmenuV"></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="stripeMeB tbover">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <th nowrap rowspan="2">轄區<br>儲槽<br>編號</th>
+                                        <th nowrap valign="top">執行<br>MFL<br>檢測 </th>
+                                        <th nowrap valign="top">防蝕塗層</th>
+                                        <th nowrap valign="top">塗層全面<br>重新施加日期 </th>
+                                        <th nowrap valign="top">最近一次<br>開放塗層<br>維修情形 </th>
+                                        <th nowrap valign="top">銲道腐蝕 </th>
+                                        <th nowrap valign="top">局部 <br>變形 </th>
+                                        <th nowrap valign="top">最近一次<br>開放是否<br>有維修 </th>
+                                        <th nowrap valign="top">內容物側<br>最小剩餘<br>厚度 </th>
+                                        <th nowrap valign="top">內容物側<br>最大腐蝕<br>速率 </th>
+                                        <th nowrap valign="top">土壤側 <br>最小剩餘<br>厚度 </th>
+                                        <th nowrap valign="top">土壤側 <br>最大腐蝕<br>速率 </th>
+                                        <th nowrap valign="top">是否有<br>更換過<br>底板 <br>(6)</th>
+                                        <th nowrap valign="top">綜合判定<br>(7)</th>
+                                    </tr>
+                                    <tr>
+                                        <th nowrap>1.全部 <br>
+                                            2.部份 <br>
+                                            3.無 </th>
+                                        <th >1.無 <br>
+                                            2.FRP<br>
+                                            3.EPOXY<br>
+                                            4.其他 </th>
+                                        <th >年/月 </th>
+                                        <th >1.全部 <br>
+                                            2.部份 <br>
+                                            3.無 </th>
+                                        <th >1.有 <br>
+                                            2.無 </th>
+                                        <th nowrap>1.有 <br>
+                                            2.無 </th>
+                                        <th >1.有 <br>
+                                            2.無 </th>
+                                        <th >mm</th>
+                                        <th >mm/yr </th>
+                                        <th >mm</th>
+                                        <th >mm/yr </th>
+                                        <th >1.有 <br>
+                                            2.無 </th>
+                                        <th nowrap>1.良好 <br>
+                                            2.須持續追蹤.</th>
+                                    </tr>
+                                    <tr>
+                                        <td >01</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >99/09</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >有 </td>
+                                        <td >4.5</td>
+                                        <td >0.09</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >02</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >103/02</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >3.8</td>
+                                        <td >0.13</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >03</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >109/06</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >有 </td>
+                                        <td >5.0</td>
+                                        <td >0.08</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >04</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >100/04</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >5.4</td>
+                                        <td >0.23</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >05</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >110/01</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >有 </td>
+                                        <td >6.0</td>
+                                        <td >0.05</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >06</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >108/04</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >有 </td>
+                                        <td >5.5</td>
+                                        <td >0.07</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >07</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >109/06</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >有 </td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >08</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >106/11</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >良好 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >09</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >106/12</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >良好 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >10</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >106/03</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >有 </td>
+                                        <td >有 </td>
+                                        <td >3.5</td>
+                                        <td >0.20</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >須持續追蹤 </td>
+                                    </tr>
+                                    <tr>
+                                        <td >11</td>
+                                        <td >全部 </td>
+                                        <td >EPOXY</td>
+                                        <td >105/05</td>
+                                        <td >全部 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >無 </td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >8</td>
+                                        <td >0</td>
+                                        <td >無 </td>
+                                        <td >良好 </td>
+                                    </tr>
+                                </table>
+                            </div><!-- stripeMe -->
+
+                            <div class="margin5TB font-size2">
+                                (1) 執行MFL檢測：填寫儲槽底板磁通漏檢測執行情形，請填1、2或3。<br>
+                                (2) 防蝕塗層：請填寫儲槽底板塗層種類對應之數值，如：1、2 、3或4。<br>
+                                (3) 塗層全面重新施加日期：請填寫塗層全面重新施作完成之日期，非定期內部開放修補日期。<br>
+                                (4) 「最近一次開放是否有維修」：此欄位如勾選「有」，請於備註欄填寫相對應文件編號，並於現場提供相關詳細維修紀錄資料。<br>
+                                (5) 「內容物側最大腐蝕速率」、「土壤側最大腐蝕速率」、「內容物側最小剩餘厚度」、「土壤側最小剩餘厚度」：有執行MFL檢測者，方須填寫此4欄位，若無執行MFL檢測者，則不須填寫此4欄位。<br>
+                                (6) 「是否有更換過底板」欄位：若自建造以來，不管更換面積大小，只要曾經更換過(非貼板)，請填1，並於下方底板更換說明表格填寫更換日期、更換面積(若全面更換者，請填「全部」)及更換原因；若自建造以來，從未更換過，則填2。<br>
+                                (7) 針對最近一次開放檢查結果，儲槽底板良好正常，無須特別留意者，請填1，若有異常(如：腐蝕較明顯，雖未達維修標準，但須注意腐蝕情形；或已維修，但原因不確定已排除，須持續觀察者)，須持續追蹤者，請填2。
+
+
+                            </div>
+                        </div><!-- col -->
+                    </div><!-- row -->
+
+
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="workitem">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">工作項次</div>
+                    <div class="OchiCell width100">
+                        <input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width30"> </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定完成執行內容</div>
+                    <div class="OchiCell width100"><textarea rows="5" cols="" class="inputex width100"></textarea></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/MenuOil.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/SubMenuOilA.js"></script><!-- 內頁選單 -->
+<script type="text/javascript">
+    $("#navmenuV ul li:nth-child(2)").addClass("open");
+    $("#navmenuV > ul > li:nth-child(2) li:nth-child(4)").addClass("active");
+    $('.nav').navgoco();
+</script>
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

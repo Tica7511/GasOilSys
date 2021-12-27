@@ -1,0 +1,1084 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="關鍵字內容" />
+<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+<title>網站原型</title>
+<link rel="stylesheet" href="css/bootstrap.css" /><!-- normalize & bootstrap's grid system -->
+<link href="css/font-awesome.min.css" rel="stylesheet"><!-- css icon -->
+<link href="css/fontello.css" rel="stylesheet"><!-- css icon:http://fontello.com/  -->
+<link href="css/superfish.css" rel="stylesheet" type="text/css" /><!-- 下拉選單 -->
+<link href="css/jquery.mmenu.css" rel="stylesheet" type="text/css" /><!-- mmenu css:行動裝置選單 -->
+<link href="css/jquery.powertip.css" rel="stylesheet" type="text/css" /><!-- powertip:tooltips -->
+<link href="css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" /><!-- datepicker -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
+<link href="css/colorbox.css" rel="stylesheet" type="text/css" /><!-- colorbox -->
+<link href="css/jquery.treetable.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" /><!-- treetable -->
+<link href="css/collapse.css" rel="stylesheet" type="text/css" /><!-- 收合展開 -->
+<link href="css/OchiLayout.css" rel="stylesheet" type="text/css" /><!-- ochsion layout base -->
+<link href="css/OchiColor.css" rel="stylesheet" type="text/css" /><!-- ochsion layout color -->
+<link href="css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- IE 瀏覽器版本低於 9 處理 -->
+<!--[if lte IE 9]>
+<link href="css/cssie9.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.breakpoint-min.js"></script><!-- 斷點設定 -->
+<script type="text/javascript" src="js/superfish.min.js"></script><!-- 下拉選單 -->
+<script type="text/javascript" src="js/supposition.js"></script><!-- 下拉選單:修正最後項在視窗大小不夠時的BUG -->
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script><!-- mmenu js:行動裝置選單 -->
+<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script><!-- 增加JS觸控操作 for mmenu -->
+<script type="text/javascript" src="js/jquery.powertip.min.js"></script><!-- powertip:tooltips -->
+<script type="text/javascript" src="js/jquery.datetimepicker.js"></script><!-- datepicker -->
+<script type="text/javascript" src="js/jquery.easytabs.min.js"></script><!-- easytabs tab -->
+<script type="text/javascript" src="js/animatescroll.min.js"></script><!-- 動態滾動 -->
+<script type="text/javascript" src="js/jquery.colorbox.js"></script><!-- colorbox -->
+<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
+<!-- 動畫套件 -->
+<script type="text/javascript" src="js/jquery-timing.min.js"></script><!-- 組織動畫用JS.wait() -->
+<script type="text/javascript" src="js/TweenMax.min.js"></script><!-- GSAP -->
+<!-- 滾動偵測 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.min.js"></script><!-- scrollmagic配合捲軸動畫 -->
+<script type="text/javascript" src="js/jquery.scrollmagic.debug.js"></script><!-- scrollmagic配合捲軸動畫:顯示起啟位置參考線(上線前移除) -->
+<!-- 網站套件 -->
+<script type="text/javascript" src="js/jquery.matchHeight-min.js"></script><!-- equal height解決bootstrap grid layout內容不等高時排版問題 -->
+<script type="text/javascript" src="js/jquery.treetable.js"></script><!-- treetable -->
+<script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="js/jquery.collapse.js"></script><!-- 收合展開 -->
+<script type="text/javascript" src="js/jquery.collapse_storage.js"></script><!-- 收合展開:增加記憶功能 -->
+</head>
+<body>
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
+
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader">
+            <div class="loginfo padding10RL font-normal">
+                登入者：王晨峻
+                <!-- RWD 外部連結 start -->
+                <div class="HeaderOtherLinkWrapper">
+        <span id="HeaderOtherLink">
+        <ul>
+        	<li><a href="#">登出</a></li>
+        </ul>
+        </span>
+                </div><!-- HeaderOtherLinkWrapper -->
+                <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                    <div class="magpopupTitle textcenter">外部連結</div>
+                    <span id="HeaderOtherLinkCopy"></span>
+                </div><!--magpopup -->
+
+                <!-- RWD 外部連結 end -->
+            </div><!-- loginfo -->
+
+
+            <div class="MainMenu">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper">
+                        <span class="filetitle font-size7">新增報告</span>
+                        <!--<span class="itemright">麵包屑</span>-->
+                    </div>
+
+                    <!-- easytab start -->
+                    <div id="tab-container" class='easytabH margin15T'>
+                        <ul class="menubar">
+                            <li><a href="#tabs0">基本資料</a></li>
+                            <li><a href="#tabs1">附件一:管線定期檢查資料</a></li>
+                            <li><a href="#tabs2">附件二:整流站檢測記錄</a></li>
+                            <li><a href="#tabs3">附件三:測試（排流）點量測與紀錄</a></li>
+                            <li><a href="#tabs4">附件四:管線緊密電位檢測結果及分析</a></li>
+                            <li><a href="#tabs5">附件五:檢測結果與改善建議</a></li>
+                            <li><a href="#tabs6">附件六:檢測記錄</a></li>
+                        </ul>
+                        <div class='panel-container'>
+                            <div id="tabs0">
+
+                                <div class="twocol">
+                                    <div class="right font-normal font-size3">
+                                        <a href="#" id="collapse1open">全部展開</a>
+                                        <a href="#" id="collapse1close">全部關閉</a>
+                                    </div><!-- right -->
+                                </div><!-- twocol -->
+
+                                <div id="collapse1">
+                                    <div>
+                                        <div class="collapseTitle font-blackA font-size4">管線資料</div>
+                                        <div class="BoxBorderDa BoxRadiusB padding5ALL">
+                                            <!-- 管線資料start -->
+                                            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線管理單位</div>
+                                                    <div class="OchiCell width100">台灣中油股份有限公司花蓮供油服務中心</div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">報告編號</div>
+                                                        <div class="OchiCell width100">200201</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線編號</div>
+                                                        <div class="OchiCell width100">807010112008</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">查核日期</div>
+                                                        <div class="OchiCell width100">2020/02/19 ~ 2020/02/21</div>
+                                                    </div><!-- OchiThird -->
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線起點</div>
+                                                        <div class="OchiCell width100">花蓮庫區</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線終點</div>
+                                                        <div class="OchiCell width100">北埔庫區</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管徑(吋)</div>
+                                                        <div class="OchiCell width100">12</div>
+                                                    </div><!-- OchiThird -->
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管材</div>
+                                                        <div class="OchiCell width100">5L-GRB</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">包覆材料</div>
+                                                        <div class="OchiCell width100">柏油</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">長度(公里)</div>
+                                                        <div class="OchiCell width100">8.244</div>
+                                                    </div><!-- OchiThird -->
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">建置日期</div>
+                                                        <div class="OchiCell width100">68</div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">關斷閥數量</div>
+                                                        <div class="OchiCell width100"></div>
+                                                    </div><!-- OchiThird -->
+                                                    <div class="OchiThird">
+                                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">整流站數</div>
+                                                        <div class="OchiCell width100">4</div>
+                                                    </div><!-- OchiThird -->
+                                                </div><!-- OchiRow -->
+
+                                            </div><!-- OchiTrasTable -->
+                                            <!-- 管線資料end -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="collapseTitle font-blackA font-size4 margin5T">檢測儀器/型號/序號/校正(比對)日期</div>
+                                        <div class="BoxBorderDa BoxRadiusB padding5ALL">
+                                            <!-- 檢測儀器/型號/序號/校正(比對)日期start -->
+                                            <div class="OchiTrasTable width100 font-size3">
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">管線包覆電磁檢測儀</div>
+                                                    <div class="OchiCell width100">
+
+                                                        <div class="OchiFixTable width100">
+                                                            <div class="OchiRow TitleLength03">
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">發射器</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">接收器</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                            </div><!-- OchiRow -->
+                                                        </div>
+
+                                                    </div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">管線定位儀</div>
+                                                    <div class="OchiCell width100">
+
+                                                        <div class="OchiFixTable width100">
+                                                            <div class="OchiRow TitleLength03">
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">發射器</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">接收器</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                            </div><!-- OchiRow -->
+                                                        </div>
+
+                                                    </div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">GPS同步斷路器</div>
+                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">電位記錄器</div>
+                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">多頻道示波器</div>
+                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">高阻抗電壓錶</div>
+                                                    <div class="OchiCell width100">
+
+                                                        <div class="OchiFixTable width100">
+                                                            <div class="OchiRow TitleLength03">
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">型號</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">校正日期</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex Jdatepicker" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                            </div><!-- OchiRow -->
+                                                        </div>
+
+                                                    </div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">電流勾錶</div>
+                                                    <div class="OchiCell width100">
+
+                                                        <div class="OchiFixTable width100">
+                                                            <div class="OchiRow TitleLength03">
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">型號</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">校正日期</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex Jdatepicker" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                            </div><!-- OchiRow -->
+                                                        </div>
+
+                                                    </div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">銅：飽和硫酸銅參考電極</div>
+                                                    <div class="OchiCell width100">
+
+                                                        <div class="OchiFixTable width100">
+                                                            <div class="OchiRow TitleLength03">
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">型號</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                                <div class="OchiHalf">
+                                                                    <div class="OchiCell OchiTitle TitleSetWidth">校正日期</div>
+                                                                    <div class="OchiCell width100"><input type="text" class="width100 inputex Jdatepicker" /></div>
+                                                                </div><!-- OchiHalf -->
+                                                            </div><!-- OchiRow -->
+                                                        </div>
+
+                                                    </div>
+                                                </div><!-- OchiRow -->
+
+                                                <div class="OchiRow">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth TitleLength10SetWidth">備註</div>
+                                                    <div class="OchiCell width100"><textarea rows="3" cols="" class="inputex width100"></textarea></div>
+                                                </div><!-- OchiRow -->
+
+
+                                            </div><!-- OchiTrasTable -->
+                                            <!-- 檢測儀器/型號/序號/校正(比對)日期end -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="collapseTitle font-blackA font-size4 margin5T">檢測設備裝置紀錄</div>
+                                        <div class="BoxBorderDa BoxRadiusB padding5ALL">
+                                            <!-- 檢測設備裝置紀錄start -->
+                                            <div class="font-size3">PCM設置位置</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>設置位置</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="font-size3 margin10T">斷路器設置點</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>設置位置</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="font-size3 margin10T">電位量測接點 (緊密電位)</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>設置位置</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="font-size3 margin10T">天氣</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>日期</th>
+                                                        <th>檢測點</th>
+                                                        <th>氣候</th>
+                                                        <th>氣溫</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="text" class="inputex width100 Jdatepicker"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="text" class="inputex width100 Jdatepicker"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <!-- 檢測設備裝置紀錄end -->
+                                        </div>
+                                    </div>
+
+
+                                    <div>
+                                        <div class="collapseTitle font-blackA font-size4 margin5T">檢測原因說明</div>
+                                        <div class="margin5T">
+                                            <textarea rows="15" cols="" class="inputex width100"></textarea>
+                                            <div class="margin10T font-size3">圖片上傳</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>檔案上傳</th>
+                                                        <th width="70%">說明</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="file"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="file"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="collapseTitle font-blackA font-size4 margin5T">檢測路徑說明</div>
+                                        <div class="margin5T">
+                                            <textarea rows="15" cols="" class="inputex width100"></textarea>
+                                            <div class="margin10T font-size3">圖片上傳</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>檔案上傳</th>
+                                                        <th width="70%">說明</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="file"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="file"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="collapseTitle font-blackA font-size4 margin5T">檢測結果</div>
+                                        <div class="margin5T">
+                                            <textarea rows="15" cols="" class="inputex width100"></textarea>
+                                            <div class="margin10T font-size3">圖片上傳</div>
+                                            <div class="stripeMeCS margin5T">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th width="60">序號</th>
+                                                        <th>檔案上傳</th>
+                                                        <th width="70%">說明</th>
+                                                        <th width="100">功能</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">1</td>
+                                                        <td><input type="file"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">刪除</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">2</td>
+                                                        <td><input type="file"></td>
+                                                        <td><input type="text" class="inputex width100"></td>
+                                                        <td align="center" class="font-normal">
+                                                            <a href="#">新增</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="OchiTrasTable width100 TitleLength04 font-size3 margin10T">
+
+                                        <div class="OchiRow">
+                                            <div class="OchiThird">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">審核</div>
+                                                <div class="OchiCell width100"><input type="text" class="inputex width100"></div>
+                                            </div><!-- OchiThird -->
+                                            <div class="OchiThird">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">報告撰寫</div>
+                                                <div class="OchiCell width100"><input type="text" class="inputex width100"></div>
+                                            </div><!-- OchiThird -->
+                                            <div class="OchiThird">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">檢測人員</div>
+                                                <div class="OchiCell width100"><input type="text" class="inputex width100"></div>
+                                            </div><!-- OchiThird -->
+                                        </div><!-- OchiRow -->
+                                    </div><!-- OchiTrasTable -->
+
+
+                                </div><!-- collapse1 -->
+
+
+                            </div><!-- tabs0 -->
+                            <div id="tabs1">
+                                <div class="font-size5">管線定期檢查資料</div>
+
+                                <div class="margin5T">
+                                    <textarea rows="15" cols="" class="inputex width100"></textarea>
+                                    <div class="margin10T font-size3">圖片上傳</div>
+                                    <div class="stripeMeCS margin5T">
+                                        <table width="100%">
+                                            <tr>
+                                                <th width="60">序號</th>
+                                                <th>檔案上傳</th>
+                                                <th width="70%">說明</th>
+                                                <th width="100">功能</th>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">刪除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">新增</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div><!-- tabs1 -->
+                            <div id="tabs2">
+                                <div class="font-size5">整流站檢測記錄</div>
+
+
+                                <div class="BoxBorderDa BoxRadiusB padding5ALL">
+                                    <div class="OchiTrasTable width100 TitleLength06 font-size3">
+                                        <div class="OchiRow">
+                                            <div class="OchiHalf">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">整流站</div>
+                                                <div class="OchiCell width100">
+                                                    名稱：<input type="text" class="inputex width50">
+                                                    編號：<input type="text" class="inputex width20">
+                                                </div>
+                                            </div><!-- OchiHalf -->
+                                            <div class="OchiHalf">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">整流站狀況</div>
+                                                <div class="OchiCell width100"><input type="radio"> 桿上型 <input type="radio"> 高架型 <input type="radio"> 地上型</div>
+                                            </div><!-- OchiHalf -->
+                                        </div><!-- OchiRow -->
+                                        <div class="OchiRow">
+                                            <div class="OchiHalf">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">整流站型式</div>
+                                                <div class="OchiCell width100"><input type="text" class="inputex width100"></div>
+                                            </div><!-- OchiHalf -->
+                                            <div class="OchiHalf">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">設定值</div>
+                                                <div class="OchiCell width100"><input type="text" class="inputex width100"></div>
+                                            </div><!-- OchiHalf -->
+                                        </div><!-- OchiRow -->
+                                    </div><!-- OchiTrasTable -->
+
+                                    <div class="stripeMeCS margin5T">
+                                        <table cellspacing="0" cellpadding="0" width="100%">
+                                            <tr>
+                                                <th  rowspan="2">流站運作<br>狀況記錄 </th>
+                                                <th  colspan="3">輸入 </th>
+                                                <th  colspan="2">輸出 </th>
+                                            </tr>
+                                            <tr>
+                                                <th>電壓(VAC)</th>
+                                                <th>電流(AAC)</th>
+                                                <th>頻率(Hz)</th>
+                                                <th>電壓(VDC)</th>
+                                                <th>電流(ADC)</th>
+                                            </tr>
+                                            <tr>
+                                                <th  valign="top">錶頭值 </th>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                            </tr>
+                                            <tr>
+                                                <th  valign="top">量測值 </th>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                            </tr>
+                                            <tr>
+                                                <th >整流站輸出 </th>
+                                                <th >電壓(VDC)</th>
+                                                <th >電壓(VAC)</th>
+                                                <th >頻率(Hz)</th>
+                                                <th >陽極地床電阻(&lt;10Ω)</th>
+                                                <th >2.48(Ω)</th>
+                                            </tr>
+                                            <tr>
+                                                <th >反電動勢 </th>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td  rowspan="2"><input type="text" class="inputex width100"></td>
+                                                <td  rowspan="2"><input type="text" class="inputex width100"></td>
+                                            </tr>
+                                            <tr>
+                                                <th >無負載 </th>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                                <td ><input type="text" class="inputex width100"></td>
+                                            </tr>
+                                        </table>
+                                    </div><!-- stripeMeCS -->
+                                    <div class="margin5T">
+                                        <div class="margin10T font-size3">檢測說明</div>
+                                        <textarea rows="8" cols="" class="inputex width100"></textarea>
+                                        <div class="margin10T font-size3">圖片上傳</div>
+
+                                        <div class="OchiFixTable width100 TitleLength03 margin5T">
+                                            <div class="OchiRow">
+                                                <div class="OchiCell OchiTitle TitleSetWidth">圖片說明</div>
+                                                <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                            </div><!-- OchiRow -->
+                                        </div>
+
+                                        <div class="stripeMeCS margin5T">
+                                            <table width="100%">
+                                                <tr>
+                                                    <th>檔案上傳</th>
+                                                    <th width="80%">說明</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="file"></td>
+                                                    <td>(a)整流器設置</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="file"></td>
+                                                    <td>(b) 直流輸出電壓量測</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="file"></td>
+                                                    <td>(c) 直流輸出端交流電壓量測</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="file"></td>
+                                                    <td>(d) 直流輸出電流量測照片</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="twocol margin10T">
+                                        <div class="right">
+                                            <a href="page-add.html" class="genbtnS">刪除</a>
+                                            <a href="page-add.html" class="genbtnS">新增一筆</a>
+                                        </div>
+                                    </div>
+
+                                </div><!-- BoxBorderDa -->
+
+                            </div><!-- tabs2 -->
+                            <div id="tabs3">
+                                <div class="font-size5">測試（排流）點量測與紀錄</div>
+
+                                <div class="margin5T">
+                                    <textarea rows="15" cols="" class="inputex width100"></textarea>
+                                    <div class="margin10T font-size3">圖片上傳</div>
+                                    <div class="stripeMeCS margin5T">
+                                        <table width="100%">
+                                            <tr>
+                                                <th width="60">序號</th>
+                                                <th>檔案上傳</th>
+                                                <th width="70%">說明</th>
+                                                <th width="100">功能</th>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">刪除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">新增</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="margin10T font-size3">測試點電位量測記錄表</div>
+                                    <div class="stripeMeCS margin5T">
+                                        <table width="100%">
+                                            <tr>
+                                                <th>測試點號</th>
+                                                <th>導線接點編號</th>
+                                                <th>通電電位 (mVCSE)</th>
+                                                <th>斷電電位 (mVCSE)</th>
+                                                <th>管線尺寸 (吋)</th>
+                                                <th>內容物</th>
+                                                <th width="100">功能</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">刪除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">新增</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="margin10T font-size3">檢測說明</div>
+                                    <textarea rows="8" cols="" class="inputex width100"></textarea>
+                                </div>
+                            </div><!-- tabs3 -->
+                            <div id="tabs4">
+                                <div class="font-size5">管線緊密電位檢測結果及分析</div>
+
+                                <div class="margin5T">
+                                    <div class="OchiFixTable width100 TitleLength03 margin5T">
+                                        <div class="OchiRow">
+                                            <div class="OchiCell OchiTitle TitleSetWidth">圖片說明</div>
+                                            <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                        </div><!-- OchiRow -->
+                                    </div>
+                                    <div class="margin10T font-size3">圖片上傳</div>
+                                    <div class="stripeMeCS margin5T">
+                                        <table width="100%">
+                                            <tr>
+                                                <th width="60">序號</th>
+                                                <th>檔案上傳</th>
+                                                <th width="70%">說明</th>
+                                                <th width="100">功能</th>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">刪除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">新增</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="margin5T">異常情形說明</div>
+                                    <textarea rows="10" cols="" class="inputex width100"></textarea>
+                                </div>
+
+                                <div class="font-size5 margin10T">管線包覆電磁檢測結果及分析</div>
+
+                                <div class="margin5T">
+                                    <div class="OchiFixTable width100 TitleLength03 margin5T">
+                                        <div class="OchiRow">
+                                            <div class="OchiCell OchiTitle TitleSetWidth">圖片說明</div>
+                                            <div class="OchiCell width100"><input type="text" class="width100 inputex" /></div>
+                                        </div><!-- OchiRow -->
+                                    </div>
+
+                                    <div class="margin10T font-size3">圖片上傳</div>
+                                    <div class="stripeMeCS margin5T">
+                                        <table width="100%">
+                                            <tr>
+                                                <th width="60">序號</th>
+                                                <th>檔案上傳</th>
+                                                <th width="70%">說明</th>
+                                                <th width="100">功能</th>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">刪除</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="file"></td>
+                                                <td><input type="text" class="inputex width100"></td>
+                                                <td align="center" class="font-normal">
+                                                    <a href="#">新增</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="margin5T">異常情形說明</div>
+                                    <textarea rows="10" cols="" class="inputex width100"></textarea>
+                                </div>
+                            </div><!-- tabs4 -->
+                            <div id="tabs5">
+                                <div class="font-size5 margin10T">檢測結果與改善建議</div>
+                                <textarea rows="5" cols="" class="inputex width100"></textarea>
+                                <div class="stripeMeCS margin5T">
+                                    <table width="100%">
+                                        <tr>
+                                            <th>檢測項目</th>
+                                            <th>異常位置</th>
+                                            <th>檢測結果</th>
+                                            <th>改善建議</th>
+                                            <th width="100">功能</th>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" class="inputex width100"></td>
+                                            <td><textarea rows="3" cols="" class="inputex width100"></textarea></td>
+                                            <td><textarea rows="3" cols="" class="inputex width100"></textarea></td>
+                                            <td><textarea rows="3" cols="" class="inputex width100"></textarea></td>
+                                            <td align="center" class="font-normal">
+                                                <a href="#">刪除</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" class="inputex width100"></td>
+                                            <td><textarea rows="3" cols="" class="inputex width100"></textarea></td>
+                                            <td><textarea rows="3" cols="" class="inputex width100"></textarea></td>
+                                            <td><textarea rows="3" cols="" class="inputex width100"></textarea></td>
+                                            <td align="center" class="font-normal">
+                                                <a href="#">新增</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div><!-- tabs5 -->
+                            <div id="tabs6">
+                                <div class="font-size5 margin10T">檢測記錄</div>
+                                <textarea rows="5" cols="" class="inputex width100"></textarea>
+                                <div class="stripeMeCS margin5T">
+                                    <table width="100%">
+                                        <tr>
+                                            <th width="60">繪圖資料點</th>
+                                            <th>地點標註</th>
+                                            <th width="100">功能</th>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" class="inputex width100"></td>
+                                            <td><input type="text" class="inputex width100"></td>
+                                            <td align="center" class="font-normal">
+                                                <a href="#">刪除</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" class="inputex width100"></td>
+                                            <td><input type="text" class="inputex width100"></td>
+                                            <td align="center" class="font-normal">
+                                                <a href="#">新增</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div><!-- tabs6 -->
+                        </div><!-- panel-container -->
+                    </div><!-- tab-container -->
+
+                    <div class="twocol margin10T">
+                        <div class="right">
+                            <a href="page-add.html" class="genbtn">刪除</a>
+                            <a href="page-add.html" class="genbtn">匯出</a>
+                            <a href="page-add.html" class="genbtn">儲存</a>
+                        </div>
+                    </div>
+
+                </div><!-- padding -->
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
+
+
+
+<div class="container-fluid">
+<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+</div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2019 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper">
+   
+</div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+
+<!-- colorbox -->
+<div style="display:none;">
+    <div id="addoption">
+        <div class="margin35T padding5RL">
+
+<textarea rows="" cols="" class="TB_Content"></textarea>
+
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+
+<!-- 本頁面使用的JS -->
+<script type="text/javascript">
+$(document).ready(function(){
+    //寬版螢幕調整
+    $(".container").css("max-width","1400px");
+
+    $('.equalheightblock').matchHeight({
+        byRow: true,//若為false,則所有區塊等高
+        property: 'height',//使用min-height會出問題
+        target: null,//設定等高對象:$('.sidebar')
+        remove: false
+    });
+
+    $('#tab-container').easytabs({
+        //defaultTab:"li:nth-child(2)",//預設開啟第二個頁籤
+        updateHash: false,//停止切換頁籤跳轉到內容
+    });
+
+    $("#collapse1").collapse({
+        query: 'div.collapseTitle',//收合標題樣式名
+        persist: false,//是否記憶收合,需配合jquery.collapse_storage.js
+        open: function() {
+            this.slideDown(100);//動畫效果
+        },
+        close: function() {
+            this.slideUp(100);//動畫效果
+        },
+    });
+
+//$("#collapse1").trigger("open") // 預設全開啟
+//$("#collapse1").trigger("close") // 預設全關閉(default)
+$("#collapse1 div:nth-child(1) div.collapseTitle a").trigger("open") // 控制第幾個開啟
+
+//全部收合展開按鈕動作
+    $("#collapse1open").click(function(){
+        $("#collapse1").trigger("open")
+    });
+    $("#collapse1close").click(function(){
+        $("#collapse1").trigger("close")
+    });
+
+    //tinyMCE
+    tinymce.init({
+        selector: ".TB_Content",
+        language: "zh_TW",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern imagetools"
+        ],
+        toolbar1: "insertfile undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+
+    });
+
+});
+</script>
+<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->
+<script type="text/javascript" src="js/PageCommon.js"></script><!-- 系統共用 JS -->
+<script type="text/javascript" src="js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

@@ -1,0 +1,108 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPageWeek.master.cs" Inherits="WebPage_MasterPageWeek" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="關鍵字內容" />
+	<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+	<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+	<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+	<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+	<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+    <title>週報管理系統</title>
+    <!--#include file="Head_Include.html"-->
+    <asp:ContentPlaceHolder ID="head" runat="server">
+	</asp:ContentPlaceHolder>
+</head>
+<body class="bgO">
+<!-- 開頭用div:修正mmenu form bug -->
+    <div>
+    <form id="form1" runat="server"> 
+        <!-- Preloader -->
+        <div id="preloader" >
+        	<div id="status" >
+        <div id="CSS3loading">
+        <!-- css3 loading -->
+        <div class="sk-three-bounce">
+              <div class="sk-child sk-bounce1"></div>
+              <div class="sk-child sk-bounce2"></div>
+              <div class="sk-child sk-bounce3"></div>
+        </div> 
+        <!-- css3 loading -->
+        <span id="loadingword">資料讀取中，請稍待...</span> 
+        </div><!-- CSS3loading -->  
+            </div><!-- status -->
+        </div><!-- preloader -->
+        <div class="container BoxBgWa BoxShadowD">
+        <div class="WrapperBody" id="WrapperBody">
+
+        <div class="WrapperHeader HeaderO">
+            <div class="twocolR">
+                <div class="left padding10ALL">
+                    <div class="font-size9 IconTO font-shadowA font-bold">週報、季報、月報管理系統</div>
+                </div><!-- left -->
+                <div class="right">
+                    <div class="loginfo padding10RL font-normal">
+                        登入者：<%= username %>
+                        <!-- RWD 外部連結 start -->
+                        <div class="HeaderOtherLinkWrapper">
+                            <span id="HeaderOtherLink">
+                                <ul>
+                                    <li><a href="../Handler/SignOut.aspx">登出</a></li>
+                                </ul>
+                            </span>
+                        </div><!-- HeaderOtherLinkWrapper -->
+                        <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                        <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
+                            <div class="magpopupTitle textcenter">外部連結</div>
+                            <span id="HeaderOtherLinkCopy"></span>
+                        </div><!--magpopup -->
+                        <!-- RWD 外部連結 end -->
+                    </div><!-- loginfo -->
+                </div><!-- right -->
+            </div><!-- twocolR -->
+
+            <div class="MainMenu MainMenuO">
+                <!-- 側邊選單開關容器 -->
+                <div id="opensidemenu"></div>
+                <!-- 桌機主選單 -->
+                <div class="superfishmenu">
+
+                </div><!-- superfishmenu -->
+
+            </div><!-- MainMenu -->
+        </div><!-- WrapperHeader -->
+
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>  
+
+    <div class="container-fluid">
+        <div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+    </div>        
+</div><!-- WrapperBody -->
+
+<div class="WrapperFooter">
+    <div class="footerblock container font-normal">
+        版權所有©2021 工研院材化所｜ 建議瀏覽解析度1024x768以上<br />
+    </div><!--{* footerblock *}-->
+</div><!-- WrapperFooter -->
+
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper"></div><!-- sidebar-wrapper -->
+
+          
+    </form>
+    </div>
+    <!-- 本頁面使用的JS -->
+    <script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
+    <script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
+    <script type="text/javascript" src="../js/MenuWeek.js"></script><!-- 系統共用 JS -->
+    <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+</body>
+</html>

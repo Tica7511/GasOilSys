@@ -1,0 +1,38 @@
+﻿<span class="filetitle font-size7" id="companyName"></span>
+<span class="btnright">
+    <div class="font-size4 font-normal">
+        <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/附件3、110年度石油業者石油管線及儲油設施查核.docx" target="_blank">查核填寫內容下載</a> 
+        <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/查核配合事項_石油.pptx" target="_blank">查核配合事項下載</a> 
+        <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/附件4、110年度石油業者簡報內容格式_管線及儲槽.pptx" target="_blank">簡報大綱下載</a>
+    </div>
+</span>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$.ajax({
+			type: "POST",
+			async: false, //在沒有返回值之前,不會執行下一步動作
+			url: "../Handler/GetCompanyName.aspx",
+            data: {
+                type: "Oil",
+				cpid: $.getQueryString("cp"),
+			},
+			error: function (xhr) {
+				alert("Error: " + xhr.status);
+				console.log(xhr.responseText);
+			},
+			success: function (data) {
+				if ($(data).find("Error").length > 0) {
+					alert($(data).find("Error").attr("Message"));
+				}
+				else {
+					if ($(data).find("data_item").length > 0) {
+						$(data).find("data_item").each(function (i) {
+							$("#companyName").html($(this).children("cpname").text().trim());
+						});
+					}
+				}
+			}
+		});
+	});
+</script>

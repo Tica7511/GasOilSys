@@ -1,0 +1,44 @@
+table.treetable span.indenter {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+
+  /* Disable text selection of nodes (for better D&D UX) */
+  user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+
+  /* Force content-box box model for indenter (Bootstrap compatibility) */
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+
+  width: 19px;
+}
+
+table.treetable span.indenter a {
+  background-position: left center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  text-decoration: none;
+  width: 19px;
+}
+
+.stripetree table{border-collapse:collapse; border:1px solid #b9cb9f;}
+.stripetree table tr td{padding:8px 5px; border-collapse:collapse; border:1px solid #d7e4c5; background-color:#fbfdf8;}
+.stripetree th{color:#3e5120; padding:10px 5px; border-collapse:collapse; border:1px solid #b9cb9f; background:#deebce;}
+.stripetree th a{color:#0078bc; text-decoration:none;}
+.stripetree th a:hover{color:#0078bc;text-decoration:underline;}
+.stripetree tr.son td{background-color:#f4f9ee;}
+.stripetree tr.son2 td{background-color:#fcfce8;}
+.stripetree tr.son3 td{background-color:#fcf5e8;}
+.stripetree tr.son4 td{background-color:#f8e6ed;}
+.stripetree tr td:first-child{border-left-color:#b9cb9f;}
+.stripetree tr th:first-child{border-left-color:#b9cb9f;}
+.stripetree tr td:last-child{border-right-color:#b9cb9f;}
+.stripetree tr th:last-child{border-right-color:#b9cb9f;}
+.stripetree tr:last-child td{border-bottom-color:#b9cb9f;}
+.stripetree tr.spe td{background-color:#FEFBC2;}
