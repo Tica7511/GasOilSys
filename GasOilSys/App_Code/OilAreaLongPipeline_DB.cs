@@ -128,7 +128,7 @@ select @Ncount=count(*) from 石油_轄區長途管線方塊圖 where 業者guid
 
 if(@Ncount > 0)
     begin
-        update 石油_庫區基本資料 set
+        update 石油_轄區長途管線方塊圖 set
         內容=@內容,
         修改者=@修改者,
         修改日期=@修改日期 

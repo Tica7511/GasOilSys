@@ -4,9 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 
-public partial class WebPage_OilLongPipeline : System.Web.UI.Page
+public partial class WebPage_edit_OilLongPipeline : System.Web.UI.Page
 {
     public string username;
     public string competence;
@@ -24,6 +23,7 @@ public partial class WebPage_OilLongPipeline : System.Web.UI.Page
 
             // 登入者姓名
             username = LogInfo.name;
+            // 登入者權限
             competence = LogInfo.competence;
         }
     }
