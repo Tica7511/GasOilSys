@@ -10,13 +10,13 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class Handler_AddOilReservoirImage : System.Web.UI.Page
+public partial class Handler_AddOilAreaLongPipeline : System.Web.UI.Page
 {
-    OilReservoir_DB odb = new OilReservoir_DB();
+    OilAreaLongPipeline_DB odb = new OilAreaLongPipeline_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
-        ///功    能: 新增/修改 庫區基本資料 圖片儲存
+        ///功    能: 新增/修改 轄區長途管線方塊圖 圖片儲存
         ///說    明:
         /// * Request["cp"]: 業者guid
         /// * Request["guid"]: guid
@@ -46,7 +46,6 @@ public partial class Handler_AddOilReservoirImage : System.Web.UI.Page
             string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string nContent = (string.IsNullOrEmpty(Request["nContent"])) ? "" : Request["nContent"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
-
             string tmpGuid = (Server.UrlDecode(mode) == "new") ? Guid.NewGuid().ToString("N") : guid;
             string xmlstr = string.Empty;
 
@@ -59,7 +58,7 @@ public partial class Handler_AddOilReservoirImage : System.Web.UI.Page
             odb._建立者 = LogInfo.mGuid;
             odb._建立日期 = DateTime.Now;
 
-            odb.InsertData2(oConn, myTrans);
+            odb.InsertData(oConn, myTrans);
 
             myTrans.Commit();
 

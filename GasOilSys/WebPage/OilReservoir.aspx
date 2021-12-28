@@ -118,35 +118,6 @@
                 });
             });
 
-            $(document).on("click", "a[name='delbtn']", function () {
-                var str = confirm('確定刪除嗎?');
-                if (str) {
-                    $.ajax({
-			        	type: "POST",
-			        	async: false, //在沒有返回值之前,不會執行下一步動作
-			        	url: "../Handler/DelFile.aspx",
-			        	data: {
-			        		guid: $(this).attr("aid"),
-			        		category: "Oil",
-			        		type: "01"
-			        	},
-			        	error: function (xhr) {
-			        		alert("Error: " + xhr.status);
-			        		console.log(xhr.responseText);
-			        	},
-			        	success: function (data) {
-			        		if ($(data).find("Error").length > 0) {
-			        			alert($(data).find("Error").attr("Message"));
-			        		}
-                            else {
-                                alert($("Response", data).text());
-                                location.href='OilReservoir.aspx?cp=' + $.getQueryString("cp");
-			        		}
-			        	}
-			        });
-                }
-            });
-
             //特殊區域 其他勾選時事件
             $(document).on("change", "input[name='checkArea'][value='05']", function () {
                 if (this.checked) {

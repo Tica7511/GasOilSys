@@ -17,16 +17,30 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
-			getData();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
+
+            //圖片編輯按鈕
+            $(document).on("click", "#editbtn", function () {
+                location.href = 'edit_OilAreaLongPipeline.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $("#nGuid").val();
+            });
 		}); // end js
 
-		function getData() {
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetOilAreaLongPipeline.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -39,17 +53,77 @@
 					else {
 						if ($(data).find("data_item").length > 0) {
 							$(data).find("data_item").each(function (i) {
-								if ($(this).children("內容").text().trim() != "")
-									$("#content").html($(this).children("內容").text().trim());
+                                if ($(this).children("Content").text().trim() != "")
+                                    $("#content").html($(this).children("Content").text().trim());
 								else
-									$("#notfound").show();
+                                    $("#notfound").show();
+                                $("#nGuid").val($(this).children("guid").text().trim());
 							});
 						}
 						else
 							$("#notfound").show();
-					}
+                    }
+
+                    //確認權限&按鈕顯示或隱藏
+                    if ($("#sellist").val() != getTaiwanDate()) {
+                        $("#editbtn").hide();
+                    }
+                    else {
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                            $("#editbtn").hide();
+                        }
+                        else {
+                            $("#editbtn").show();
+                        }
+                    }
 				}
 			});
+        }
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilAreaLongPipeline.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
     </script>
 </head>
@@ -75,6 +149,8 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
+        <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="nGuid" />
         <div id="ContentWrapper">
             <div class="container margin15T"> 
                 <div class="padding10ALL">
@@ -84,7 +160,19 @@
                         <div class="col-lg-3 col-md-4 col-sm-5">
                             <div id="navmenuV"><!--#include file="OilLeftMenu.html"--></div>
                         </div>
-                        <div class="col-lg-9 col-md-8 col-sm-7" id="content">
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
+                                <div class="right">
+                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                </div>
+                            </div><br />
+                            <div id="content">
+                                
+                            </div>
                             <div id="notfound" class="BoxBorderSa BoxRadiusB padding5ALL textcenter" style="display:none;"><div class="opa6 font-size3">目前無資料</div></div>
                         </div><!-- col -->
                     </div><!-- row -->

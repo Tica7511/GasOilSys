@@ -17,8 +17,9 @@ public partial class tinymce_ImageUpload_filedownload : System.Web.UI.Page
 			string FileName = (Request.QueryString["v"] != null) ? Common.FilterCheckMarxString(Request.QueryString["v"].ToString().Trim()) : "";
 			string category = (Request.QueryString["category"] != null) ? Common.FilterCheckMarxString(Request.QueryString["category"].ToString().Trim()) : "";
 			string type = (Request.QueryString["type"] != null) ? Common.FilterCheckMarxString(Request.QueryString["type"].ToString().Trim()) : "";
+			string cpName = (Request.QueryString["cpName"] != null) ? Common.FilterCheckMarxString(Request.QueryString["cpName"].ToString().Trim()) : "";
 
-            UpLoadPath = UpLoadPath + category + "\\" + type + "\\";
+            UpLoadPath = UpLoadPath + category + "\\" + type + "\\" + cpName + "\\";
 
             #region 檢查 SQL Injection
             if (!CheckSQLInjection(FileName))

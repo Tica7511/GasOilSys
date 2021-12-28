@@ -31,7 +31,6 @@ public partial class Handler_GetReservoir : System.Web.UI.Page
             {
                 db._業者guid = cpid;
                 db._年度 = year;
-                string AAA = string.Empty;
 
                 DataTable dt = db.GetList();
                 DataTable dt2 = db.GetYearList();
@@ -41,7 +40,6 @@ public partial class Handler_GetReservoir : System.Web.UI.Page
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         dt.Rows[i]["Content"] = Server.HtmlDecode(Server.HtmlEncode(dt.Rows[i]["內容"].ToString()));
-                        AAA = Server.HtmlDecode(Server.HtmlEncode(dt.Rows[i]["內容"].ToString()));
                     }
                 }
                 string xmlstr = string.Empty;

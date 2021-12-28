@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilReservoir.aspx.cs" Inherits="WebPage_edit_OilReservoir" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilAreaLongPipeline.aspx.cs" Inherits="WebPage_edit_OilAreaLongPipeline" %>
 
 <!DOCTYPE html>
 
@@ -26,9 +26,9 @@
                     tinymce.activeEditor.windowManager.close();
                     tinymce.activeEditor.windowManager.open({
                         title: "圖片上傳",
-                        url: '../../tinymce/ImageUpload/upload.aspx?category=Oil_Upload&type=reservoir&cpName=' + $("#companyName").text(),
+                        url: '../../tinymce/ImageUpload/upload.aspx?category=Oil_Upload&type=arealongpipeline&cpName=' + $("#companyName").text(),
                         width: 380,
-                        height: 140,
+                        height: 140
                     });
                 }
             },
@@ -51,7 +51,7 @@
                 var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
 
                 if (str)
-                    location.href = "OilReservoir.aspx?cp=" + $.getQueryString("cp");
+                    location.href = "OilAreaLongPipeline.aspx?cp=" + $.getQueryString("cp");
             });
 
             //儲存按鍵
@@ -79,7 +79,7 @@
                 $.ajax({
                     type: "POST",
                     async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/AddOilReservoirImage.aspx",
+                    url: "../handler/AddOilAreaLongPipeline.aspx",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -95,7 +95,7 @@
                         else {
                             alert($("Response", data).text());
 
-                            location.href = "OilReservoir.aspx?cp=" + $.getQueryString("cp");
+                            location.href = "OilAreaLongPipeline.aspx?cp=" + $.getQueryString("cp");
                         }
                     }
                 });
@@ -107,7 +107,7 @@
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
-                url: "../Handler/GetOilReservoir.aspx",
+                url: "../Handler/GetOilAreaLongPipeline.aspx",
 				data: {
                     guid: $.getQueryString("guid"),
                     type: "data"
@@ -349,6 +349,7 @@
     <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
+
 
 
 

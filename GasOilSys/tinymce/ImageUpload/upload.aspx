@@ -13,6 +13,7 @@
 
 			$("#Ncategory").val($.getQueryString("category"));
 			$("#Ntype").val($.getQueryString("type"));
+            $("#NcpName").val($.getQueryString("cpName"));
 
             $("#okbtn").click(function () {
                 // Get form
@@ -23,6 +24,7 @@
 
                 data.append('category', $("#Ncategory").val());
                 data.append('type', $("#Ntype").val());
+                data.append('cpName', $("#NcpName").val());
                 data.append('file', $("#myfile").get(0).files[0]);
 
 				$.ajax({
@@ -42,7 +44,7 @@
 							alert($(data).find("Error").attr("Message"));
 						}
 						else {
-                            var ReturnValue = '<img src="' + $("Response", data).text() + '&category=' + $("category", data).text() + '&type=' + $("type", data).text() + '" alt="" />';
+                            var ReturnValue = '<img src="' + $("Response", data).text() + '&category=' + $("category", data).text() + '&type=' + $("type", data).text() + '&cpName=' + $("cpName", data).text() + '" alt="" />';
 							top.tinymce.activeEditor.insertContent(ReturnValue);
 							top.tinymce.activeEditor.windowManager.close();
 						}
@@ -72,6 +74,7 @@
     <form id="form2" runat="server">
 		<input id="Ncategory" type="hidden" />
 		<input id="Ntype" type="hidden" />
+		<input id="NcpName" type="hidden" />
         <div>
             <table width="100%">
                 <tr>
