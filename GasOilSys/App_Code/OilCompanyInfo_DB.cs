@@ -135,6 +135,26 @@ public class OilCompanyInfo_DB
         return ds;
     }
 
+    public DataTable GetCpName2()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
+  where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     //在列表點選檢視重新更新業者guid用
     public DataTable GetCompany()
     {

@@ -23,6 +23,7 @@ public class FileTable
     string 原檔名 = string.Empty;
     string 新檔名 = string.Empty;
     string 附檔名 = string.Empty;
+    string 排序 = string.Empty;
     string 檔案大小 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
@@ -39,6 +40,7 @@ public class FileTable
     public string _原檔名 { set { 原檔名 = value; } }
     public string _新檔名 { set { 新檔名 = value; } }
     public string _附檔名 { set { 附檔名 = value; } }
+    public string _排序 { set { 排序 = value; } }
     public string _檔案大小 { set { 檔案大小 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
@@ -54,6 +56,8 @@ public class FileTable
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 附件檔 where 資料狀態='A' and 業者guid=@業者guid and 年度=@年度 ");
+        if (!string.IsNullOrEmpty(檔案類型))
+            sb.Append(@"and 檔案類型=@檔案類型 ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -62,6 +66,7 @@ public class FileTable
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
 
         oda.Fill(ds);
         return ds;
@@ -86,6 +91,41 @@ public class FileTable
         return ds;
     }
 
+    public DataTable GetMaxSn()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+declare @sortCount int
+
+select @sortCount=COUNT(*) from 附件檔 
+where 資料狀態='A' and 業者guid=@業者guid and 年度=@年度 and 檔案類型=@檔案類型
+
+if(@sortCount>0)
+    begin
+        SELECT CONVERT(int, @sortCount)+1 as Sort
+    end
+else
+    begin
+        SELECT '01' as Sort
+    end"
+);
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void UpdateFile_Trans(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
@@ -98,6 +138,7 @@ guid,
 原檔名,
 新檔名, 
 附檔名, 
+排序, 
 檔案大小,
 建立者,
 修改者,
@@ -110,6 +151,7 @@ guid,
 @原檔名,
 @新檔名, 
 @附檔名, 
+@排序, 
 @檔案大小,
 @建立者,
 @修改者,
@@ -126,6 +168,7 @@ guid,
         oCmd.Parameters.AddWithValue("@原檔名", 原檔名);
         oCmd.Parameters.AddWithValue("@新檔名", 新檔名);
         oCmd.Parameters.AddWithValue("@附檔名", 附檔名);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
         oCmd.Parameters.AddWithValue("@檔案大小", 檔案大小);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
