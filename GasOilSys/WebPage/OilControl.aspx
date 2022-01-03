@@ -199,21 +199,35 @@
 						alert($(data).find("Error").attr("Message"));
 					}
 					else {
-						if ($(data).find("data_item").length > 0) {
-							$(data).find("data_item").each(function (i) {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
                                 $("#docName").val($(this).children("依據文件名稱").text().trim());
-								$("#docNo").val($(this).children("文件編號").text().trim());
-								$("#docDate").val($(this).children("文件日期").text().trim());
+                                $("#docNo").val($(this).children("文件編號").text().trim());
+                                $("#docDate").val($(this).children("文件日期").text().trim());
                                 $("#pressureHz").val($(this).children("壓力計校正頻率").text().trim());
-								$("#pressureRecentTime").val($(this).children("壓力計校正_最近一次校正時間").text().trim());
-								$("#flowHz").val($(this).children("流量計校正頻率").text().trim());
-								$("#flowRecentTime").val($(this).children("流量計校正_最近一次校正時間").text().trim());
-								$("#monitorTime").val($(this).children("監控中心定期調整之週期").text().trim());
-								$("#TotalOperator").val($(this).children("合格操作人員總數").text().trim());
-								$("input[name='rbShift'][value='" + $(this).children("輪班制度").text().trim() + "']").prop("checked", true);
-								$("#classPerson").val($(this).children("每班人數").text().trim());
-								$("input[name='rbClassTime'][value='" + $(this).children("每班時數").text().trim() + "']").prop("checked", true);
-							});
+                                $("#pressureRecentTime").val($(this).children("壓力計校正_最近一次校正時間").text().trim());
+                                $("#flowHz").val($(this).children("流量計校正頻率").text().trim());
+                                $("#flowRecentTime").val($(this).children("流量計校正_最近一次校正時間").text().trim());
+                                $("#monitorTime").val($(this).children("監控中心定期調整之週期").text().trim());
+                                $("#TotalOperator").val($(this).children("合格操作人員總數").text().trim());
+                                $("input[name='rbShift'][value='" + $(this).children("輪班制度").text().trim() + "']").prop("checked", true);
+                                $("#classPerson").val($(this).children("每班人數").text().trim());
+                                $("input[name='rbClassTime'][value='" + $(this).children("每班時數").text().trim() + "']").prop("checked", true);
+                            });
+                        }
+                        else {
+                            $("#docName").val('');
+                            $("#docNo").val('');
+                            $("#docDate").val('');
+                            $("#pressureHz").val('');
+                            $("#pressureRecentTime").val('');
+                            $("#flowHz").val('');
+                            $("#flowRecentTime").val('');
+                            $("#monitorTime").val('');
+                            $("#TotalOperator").val('');
+                            $("input[name='rbShift']").prop("checked", false);
+                            $("#classPerson").val('');
+                            $("input[name='rbClassTime']").prop("checked", false);
                         }
 
                         $("#tablist tbody").empty();

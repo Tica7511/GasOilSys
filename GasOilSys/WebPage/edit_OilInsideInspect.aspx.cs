@@ -4,9 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 
-public partial class WebPage_OilInsideInspect : System.Web.UI.Page
+public partial class WebPage_edit_OilInsideInspect : System.Web.UI.Page
 {
     public string username;
     public string competence;

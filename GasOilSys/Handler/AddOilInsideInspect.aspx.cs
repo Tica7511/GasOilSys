@@ -10,16 +10,16 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
+public partial class Handler_AddOilInsideInspect : System.Web.UI.Page
 {
-    OilInternalAudit_DB odb = new OilInternalAudit_DB();
+    OilInsideInspect_DB odb = new OilInsideInspect_DB();
     FileTable fdb = new FileTable();
     CodeTable_DB cdb = new CodeTable_DB();
     OilCompanyInfo_DB cpdb = new OilCompanyInfo_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
-        ///功    能: 新增/修改 儲槽內部稽核表
+        ///功    能: 新增/修改 管線內部稽核表
         ///說    明:
         /// * Request["cp"]: 業者guid
         /// * Request["guid"]: guid
@@ -65,7 +65,7 @@ public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
             odb._guid = tmpGuid;
             odb._業者guid = cp;
             odb._年度 = Server.UrlDecode(year);
-            odb._內部稽核日期 = Server.UrlDecode(txt1);
+            odb._日期 = Server.UrlDecode(txt1);
             odb._執行單位 = Server.UrlDecode(txt2);
             odb._稽核範圍 = Server.UrlDecode(txt3);
             odb._缺失改善執行狀況 = Server.UrlDecode(txt4);
@@ -73,7 +73,7 @@ public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
             odb._修改者 = LogInfo.mGuid;
             odb._修改日期 = DateTime.Now;
 
-            #region 儲存儲槽內部稽核表 資料
+            #region 儲存管線內部稽核表 資料
 
             if (Server.UrlDecode(mode) == "new")
             {
@@ -103,7 +103,7 @@ public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
                 HttpPostedFile File = uploadFiles[i];
                 if (File.FileName.Trim() != "")
                 {
-                    string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + "Oil_Upload\\storageinspect\\";
+                    string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + "Oil_Upload\\pipeinspect\\";
 
                     //如果上傳路徑中沒有該目錄，則自動新增
                     if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
@@ -112,7 +112,7 @@ public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
                     }
 
                     cdb._群組代碼 = "021";
-                    cdb._項目代碼 = "04";
+                    cdb._項目代碼 = "05";
                     DataTable cdt = cdb.GetList();
 
                     if (cdt.Rows.Count > 0)
@@ -120,7 +120,7 @@ public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
                         string sn = string.Empty;
                         fdb._業者guid = cp;
                         fdb._年度 = Server.UrlDecode(year);
-                        fdb._檔案類型 = "04";
+                        fdb._檔案類型 = "05";
 
                         DataTable fdt = fdb.GetMaxSn();
 
@@ -169,7 +169,7 @@ public partial class Handler_AddOilInternalAudit : System.Web.UI.Page
 
                         #endregion
 
-                        #region 儲存檔案進儲槽內部稽核表
+                        #region 儲存檔案進管線內部稽核表
 
                         odb._佐證資料檔名 = newName;
                         odb._佐證資料副檔名 = extension;

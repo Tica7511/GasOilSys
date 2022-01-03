@@ -10,7 +10,7 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class Handler_DelOilInsideInspect : System.Web.UI.Page
+public partial class Handler_DelOilPipeInspect : System.Web.UI.Page
 {
     OilInsideInspect_DB db = new OilInsideInspect_DB();
     FileTable fdb = new FileTable();
@@ -58,7 +58,7 @@ public partial class Handler_DelOilInsideInspect : System.Web.UI.Page
                     fi.Delete(); //刪除主機路徑內的檔案
                 }
 
-                db.DeleteData(oConn, myTrans); //刪除資料庫此資料列
+                db.DelFile(oConn, myTrans); //更新資料庫此資料列
                 fdb.DelFile(oConn, myTrans); //更新附件檔此資料列為'D'
             }
             else

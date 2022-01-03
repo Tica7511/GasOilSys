@@ -25,6 +25,7 @@
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
+                getExtension($("#sellist option:selected").val());
             });
 
             //新增按鈕

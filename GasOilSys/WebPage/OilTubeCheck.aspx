@@ -238,31 +238,44 @@
 						alert($(data).find("Error").attr("Message"));
 					}
 					else {
-						if ($(data).find("data_item").length > 0) {
-							$(data).find("data_item").each(function (i) {
-								$("#docName").val($(this).children("依據文件名稱").text().trim());
-								$("#docNo").val($(this).children("文件編號").text().trim());
-								$("#docDate").val($(this).children("文件日期").text().trim());
-								$("input[name='checkCount'][value='" + $(this).children("每日巡檢次數").text().trim() + "']").prop("checked", true);
-								$("#checkPerson").val($(this).children("巡管人數").text().trim());
-								// 巡管工具
-								var othertool = false;
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                $("#docName").val($(this).children("依據文件名稱").text().trim());
+                                $("#docNo").val($(this).children("文件編號").text().trim());
+                                $("#docDate").val($(this).children("文件日期").text().trim());
+                                $("input[name='checkCount'][value='" + $(this).children("每日巡檢次數").text().trim() + "']").prop("checked", true);
+                                $("#checkPerson").val($(this).children("巡管人數").text().trim());
+                                // 巡管工具
+                                var othertool = false;
                                 var arychecktool = $(this).children("巡管工具").text().trim().split(',');
                                 $("input[name='checkTool']").prop("checked", false);
                                 $.each(arychecktool, function (key, value) {
-									$("input[name='checkTool'][value='" + value + "']").prop("checked", true);
+                                    $("input[name='checkTool'][value='" + value + "']").prop("checked", true);
                                 });
                                 $("#checkToolOther").val($(this).children("巡管工具其他").text().trim());
 
-								// 主管監督查核
+                                // 主管監督查核
                                 $("input[name='managerCheck'][value='" + $(this).children("主管監督查核").text().trim() + "']").prop("checked", true);
                                 $("#ManagerCount").val($(this).children("主管監督查核次").text().trim());
 
-								// 是否有加強巡檢點
-								$("input[name='checkStrengthen'][value='" + $(this).children("是否有加強巡檢點").text().trim() + "']").prop("checked", true);
+                                // 是否有加強巡檢點
+                                $("input[name='checkStrengthen'][value='" + $(this).children("是否有加強巡檢點").text().trim() + "']").prop("checked", true);
                                 $("#StrengthenTxt").val($(this).children("是否有加強巡檢點敘述").text().trim());
-							});
-						}
+                            });
+                        }
+                        else {
+                            $("#docName").val('');
+                            $("#docNo").val('');
+                            $("#docDate").val('');
+                            $("input[name='checkCount']").prop("checked", false);
+                            $("#checkPerson").val('');
+                            $("input[name='checkTool']").prop("checked", false);
+                            $("#checkToolOther").val('');
+                            $("input[name='managerCheck']").prop("checked", false);
+                            $("#ManagerCount").val('');
+                            $("input[name='checkStrengthen']").prop("checked", false);
+                            $("#StrengthenTxt").val('');
+                        }
 
 						$("#tablist tbody").empty();
 						var tabstr = '';
