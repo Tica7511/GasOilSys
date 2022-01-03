@@ -1,5 +1,5 @@
 ﻿
-<ul class='nav'>
+<ul id="Oalllist" class='nav'>
     <li>
         <a name="menubtn" href="javascript:void(0);" link='OilInfo.aspx' target='_self'>石油業者基本資料</a>
     </li>
@@ -40,8 +40,69 @@
     <li><a name="menubtn" href="javascript:void(0);" link='OilOnlineEvaluation.aspx' target='_self'>查核佐證資料上傳</a></li>
 </ul>
 
+<ul id="Onopipelist" class='nav'>
+    <li>
+        <a name="menubtn" href="javascript:void(0);" link='OilInfo.aspx' target='_self'>石油業者基本資料</a>
+    </li>
+    <li>
+        <a href='#' id="storageList" target='_self'>儲油設施基本資料</a>
+        <ul class='navSa'>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilReservoir.aspx' target='_self'>庫區基本資料</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilStorageTankInfo.aspx' target='_self'>儲槽基本資料</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilStorageTankBWT.aspx' target='_self'>儲槽基礎、壁板、頂板</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilStorageTankButton.aspx' target='_self'>儲槽底板</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilButtonChange.aspx' target='_self'>底板更換紀錄</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilCathodicProtection.aspx' target='_self'>陰極防蝕系統</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilTankPipeline.aspx' target='_self'>槽區管線</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link='OilInternalAudit.aspx' target='_self'>內部稽核</a></li>
+        </ul>
+    </li>
+    <li><a name="menubtn" href="javascript:void(0);" link='OilControl.aspx' target='_self'>控制室</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='OilAccidentLearning.aspx' target='_self'>事故學習</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='OilSelfEvaluation.aspx' target='_self'>查核項目自評</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='OilReportUpload.aspx' target='_self'>查核簡報上傳</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='OilOnlineEvaluation.aspx' target='_self'>查核佐證資料上傳</a></li>
+</ul>
+
 <script type="text/javascript">
+
     $(document).ready(function () {
+
+        $.ajax({
+            type: "POST",
+            async: false, //在沒有返回值之前,不會執行下一步動作
+            url: "../Handler/GetCompanyName.aspx",
+            data: {
+                type: "Oil",
+                cpid: $.getQueryString("cp"),
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.status);
+                console.log(xhr.responseText);
+            },
+            success: function (data) {
+                if ($(data).find("Error").length > 0) {
+                    alert($(data).find("Error").attr("Message"));
+                }
+                else {
+                    if ($(data).find("data_item").length > 0) {
+                        $(data).find("data_item").each(function (i) {
+                            var pipeDisplay = $(this).children("管線管理不顯示").text().trim();
+
+                            if (pipeDisplay == 'N') {
+                                $("#Oalllist").hide();
+                                $("#Onopipelist").show();
+                            }
+                            else {
+                                $("#Oalllist").show();
+                                $("#Onopipelist").hide();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
         var pathAry = window.location.pathname.split('/');
         var pathName = pathAry[(pathAry.length - 1)];
         var pathNameAry = pathName.split('_');

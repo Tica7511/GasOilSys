@@ -121,7 +121,7 @@ public class OilCompanyInfo_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
+        sb.Append(@"select isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, 管線管理不顯示 from 石油_業者基本資料
   where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
 
         oCmd.CommandText = sb.ToString();
