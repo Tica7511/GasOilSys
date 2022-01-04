@@ -19,6 +19,21 @@
         $(document).ready(function () {
             getData();
 
+            //長途管線識別碼 認證有無重複序號
+            $(document).on("blur", "#txt1", function () {
+                var Sno = $("#Sno").val();
+
+                if ($.getQueryString("guid") != '') {
+                    if ($("#txt1").val() != '')
+                        if (Sno != $("#txt1").val())
+                            compareSno();
+                }
+                else {
+                    if ($("#txt1").val() != '')
+                        compareSno();
+                }
+            });
+
             //取消按鍵
             $(document).on("click", "#cancelbtn", function () {
                 var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
@@ -137,7 +152,39 @@
                 buttonImage: '../images/calendar.gif',
                 yearRange: 'c-6:c+6'
             }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
-		}); // end js
+        }); // end js
+
+        function compareSno() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilTubeInfo.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    Sno: $("#txt1").val(),
+                    type: "list"
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            alert('已有相同的長途管線識別碼，請重新輸入一次');
+                            $("#txt1").val($("#Sno").val());
+                            return false;
+                        }
+                    }
+                }
+            });
+
+            return status;
+        }
 
 		function getData() {
 			$.ajax({
@@ -159,6 +206,7 @@
 					else {
 						if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
+                                $("#Sno").val($(this).children("長途管線識別碼").text().trim());
                                 $("#txt1").val($(this).children("長途管線識別碼").text().trim());
                                 $("#txt2").val($(this).children("轄區長途管線名稱").text().trim());
                                 $("#txt3").val($(this).children("銜接管線識別碼_上游").text().trim());
@@ -306,6 +354,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
+        <input type="hidden" id="Sno" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">

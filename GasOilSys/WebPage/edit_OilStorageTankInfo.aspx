@@ -167,6 +167,7 @@
                         if ($(data).find("data_item").length > 0) {
                             alert('已有相同的轄區儲槽編號，請重新輸入一次');
                             $("#txt1").val($("#Sno").val());
+                            return false;
                         }
                     }
                 }

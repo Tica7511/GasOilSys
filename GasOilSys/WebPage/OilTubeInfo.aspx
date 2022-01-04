@@ -19,11 +19,13 @@
         $(document).ready(function () {
             getYearList();
             $("#sellist").val(getTaiwanDate());
-            getData(getTaiwanDate());
+            $("#taiwanYear").val(getTaiwanDate());
+            getData(0);
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
-                getData($("#sellist option:selected").val());
+                $("#taiwanYear").val($("#sellist option:selected").val());
+                getData(0);
             });
 
             //新增按鈕
@@ -59,15 +61,17 @@
             });
 		}); // end js
 
-        function getData(year) {
+        function getData(p) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../Handler/GetOilTubeInfo.aspx",
 				data: {
                     cpid: $.getQueryString("cp"),
-                    year: year,
+                    year: $("#taiwanYear").val(),
                     type: "list",
+                    PageNo: p,
+                    PageSize: Page.Option.PageSize,
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -107,8 +111,11 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="14">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="19">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
+                        Page.Option.Selector = "#pageblock";
+                        Page.Option.FunctionName = "getData";
+                        Page.CreatePage(p, $("total", data).text());
 
                         //確認權限&按鈕顯示或隱藏
                         if ($("#sellist").val() != getTaiwanDate()) {
@@ -235,6 +242,7 @@
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="taiwanYear" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -284,6 +292,9 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
+                                <div class="margin10B margin10T textcenter">
+	                                <div id="pageblock"></div>
+	                            </div>
                             </div>
                         </div><!-- col -->
                     </div><!-- row -->

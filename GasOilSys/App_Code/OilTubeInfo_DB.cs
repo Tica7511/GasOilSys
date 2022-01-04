@@ -73,23 +73,36 @@ public class OilTubeInfo_DB
     public string _資料狀態 { set { 資料狀態 = value; } }
     #endregion
 
-    public DataTable GetList()
+    public DataSet GetList(string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * from 石油_管線基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
+        sb.Append(@"select * into #tmp 
+from 石油_管線基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
             sb.Append(@" and 年度=@年度");
+        if (!string.IsNullOrEmpty(長途管線識別碼))
+            sb.Append(@" and 長途管線識別碼=@長途管線識別碼");
+
+        sb.Append(@"
+select count(*) as total from #tmp
+
+select * from (
+           select ROW_NUMBER() over (order by 長途管線識別碼) itemNo,* from #tmp
+)#tmp where itemNo between @pStart and @pEnd ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
-        DataTable ds = new DataTable();
+        DataSet ds = new DataSet();
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
 
         oda.Fill(ds);
         return ds;
@@ -158,6 +171,7 @@ else
         sb.Append(@"insert into 石油_管線基本資料(  
 年度,
 業者guid,
+長途管線識別碼,
 轄區長途管線名稱,
 銜接管線識別碼_上游,
 銜接管線識別碼_下游,
@@ -182,6 +196,7 @@ else
 資料狀態 ) values ( 
 @年度,
 @業者guid,
+@長途管線識別碼,
 @轄區長途管線名稱,
 @銜接管線識別碼_上游,
 @銜接管線識別碼_下游,
@@ -210,6 +225,7 @@ else
 
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
         oCmd.Parameters.AddWithValue("@轄區長途管線名稱", 轄區長途管線名稱);
         oCmd.Parameters.AddWithValue("@銜接管線識別碼_上游", 銜接管線識別碼_上游);
         oCmd.Parameters.AddWithValue("@銜接管線識別碼_下游", 銜接管線識別碼_下游);
@@ -242,6 +258,7 @@ else
         StringBuilder sb = new StringBuilder();
         sb.Append(@"update 石油_管線基本資料 set  
 年度=@年度,
+長途管線識別碼=@長途管線識別碼,
 轄區長途管線名稱=@轄區長途管線名稱,
 銜接管線識別碼_上游=@銜接管線識別碼_上游,
 銜接管線識別碼_下游=@銜接管線識別碼_下游,
@@ -269,6 +286,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
         oCmd.Parameters.AddWithValue("@轄區長途管線名稱", 轄區長途管線名稱);
         oCmd.Parameters.AddWithValue("@銜接管線識別碼_上游", 銜接管線識別碼_上游);
         oCmd.Parameters.AddWithValue("@銜接管線識別碼_下游", 銜接管線識別碼_下游);
