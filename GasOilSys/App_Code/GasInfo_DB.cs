@@ -152,4 +152,72 @@ WHERE [業者guid]=@業者guid and [年度]=@年度 and [資料狀態]='A' ");
 		oda.Fill(ds);
 		return ds;
 	}
+
+	public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"update 天然氣_事業單位基本資料表 set  
+事業名稱=@事業名稱,
+電話=@電話,
+地址=@地址,
+輸氣幹線=@輸氣幹線,
+輸氣環線=@輸氣環線,
+配氣專管=@配氣專管,
+場內成品線=@場內成品線,
+海底管線=@海底管線,
+LNG管線=@LNG管線,
+BOG管線=@BOG管線,
+NG管線=@NG管線,
+供氣對象縣市=@供氣對象縣市,
+供應天然氣=@供應天然氣,
+儲槽=@儲槽,
+注氣站=@注氣站,
+加壓站=@加壓站,
+配氣站=@配氣站,
+隔離站=@隔離站,
+開關站=@開關站,
+清管站=@清管站,
+整壓計量站=@整壓計量站,
+低壓排放塔=@低壓排放塔,
+高壓排放塔=@高壓排放塔,
+NG2摻配站=@NG2摻配站,
+修改者=@修改者, 
+修改日期=@修改日期 
+where 業者guid=@業者guid and 資料狀態=@資料狀態 
+ ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@事業名稱", 事業名稱);
+		oCmd.Parameters.AddWithValue("@電話", 電話);
+        oCmd.Parameters.AddWithValue("@地址", 地址);
+		oCmd.Parameters.AddWithValue("@輸氣幹線", 輸氣幹線);
+        oCmd.Parameters.AddWithValue("@輸氣環線", 輸氣環線);
+        oCmd.Parameters.AddWithValue("@配氣專管", 配氣專管);
+		oCmd.Parameters.AddWithValue("@場內成品線", 場內成品線);
+		oCmd.Parameters.AddWithValue("@海底管線", 海底管線);
+		oCmd.Parameters.AddWithValue("@LNG管線", LNG管線);
+        oCmd.Parameters.AddWithValue("@BOG管線", BOG管線);
+		oCmd.Parameters.AddWithValue("@NG管線", NG管線);
+		oCmd.Parameters.AddWithValue("@供氣對象縣市", 供氣對象縣市);
+		oCmd.Parameters.AddWithValue("@供應天然氣", 供應天然氣);
+		oCmd.Parameters.AddWithValue("@儲槽", 儲槽);
+		oCmd.Parameters.AddWithValue("@注氣站", 注氣站);
+        oCmd.Parameters.AddWithValue("@加壓站", 加壓站);
+        oCmd.Parameters.AddWithValue("@配氣站", 配氣站);
+        oCmd.Parameters.AddWithValue("@隔離站", 隔離站);
+        oCmd.Parameters.AddWithValue("@開關站", 開關站);
+        oCmd.Parameters.AddWithValue("@清管站", 清管站);
+		oCmd.Parameters.AddWithValue("@整壓計量站", 整壓計量站);
+        oCmd.Parameters.AddWithValue("@低壓排放塔", 低壓排放塔);
+        oCmd.Parameters.AddWithValue("@高壓排放塔", 高壓排放塔);
+		oCmd.Parameters.AddWithValue("@NG2摻配站", NG2摻配站);
+		oCmd.Parameters.AddWithValue("@修改者", 修改者);
+		oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+		oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
 }

@@ -17,8 +17,118 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-			getData();
-		}); // end js
+            getData();
+
+            //編輯按鈕
+            $(document).on("click", "#editbtn", function () {
+                $("#editbtn").hide();
+                $("#backbtn").show();
+                $("#subbtn").show();
+
+                disabled(false);
+            });
+
+            //返回按鈕
+            $(document).on("click", "#backbtn", function () {
+                var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
+
+                if (str) {
+                    $("#editbtn").show();
+                    $("#backbtn").hide();
+                    $("#subbtn").hide();
+
+                    disabled(true);
+
+                    getData();
+                }
+            });
+
+            //儲存按鈕
+            $(document).on("click", "#subbtn", function () {
+                // Get form
+                var form = $('#form1')[0];
+
+                // Create an FormData object 
+                var data = new FormData(form);
+
+                // If you want to add an extra field for the FormData
+                data.append("cid", $.getQueryString("cp"));
+                data.append("txt1", encodeURIComponent($("#cname").val()));
+                data.append("txt2", encodeURIComponent($("#caddr").val()));
+                data.append("txt3", encodeURIComponent($("#ctel").val()));
+                data.append("txt4", encodeURIComponent($("#mainline").val()));
+                data.append("txt5", encodeURIComponent($("#cycleline").val()));
+                data.append("txt6", encodeURIComponent($("#specialline").val()));
+                data.append("txt7", encodeURIComponent($("#finishline").val()));
+                data.append("txt8", encodeURIComponent($("#sealine").val()));
+                data.append("txt9", encodeURIComponent($("#LNGline").val()));
+                data.append("txt10", encodeURIComponent($("#BOGline").val()));
+                data.append("txt11", encodeURIComponent($("#NGline").val()));
+                data.append("txt12", encodeURIComponent($("#supplycity").val()));
+                data.append("txt13", encodeURIComponent($("#ov1").val()));
+                data.append("txt14", encodeURIComponent($("#ov2").val()));
+                data.append("txt15", encodeURIComponent($("#ov3").val()));
+                data.append("txt16", encodeURIComponent($("#ov4").val()));
+                data.append("txt17", encodeURIComponent($("#ov5").val()));
+                data.append("txt18", encodeURIComponent($("#ov6").val()));
+                data.append("txt19", encodeURIComponent($("#ov7").val()));
+                data.append("txt20", encodeURIComponent($("#ov8").val()));
+                data.append("txt21", encodeURIComponent($("#ov9").val()));
+                data.append("txt22", encodeURIComponent($("#ov10").val()));
+                data.append("txt23", encodeURIComponent($("#ov11").val()));
+
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "../handler/AddGasInfo.aspx",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    error: function (xhr) {
+                        alert("Error: " + xhr.status);
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            alert($("Response", data).text());
+
+                            location.href = "GasInfo.aspx?cp=" + $.getQueryString("cp");
+                        }
+                    }
+                });
+            });
+        }); // end js
+
+        function disabled(status) {
+            $("#cname").attr("disabled", status);
+            $("#ctel").attr("disabled", status);
+            $("#caddr").attr("disabled", status);
+            $("#mainline").attr("disabled", status);
+            $("#cycleline").attr("disabled", status);
+            $("#specialline").attr("disabled", status);
+            $("#finishline").attr("disabled", status);
+            $("#sealine").attr("disabled", status);
+            $("#LNGline").attr("disabled", status);
+            $("#BOGline").attr("disabled", status);
+            $("#NGline").attr("disabled", status);
+            $("#supplycity").attr("disabled", status);
+            $("input[name='supplygas']").attr("disabled", status);
+            $("#ov1").attr("disabled", status);
+            $("#ov2").attr("disabled", status);
+            $("#ov3").attr("disabled", status);
+            $("#ov4").attr("disabled", status);
+            $("#ov5").attr("disabled", status);
+            $("#ov6").attr("disabled", status);
+            $("#ov7").attr("disabled", status);
+            $("#ov8").attr("disabled", status);
+            $("#ov9").attr("disabled", status);
+            $("#ov10").attr("disabled", status);
+            $("#ov11").attr("disabled", status);
+        }
 
 		function getData() {
 			$.ajax({
@@ -50,7 +160,8 @@
 								$("#LNGline").val($.FormatThousandGroup($(this).children("LNG管線").text().trim()));
 								$("#BOGline").val($.FormatThousandGroup($(this).children("BOG管線").text().trim()));
 								$("#NGline").val($.FormatThousandGroup($(this).children("NG管線").text().trim()));
-								$("#supplycity").val($(this).children("供氣對象縣市").text().trim());
+                                $("#supplycity").val($(this).children("供氣對象縣市").text().trim());
+                                $("input[name='supplygas']").prop("checked", false);
 								var arySupplyGas = $(this).children("供應天然氣").text().trim().split(',');
 								$.each(arySupplyGas, function (key, value) {
 									$("input[name='supplygas'][value='" + value + "']").prop("checked", true);
@@ -85,17 +196,25 @@
 						}
 						else
 							tabstr += '<tr><td colspan="6">查詢無資料</td></tr>';
-						$("#tablist tbody").append(tabstr);
+                        $("#tablist tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                            $("#editbtn").hide();
+                        }
+                        else {
+                            $("#editbtn").show();
+                        }
 					}
 				}
 			});
         }
-	</script>
+    </script>
 </head>
 <body class="bgG">
 <!-- 開頭用div:修正mmenu form bug -->
 <div>
-<form>
+<form id="form1">
 <!-- Preloader -->
 <div id="preloader" >
 	<div id="status" >
@@ -125,6 +244,13 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
+                                <div id="fileall" class="right">
+                                <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                <a id="backbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
+                                <a id="subbtn" href="javascript:void(0);" class="genbtn" style="display:none">儲存</a>
+                                </div>
+                            </div><br />
+                            <div class="twocol">
                                 <div class="right font-normal font-size3">
                                     <a href="javascript:void(0);" id="collapse1open">全部展開</a>
                                     <a href="javascript:void(0);" id="collapse1close">全部關閉</a>
@@ -139,19 +265,18 @@
                                         <div class="OchiTrasTable width100 TitleLength08 font-size3">
 
                                             <div class="OchiRow">
-                                                <div class="OchiHalf">
-                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">事業名稱</div>
-                                                    <div class="OchiCell width100"><input type="text" id="cname" class="inputex width100" disabled></div>
-                                                </div><!-- OchiHalf -->
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">事業名稱</div>
+                                                <div class="OchiCell width100"><input type="text" id="cname" class="inputex width99" disabled></div>
+                                            </div><!-- OchiRow -->
+                                            <div class="OchiRow">
+                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">地址</div>
+                                                <div class="OchiCell width100"><input type="text" id="caddr" class="inputex width99" disabled></div>
+                                            </div><!-- OchiRow -->
+                                            <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">電話</div>
                                                     <div class="OchiCell width100"><input type="text" id="ctel" class="inputex width100" disabled></div>
                                                 </div><!-- OchiHalf -->
-                                            </div><!-- OchiRow -->
-
-                                            <div class="OchiRow">
-                                                <div class="OchiCell OchiTitle IconCe TitleSetWidth">地址</div>
-                                                <div class="OchiCell width100"><input type="text" id="caddr" class="inputex width99" disabled></div>
                                             </div><!-- OchiRow -->
 
                                         </div><!-- OchiTrasTable -->
