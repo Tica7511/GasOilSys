@@ -292,10 +292,10 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
-                                <div class="margin10B margin10T textcenter">
-	                                <div id="pageblock"></div>
-	                            </div>
                             </div>
+                            <div class="margin10B margin10T textcenter">
+	                            <div id="pageblock"></div>
+	                        </div>
                         </div><!-- col -->
                     </div><!-- row -->
 
