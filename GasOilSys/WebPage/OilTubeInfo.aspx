@@ -53,7 +53,7 @@
                             }
                             else {
                                 alert($("Response", data).text());
-                                getData($("#sellist").val());
+                                getData(0);
                             }
                         }
                     });

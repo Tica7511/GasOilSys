@@ -16,7 +16,8 @@
     <title>天然氣事業輸儲設備查核及檢測資訊系統</title>
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
-		$(document).ready(function () {
+        $(document).ready(function () {
+            $(".container").css("max-width", "1800px");
             getYearList();
             $("#sellist").val(getTaiwanDate());
             $("#taiwanYear").val(getTaiwanDate());
@@ -53,7 +54,7 @@
                             }
                             else {
                                 alert($("Response", data).text());
-                                getData($("#sellist").val());
+                                getData(0);
                             }
                         }
                     });

@@ -44,13 +44,16 @@ public partial class Handler_GetOilTubeInfo : System.Web.UI.Page
 
                 DataSet ds = db.GetList(pageStart.ToString(), pageEnd.ToString());
                 DataTable dt2 = db.GetYearList();
+                DataTable dt3 = db.GetList();
                 string xmlstr = string.Empty;
                 string totalxml = "<total>" + ds.Tables[0].Rows[0]["total"].ToString() + "</total>";
                 string xmlstr2 = string.Empty;
+                string xmlstr3 = string.Empty;
 
                 xmlstr = DataTableToXml.ConvertDatatableToXML(ds.Tables[1], "dataList", "data_item");
                 xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt2, "dataList2", "data_item2");
-                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + totalxml + xmlstr + xmlstr2 + "</root>";
+                xmlstr3 = DataTableToXml.ConvertDatatableToXML(dt3, "dataList3", "data_item3");
+                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + totalxml + xmlstr + xmlstr2 + xmlstr3 + "</root>";
                 xDoc.LoadXml(xmlstr);
             }
             else
