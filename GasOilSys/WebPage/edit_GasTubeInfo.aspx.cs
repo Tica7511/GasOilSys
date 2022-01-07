@@ -18,7 +18,7 @@ public partial class WebPage_edit_GasTubeInfo : System.Web.UI.Page
             if (LogInfo.competence != "02")
             {
                 if (string.IsNullOrEmpty(Request["cp"]))
-                    Response.Write("<script>alert('參數錯誤!'); location='OilCompanyList.aspx';</script>");
+                    Response.Write("<script>alert('參數錯誤!'); location='GasCompanyList.aspx';</script>");
             }
 
             // 登入者姓名

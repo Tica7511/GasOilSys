@@ -68,6 +68,8 @@ public class GasCIPS_DB
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append(@"select * from 天然氣_緊密電位檢測CIPS where 資料狀態='A' and 業者guid=@業者guid ");
+		if (!string.IsNullOrEmpty(年度))
+			sb.Append(@" and 年度=@年度");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
@@ -75,8 +77,202 @@ public class GasCIPS_DB
 		DataTable ds = new DataTable();
 
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
 
 		oda.Fill(ds);
 		return ds;
 	}
+
+    public DataTable GetYearList()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"  
+declare @yearCount int
+
+select DISTINCT 年度 into #tmp from 天然氣_緊密電位檢測CIPS
+where 業者guid=@業者guid and 資料狀態='A' 
+
+select @yearCount=COUNT(*) from #tmp where 年度=@年度 
+
+if(@yearCount > 0)
+	begin
+		select * from #tmp order by 年度 asc
+	end
+else
+	begin
+		insert into #tmp(年度)
+		values(@年度)
+
+		select * from #tmp order by 年度 asc
+	end ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 天然氣_緊密電位檢測CIPS where guid=@guid and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void InsertData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 天然氣_緊密電位檢測CIPS(  
+年度,
+業者guid,
+長途管線識別碼,
+同時檢測管線數量,
+最近一次執行年月,
+報告產出年月,
+檢測長度,
+合格標準請參照填表說明2,
+立即改善_數量,
+立即改善_改善完成數量,
+排程改善_數量,
+排程改善_改善完成數量,
+需監控點_數量,
+備註,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@年度,
+@業者guid,
+@長途管線識別碼,
+@同時檢測管線數量,
+@最近一次執行年月,
+@報告產出年月,
+@檢測長度,
+@合格標準請參照填表說明2,
+@立即改善_數量,
+@立即改善_改善完成數量,
+@排程改善_數量,
+@排程改善_改善完成數量,
+@需監控點_數量,
+@備註,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態  
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@同時檢測管線數量", 同時檢測管線數量);
+        oCmd.Parameters.AddWithValue("@最近一次執行年月", 最近一次執行年月);
+        oCmd.Parameters.AddWithValue("@報告產出年月", 報告產出年月);
+        oCmd.Parameters.AddWithValue("@檢測長度", 檢測長度);
+        oCmd.Parameters.AddWithValue("@合格標準請參照填表說明2", 合格標準請參照填表說明2);
+        oCmd.Parameters.AddWithValue("@立即改善_數量", 立即改善_數量);
+        oCmd.Parameters.AddWithValue("@立即改善_改善完成數量", 立即改善_改善完成數量);
+        oCmd.Parameters.AddWithValue("@排程改善_數量", 排程改善_數量);
+        oCmd.Parameters.AddWithValue("@排程改善_改善完成數量", 排程改善_改善完成數量);
+        oCmd.Parameters.AddWithValue("@需監控點_數量", 需監控點_數量);
+        oCmd.Parameters.AddWithValue("@備註", 備註);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"update 天然氣_緊密電位檢測CIPS set  
+長途管線識別碼=@長途管線識別碼,
+同時檢測管線數量=@同時檢測管線數量,
+最近一次執行年月=@最近一次執行年月,
+報告產出年月=@報告產出年月,
+檢測長度=@檢測長度,
+合格標準請參照填表說明2=@合格標準請參照填表說明2,
+立即改善_數量=@立即改善_數量,
+立即改善_改善完成數量=@立即改善_改善完成數量,
+排程改善_數量=@排程改善_數量,
+排程改善_改善完成數量=@排程改善_改善完成數量,
+需監控點_數量=@需監控點_數量,
+備註=@備註,
+修改者=@修改者, 
+修改日期=@修改日期 
+where guid=@guid and 資料狀態=@資料狀態 
+ ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@同時檢測管線數量", 同時檢測管線數量);
+        oCmd.Parameters.AddWithValue("@最近一次執行年月", 最近一次執行年月);
+        oCmd.Parameters.AddWithValue("@報告產出年月", 報告產出年月);
+        oCmd.Parameters.AddWithValue("@檢測長度", 檢測長度);
+        oCmd.Parameters.AddWithValue("@合格標準請參照填表說明2", 合格標準請參照填表說明2);
+        oCmd.Parameters.AddWithValue("@立即改善_數量", 立即改善_數量);
+        oCmd.Parameters.AddWithValue("@立即改善_改善完成數量", 立即改善_改善完成數量);
+        oCmd.Parameters.AddWithValue("@排程改善_數量", 排程改善_數量);
+        oCmd.Parameters.AddWithValue("@排程改善_改善完成數量", 排程改善_改善完成數量);
+        oCmd.Parameters.AddWithValue("@需監控點_數量", 需監控點_數量);
+        oCmd.Parameters.AddWithValue("@備註", 備註);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void DeleteData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 天然氣_緊密電位檢測CIPS set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }

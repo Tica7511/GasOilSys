@@ -15,6 +15,22 @@
     <meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
     <title>石油業輸儲設備查核及檢測資訊系統</title>
     <!--#include file="Head_Include.html"-->
+    <style>
+        td:first-child, th:first-child {
+         position:sticky;
+         left:0; /* 首行永遠固定於左 */
+         z-index:1;
+        }
+        
+        thead tr th {
+         position:sticky;
+         top:0; /* 列首永遠固定於上 */
+        }
+        
+        th:first-child{
+         z-index:2;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             getYearList();

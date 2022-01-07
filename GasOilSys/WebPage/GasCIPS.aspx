@@ -22,16 +22,57 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-			getData();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
+
+            //新增按鈕
+            $(document).on("click", "#newbtn", function () {
+                location.href = "edit_GasCIPS.aspx?cp=" + $.getQueryString("cp");
+            });
+
+            //刪除按鈕
+            $(document).on("click", "a[name='delbtn']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelGasCIPS.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
 		}); // end js
 
-		function getData() {
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasCIPS.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -59,106 +100,218 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("排程改善_改善完成數量").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("需監控點_數量").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
-								tabstr += '</tr>';
+                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_GasCIPS.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="12">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="13">查詢無資料</td></tr>';
 						$("#tablist tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#newbtn").hide();
+                            $("#th_edit").hide();
+                            $("td[name='td_edit']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#newbtn").hide();
+                                $("#th_edit").hide();
+                                $("td[name='td_edit']").hide();
+                            }
+                            else {
+                                $("#newbtn").show();
+                                $("#th_edit").show();
+                                $("td[name='td_edit']").show();
+                            }
+                        }
 					}
 				}
 			});
 		}
-	</script>
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasCIPS.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //年月日格式=> yyyy/mm/dd
+        function getDate(fulldate) {
+
+            if (fulldate != '') {
+                var twdate = '';
+
+                var farray = new Array();
+                farray = fulldate.split("/");
+
+                if (farray.length > 1) {
+                    twdate = farray[0] + farray[1] + farray[2];
+                }
+                else {
+                    twdate = fulldate;
+                }
+
+                if (twdate.length > 6) {
+                    twdate = twdate.substring(0, 3) + "/" + twdate.substring(3, 5) + "/" + twdate.substring(5, 7);
+                }
+                else {
+                    twdate = twdate.substring(0, 2) + "/" + twdate.substring(2, 4) + "/" + twdate.substring(4, 6);
+                }
+
+                return twdate;
+            }
+            else {
+                return '';
+            }
+
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+    </script>
 </head>
 <body class="bgG">
-	<!-- 開頭用div:修正mmenu form bug -->
-	<div>
-		<form>
-			<!-- Preloader -->
-			<div id="preloader">
-				<div id="status">
-					<div id="CSS3loading">
-						<!-- css3 loading -->
-						<div class="sk-three-bounce">
-							<div class="sk-child sk-bounce1"></div>
-							<div class="sk-child sk-bounce2"></div>
-							<div class="sk-child sk-bounce3"></div>
-						</div>
-						<!-- css3 loading -->
-						<span id="loadingword">資料讀取中，請稍待...</span>
-					</div><!-- CSS3loading -->
-				</div><!-- status -->
-			</div><!-- preloader -->
+<!-- 開頭用div:修正mmenu form bug -->
+<div>
+<form>
+<!-- Preloader -->
+<div id="preloader" >
+	<div id="status" >
+<div id="CSS3loading">
+<!-- css3 loading -->
+<div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+</div> 
+<!-- css3 loading -->
+<span id="loadingword">資料讀取中，請稍待...</span> 
+</div><!-- CSS3loading -->  
+    </div><!-- status -->
+</div><!-- preloader -->
 
-			<div class="container BoxBgWa BoxShadowD">
-				<div class="WrapperBody" id="WrapperBody">
-					<!--#include file="GasHeader.html"-->
-					<div id="ContentWrapper">
-						<div class="container margin15T">
-							<div class="padding10ALL">
-								<div class="filetitlewrapper"><!--#include file="GasBreadTitle.html"--></div>
+<div class="container BoxBgWa BoxShadowD">
+<div class="WrapperBody" id="WrapperBody">
+		<!--#include file="GasHeader.html"-->
+        <input type="hidden" id="Competence" value="<%= competence %>" />
+        <div id="ContentWrapper">
+            <div class="container margin15T">
+                <div class="padding10ALL">
+                    <div class="filetitlewrapper"><!--#include file="GasBreadTitle.html"--></div>
 
-								<div class="row margin20T">
-									<div class="col-lg-3 col-md-4 col-sm-5">
-										<div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
-									</div>
-									<div class="col-lg-9 col-md-8 col-sm-7">
-										<div class="stripeMeG tbover">
-											<table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
-												<thead>
-													<tr>
-														<th rowspan="2">長途管線<br />識別碼</th>
-														<th rowspan="2">同時檢測管線數量</th>
-														<th rowspan="2">最近一次執行<br />年/月</th>
-														<th rowspan="2">報告產出<br />年/月</th>
-														<th rowspan="2">檢測長度<br />(公里)</th>
-														<th rowspan="2">合格標準<br />請參照<br />填表說明(2)</th>
-														<th colspan="2">立即改善</th>
-														<th colspan="2">排程改善</th>
-														<th>需監控點</th>
-														<th rowspan="2">備註</th>
-													</tr>
-													<tr>
-														<th>數量</th>
-														<th>改善完成數量</th>
-														<th>數量</th>
-														<th>改善完成數量</th>
-														<th>數量</th>
-													</tr>
-												</thead>
-												<tbody></tbody>
-											</table>
-										</div><!-- stripeMe -->
-										<div class="margin5TB font-size2">
-											(1) 合格標準：請依據該管線檢測報告判定結果時，所引用之標準，請填入相對應之數字， 1. 通電電位< -850mVCSE  2.極化電位< -850mVCSE  3.極化量>100mV  4.其他<br>
-											(2) 訊號異常點_數量：依據公司之檢測合格標準，所判定訊號異常的點數。<br>
-											(3) 訊號異常點_確認數量：排除箱涵、水泥遮蔽等訊號所剩數量。<br>
-											(4) 訊號異常點_改善完成數量：確定已改善完成的數量。<br>
-                                            (5) 備註：若檢測時之管線數量2條以上(含)，請以同一代號註明同一管束，如：以A、B…區別。
-										</div>
-									</div><!-- col -->
-								</div><!-- row -->
+                    <div class="row margin20T">
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
+                                <div class="right">
+                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
+                            <div class="stripeMeG tbover">
+								<table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+                                        <th rowspan="2">長途管線<br />識別碼</th>
+										<th rowspan="2">同時檢測管線數量</th>
+										<th rowspan="2">最近一次執行<br />年/月</th>
+										<th rowspan="2">報告產出<br />年/月</th>
+										<th rowspan="2">檢測長度<br />(公里)</th>
+										<th rowspan="2">合格標準<br />請參照<br />填表說明(2)</th>
+										<th colspan="2">立即改善</th>
+										<th colspan="2">排程改善</th>
+										<th>需監控點</th>
+										<th rowspan="2">備註</th>
+										<th id="th_edit" rowspan="2">功能 </th>
+                                    </tr>
+                                    <tr>
+                                        <th>數量</th>
+										<th>改善完成數量</th>
+										<th>數量</th>
+										<th>改善完成數量</th>
+										<th>數量</th>
+                                    </tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+                            </div><!-- stripeMe -->
+                            <div class="margin5TB font-size2">
+                                (1) 合格標準：請依據該管線檢測報告判定結果時，所引用之標準，請填入相對應之數字， 1. 通電電位< -850mVCSE  2.極化電位< -850mVCSE  3.極化量>100mV  4.其他<br>
+								(2) 訊號異常點_數量：依據公司之檢測合格標準，所判定訊號異常的點數。<br>
+								(3) 訊號異常點_確認數量：排除箱涵、水泥遮蔽等訊號所剩數量。<br>
+								(4) 訊號異常點_改善完成數量：確定已改善完成的數量。<br>
+                                (5) 備註：若檢測時之管線數量2條以上(含)，請以同一代號註明同一管束，如：以A、B…區別。
+                            </div>
+                        </div><!-- col -->
+                    </div><!-- row -->
 
-							</div>
-						</div><!-- container -->
-					</div><!-- ContentWrapper -->
 
-					<div class="container-fluid">
-						<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
-					</div>
-				</div><!-- WrapperBody -->
+                </div>
+            </div><!-- container -->
+        </div><!-- ContentWrapper -->
 
-				<!--#include file="Footer.html"-->
 
-			</div><!-- BoxBgWa -->
-			<!-- 側邊選單內容:動態複製主選單內容 -->
-			<div id="sidebar-wrapper"></div><!-- sidebar-wrapper -->
-		</form>
+
+	<div class="container-fluid">
+		<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
 	</div>
-	<!-- 結尾用div:修正mmenu form bug -->
+</div><!-- WrapperBody -->
+	
+		<!--#include file="Footer.html"-->
 
-	<!-- 本頁面使用的JS -->
+</div><!-- BoxBgWa -->
+<!-- 側邊選單內容:動態複製主選單內容 -->
+<div id="sidebar-wrapper"></div><!-- sidebar-wrapper -->
+
+</form>
+</div>
+<!-- 結尾用div:修正mmenu form bug -->
+<!-- 本頁面使用的JS -->
 	<script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
 	<script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
 	<script type="text/javascript" src="../js/MenuGas.js"></script><!-- 系統共用 JS -->
