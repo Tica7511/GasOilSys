@@ -18,16 +18,57 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 		    $(".container").css("max-width","1800px");
-			getData();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
+
+            //新增按鈕
+            $(document).on("click", "#newbtn", function () {
+                location.href = "edit_GasRiskAssessment.aspx?cp=" + $.getQueryString("cp");
+            });
+
+            //刪除按鈕
+            $(document).on("click", "a[name='delbtn']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelGasRiskAssessment.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
 		}); // end js
 
-		function getData() {
+		function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasRiskAssessment.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -56,17 +97,115 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("各等級風險管段數量_低").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("降低中高風險管段之相關作為文件名稱").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("改善後風險等級高中低").text().trim() + '</td>';
-								tabstr += '</tr>';
+                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_GasRiskAssessment.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="13">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="14">查詢無資料</td></tr>';
 						$("#tablist tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#newbtn").hide();
+                            $("#th_edit").hide();
+                            $("td[name='td_edit']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#newbtn").hide();
+                                $("#th_edit").hide();
+                                $("td[name='td_edit']").hide();
+                            }
+                            else {
+                                $("#newbtn").show();
+                                $("#th_edit").show();
+                                $("td[name='td_edit']").show();
+                            }
+                        }
 					}
 				}
 			});
-		}
-	</script>
+        }
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasRiskAssessment.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //年月日格式=> yyyy/mm/dd
+        function getDate(fulldate) {
+
+            if (fulldate != '') {
+                var twdate = '';
+
+                var farray = new Array();
+                farray = fulldate.split("/");
+
+                if (farray.length > 1) {
+                    twdate = farray[0] + farray[1] + farray[2];
+                }
+                else {
+                    twdate = fulldate;
+                }
+
+                if (twdate.length > 6) {
+                    twdate = twdate.substring(0, 3) + "/" + twdate.substring(3, 5) + "/" + twdate.substring(5, 7);
+                }
+                else {
+                    twdate = twdate.substring(0, 2) + "/" + twdate.substring(2, 4) + "/" + twdate.substring(4, 6);
+                }
+
+                return twdate;
+            }
+            else {
+                return '';
+            }
+
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+    </script>
 </head>
 <body class="bgG">
 <!-- 開頭用div:修正mmenu form bug -->
@@ -91,7 +230,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
 		<!--#include file="GasHeader.html"-->
-
+        <input type="hidden" id="Competence" value="<%= competence %>" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -102,7 +241,15 @@
                             <div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
-
+                            <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
+                                <div class="right">
+                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
                             <div class="stripeMeG tbover">
                                 <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
 									<thead>
@@ -118,6 +265,7 @@
 											<th width="85" colspan="3">各等級風險 <br>管段數量 </th>
 											<th  rowspan="2">降低中高風險管段之相關作為文件名稱 </th>
 											<th  rowspan="2">改善後 <br>風險等級 <br>高、中、低 </th>
+                                            <th  rowspan="2" id="th_edit">功能</th>
 										</tr>
 										<tr>
 											<th >高 </th>

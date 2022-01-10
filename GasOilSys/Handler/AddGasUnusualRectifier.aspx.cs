@@ -10,9 +10,9 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class Handler_AddOilUnusualRectifier : System.Web.UI.Page
+public partial class Handler_AddGasUnusualRectifier : System.Web.UI.Page
 {
-    OilUnusualRectifier_DB odb = new OilUnusualRectifier_DB();
+    GasUnusualRectifier_DB gdb = new GasUnusualRectifier_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -62,29 +62,29 @@ public partial class Handler_AddOilUnusualRectifier : System.Web.UI.Page
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
-            odb._業者guid = cp;
-            odb._年度 = Server.UrlDecode(year);
-            odb._異常整流站名稱 = Server.UrlDecode(txt1);
-            odb._異常起始日期年月 = Server.UrlDecode(txt2_1) + "/" + Server.UrlDecode(txt2_2);
-            odb._異常狀況 = Server.UrlDecode(txt3);
-            odb._整流站修復進度 = Server.UrlDecode(txt4);
-            odb._影響長途管線識別碼 = Server.UrlDecode(txt5);
-            odb._預計完成日期 = Server.UrlDecode(txt6);
-            odb._備註 = Server.UrlDecode(txt7);
-            odb._修改者 = LogInfo.mGuid;
-            odb._修改日期 = DateTime.Now;
+            gdb._業者guid = cp;
+            gdb._年度 = Server.UrlDecode(year);
+            gdb._異常整流站名稱 = Server.UrlDecode(txt1);
+            gdb._異常起始日期年月 = Server.UrlDecode(txt2_1) + "/" + Server.UrlDecode(txt2_2);
+            gdb._異常狀況 = Server.UrlDecode(txt3);
+            gdb._整流站修復進度 = Server.UrlDecode(txt4);
+            gdb._影響長途管線識別碼 = Server.UrlDecode(txt5);
+            gdb._預計完成日期 = Server.UrlDecode(txt6);
+            gdb._備註 = Server.UrlDecode(txt7);
+            gdb._修改者 = LogInfo.mGuid;
+            gdb._修改日期 = DateTime.Now;
 
             if (Server.UrlDecode(mode) == "new")
             {
-                odb._建立者 = LogInfo.mGuid;
-                odb._建立日期 = DateTime.Now;
+                gdb._建立者 = LogInfo.mGuid;
+                gdb._建立日期 = DateTime.Now;
 
-                odb.InsertData(oConn, myTrans);
+                gdb.InsertData(oConn, myTrans);
             }
             else
             {
-                odb._guid = guid;
-                odb.UpdateData(oConn, myTrans);
+                gdb._guid = guid;
+                gdb.UpdateData(oConn, myTrans);
             }
 
             myTrans.Commit();

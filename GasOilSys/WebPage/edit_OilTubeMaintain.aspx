@@ -309,7 +309,7 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">前一年度管線變更性質</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100"></div>
+                                        <div class="OchiCell width100"><select id="txt2" class="inputex width100"></select></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">長度</div>

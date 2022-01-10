@@ -16,7 +16,7 @@ public partial class Handler_AddOilTubeMaintain : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
-        ///功    能: 新增/修改 緊密電位檢測
+        ///功    能: 新增/修改 管線維修或開挖
         ///說    明:
         /// * Request["cp"]: 業者guid
         /// * Request["guid"]: guid

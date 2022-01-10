@@ -88,7 +88,7 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("異常狀況").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("整流站修復進度").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("影響長途管線識別碼").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + $(this).children("預計完成日期").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + getDate($(this).children("預計完成日期").text().trim()) + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilUnusualRectifier.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';

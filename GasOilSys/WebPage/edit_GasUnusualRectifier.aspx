@@ -1,21 +1,21 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilUnusualRectifier.aspx.cs" Inherits="WebPage_edit_OilUnusualRectifier" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_GasUnusualRectifier.aspx.cs" Inherits="WebPage_edit_GasUnusualRectifier" %>
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="關鍵字內容" />
-    <meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
-    <meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
-    <meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
-    <meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
-    <meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
-    <title>石油業輸儲設備查核及檢測資訊系統</title>
-    <!--#include file="Head_Include.html"-->
-    <script type="text/javascript">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="關鍵字內容" />
+	<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+	<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+	<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+	<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+	<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+    <title>天然氣事業輸儲設備查核及檢測資訊系統</title>
+	<!--#include file="Head_Include.html"-->
+	<script type="text/javascript">
         $(document).ready(function () {
             getDDL();
             getData();
@@ -25,7 +25,7 @@
                 var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
 
                 if (str)
-                    location.href = "OilUnusualRectifier.aspx?cp=" + $.getQueryString("cp");
+                    location.href = "GasUnusualRectifier.aspx?cp=" + $.getQueryString("cp");
             });
 
             //儲存按鍵
@@ -75,7 +75,7 @@
                 $.ajax({
                     type: "POST",
                     async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/AddOilUnusualRectifier.aspx",
+                    url: "../handler/AddGasUnusualRectifier.aspx",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -91,7 +91,7 @@
                         else {
                             alert($("Response", data).text());
 
-                            location.href = "OilUnusualRectifier.aspx?cp=" + $.getQueryString("cp");
+                            location.href = "GasUnusualRectifier.aspx?cp=" + $.getQueryString("cp");
                         }
                     }
                 });
@@ -104,27 +104,27 @@
                 buttonImage: '../images/calendar.gif',
                 yearRange: 'c-6:c+6'
             }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
-		}); // end js
+        }); // end js
 
-		function getData() {
-			$.ajax({
-				type: "POST",
-				async: false, //在沒有返回值之前,不會執行下一步動作
-                url: "../Handler/GetOilUnusualRectifier.aspx",
-				data: {
+        function getData() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasUnusualRectifier.aspx",
+                data: {
                     guid: $.getQueryString("guid"),
-                    type: "data"
-				},
-				error: function (xhr) {
-					alert("Error: " + xhr.status);
-					console.log(xhr.responseText);
-				},
-				success: function (data) {
-					if ($(data).find("Error").length > 0) {
-						alert($(data).find("Error").attr("Message"));
-					}
-					else {
-						if ($(data).find("data_item").length > 0) {
+                    type: "data",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
                                 $("#txt1").val($(this).children("異常整流站名稱").text().trim());
                                 $("#txt2_1").val(splitYearMonth(0, $(this).children("異常起始日期年月").text().trim()));
@@ -134,11 +134,11 @@
                                 $("#txt5").val($(this).children("影響長途管線識別碼").text().trim());
                                 $("#txt6").val(getDate($(this).children("預計完成日期").text().trim()));
                                 $("#txt7").val($(this).children("備註").text().trim());
-							});
-						}
-					}
-				}
-			});
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         function getDDL() {
@@ -217,32 +217,12 @@
 
             return nowTwYear;
         }
-
-        //function getTaiwanDate() {
-        //    var nowDate = new Date();
-
-        //    var nowYear = nowDate.getFullYear();
-        //    var nowTwYear = (nowYear - 1911);
-
-        //    var ddlstr = '<option value="">請選擇</option>';
-
-        //    for (var i = 10; i >= 0; i--) {
-        //        ddlstr += '<option value="' + (nowTwYear - i).toString() + '">' + (nowTwYear - i).toString() + '</option>';
-        //    }
-
-        //    for (var j = 1; j <= 10; j++) {
-        //        ddlstr += '<option value="' + (nowTwYear + j).toString() + '">' + (nowTwYear + j).toString() + '</option>';
-        //    }
-
-        //    $("#sellist").empty();
-        //    $("#sellist").append(ddlstr);
-        //}
     </script>
 </head>
-<body class="bgB">
+<body class="bgG">
 <!-- 開頭用div:修正mmenu form bug -->
 <div>
-<form>
+<form id="form1">
 <!-- Preloader -->
 <div id="preloader" >
 	<div id="status" >
@@ -258,19 +238,21 @@
 </div><!-- CSS3loading -->  
     </div><!-- status -->
 </div><!-- preloader -->
+
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
-        <!--#include file="OilHeader.html"-->
+		<!--#include file="GasHeader.html"-->
+        <input type="hidden" id="Sno" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
-                    <div class="filetitlewrapper"><!--#include file="OilBreadTitle.html"--></div>
+                    <div class="filetitlewrapper"><!--#include file="GasBreadTitle.html"--></div>
 
                     <div class="row margin20T">
                         <div class="col-lg-3 col-md-4 col-sm-5">
-                            <div id="navmenuV"><!--#include file="OilLeftMenu.html"--></div>
+                            <div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
                         </div>
-                        <div class="col-lg-9 col-md-8 col-sm-7">
+						<div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
                                 <div class="right">
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" >取消</a>
@@ -340,18 +322,16 @@
 
 
 
-<div class="container-fluid">
-<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
-</div>        
+	<div class="container-fluid">
+		<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+	</div>
 </div><!-- WrapperBody -->
-
-        <!--#include file="Footer.html"-->
+	
+		<!--#include file="Footer.html"-->
 
 </div><!-- BoxBgWa -->
 <!-- 側邊選單內容:動態複製主選單內容 -->
-<div id="sidebar-wrapper">
-   
-</div><!-- sidebar-wrapper -->
+<div id="sidebar-wrapper"></div><!-- sidebar-wrapper -->
 
 </form>
 </div>
@@ -389,20 +369,38 @@
     </div>
 </div>
 
+<div style="display:none;">
+    <div id="datesetting">
+        <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength04 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">開始日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">結束日期</div>
+                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width100"></div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+        <div class="twocol margin10T">
+            <div class="right">
+                <a href="#" class="genbtn closecolorbox">取消</a>
+                <a href="#" class="genbtn">儲存</a>
+            </div>
+        </div>
+        <br /><br />
+    </div>
+</div>
 <!-- 本頁面使用的JS -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-        
-        });
-    </script>
-    <script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
-    <script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
-    <script type="text/javascript" src="../js/MenuOil.js"></script><!-- 系統共用 JS -->
-    <script type="text/javascript" src="../js/SubMenuOilA.js"></script><!-- 內頁選單 -->
-    <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+	<script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
+	<script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
+	<script type="text/javascript" src="../js/MenuGas.js"></script><!-- 系統共用 JS -->
+	<script type="text/javascript" src="../js/SubMenuGasA.js"></script><!-- 內頁選單 -->
+	<script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
-
 
 
 
