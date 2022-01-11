@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_GasTubeComplete2.aspx.cs" Inherits="WebPage_edit_GasTubeComplete2" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_GasTubeComplete_Other.aspx.cs" Inherits="WebPage_edit_GasTubeComplete2" %>
 
 <!DOCTYPE html>
 

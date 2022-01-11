@@ -106,7 +106,7 @@
         var pathAry = window.location.pathname.split('/');
         var pathName = pathAry[(pathAry.length - 1)];
         var pathNameAry = pathName.split('_');
-        var pathParentName = pathParentName = pathNameAry[(pathNameAry.length - 1)];
+        var pathParentName = pathNameAry[(pathNameAry.length - 1)];
         $("#navmenuV a[link='" + pathParentName + "']").parent().addClass("active");
         $("#navmenuV a[link='" + pathParentName + "']").parent().parent().parent().addClass("open");
 		$('.nav').navgoco();

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class WebPage_GasTubeCheck : System.Web.UI.Page
+public partial class WebPage_edit_GasTubeCheck_Unususal : System.Web.UI.Page
 {
     public string username;
     public string competence;

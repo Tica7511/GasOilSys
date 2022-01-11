@@ -62,7 +62,7 @@
 
             //新增按鈕(幹線及環線管線以外)
             $(document).on("click", "#newbtn2", function () {
-                location.href = "edit_GasTubeComplete2.aspx?cp=" + $.getQueryString("cp");
+                location.href = "edit_GasTubeComplete_Other.aspx?cp=" + $.getQueryString("cp");
             });
 
             //刪除按鈕(幹線及環線管線)
@@ -242,7 +242,7 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("洩漏偵測系統LLDS").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("強化作為").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit2" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
-                                tabstr += ' <a href="edit_GasTubeComplete2.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                tabstr += ' <a href="edit_GasTubeComplete_Other.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
