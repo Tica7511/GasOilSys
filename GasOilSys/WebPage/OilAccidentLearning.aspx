@@ -253,12 +253,6 @@
                                     <tbody></tbody>
                                 </table>
                             </div>
-
-                            <div class="margin5TB font-size2">
-                                (1) 過去3年長途管線內部稽核執行紀錄(公司內相關單位)<br>
-                                (2) 稽核範圍：請填稽核廠區範圍。
-
-                            </div>
                         </div><!-- col -->
                     </div><!-- row -->
 
