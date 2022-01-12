@@ -90,10 +90,6 @@
                 $("#filebtn5").show();
             });
 
-            $("a[name='zipbtn']").load(function () {
-                $("#zipText").show();
-            });
-
             $(document).on("click", "input[name='delbtn']", function () {
                 var isDel = confirm("確定刪除檔案嗎?");
                 if (isDel) {
@@ -613,7 +609,7 @@
                                             <div id="fileall" class="right">
                                                 <input type="button" title="管線管理檔案上傳" id="filebtn" name="filebtn" value="上傳檔案" class="genbtn" />
                                                 <div id="filediv">
-                                                    <span id="zipText" class="font-size4 font-bold" style="color: red">*檔案壓縮中，請稍後... </span>
+                                                    <%--<span id="zipText" class="font-size4 font-bold" style="color: red">*檔案壓縮中，請稍後... </span>--%>
                                                     <span id="alertText" class="font-size4 font-bold" style="color: red">*檔案上傳中，請稍後... </span>
                                                     <input type="file" id="fileUpload" name="fileUpload" />
                                                     <input type="button" id="savebtn" value="上傳" class="genbtn" />
