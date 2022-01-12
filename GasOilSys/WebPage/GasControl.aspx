@@ -17,16 +17,167 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-			getData();
-		}); // end js
+            $(".pickDate").datepick({
+                dateFormat: 'yymmdd',
+                showOn: 'button',
+                buttonImageOnly: true,
+                buttonImage: '../images/calendar.gif',
+                yearRange: 'c-6:c+6'
+            }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
 
-		function getData() {
+            $(".datepick-trigger").hide();
+
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
+
+            //新增按鈕
+            $(document).on("click", "#newbtn", function () {
+                location.href = "edit_GasControl.aspx?cp=" + $.getQueryString("cp");
+            });
+
+            //編輯按鈕
+            $(document).on("click", "#editbtn", function () {
+                $("#mode").val("edit");
+                $("#editbtn").hide();
+                $("#cancelbtn").show();
+                $("#subbtn").show();
+                $("#sellist").attr("disabled", true);
+                $(".datepick-trigger").show();
+                setDisplayed(false);
+            });
+
+            //返回按鈕
+            $(document).on("click", "#cancelbtn", function () {
+                var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
+
+                if (str) {
+                    location.href = "GasControl.aspx?cp=" + $.getQueryString("cp");
+                }
+            });
+
+            //儲存按鍵
+            $(document).on("click", "#subbtn", function () {
+                var msg = '';
+
+                if ($("#pressureHz").val() == '')
+                    msg += "請輸入【壓力計校正頻率】\n";
+                if ($("#pressureRecentTime").val() == '')
+                    msg += "請輸入【最近一次校正時間】\n";
+                if ($("#flowHz").val() == '')
+                    msg += "請輸入【流量計校正頻率】\n";
+                if ($("#flowRecentTime").val() == '')
+                    msg += "請輸入【最近一次校正時間】\n";
+                if ($("#monitorTime").val() == '')
+                    msg += "請輸入【為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期】\n";
+                if ($("#TotalOperator").val() == '')
+                    msg += "請輸入【合格操作人員總數】\n";
+                if (!$("input[name='rbShift']").is(":checked"))
+                    msg += "請輸入【輪班制度】\n";
+                if ($("#classPerson").val() == '')
+                    msg += "請輸入【每班人數】\n";
+                if (!$("input[name='rbClassTime']").is(":checked"))
+                    msg += "請輸入【每班時數】\n";
+
+                if (msg != "") {
+                    alert("Error message: \n" + msg);
+                    return false;
+                }
+
+                // Get form
+                var form = $('#form1')[0];
+
+                // Create an FormData object 
+                var data = new FormData(form);
+
+                // If you want to add an extra field for the FormData
+                data.append("cp", $.getQueryString("cp"));
+                data.append("year", encodeURIComponent(getTaiwanDate()));
+                data.append("pressureHz", encodeURIComponent($("#pressureHz").val()));
+                data.append("pressureRecentTime", encodeURIComponent($("#pressureRecentTime").val()));
+                data.append("flowHz", encodeURIComponent($("#flowHz").val()));
+                data.append("flowRecentTime", encodeURIComponent($("#flowRecentTime").val()));
+                data.append("monitorTime", encodeURIComponent($("#monitorTime").val()));
+                data.append("TotalOperator", encodeURIComponent($("#TotalOperator").val()));
+                data.append("classPerson", encodeURIComponent($("#classPerson").val()));
+
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "../handler/AddGasControl.aspx",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    error: function (xhr) {
+                        alert("Error: " + xhr.status);
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            alert($("Response", data).text());
+
+                            location.href = "GasControl.aspx?cp=" + $.getQueryString("cp");
+                        }
+                    }
+                });
+            });
+
+            //刪除按鈕
+            $(document).on("click", "a[name='delbtn']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelGasControl.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
+        }); // end js
+
+        function setDisplayed(status) {
+            $("#pressureHz").attr("disabled", status);
+            $("#flowHz").attr("disabled", status);
+            $("#monitorTime").attr("disabled", status);
+            $("#TotalOperator").attr("disabled", status);
+            $("input[name='rbShift']").attr("disabled", status);
+            $("#classPerson").attr("disabled", status);
+            $("input[name='rbClassTime']").attr("disabled", status);
+        }
+
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasControl.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -50,6 +201,17 @@
 								$("input[name='rbClassTime'][value='" + $(this).children("每班時數").text().trim() + "']").prop("checked", true);
 							});
                         }
+                        else {
+                            $("#pressureHz").val('');
+                            $("#pressureRecentTime").val('');
+                            $("#flowHz").val('');
+                            $("#flowRecentTime").val('');
+                            $("#monitorTime").val('');
+                            $("#TotalOperator").val('');
+                            $("input[name='rbShift']").prop("checked", false);
+                            $("#classPerson").val('');
+                            $("input[name='rbClassTime']").prop("checked", false);
+                        }
 
                         $("#tablist tbody").empty();
 						var tabstr = '';
@@ -58,23 +220,124 @@
 								tabstr += '<tr>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("依據文件名稱").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("文件編號").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("文件日期").text().trim() + '</td>';
-								tabstr += '</tr>';
+								tabstr += '<td nowrap="nowrap">' + getDate($(this).children("文件日期").text().trim()) + '</td>';
+                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_GasControl.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="3">查詢無資料</td></tr>';
-						$("#tablist tbody").append(tabstr);
+							tabstr += '<tr><td colspan="4">查詢無資料</td></tr>';
+                        $("#tablist tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#editbtn").hide();
+                            $("#newbtn").hide();
+                            $("#th_edit").hide();
+                            $("td[name='td_edit']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#newbtn").hide();
+                                $("#editbtn").hide();
+                                $("#th_edit").hide();
+                                $("td[name='td_edit']").hide();
+                            }
+                            else {
+                                $("#newbtn").show();
+                                $("#editbtn").show();
+                                $("#th_edit").show();
+                                $("td[name='td_edit']").show();
+                            }
+                        }
 					}
 				}
 			});
-		}
-	</script>
+        }
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasControl.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item3").length > 0) {
+                            $(data).find("data_item3").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //年月日格式=> yyyy/mm/dd
+        function getDate(fulldate) {
+
+            if (fulldate != '') {
+                var twdate = '';
+
+                var farray = new Array();
+                farray = fulldate.split("/");
+
+                if (farray.length > 1) {
+                    twdate = farray[0] + farray[1] + farray[2];
+                }
+                else {
+                    twdate = fulldate;
+                }
+
+                if (twdate.length > 6) {
+                    twdate = twdate.substring(0, 3) + "/" + twdate.substring(3, 5) + "/" + twdate.substring(5, 7);
+                }
+                else {
+                    twdate = twdate.substring(0, 2) + "/" + twdate.substring(2, 4) + "/" + twdate.substring(4, 6);
+                }
+
+                return twdate;
+            }
+            else {
+                return '';
+            }
+
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+    </script>
 </head>
 <body class="bgG">
 <!-- 開頭用div:修正mmenu form bug -->
 <div>
-<form>
+<form id="form1">
 <!-- Preloader -->
 <div id="preloader" >
 	<div id="status" >
@@ -94,7 +357,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
 		<!--#include file="GasHeader.html"-->
-
+        <input type="hidden" id="Competence" value="<%= competence %>" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -105,27 +368,38 @@
                             <div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
+                                <div class="right">
+                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                    <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
+                                    <a id="subbtn" href="javascript:void(0);" title="儲存" class="genbtn" style="display:none">儲存</a>
+                                </div>
+                            </div><br />
                             <div class="OchiTrasTable width100 TitleLength09 font-size3">
 
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正頻率</div>
-                                        <div class="OchiCell width100"><input type="text" id="pressureHz" class="inputex width80" disabled> 次/年</div>
+                                        <div class="OchiCell width100"><input type="number" min="1" id="pressureHz" class="inputex width80" disabled> 次/年</div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
-                                        <div class="OchiCell width100"><input type="text" id="pressureRecentTime" class="inputex width100" disabled></div>
+                                        <div class="OchiCell width100"><input type="text" id="pressureRecentTime" class="inputex width40 pickDate" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
 
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計校正頻率</div>
-                                        <div class="OchiCell width100"><input type="text" id="flowHz" class="inputex width80" disabled> 次/年</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="flowHz" class="inputex width80" disabled> 次/年</div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
-                                        <div class="OchiCell width100"><input type="text" id="flowRecentTime" class="inputex width100" disabled></div>
+                                        <div class="OchiCell width100"><input type="text" id="flowRecentTime" class="inputex width40 pickDate" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
 
@@ -136,7 +410,7 @@
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">合格操作人員總數</div>
-                                        <div class="OchiCell width100"><input type="text" id="TotalOperator" class="inputex width80" disabled> 人</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="TotalOperator" class="inputex width80" disabled> 人</div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
 
@@ -147,7 +421,7 @@
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">每班人數</div>
-                                        <div class="OchiCell width100"><input type="text" id="classPerson" class="inputex width80" disabled> 人</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="classPerson" class="inputex width80" disabled> 人</div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
 
@@ -156,8 +430,14 @@
                                     <div class="OchiCell width100"><input type="radio" name="rbClassTime" value="01" disabled> 8小時  ;  <input type="radio" name="rbClassTime" value="02" disabled >12小時 ; <input type="radio" name="rbClassTime" value="03" disabled>其他</div>
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
+                            </br>
 
-                            <div class="font-size3 margin10T">依據文件資料:</div>
+                            <div class="twocol">
+                                <div class="left font-size4 margin10T font-bold">依據文件資料</div>
+                                <div class="right">
+                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
                             <div class="stripeMeG tbover margin5T">
                                 <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
 									<thead>
@@ -165,6 +445,7 @@
 											<th >依據文件名稱 </th>
 											<th >文件編號 </th>
 											<th >文件日期 </th>
+                                            <th id="th_edit" >功能</th>
 										</tr>
 									</thead>
 									<tbody></tbody>

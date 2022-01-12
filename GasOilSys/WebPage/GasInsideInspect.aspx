@@ -17,65 +17,25 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-			getData();
-            getExtension();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
+            getExtension(getTaiwanDate());
 
-            // 開啟檔案上傳開窗
-            $(document).on("click", "input[name='uploadbtn']", function () {
-                $("#iGuid").val($(this).attr("aid"));
-                doOpenDialog();
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+                getExtension($("#sellist option:selected").val());
             });
 
-            // 儲存檔案
-            $(document).on("click", "#savebtn", function () {
-                var msg = '';
-
-				if ($("#fileUpload").val() == "")
-                    msg += "請先選擇檔案再上傳";
-                if (msg != "") {
-                    alert(msg);
-					return false;
-				}
-
-				// Create an FormData object 
-				var data = new FormData();
-
-				// If you want to add an extra field for the FormData
-                data.append("guid", $("#iGuid").val());
-                data.append("cpid", $.getQueryString("cp"));
-                data.append("category", "gas");
-                data.append("type", "pipeinspect");
-                data.append('fileUpload', $("#fileUpload").get(0).files[0]);
-
-                $.ajax({
-				    type: "POST",
-				    async: false, //在沒有返回值之前,不會執行下一步動作
-				    url: "../Handler/AddDownload.aspx",
-				    data: data,
-					processData: false,
-					contentType: false,
-					cache: false,
-				    error: function (xhr) {
-				    	alert("Error: " + xhr.status);
-				    	console.log(xhr.responseText);
-				    },
-				    success: function (data) {
-				    	if ($(data).find("Error").length > 0) {
-				    		alert($(data).find("Error").attr("Message"));
-				    	}
-                        else {
-                            alert($("Response", data).text());
-                            getData();
-                            getExtension();
-                            parent.$.colorbox.close();
-				    	}
-				    }
-			    });
+            //新增按鈕
+            $(document).on("click", "#newbtn", function () {
+                location.href = "edit_GasInsideInspect.aspx?cp=" + $.getQueryString("cp");
             });
 
             // 刪除檔案
-            $(document).on("click", "input[name='delbtn']", function () {
-                var isDel = confirm("確定刪除檔案嗎?");
+            $(document).on("click", "a[name='delbtn']", function () {
+                var isDel = confirm("確定刪除?");
                 if (isDel) {
                     $.ajax({
                         type: "POST",
@@ -83,6 +43,7 @@
                         url: "../Handler/DelGasInsideInspect.aspx",
                         data: {
                             guid: $(this).attr("aid"),
+                            type: "data",
                         },
                         error: function (xhr) {
                             alert("Error: " + xhr.status);
@@ -94,23 +55,24 @@
                             }
                             else {
                                 alert($("Response", data).text());
-                                getData();
-                                getExtension();                                
+                                getData(getTaiwanDate());
+                                getExtension(getTaiwanDate());
                             }
                         }
                     });
                 }
             });
-
 		}); // end js
 
-		function getData() {
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasInsideInspect.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -128,7 +90,7 @@
                                 var filename = $(this).children("佐證資料檔名").text().trim();
                                 var fileextension = $(this).children("佐證資料副檔名").text().trim();
 								tabstr += '<tr>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("日期").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + getDate($(this).children("日期").text().trim()) + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("執行單位").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("稽核範圍").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("缺失改善執行狀況").text().trim() + '</td>';
@@ -139,50 +101,53 @@
                                 tabstr += '<a name="a_' + $(this).children("guid").text().trim() + '" href="../DOWNLOAD.aspx?category=Gas&type=pipeinspect&v=' + $(this).children("guid").text().trim() +
                                     '" style="display:none" >' + filename + fileextension + '</a>';
                                 tabstr += '</td>';
-                                tabstr += '<td name="uploadtd" align="center" nowrap="nowrap">';
-                                tabstr += '<input type="button" value="上傳檔案" name="uploadbtn" class="genbtn" aid="' + $(this).children("guid").text().trim() + '" />';
-                                tabstr += '</td>';
-                                tabstr += '<td name="deltd" align="center" nowrap="nowrap">';
-                                tabstr += '<input type="button" value="刪除檔案" name="delbtn" class="genbtn" aid="' + $(this).children("guid").text().trim() + '" />';
-                                tabstr += '</td>';
+                                //tabstr += '<td name="uploadtd" align="center" nowrap="nowrap">';
+                                //tabstr += '<input type="button" value="上傳檔案" name="uploadbtn" class="genbtn" aid="' + $(this).children("guid").text().trim() + '" />';
+                                //tabstr += '</td>';
+                                //tabstr += '<td name="deltd" align="center" nowrap="nowrap">';
+                                //tabstr += '<input type="button" value="刪除檔案" name="delbtn" class="genbtn" aid="' + $(this).children("guid").text().trim() + '" />';
+                                //tabstr += '</td>';
+                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_GasInsideInspect.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
 								tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="7">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
-                        switch ($("#Competence").val()) {
-                            case "01":
-                                $("td[name='uploadtd']").hide();
-                                $("td[name='deltd']").hide();
-                                $("#uploadth").hide();
-                                $("#delth").hide();
-                                break;
-                             case "04":
-                                $("td[name='uploadtd']").hide();
-                                $("td[name='deltd']").hide();
-                                $("#uploadth").hide();
-                                $("#delth").hide();
-                                break;
-                            case "05":
-                                $("td[name='uploadtd']").hide();
-                                $("td[name='deltd']").hide();
-                                $("#uploadth").hide();
-                                $("#delth").hide();
-                                break;
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#newbtn").hide();
+                            $("#th_edit").hide();
+                            $("td[name='td_edit']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#newbtn").hide();
+                                $("#th_edit").hide();
+                                $("td[name='td_edit']").hide();
+                            }
+                            else {
+                                $("#newbtn").show();
+                                $("#th_edit").show();
+                                $("td[name='td_edit']").show();
+                            }
                         }
 					}
 				}
 			});
         }
 
-        function getExtension() {
+        function getExtension(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasInsideInspect.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -209,12 +174,89 @@
 			});
         }
 
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasInsideInspect.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //年月日格式=> yyyy/mm/dd
+        function getDate(fulldate) {
+
+            if (fulldate != '') {
+                var twdate = '';
+
+                var farray = new Array();
+                farray = fulldate.split("/");
+
+                if (farray.length > 1) {
+                    twdate = farray[0] + farray[1] + farray[2];
+                }
+                else {
+                    twdate = fulldate;
+                }
+
+                if (twdate.length > 6) {
+                    twdate = twdate.substring(0, 3) + "/" + twdate.substring(3, 5) + "/" + twdate.substring(5, 7);
+                }
+                else {
+                    twdate = twdate.substring(0, 2) + "/" + twdate.substring(2, 4) + "/" + twdate.substring(4, 6);
+                }
+
+                return twdate;
+            }
+            else {
+                return '';
+            }
+
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+
         function doOpenDialog() {
             var WinHeight = $("html").height();
             var ColHeight = WinHeight * 0.8;
             $.colorbox({ inline: true, href: "#uploaddialog", width: "100%", maxWidth: "600", maxHeight: ColHeight, opacity: 0.5 });
         }
-	</script>
+    </script>
 </head>
 <body class="bgG">
 <!-- 開頭用div:修正mmenu form bug -->
@@ -252,7 +294,15 @@
                             <div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
-
+                            <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
+                                <div class="right">
+                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
                             <div class="stripeMeG tbover">
                                 <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
 									<thead>
@@ -263,8 +313,7 @@
                                             <th nowrap valign="top">缺失改善執行狀況 </th>
                                             <th nowrap>佐證資料說明 </th>
                                             <th nowrap>佐證檔案 </th>
-                                            <th id="uploadth" nowrap></th>
-                                            <th id="delth" nowrap></th>
+                                            <th id="th_edit" nowrap>功能</th>
 										</tr>
 									</thead>
 									<tbody></tbody>

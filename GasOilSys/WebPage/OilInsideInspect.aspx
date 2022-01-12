@@ -43,6 +43,7 @@
                         url: "../Handler/DelOilInsideInspect.aspx",
                         data: {
                             guid: $(this).attr("aid"),
+                            type: "data",
                         },
                         error: function (xhr) {
                             alert("Error: " + xhr.status);
