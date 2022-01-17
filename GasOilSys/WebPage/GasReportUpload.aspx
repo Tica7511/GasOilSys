@@ -156,8 +156,17 @@
 					}
 				}
 			});
+		}
+
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
-	</script>
+    </script>
 </head>
 <body class="bgG">
 	<!-- 開頭用div:修正mmenu form bug -->
