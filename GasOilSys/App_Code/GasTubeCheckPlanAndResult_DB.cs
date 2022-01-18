@@ -74,7 +74,7 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A' ");
 		return ds;
 	}
 
-	public DataSet GetList2(string pStart, string pEnd)
+	public DataSet GetList2()
 	{
 		SqlCommand oCmd = new SqlCommand();
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
@@ -90,7 +90,7 @@ select count(*) as total from #tmp
 
 select * from (
            select ROW_NUMBER() over (order by id) itemNo,* from #tmp
-)#tmp where itemNo between @pStart and @pEnd ");
+)#tmp ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
@@ -99,8 +99,6 @@ select * from (
 
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@年度", 年度);
-		oCmd.Parameters.AddWithValue("@pStart", pStart);
-		oCmd.Parameters.AddWithValue("@pEnd", pEnd);
 
 		oda.Fill(ds);
 		return ds;

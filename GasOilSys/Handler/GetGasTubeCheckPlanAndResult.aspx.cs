@@ -18,8 +18,6 @@ public partial class Handler_GetGasTubeCheckPlanAndResult : System.Web.UI.Page
 		/// * Request["cpid"]: 業者Guid 
 		/// * Request["year"]: 年度 
 		/// * Request["type"]: list=列表 data=資料列 
-		/// * Request["PageNo"]:欲顯示的頁碼, 由零開始
-		/// * Request["PageSize"]:每頁顯示的資料筆數, 未指定預設10
 		///-----------------------------------------------------
 		XmlDocument xDoc = new XmlDocument();
 		try
@@ -28,19 +26,14 @@ public partial class Handler_GetGasTubeCheckPlanAndResult : System.Web.UI.Page
 			string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
 			string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
-			string PageNo = (Request["PageNo"] != null) ? Request["PageNo"].ToString().Trim() : "0";
-			int PageSize = (Request["PageSize"] != null) ? int.Parse(Request["PageSize"].ToString().Trim()) : 10;
 
 			if (type == "list")
 			{
-				// 計算起始與結束
-				int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
-				int pageStart = pageEnd - PageSize + 1;
 				db._業者guid = cpid;
 				db._年度 = year;
 
 				DataTable dt = db.GetList();
-				DataSet dt2 = db.GetList2(pageStart.ToString(), pageEnd.ToString());
+				DataSet dt2 = db.GetList2();
 				DataTable dt3 = db.GetYearList();
 				string xmlstr = string.Empty;
 				string xmlstr2 = string.Empty;

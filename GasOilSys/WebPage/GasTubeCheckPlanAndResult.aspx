@@ -27,13 +27,11 @@
 
             getYearList();
             $("#sellist").val(getTaiwanDate());
-            $("#taiwanYear").val(getTaiwanDate());
-            getData(0);
+            getData(getTaiwanDate());
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
-                $("#taiwanYear").val($("#sellist option:selected").val());
-                getData(0);
+                getData($("#sellist option:selected").val());
 			});
 
             //編輯按鈕
@@ -126,6 +124,8 @@
                 $("#txt1").val('');
                 $("input[name='txt2'][value='01']").prop("checked", true);
                 $("input[name='txt3'][value='01']").prop("checked", true);
+
+                doOpenMagPopup();
             });
 
             //編輯開窗
@@ -138,6 +138,8 @@
                 $("#txt1").val($("span[name='sp_" + $("#Gguid").val() + "']").text());
                 $("input[name='txt2'][value='" + txt2 + "']").prop("checked", true);
                 $("input[name='txt3'][value='" + txt3 + "']").prop("checked", true);
+
+                doOpenMagPopup();
             });
 
             //開窗儲存
@@ -186,17 +188,15 @@
             });
 		}); // end js
 
-        function getData(p) {
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasTubeCheckPlanAndResult.aspx",
 				data: {
                     cpid: $.getQueryString("cp"),
-                    year: $("#taiwanYear").val(),
+                    year: year,
                     type: "list",
-                    PageNo: p,
-                    PageSize: Page.Option.PageSize,
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -249,16 +249,13 @@
 								tabstr += '<td>' + ckresult02 + '不合格</td>';
 								tabstr += '<td>' + ckresult03 + '拒檢</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
-                                tabstr += ' <a href="#workitem" title="編輯" name="editbtnU" class="colorboxM" aid="' + $(this).children("guid").text().trim() + '" >編輯</a></td>';
+                                tabstr += ' <a href="javascript:void(0);" title="編輯" name="editbtnU" aid="' + $(this).children("guid").text().trim() + '" >編輯</a></td>';
                                 tabstr += '</tr>';
 							});
 						}
 						else
                             tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
-                        Page.Option.Selector = "#pageblock";
-                        Page.Option.FunctionName = "getData";
-                        Page.CreatePage(p, $("total", data).text());
 
                         //確認權限&按鈕顯示或隱藏
                         if ($("#sellist").val() != getTaiwanDate()) {
@@ -362,6 +359,21 @@
 
             return nowTwYear;
         }
+
+        function doOpenMagPopup() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
     </script>
 </head>
 <body class="bgG">
@@ -389,7 +401,6 @@
 		<!--#include file="GasHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
         <input type="hidden" id="Gguid" />
-        <input type="hidden" id="taiwanYear" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -416,7 +427,7 @@
                             <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">用戶管線定期檢查計畫及檢查結果:</div>
                                 <div class="right">
-                                    <a id="newbtn" href="#workitem" title="新增" class="genbtn colorboxM">新增</a>
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                             <div class="stripeMeG margin5T tbover">
@@ -433,9 +444,6 @@
 									<tbody></tbody>
                                 </table>
                             </div><!-- stripeMe -->
-                            <div class="margin10B margin10T textcenter">
-	                            <div id="pageblock"></div>
-	                        </div>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div>
@@ -459,8 +467,47 @@
 </div>
 <!-- 結尾用div:修正mmenu form bug -->
 
+<!-- Magnific Popup -->
+<div id="messageblock" class="magpopup magSizeM mfp-hide">
+  <div class="magpopupTitle">用戶管線定期檢查計畫及檢查結果</div>
+  <div class="padding10ALL">
+
+      <div class="margin35T padding5RL">
+            <div class="OchiTrasTable width100 TitleLength08 font-size3">
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">用戶名稱</div>
+                    <div class="OchiCell width100">
+                        <input id="txt1" type="text" class="inputex width100">
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">檢查期限</div>
+                    <div class="OchiCell width100">
+                        <input name="txt2" type="radio" value="01" /> 符合<input name="txt2" type="radio" value="02" /> 不符合
+                    </div>
+                </div><!-- OchiRow -->
+                <div class="OchiRow">
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">檢查結果</div>
+                    <div class="OchiCell width100">
+                        <input name="txt3" type="radio" value="01" /> 合格<input name="txt3" type="radio" value="02" /> 不合格<input name="txt3" type="radio" value="03" /> 拒檢
+                    </div>
+                </div><!-- OchiRow -->
+            </div><!-- OchiTrasTable -->
+        </div>
+
+      <div class="twocol margin10T">
+            <div class="right">
+                <a id="cCancelbtn" href="javascript:void(0);" class="genbtn closemagnificPopup">取消</a>
+                <a id="cSubbtn" href="javascript:void(0);" class="genbtn">儲存</a>
+            </div>
+        </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
+
 <!-- colorbox -->
-<div style="display:none;">
+<%--<div style="display:none;">
     <div id="workitem">
         <div class="margin35T padding5RL">
             <div class="OchiTrasTable width100 TitleLength08 font-size3">
@@ -493,7 +540,7 @@
         </div>
         <br /><br />
     </div>
-</div>
+</div>--%>
 
 <div style="display:none;">
     <div id="datesetting">

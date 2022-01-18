@@ -17,16 +17,25 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-			getData();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
 		}); // end js
 
-		function getData() {
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasAreaSchematicDiagram.aspx",
 				data: {
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year,
+                    type: "list",
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -36,22 +45,71 @@
 					if ($(data).find("Error").length > 0) {
 						alert($(data).find("Error").attr("Message"));
 					}
-					else {
+                    else {
+                        $("#content").empty();
+                        var content = '';
 						if ($(data).find("data_item").length > 0) {
 							$(data).find("data_item").each(function (i) {
-								if ($(this).children("內容").text().trim() != "")
-									$("#content").html($(this).children("內容").text().trim());
-								else
-									$("#notfound").show();
+                                if ($(this).children("內容").text().trim() != "")
+                                    content += $(this).children("內容").text().trim();
+                                else
+                                    content += '<div class="BoxBorderSa BoxRadiusB padding5ALL textcenter" ><div class="opa6 font-size3">目前無資料</div></div>';
 							});
 						}
 						else
-							$("#notfound").show();
+                            content += '<div class="BoxBorderSa BoxRadiusB padding5ALL textcenter" ><div class="opa6 font-size3">目前無資料</div></div>';
+
+                        $("#content").append(content);
 					}
 				}
 			});
         }
-	</script>
+
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasAreaSchematicDiagram.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+    </script>
 </head>
 <body class="bgG">
 <!-- 開頭用div:修正mmenu form bug -->
@@ -76,7 +134,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
 		<!--#include file="GasHeader.html"-->
-
+        <input type="hidden" id="Competence" value="<%= competence %>" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -86,8 +144,18 @@
                         <div class="col-lg-3 col-md-4 col-sm-5">
                             <div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
                         </div>
-                        <div class="col-lg-9 col-md-8 col-sm-7" id="content">
-                            <div id="notfound" class="BoxBorderSa BoxRadiusB padding5ALL textcenter" style="display:none;"><div class="opa6 font-size3">目前無資料</div></div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
+                                <div class="right">
+                                </div>
+                            </div><br />
+                            <div id="content">
+                                
+                            </div>
                         </div><!-- col -->
                     </div><!-- row -->
 
