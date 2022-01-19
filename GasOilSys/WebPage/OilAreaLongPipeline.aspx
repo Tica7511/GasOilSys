@@ -51,17 +51,20 @@
 						alert($(data).find("Error").attr("Message"));
 					}
 					else {
-						if ($(data).find("data_item").length > 0) {
-							$(data).find("data_item").each(function (i) {
-                                if ($(this).children("Content").text().trim() != "")
-                                    $("#content").html($(this).children("Content").text().trim());
-								else
-                                    $("#notfound").show();
-                                $("#nGuid").val($(this).children("guid").text().trim());
-							});
-						}
-						else
-							$("#notfound").show();
+                        $("#content").empty();
+                        var content = '';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                if ($(this).children("內容").text().trim() != "")
+                                    content += $(this).children("內容").text().trim();
+                                else
+                                    content += '<div class="BoxBorderSa BoxRadiusB padding5ALL textcenter" ><div class="opa6 font-size3">目前無資料</div></div>';
+                            });
+                        }
+                        else
+                            content += '<div class="BoxBorderSa BoxRadiusB padding5ALL textcenter" ><div class="opa6 font-size3">目前無資料</div></div>';
+
+                        $("#content").append(content);
                     }
 
                     //確認權限&按鈕顯示或隱藏
@@ -167,13 +170,12 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
-                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                    <%--<a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>--%>
                                 </div>
                             </div><br />
                             <div id="content">
                                 
                             </div>
-                            <div id="notfound" class="BoxBorderSa BoxRadiusB padding5ALL textcenter" style="display:none;"><div class="opa6 font-size3">目前無資料</div></div>
                         </div><!-- col -->
                     </div><!-- row -->
 

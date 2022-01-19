@@ -378,7 +378,7 @@
                             </div>
                             <div class="twocol">
                                 <div class="right">
-                                    <a id="editbtnContent" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                    <%--<a id="editbtnContent" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>--%>
                                 </div>
                             </div>
                             <div class="font-size3 lineheight03">
