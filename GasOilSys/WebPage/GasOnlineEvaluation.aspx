@@ -136,6 +136,7 @@
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
                 data.append("category", "gas");
+                data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "1");
 
@@ -193,6 +194,7 @@
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
                 data.append("category", "gas");
+                data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "2");
 
@@ -250,6 +252,7 @@
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
                 data.append("category", "gas");
+                data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "3");
 
@@ -307,6 +310,7 @@
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
                 data.append("category", "gas");
+                data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "5");
 
@@ -364,6 +368,7 @@
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
                 data.append("category", "gas");
+                data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "4");
 
@@ -567,6 +572,15 @@
 					}
 				}
 			});
+        }
+
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
     </script>
 </head>

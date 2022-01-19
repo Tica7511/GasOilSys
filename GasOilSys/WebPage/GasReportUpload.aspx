@@ -82,6 +82,7 @@
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
                 data.append("category", "gas");
+                data.append("year", getTaiwanDate());
                 data.append("type", "report");
 
                 $.ajax({

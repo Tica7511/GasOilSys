@@ -51,6 +51,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
 
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string category = (string.IsNullOrEmpty(Request["category"])) ? "" : Request["category"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
             string details = (string.IsNullOrEmpty(Request["details"])) ? "" : Request["details"].ToString().Trim();
@@ -207,7 +208,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                             {
                                 case "report":
                                     grdb._guid = Guid.NewGuid().ToString("N");
-                                    grdb._年度 = "110";
+                                    grdb._年度 = year;
                                     grdb._檔案名稱 = newName;
                                     grdb._建立者 = LogInfo.mGuid;
                                     grdb._修改者 = LogInfo.mGuid;
@@ -227,7 +228,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                 case "online":
                                     goedb._guid = Guid.NewGuid().ToString("N");
                                     goedb._業者guid = cpid;
-                                    goedb._年度 = "110";
+                                    goedb._年度 = year;
                                     goedb._檔案類型 = details;
                                     goedb._檔案名稱 = newName;
                                     goedb._建立者 = LogInfo.mGuid;
@@ -242,7 +243,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                             {
                                 case "report":
                                     ordb._guid = Guid.NewGuid().ToString("N");
-                                    ordb._年度 = "110";
+                                    ordb._年度 = year;
                                     ordb._檔案名稱 = newName;
                                     ordb._建立者 = LogInfo.mGuid;
                                     ordb._修改者 = LogInfo.mGuid;
@@ -272,7 +273,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                 case "online":
                                     ooedb._guid = Guid.NewGuid().ToString("N");
                                     ooedb._業者guid = cpid;
-                                    ooedb._年度 = "110";
+                                    ooedb._年度 = year;
                                     ooedb._檔案類型 = details;
                                     ooedb._檔案名稱 = newName;
                                     ooedb._建立者 = LogInfo.mGuid;
