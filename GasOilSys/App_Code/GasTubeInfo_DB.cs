@@ -37,10 +37,6 @@ public class GasTubeInfo_DB
 	string 使用壓力 = string.Empty;
 	string 使用狀態 = string.Empty;
 	string 附掛橋樑數量 = string.Empty;
-    string 活動斷層敏感區 = string.Empty;
-    string 土壤液化區 = string.Empty;
-    string 土石流潛勢區 = string.Empty;
-    string 淹水潛勢區 = string.Empty;
     string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -70,10 +66,6 @@ public class GasTubeInfo_DB
 	public string _使用壓力 { set { 使用壓力 = value; } }
 	public string _使用狀態 { set { 使用狀態 = value; } }
 	public string _附掛橋樑數量 { set { 附掛橋樑數量 = value; } }
-	public string _活動斷層敏感區 { set { 活動斷層敏感區 = value; } }
-	public string _土壤液化區 { set { 土壤液化區 = value; } }
-	public string _土石流潛勢區 { set { 土石流潛勢區 = value; } }
-	public string _淹水潛勢區 { set { 淹水潛勢區 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -87,14 +79,14 @@ public class GasTubeInfo_DB
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(@"select * into #tmp 
-from 天然氣_管線基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
-		if (!string.IsNullOrEmpty(年度))
-			sb.Append(@" and 年度=@年度");
-		if (!string.IsNullOrEmpty(長途管線識別碼))
-			sb.Append(@" and 長途管線識別碼=@長途管線識別碼");
+		sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 into #tmp from 天然氣_管線基本資料 a 
+  left join 天然氣_管線路徑環境特質 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度
+  where a.業者guid=@業者guid and a.年度=@年度 and a.資料狀態='A' ");
 
-		sb.Append(@"
+        if (!string.IsNullOrEmpty(長途管線識別碼))
+            sb.Append(@" and a.長途管線識別碼=@長途管線識別碼");
+
+        sb.Append(@"
 select count(*) as total from #tmp
 
 select * from (
@@ -181,7 +173,10 @@ else
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * from 天然氣_管線基本資料 where guid=@guid and 資料狀態='A' ");
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區  
+  from 天然氣_管線基本資料 a  
+  left join 天然氣_管線路徑環境特質 b on a.長途管線識別碼=b.長途管線識別碼 and a.年度=b.年度
+  where a.guid=@guid and a.資料狀態='A' ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -218,10 +213,6 @@ else
 使用壓力,
 使用狀態,
 附掛橋樑數量,
-活動斷層敏感區,
-土壤液化區,
-土石流潛勢區,
-淹水潛勢區,
 修改者, 
 修改日期, 
 建立者, 
@@ -247,10 +238,6 @@ else
 @使用壓力,
 @使用狀態,
 @附掛橋樑數量,
-@活動斷層敏感區,
-@土壤液化區,
-@土石流潛勢區,
-@淹水潛勢區,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -280,10 +267,6 @@ else
         oCmd.Parameters.AddWithValue("@使用壓力", 使用壓力);
         oCmd.Parameters.AddWithValue("@使用狀態", 使用狀態);
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
-        oCmd.Parameters.AddWithValue("@活動斷層敏感區", 活動斷層敏感區);
-        oCmd.Parameters.AddWithValue("@土壤液化區", 土壤液化區);
-        oCmd.Parameters.AddWithValue("@土石流潛勢區", 土石流潛勢區);
-        oCmd.Parameters.AddWithValue("@淹水潛勢區", 淹水潛勢區);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -317,10 +300,6 @@ else
 使用壓力=@使用壓力,
 使用狀態=@使用狀態,
 附掛橋樑數量=@附掛橋樑數量,
-活動斷層敏感區=@活動斷層敏感區,
-土壤液化區=@土壤液化區,
-土石流潛勢區=@土石流潛勢區,
-淹水潛勢區=@淹水潛勢區,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -349,10 +328,6 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@使用壓力", 使用壓力);
         oCmd.Parameters.AddWithValue("@使用狀態", 使用狀態);
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
-        oCmd.Parameters.AddWithValue("@活動斷層敏感區", 活動斷層敏感區);
-        oCmd.Parameters.AddWithValue("@土壤液化區", 土壤液化區);
-        oCmd.Parameters.AddWithValue("@土石流潛勢區", 土石流潛勢區);
-        oCmd.Parameters.AddWithValue("@淹水潛勢區", 淹水潛勢區);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');
@@ -365,7 +340,25 @@ where guid=@guid and 資料狀態=@資料狀態
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
-        oCmd.CommandText = @"update 天然氣_管線基本資料 set 
+        oCmd.CommandText = @"
+declare @sno nvarchar(50)
+declare @year nvarchar(4)
+declare @cpid nvarchar(50)
+declare @nCount int
+
+select @cpid=業者guid, @sno=長途管線識別碼, @year=年度 from 天然氣_管線基本資料 where guid=@guid and 資料狀態='A' 
+select @nCount=count(*) from 天然氣_管線路徑環境特質 where 業者guid=@cpid and 長途管線識別碼=@sno and 年度=@year and 資料狀態='A'
+
+if(@nCount>0)
+    begin
+        update 天然氣_管線路徑環境特質 set 
+        修改日期=@修改日期, 
+        修改者=@修改者, 
+        資料狀態='D' 
+        where 業者guid=@cpid and 長途管線識別碼=@sno and 年度=@year
+    end
+
+update 天然氣_管線基本資料 set 
 修改日期=@修改日期, 
 修改者=@修改者, 
 資料狀態='D' 

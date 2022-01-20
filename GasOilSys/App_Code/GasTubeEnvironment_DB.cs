@@ -60,8 +60,10 @@ public class GasTubeEnvironment_DB
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append(@"select * from 天然氣_管線路徑環境特質 where 資料狀態='A' and 業者guid=@業者guid ");
+        if (!string.IsNullOrEmpty(年度))
+            sb.Append(@" and 年度=@年度");
 
-		oCmd.CommandText = sb.ToString();
+        oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
 		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
 		DataTable ds = new DataTable();
@@ -71,4 +73,190 @@ public class GasTubeEnvironment_DB
 		oda.Fill(ds);
 		return ds;
 	}
+
+    public DataTable GetYearList()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"  
+declare @yearCount int
+
+select DISTINCT 年度 into #tmp from 天然氣_管線路徑環境特質
+where 業者guid=@業者guid and 資料狀態='A' 
+
+select @yearCount=COUNT(*) from #tmp where 年度=@年度 
+
+if(@yearCount > 0)
+	begin
+		select * from #tmp order by 年度 asc
+	end
+else
+	begin
+		insert into #tmp(年度)
+		values(@年度)
+
+		select * from #tmp order by 年度 asc
+	end ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 天然氣_管線路徑環境特質 where guid=@guid and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetData2()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 天然氣_管線路徑環境特質 where 業者guid=@業者guid and 長途管線識別碼=@長途管線識別碼 and 年度=@年度 and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void InsertData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 天然氣_管線路徑環境特質(  
+年度,
+業者guid,
+長途管線識別碼,
+轄區長途管線編號名稱公司,
+活動斷層敏感區,
+土壤液化區,
+土石流潛勢區,
+淹水潛勢區,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@年度,
+@業者guid,
+@長途管線識別碼,
+@轄區長途管線編號名稱公司,
+@活動斷層敏感區,
+@土壤液化區,
+@土石流潛勢區,
+@淹水潛勢區,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態  
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@轄區長途管線編號名稱公司", 轄區長途管線編號名稱公司);
+        oCmd.Parameters.AddWithValue("@活動斷層敏感區", 活動斷層敏感區);
+        oCmd.Parameters.AddWithValue("@土壤液化區", 土壤液化區);
+        oCmd.Parameters.AddWithValue("@土石流潛勢區", 土石流潛勢區);
+        oCmd.Parameters.AddWithValue("@淹水潛勢區", 淹水潛勢區);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"update 天然氣_管線路徑環境特質 set  
+年度=@年度,
+長途管線識別碼=@長途管線識別碼,
+轄區長途管線編號名稱公司=@轄區長途管線編號名稱公司,
+活動斷層敏感區=@活動斷層敏感區,
+土壤液化區=@土壤液化區,
+土石流潛勢區=@土石流潛勢區,
+淹水潛勢區=@淹水潛勢區,
+修改者=@修改者, 
+修改日期=@修改日期 
+where 長途管線識別碼=@長途管線識別碼 and 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
+ ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@轄區長途管線編號名稱公司", 轄區長途管線編號名稱公司);
+        oCmd.Parameters.AddWithValue("@活動斷層敏感區", 活動斷層敏感區);
+        oCmd.Parameters.AddWithValue("@土壤液化區", 土壤液化區);
+        oCmd.Parameters.AddWithValue("@土石流潛勢區", 土石流潛勢區);
+        oCmd.Parameters.AddWithValue("@淹水潛勢區", 淹水潛勢區);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void DeleteData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 天然氣_管線路徑環境特質 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }

@@ -132,6 +132,27 @@ else
         return ds;
     }
 
+    public DataTable GetData2()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_管線路徑環境特質表 where 業者guid=@業者guid and 長途管線識別碼=@長途管線識別碼 and 年度=@年度 and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void InsertData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
@@ -144,8 +165,6 @@ else
 土壤液化區,
 土石流潛勢區,
 淹水潛勢區,
-其他,
-備註,
 修改者, 
 修改日期, 
 建立者, 
@@ -159,8 +178,6 @@ else
 @土壤液化區,
 @土石流潛勢區,
 @淹水潛勢區,
-@其他,
-@備註,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -178,8 +195,6 @@ else
         oCmd.Parameters.AddWithValue("@土壤液化區", 土壤液化區);
         oCmd.Parameters.AddWithValue("@土石流潛勢區", 土石流潛勢區);
         oCmd.Parameters.AddWithValue("@淹水潛勢區", 淹水潛勢區);
-        oCmd.Parameters.AddWithValue("@其他", 其他);
-        oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -201,25 +216,22 @@ else
 土壤液化區=@土壤液化區,
 土石流潛勢區=@土石流潛勢區,
 淹水潛勢區=@淹水潛勢區,
-其他=@其他,
-備註=@備註,
 修改者=@修改者, 
 修改日期=@修改日期 
-where guid=@guid and 資料狀態=@資料狀態 
+where 長途管線識別碼=@長途管線識別碼 and 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
  ");
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
         oCmd.Parameters.AddWithValue("@轄區長途管線名稱", 轄區長途管線名稱);
         oCmd.Parameters.AddWithValue("@活動斷層敏感區", 活動斷層敏感區);
         oCmd.Parameters.AddWithValue("@土壤液化區", 土壤液化區);
         oCmd.Parameters.AddWithValue("@土石流潛勢區", 土石流潛勢區);
         oCmd.Parameters.AddWithValue("@淹水潛勢區", 淹水潛勢區);
-        oCmd.Parameters.AddWithValue("@其他", 其他);
-        oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');

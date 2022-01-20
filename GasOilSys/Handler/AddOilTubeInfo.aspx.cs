@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
 {
     OilTubeInfo_DB odb = new OilTubeInfo_DB();
+    OilTubeEnvironment_DB odb2 = new OilTubeEnvironment_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -39,6 +40,10 @@ public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
         /// * Request["txt16"]: 使用壓力
         /// * Request["txt17"]: 使用狀態
         /// * Request["txt18"]: 轄管長度
+        /// * Request["txt19"]: 活動斷層敏感區
+        /// * Request["txt20"]: 土壤液化區
+        /// * Request["txt21"]: 土石流潛勢區
+        /// * Request["txt22"]: 淹水潛勢區
         /// * Request["mode"]:  new=新增 edit=編輯
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
@@ -80,6 +85,10 @@ public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
             string txt16 = (string.IsNullOrEmpty(Request["txt16"])) ? "" : Request["txt16"].ToString().Trim();
             string txt17 = (string.IsNullOrEmpty(Request["txt17"])) ? "" : Request["txt17"].ToString().Trim();
             string txt18 = (string.IsNullOrEmpty(Request["txt18"])) ? "" : Request["txt18"].ToString().Trim();
+            string txt19 = (string.IsNullOrEmpty(Request["txt19"])) ? "" : Request["txt19"].ToString().Trim();
+            string txt20 = (string.IsNullOrEmpty(Request["txt20"])) ? "" : Request["txt20"].ToString().Trim();
+            string txt21 = (string.IsNullOrEmpty(Request["txt21"])) ? "" : Request["txt21"].ToString().Trim();
+            string txt22 = (string.IsNullOrEmpty(Request["txt22"])) ? "" : Request["txt22"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -117,6 +126,31 @@ public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
             {
                 odb._guid = guid;
                 odb.UpdateData(oConn, myTrans);
+            }
+
+            odb2._業者guid = cp;
+            odb2._年度 = Server.UrlDecode(year);
+            odb2._長途管線識別碼 = Server.UrlDecode(txt1);
+            odb2._轄區長途管線名稱 = Server.UrlDecode(txt2);
+            odb2._活動斷層敏感區 = Server.UrlDecode(txt19);
+            odb2._土壤液化區 = Server.UrlDecode(txt20);
+            odb2._土石流潛勢區 = Server.UrlDecode(txt21);
+            odb2._淹水潛勢區 = Server.UrlDecode(txt22);
+            odb2._修改者 = LogInfo.mGuid;
+            odb2._修改日期 = DateTime.Now;
+
+            DataTable dt = odb2.GetData2();
+
+            if (dt.Rows.Count > 0)
+            {
+                odb2.UpdateData(oConn, myTrans);
+            }
+            else
+            {
+                odb2._建立者 = LogInfo.mGuid;
+                odb2._建立日期 = DateTime.Now;
+
+                odb2.InsertData(oConn, myTrans);
             }
 
             myTrans.Commit();

@@ -82,6 +82,14 @@
                     msg += "請選擇【使用狀態】\n";
                 if ($("#txt18").val() == '')
                     msg += "請選擇【附掛橋樑數量】\n";
+                if ($("#txt19").val() == '')
+                    msg += "請選擇【活動斷層敏感區】\n";
+                if ($("#txt20").val() == '')
+                    msg += "請選擇【土壤液化區】\n";
+                if ($("#txt21").val() == '')
+                    msg += "請選擇【土石流潛勢區】\n";
+                if ($("#txt22").val() == '')
+                    msg += "請選擇【淹水潛勢區】\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);
@@ -119,6 +127,10 @@
                 data.append("txt16", encodeURIComponent($("#txt16").val()));
                 data.append("txt17", encodeURIComponent($("#txt17").val()));
                 data.append("txt18", encodeURIComponent($("#txt18").val()));
+                data.append("txt19", encodeURIComponent($("#txt19").val()));
+                data.append("txt20", encodeURIComponent($("#txt20").val()));
+                data.append("txt21", encodeURIComponent($("#txt21").val()));
+                data.append("txt22", encodeURIComponent($("#txt22").val()));
 
                 $.ajax({
                     type: "POST",
@@ -225,6 +237,10 @@
                                 $("#txt16").val($(this).children("使用壓力").text().trim());
                                 $("#txt17").val($(this).children("使用狀態").text().trim());
                                 $("#txt18").val($(this).children("附掛橋樑數量").text().trim());
+                                $("#txt19").val($(this).children("活動斷層敏感區").text().trim());
+                                $("#txt20").val($(this).children("土壤液化區").text().trim());
+                                $("#txt21").val($(this).children("土石流潛勢區").text().trim());
+                                $("#txt22").val($(this).children("淹水潛勢區").text().trim());
 							});
 						}
 					}
@@ -467,6 +483,50 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">附掛橋樑數量</div>
                                         <div class="OchiCell width100"><input type="text" id="txt18" class="inputex width100" ></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">活動斷層敏感區</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt19" class="inputex width100">
+                                                <option value="">請選擇</option>
+                                                <option value="有">有</option>
+                                                <option value="無">無</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">土壤液化區</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt20" class="inputex width100">
+                                                <option value="">請選擇</option>
+                                                <option value="有">有</option>
+                                                <option value="無">無</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">土石流潛勢區</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt21" class="inputex width100">
+                                                <option value="">請選擇</option>
+                                                <option value="有">有</option>
+                                                <option value="無">無</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">淹水潛勢區</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt22" class="inputex width100">
+                                                <option value="">請選擇</option>
+                                                <option value="有">有</option>
+                                                <option value="無">無</option>
+                                            </select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->

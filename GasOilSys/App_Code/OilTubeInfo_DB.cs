@@ -79,12 +79,12 @@ public class OilTubeInfo_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * into #tmp 
-from 石油_管線基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
-        if (!string.IsNullOrEmpty(年度))
-            sb.Append(@" and 年度=@年度");
-        if (!string.IsNullOrEmpty(長途管線識別碼))
-            sb.Append(@" and 長途管線識別碼=@長途管線識別碼");
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 into #tmp from 石油_管線基本資料 a  
+  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度
+  where a.業者guid=@業者guid and a.年度=@年度 and a.資料狀態='A' ");
+
+        if(!string.IsNullOrEmpty(長途管線識別碼))
+            sb.Append(@" and a.長途管線識別碼=@長途管線識別碼");
 
         sb.Append(@"
 select count(*) as total from #tmp
@@ -173,7 +173,10 @@ else
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * from 石油_管線基本資料 where guid=@guid and 資料狀態='A' ");
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區  
+  from 石油_管線基本資料 a  
+  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.年度=b.年度 
+  where a.guid=@guid and a.資料狀態='A' ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -337,7 +340,25 @@ where guid=@guid and 資料狀態=@資料狀態
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
-        oCmd.CommandText = @"update 石油_管線基本資料 set 
+        oCmd.CommandText = @"
+declare @sno nvarchar(50)
+declare @year nvarchar(4)
+declare @cpid nvarchar(50)
+declare @nCount int
+
+select @cpid=業者guid, @sno=長途管線識別碼, @year=年度 from 石油_管線基本資料 where guid=@guid and 資料狀態='A' 
+select @nCount=count(*) from 石油_管線路徑環境特質表 where 業者guid=@cpid and 長途管線識別碼=@sno and 年度=@year and 資料狀態='A'
+
+if(@nCount>0)
+    begin
+        update 石油_管線路徑環境特質表 set 
+        修改日期=@修改日期, 
+        修改者=@修改者, 
+        資料狀態='D' 
+        where 業者guid=@cpid and 長途管線識別碼=@sno and 年度=@year
+    end
+
+update 石油_管線基本資料 set 
 修改日期=@修改日期, 
 修改者=@修改者, 
 資料狀態='D' 

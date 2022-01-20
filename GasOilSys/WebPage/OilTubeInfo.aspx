@@ -121,13 +121,17 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用壓力").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用狀態").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("附掛橋樑數量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("活動斷層敏感區").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("土壤液化區").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("土石流潛勢區").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("淹水潛勢區").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilTubeInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
                                 tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="19">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="23">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
@@ -303,6 +307,10 @@
                                                 2.停用<br>
                                                 3.備用 </th>
                                             <th nowrap>附掛<br>橋樑<br>數量</th>
+                                            <th nowrap>活動<br>斷層<br>敏感區</th>
+                                            <th nowrap>土壤<br>液化區</th>
+                                            <th nowrap>土石流<br>潛勢區</th>
+                                            <th nowrap>淹水<br>潛勢區</th>
                                             <th id="th_edit">功能</th>
                                         </tr>
                                     </thead>

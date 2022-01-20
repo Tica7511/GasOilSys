@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
 {
     GasTubeInfo_DB gdb = new GasTubeInfo_DB();
+    GasTubeEnvironment_DB gdb2 = new GasTubeEnvironment_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -111,10 +112,6 @@ public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
             gdb._使用壓力 = Server.UrlDecode(txt16);
             gdb._使用狀態 = Server.UrlDecode(txt17);
             gdb._附掛橋樑數量 = Server.UrlDecode(txt18);
-            gdb._活動斷層敏感區 = Server.UrlDecode(txt19);
-            gdb._土壤液化區 = Server.UrlDecode(txt20);
-            gdb._土石流潛勢區 = Server.UrlDecode(txt21);
-            gdb._淹水潛勢區 = Server.UrlDecode(txt22);
             gdb._修改者 = LogInfo.mGuid;
             gdb._修改日期 = DateTime.Now;
 
@@ -129,6 +126,31 @@ public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
             {
                 gdb._guid = guid;
                 gdb.UpdateData(oConn, myTrans);
+            }
+
+            gdb2._業者guid = cp;
+            gdb2._年度 = Server.UrlDecode(year);
+            gdb2._長途管線識別碼 = Server.UrlDecode(txt1);
+            gdb2._轄區長途管線編號名稱公司 = Server.UrlDecode(txt2);
+            gdb2._活動斷層敏感區 = Server.UrlDecode(txt19);
+            gdb2._土壤液化區 = Server.UrlDecode(txt20);
+            gdb2._土石流潛勢區 = Server.UrlDecode(txt21);
+            gdb2._淹水潛勢區 = Server.UrlDecode(txt22);
+            gdb2._修改者 = LogInfo.mGuid;
+            gdb2._修改日期 = DateTime.Now;
+
+            DataTable dt = gdb2.GetData2();
+
+            if (dt.Rows.Count > 0)
+            {
+                gdb2.UpdateData(oConn, myTrans);
+            }
+            else
+            {
+                gdb2._建立者 = LogInfo.mGuid;
+                gdb2._建立日期 = DateTime.Now;
+
+                gdb2.InsertData(oConn, myTrans);
             }
 
             myTrans.Commit();
