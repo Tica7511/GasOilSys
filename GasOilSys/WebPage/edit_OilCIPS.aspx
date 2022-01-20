@@ -33,27 +33,31 @@
                 var msg = '';
 
                 if ($("#txt1").val() == '')
-                    msg += "請選擇【長途管線識別碼】\n";
+                    msg += "請輸入【長途管線識別碼】\n";
                 if ($("#txt2").val() == '')
-                    msg += "請選擇【同時檢測管線數量】\n";
+                    msg += "請輸入【同時檢測管線數量】\n";
                 if (($("#txt3_1").val()) == '' || ($("#txt3_2").val() == ''))
                     msg += "請輸入【最近一次執行 年/月】\n";
                 if (($("#txt4_1").val()) == '' || ($("#txt4_2").val() == ''))
                     msg += "請輸入【報告產出 年/月】\n";
                 if ($("#txt5").val() == '')
-                    msg += "請選擇【檢測長度】\n";
+                    msg += "請輸入【檢測長度】\n";
                 if ($("#txt6").val() == '')
-                    msg += "請選擇【合格標準】\n";
+                    msg += "請輸入【合格標準】\n";
                 if ($("#txt7").val() == '')
-                    msg += "請選擇【立即改善 數量】\n";
+                    msg += "請輸入【立即改善 數量】\n";
                 if ($("#txt8").val() == '')
-                    msg += "請選擇【立即改善 改善完成數量】\n";
+                    msg += "請輸入【立即改善 改善完成數量】\n";
                 if ($("#txt9").val() == '')
-                    msg += "請選擇【排程改善 數量】\n";
+                    msg += "請輸入【排程改善 數量】\n";
                 if ($("#txt10").val() == '')
-                    msg += "請選擇【排程改善 改善完成數量】\n";
+                    msg += "請輸入【排程改善 改善完成數量】\n";
                 if ($("#txt11").val() == '')
-                    msg += "請選擇【需監控點 數量】\n";
+                    msg += "請輸入【需監控點 數量】\n";
+                if ($("#txt12").val() == '')
+                    msg += "請輸入【x座標】\n";
+                if ($("#txt13").val() == '')
+                    msg += "請輸入【y座標】\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);
@@ -87,6 +91,8 @@
                 data.append("txt10", encodeURIComponent($("#txt10").val()));
                 data.append("txt11", encodeURIComponent($("#txt11").val()));
                 data.append("txt12", encodeURIComponent($("#txt12").val()));
+                data.append("txt13", encodeURIComponent($("#txt13").val()));
+                data.append("txt14", encodeURIComponent($("#txt14").val()));
 
                 $.ajax({
                     type: "POST",
@@ -155,7 +161,9 @@
                                 $("#txt9").val($(this).children("排成改善_數量").text().trim());
                                 $("#txt10").val($(this).children("排成改善_改善完成數量").text().trim());
                                 $("#txt11").val($(this).children("需監控點數量").text().trim());
-                                $("#txt12").val($(this).children("備註").text().trim());
+                                $("#txt12").val($(this).children("x座標").text().trim());
+                                $("#txt13").val($(this).children("y座標").text().trim());
+                                $("#txt14").val($(this).children("備註").text().trim());
                             });
                         }
                     }
@@ -407,8 +415,18 @@
                                 </br>
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">x座標</div>
                                         <div class="OchiCell width100"><input type="text" id="txt12" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">y座標</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt13" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt14" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->

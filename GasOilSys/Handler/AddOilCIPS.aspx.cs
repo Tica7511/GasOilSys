@@ -34,7 +34,9 @@ public partial class Handler_AddOilCIPS : System.Web.UI.Page
         /// * Request["txt9"]: 排程改善 數量
         /// * Request["txt10"]: 排程改善 改善完成數量
         /// * Request["txt11"]: 需監控點 數量
-        /// * Request["txt12"]: 備註 
+        /// * Request["txt12"]: x座標 
+        /// * Request["txt13"]: y座標 
+        /// * Request["txt14"]: 備註 
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -71,6 +73,8 @@ public partial class Handler_AddOilCIPS : System.Web.UI.Page
             string txt10 = (string.IsNullOrEmpty(Request["txt10"])) ? "" : Request["txt10"].ToString().Trim();
             string txt11 = (string.IsNullOrEmpty(Request["txt11"])) ? "" : Request["txt11"].ToString().Trim();
             string txt12 = (string.IsNullOrEmpty(Request["txt12"])) ? "" : Request["txt12"].ToString().Trim();
+            string txt13 = (string.IsNullOrEmpty(Request["txt13"])) ? "" : Request["txt13"].ToString().Trim();
+            string txt14 = (string.IsNullOrEmpty(Request["txt14"])) ? "" : Request["txt14"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -87,7 +91,9 @@ public partial class Handler_AddOilCIPS : System.Web.UI.Page
             odb._排成改善_數量 = Server.UrlDecode(txt9);
             odb._排成改善_改善完成數量 = Server.UrlDecode(txt10);
             odb._需監控點數量 = Server.UrlDecode(txt11);
-            odb._備註 = Server.UrlDecode(txt12);
+            odb._x座標 = Server.UrlDecode(txt12);
+            odb._y座標 = Server.UrlDecode(txt13);
+            odb._備註 = Server.UrlDecode(txt14);
             odb._修改者 = LogInfo.mGuid;
             odb._修改日期 = DateTime.Now;
 

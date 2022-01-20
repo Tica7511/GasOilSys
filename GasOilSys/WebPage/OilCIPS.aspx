@@ -92,6 +92,8 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("排成改善_數量").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("排成改善_改善完成數量").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("需監控點數量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("x座標").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("y座標").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilCIPS.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
@@ -99,7 +101,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="14">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="16">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -263,6 +265,8 @@
                                             <th  colspan="2">立即改善 </th>
                                             <th  colspan="2">排程改善 </th>
                                             <th >需監控點 </th>
+                                            <th  rowspan="2">x座標</th>
+                                            <th  rowspan="2">y座標</th>
                                             <th  rowspan="2">備註 </th>
                                             <th  rowspan="2" id="th_edit">功能</th>
                                         </tr>
