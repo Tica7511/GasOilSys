@@ -90,7 +90,7 @@
                 showOn: 'button',
                 buttonImageOnly: true,
                 buttonImage: '../images/calendar.gif',
-                yearRange: 'c-6:c+6'
+                yearRange: 'c-60:c+10'
             }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
         }); // end js
 
