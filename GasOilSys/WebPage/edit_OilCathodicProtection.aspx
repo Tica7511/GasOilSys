@@ -17,7 +17,7 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
-            getDDL(getTaiwanDate());
+            getDDL();
             getData();
 
             $(document).on("change", "#txt2", function () {
@@ -166,14 +166,13 @@
 			});
         }
 
-        function getDDL(year) {
+        function getDDL() {
             $.ajax({
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../handler/GetOilStorageTankInfo.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
-                    year: year,
                     type: "list",
                 },
                 error: function (xhr) {

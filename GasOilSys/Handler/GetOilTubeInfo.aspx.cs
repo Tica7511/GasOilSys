@@ -16,7 +16,6 @@ public partial class Handler_GetOilTubeInfo : System.Web.UI.Page
 		///功    能: 查詢管線基本資料
 		///說    明:
 		/// * Request["cpid"]: 業者Guid 
-        /// * Request["year"]: 年度 
 		/// * Request["type"]: list=列表 data=資料列 
         /// * Request["PageNo"]:欲顯示的頁碼, 由零開始
         /// * Request["PageSize"]:每頁顯示的資料筆數, 未指定預設10
@@ -25,10 +24,9 @@ public partial class Handler_GetOilTubeInfo : System.Web.UI.Page
         try
         {
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
-            string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
-            string Sno = (string.IsNullOrEmpty(Request["Sno"])) ? LogInfo.companyGuid : Request["Sno"].ToString().Trim();
+            string Sno = (string.IsNullOrEmpty(Request["Sno"])) ? "" : Request["Sno"].ToString().Trim();
             string PageNo = (Request["PageNo"] != null) ? Request["PageNo"].ToString().Trim() : "0";
             int PageSize = (Request["PageSize"] != null) ? int.Parse(Request["PageSize"].ToString().Trim()) : 10;
 
@@ -39,7 +37,6 @@ public partial class Handler_GetOilTubeInfo : System.Web.UI.Page
                 int pageStart = pageEnd - PageSize + 1;
 
                 db._業者guid = cpid;
-                db._年度 = year;
                 db._長途管線識別碼 = Sno;
 
                 DataSet ds = db.GetList(pageStart.ToString(), pageEnd.ToString());

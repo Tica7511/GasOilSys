@@ -48,7 +48,7 @@ public partial class Handler_GasDelLogSefEvaluation : System.Web.UI.Page
             cs_db._guid = guid;
             cs_db._業者guid = cpid;
             cs_db._題目guid = qguid;
-            cs_db._年度 = "110";
+            cs_db._年度 = taiwanYear();
             cs_db._修改者 = LogInfo.mGuid;
 
             cs_db.UpdateSelfEvaluation(oConn, myTrans);
@@ -73,5 +73,14 @@ public partial class Handler_GasDelLogSefEvaluation : System.Web.UI.Page
         }
         Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
         xDoc.Save(Response.Output);
+    }
+
+    public string taiwanYear()
+    {
+        DateTime nowdate = DateTime.Now;
+        string year = nowdate.Year.ToString();
+        string taiwanYear = (Convert.ToInt32(year) - 1911).ToString();
+
+        return taiwanYear;
     }
 }

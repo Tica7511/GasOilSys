@@ -34,7 +34,7 @@ public partial class Handler_GasCommitteeSuggestion : System.Web.UI.Page
 
             gcs_db._業者guid = cpid;
             gcs_db._題目guid = qid;            
-            gcs_db._年度 = "110";
+            gcs_db._年度 = taiwanYear();
 
             //db._KeyWord = SearchStr;
             dt = gcs_db.GetList();
@@ -48,5 +48,14 @@ public partial class Handler_GasCommitteeSuggestion : System.Web.UI.Page
         }
         Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
         xDoc.Save(Response.Output);
+    }
+
+    public string taiwanYear()
+    {
+        DateTime nowdate = DateTime.Now;
+        string year = nowdate.Year.ToString();
+        string taiwanYear = (Convert.ToInt32(year) - 1911).ToString();
+
+        return taiwanYear;
     }
 }

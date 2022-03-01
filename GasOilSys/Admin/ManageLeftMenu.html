@@ -1,0 +1,42 @@
+﻿
+<ul class='nav'>
+    <li>
+        <a name="menubtn" href="javascript:void(0);" link="memberManage.aspx" target='_self'>人員管理</a>
+    </li>
+    <li>
+        <a href='#' target='_self'>天然氣</a>
+        <ul class='navSb'>
+            <li><a name="menubtn" href="javascript:void(0);" link="indexManage.aspx" target='_self'>廠商資料是否確認列表</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="GasCommitteeToCompany.aspx" target='_self'>委員業者年度對應表</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href='#' target='_self'>石油</a>
+        <ul class='navSb'>
+            <li><a name="menubtn" href="javascript:void(0);" link="indexManage2.aspx" target='_self'>廠商資料是否確認列表</a></li>
+            <li><a name="menubtn" href="javascript:void(0);" link="OilCommitteeToCompany.aspx" target='_self'>委員業者年度對應表</a></li>
+        </ul>
+    </li>
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var pathAry = window.location.pathname.split('/');
+        var pathName = pathAry[(pathAry.length - 1)];
+        var pathNameAry = pathName.split('_');
+        var pathParentName = '';
+        if (pathNameAry.length > 2)
+            pathParentName = pathNameAry[(pathNameAry.length - 2)] + ".aspx";
+        else
+            pathParentName = pathNameAry[(pathNameAry.length - 1)];
+
+        $("#navmenuV a[link='" + pathParentName + "']").parent().addClass("active");
+        $("#navmenuV a[link='" + pathParentName + "']").parent().parent().parent().addClass("open");
+        $('.nav').navgoco();
+
+        $("a[name='menubtn']").click(function () {
+            location.href = ($.getQueryString("cp") != "") ? $(this).attr("link") + "?cp=" + $.getQueryString("cp") : $(this).attr("link");
+        });
+	});
+</script>

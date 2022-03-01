@@ -67,6 +67,34 @@ public class Member_DB
     public string _資料狀態 { set { 資料狀態 = value; } }
     #endregion
 
+    public DataSet GetList(string pStart, string pEnd)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * into #tmp from 會員檔 
+  where 資料狀態='A' ");
+
+        sb.Append(@"
+select count(*) as total from #tmp
+
+select * from (
+           select ROW_NUMBER() over (order by 帳號類別) itemNo,* from #tmp
+)#tmp where itemNo between @pStart and @pEnd ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void UpdatePwd()
     {
         SqlCommand oCmd = new SqlCommand();

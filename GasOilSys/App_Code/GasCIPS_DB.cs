@@ -30,7 +30,9 @@ public class GasCIPS_DB
 	string 排程改善_數量 = string.Empty;
 	string 排程改善_改善完成數量 = string.Empty;
 	string 需監控點_數量 = string.Empty;
-	string 備註 = string.Empty;
+    string x座標 = string.Empty;
+    string y座標 = string.Empty;
+    string 備註 = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -53,7 +55,9 @@ public class GasCIPS_DB
 	public string _排程改善_數量 { set { 排程改善_數量 = value; } }
 	public string _排程改善_改善完成數量 { set { 排程改善_改善完成數量 = value; } }
 	public string _需監控點_數量 { set { 需監控點_數量 = value; } }
-	public string _備註 { set { 備註 = value; } }
+    public string _x座標 { set { x座標 = value; } }
+    public string _y座標 { set { y座標 = value; } }
+    public string _備註 { set { 備註 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -157,6 +161,8 @@ else
 排程改善_數量,
 排程改善_改善完成數量,
 需監控點_數量,
+x座標,
+y座標,
 備註,
 修改者, 
 修改日期, 
@@ -176,6 +182,8 @@ else
 @排程改善_數量,
 @排程改善_改善完成數量,
 @需監控點_數量,
+x座標,
+y座標,
 @備註,
 @修改者, 
 @修改日期, 
@@ -199,6 +207,8 @@ else
         oCmd.Parameters.AddWithValue("@排程改善_數量", 排程改善_數量);
         oCmd.Parameters.AddWithValue("@排程改善_改善完成數量", 排程改善_改善完成數量);
         oCmd.Parameters.AddWithValue("@需監控點_數量", 需監控點_數量);
+        oCmd.Parameters.AddWithValue("@x座標", x座標);
+        oCmd.Parameters.AddWithValue("@y座標", y座標);
         oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
@@ -225,6 +235,8 @@ else
 排程改善_數量=@排程改善_數量,
 排程改善_改善完成數量=@排程改善_改善完成數量,
 需監控點_數量=@需監控點_數量,
+x座標=@x座標,
+y座標=@y座標,
 備註=@備註,
 修改者=@修改者, 
 修改日期=@修改日期 
@@ -246,6 +258,8 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@排程改善_數量", 排程改善_數量);
         oCmd.Parameters.AddWithValue("@排程改善_改善完成數量", 排程改善_改善完成數量);
         oCmd.Parameters.AddWithValue("@需監控點_數量", 需監控點_數量);
+        oCmd.Parameters.AddWithValue("@x座標", x座標);
+        oCmd.Parameters.AddWithValue("@y座標", y座標);
         oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);

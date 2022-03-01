@@ -47,6 +47,15 @@ public class OilControl_DB
     string 前一年度高液位警報發生頻率 = string.Empty;
     string 液位異常下降警報設定基準 = string.Empty;
     string 前一年度異常下降警報發生頻率 = string.Empty;
+
+    //管線輸送接收資料
+    string 管線編號 = string.Empty;
+    string 洩漏監控系統 = string.Empty;
+    string 自有端是否有設置壓力 = string.Empty;
+    string 自有端是否有設置流量 = string.Empty;
+    string 操作壓力值 = string.Empty;
+    string 壓力警報設定值 = string.Empty;
+    string 流量警報設定值 = string.Empty;
     #endregion
     #region public
     public string _id { set { id = value; } }
@@ -74,13 +83,22 @@ public class OilControl_DB
 
     //儲槽泵送接收資料
     public string _轄區儲槽編號 { set { 轄區儲槽編號 = value; } }
-    public string _控制室名稱 { set { 控制室名稱 = value; } }
+    public string _洩漏監控系統 { set { 洩漏監控系統 = value; } }
     public string _液位監測方式 { set { 液位監測方式 = value; } }
     public string _液位監測靈敏度 { set { 液位監測靈敏度 = value; } }
     public string _高液位警報設定基準 { set { 高液位警報設定基準 = value; } }
     public string _前一年度高液位警報發生頻率 { set { 前一年度高液位警報發生頻率 = value; } }
     public string _液位異常下降警報設定基準 { set { 液位異常下降警報設定基準 = value; } }
     public string _前一年度異常下降警報發生頻率 { set { 前一年度異常下降警報發生頻率 = value; } }
+
+    //管線輸送接收資料
+    public string _管線編號 { set { 管線編號 = value; } }
+    public string _控制室名稱 { set { 控制室名稱 = value; } }
+    public string _自有端是否有設置壓力 { set { 自有端是否有設置壓力 = value; } }
+    public string _自有端是否有設置流量 { set { 自有端是否有設置流量 = value; } }
+    public string _操作壓力值 { set { 操作壓力值 = value; } }
+    public string _壓力警報設定值 { set { 壓力警報設定值 = value; } }
+    public string _流量警報設定值 { set { 流量警報設定值 = value; } }
     #endregion
 
     public DataTable GetList()
@@ -112,6 +130,28 @@ public class OilControl_DB
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 石油_控制室_儲槽泵送接收資料 where 資料狀態='A' and 業者guid=@業者guid ");
+        if (!string.IsNullOrEmpty(年度))
+            sb.Append(@" and 年度=@年度");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetList3()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_控制室_管線輸送接收資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
             sb.Append(@" and 年度=@年度");
 
@@ -172,6 +212,25 @@ else
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 石油_控制室_儲槽泵送接收資料 where guid=@guid and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetData2()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_控制室_管線輸送接收資料 where guid=@guid and 資料狀態='A' ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -405,6 +464,127 @@ where guid=@guid and 資料狀態=@資料狀態
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         oCmd.CommandText = @"update 石油_控制室_儲槽泵送接收資料 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public void InsertData3(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 石油_控制室_管線輸送接收資料(  
+年度,
+業者guid,
+管線編號,
+控制室名稱,
+洩漏監控系統,
+自有端是否有設置壓力,
+自有端是否有設置流量,
+操作壓力值,
+壓力警報設定值,
+流量警報設定值,
+前一年度異常下降警報發生頻率,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@年度,
+@業者guid,
+@管線編號,
+@控制室名稱,
+@洩漏監控系統,
+@自有端是否有設置壓力,
+@自有端是否有設置流量,
+@操作壓力值,
+@壓力警報設定值,
+@流量警報設定值,
+@前一年度異常下降警報發生頻率,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態  
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@管線編號", 管線編號);
+        oCmd.Parameters.AddWithValue("@控制室名稱", 控制室名稱);
+        oCmd.Parameters.AddWithValue("@洩漏監控系統", 洩漏監控系統);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置壓力", 自有端是否有設置壓力);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置流量", 自有端是否有設置流量);
+        oCmd.Parameters.AddWithValue("@操作壓力值", 操作壓力值);
+        oCmd.Parameters.AddWithValue("@壓力警報設定值", 壓力警報設定值);
+        oCmd.Parameters.AddWithValue("@流量警報設定值", 流量警報設定值);
+        oCmd.Parameters.AddWithValue("@前一年度異常下降警報發生頻率", 前一年度異常下降警報發生頻率);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateData3(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"update 石油_控制室_管線輸送接收資料 set  
+年度=@年度, 
+管線編號=@管線編號,
+控制室名稱=@控制室名稱,
+洩漏監控系統=@洩漏監控系統,
+自有端是否有設置壓力=@自有端是否有設置壓力,
+自有端是否有設置流量=@自有端是否有設置流量,
+操作壓力值=@操作壓力值,
+壓力警報設定值=@壓力警報設定值,
+流量警報設定值=@流量警報設定值,
+前一年度異常下降警報發生頻率=@前一年度異常下降警報發生頻率,
+修改日期=@修改日期 
+where guid=@guid and 資料狀態=@資料狀態 
+ ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@管線編號", 管線編號);
+        oCmd.Parameters.AddWithValue("@控制室名稱", 控制室名稱);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置壓力", 自有端是否有設置壓力);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置流量", 自有端是否有設置流量);
+        oCmd.Parameters.AddWithValue("@洩漏監控系統", 洩漏監控系統);
+        oCmd.Parameters.AddWithValue("@操作壓力值", 操作壓力值);
+        oCmd.Parameters.AddWithValue("@壓力警報設定值", 壓力警報設定值);
+        oCmd.Parameters.AddWithValue("@流量警報設定值", 流量警報設定值);
+        oCmd.Parameters.AddWithValue("@前一年度異常下降警報發生頻率", 前一年度異常下降警報發生頻率);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void DeleteData2()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 石油_控制室_管線輸送接收資料 set 
 修改日期=@修改日期, 
 修改者=@修改者, 
 資料狀態='D' 

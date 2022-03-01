@@ -151,7 +151,7 @@
                 url: "../Handler/GetOilStorageTankInfo.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
-                    year: getTaiwanDate(),
+                    year: "110",
                     Sno: $("#txt1").val(),
                     type: "list"
                 },

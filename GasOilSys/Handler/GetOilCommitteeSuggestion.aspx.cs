@@ -20,6 +20,7 @@ public partial class Handler_GetOilCommitteeSuggestionaspx : System.Web.UI.Page
         ///說    明:
         /// * Request["cpid"]: 業者guid
         /// * Request["qid"]: 題目Guid        
+        /// * Request["year"]: 年度        
         ///-----------------------------------------------------
 
         XmlDocument xDoc = new XmlDocument();
@@ -28,12 +29,13 @@ public partial class Handler_GetOilCommitteeSuggestionaspx : System.Web.UI.Page
             //string SearchStr = (string.IsNullOrEmpty(Request["SearchStr"])) ? "" : Request["SearchStr"].ToString().Trim();
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
             string qid = (string.IsNullOrEmpty(Request["qid"])) ? "" : Request["qid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string xmlstr = string.Empty;
             DataTable dt = new DataTable();
 
             ocs_db._業者guid = cpid;
             ocs_db._題目guid = qid;            
-            ocs_db._年度 = "110";
+            ocs_db._年度 = taiwanYear();
 
             //db._KeyWord = SearchStr;
             dt = ocs_db.GetList();
@@ -47,5 +49,14 @@ public partial class Handler_GetOilCommitteeSuggestionaspx : System.Web.UI.Page
         }
         Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
         xDoc.Save(Response.Output);
+    }
+
+    public string taiwanYear()
+    {
+        DateTime nowdate = DateTime.Now;
+        string year = nowdate.Year.ToString();
+        string taiwanYear = (Convert.ToInt32(year) - 1911).ToString();
+
+        return taiwanYear;
     }
 }

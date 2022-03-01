@@ -33,6 +33,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                 string category = Common.FilterCheckMarxString(Request.QueryString["category"]);
                 string type = Common.FilterCheckMarxString(Request.QueryString["type"]);
                 string details = Common.FilterCheckMarxString(Request.QueryString["details"]);
+                string sn = Common.FilterCheckMarxString(Request.QueryString["sn"]);
                 string dirPath = string.Empty;
                 DataTable dt = new DataTable();
 
@@ -90,6 +91,16 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = OEGdb.GetFileName();
                                     if (dt.Rows.Count > 0)
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                    break;
+                                case "selfEvaluation":
+                                    dirPath += "selfEvaluation\\";
+                                    Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    Fdb._排序 = sn;
+                                    dt = Fdb.GetFileData();
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                    }
                                     break;
                             }
                             break;
@@ -155,6 +166,16 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = OEOdb.GetFileName();
                                     if (dt.Rows.Count > 0)
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                    break;
+                                case "selfEvaluation":
+                                    dirPath += "selfEvaluation\\";
+                                    Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    Fdb._排序 = sn;
+                                    dt = Fdb.GetFileData();
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                    }
                                     break;
                             }
                             break;

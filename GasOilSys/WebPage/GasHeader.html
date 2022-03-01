@@ -13,6 +13,7 @@
                         <ul>
                             <li><a href="../Handler/SignOut.aspx">登出</a></li>
                             <li><a id="changepwdA" onclick="doOpenPasswordDialog()" href="javascript:void(0);">變更密碼</a></li>
+                            <li><a id="managebtn" href="../Admin/memberManage.aspx" target="_blank">後台管理</a></li>
                         </ul>
                     </span>
                 </div><!-- HeaderOtherLinkWrapper -->
@@ -67,6 +68,31 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $.ajax({
+            type: "POST",
+            async: false, //在沒有返回值之前,不會執行下一步動作
+            url: "../Handler/GetManager.aspx",
+            data: {
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.status);
+                console.log(xhr.responseText);
+            },
+            success: function (data) {
+                if ($(data).find("Error").length > 0) {
+                    alert($(data).find("Error").attr("Message"));
+                }
+                else {
+                    var competenceManage = $("Response", data).text();
+
+                    if (competenceManage != '03')
+                        $("#managebtn").hide();
+                    else
+                        $("#managebtn").show();
+                }
+            }
+        });
 
         $(document).on("keyup", "body", function (e) {
             if (e.keyCode == 13)

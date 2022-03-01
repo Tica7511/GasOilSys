@@ -13,6 +13,22 @@
     <meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
     <title>石油業輸儲設備查核及檢測資訊系統</title>
     <!--#include file="Head_Include.html"-->
+    <style>
+        td:first-child, th:first-child {
+         position:sticky;
+         left:0; /* 首行永遠固定於左 */
+         z-index:1;
+        }
+        
+        thead tr th {
+         position:sticky;
+         top:0; /* 列首永遠固定於上 */
+        }
+        
+        th:first-child{
+         z-index:2;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             getYearList();
@@ -122,9 +138,49 @@
                                 $("td[name='td_edit']").show();
                             }
                         }
+
+                        getConfirmedStatus();
 					}
 				}
 			});
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#newbtn").hide();
+                                        $("#editbtn").hide();
+                                        $("#th_edit").hide();
+                                        $("td[name='td_edit']").hide();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         //取得民國年份之下拉選單

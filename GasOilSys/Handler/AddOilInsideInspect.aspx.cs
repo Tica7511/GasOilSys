@@ -127,8 +127,8 @@ public partial class Handler_AddOilInsideInspect : System.Web.UI.Page
                         if (fdt.Rows.Count > 0)
                         {
                             int maxsn = Convert.ToInt32(fdt.Rows[0]["Sort"].ToString().Trim());
-                            if (maxsn >= 9)
-                                sn = (maxsn + 1).ToString();
+                            if (maxsn > 9)
+                                sn = maxsn.ToString();
                             else
                                 sn = "0" + maxsn.ToString();
                         }

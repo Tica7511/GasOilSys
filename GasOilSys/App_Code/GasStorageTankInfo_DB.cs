@@ -284,7 +284,7 @@ else
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@液化天然氣廠", 液化天然氣廠);
         oCmd.Parameters.AddWithValue("@儲槽編號", 儲槽編號);
@@ -332,7 +332,7 @@ else
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@庫區特殊區域", 庫區特殊區域);
         oCmd.Parameters.AddWithValue("@庫區特殊區域_其他", 庫區特殊區域_其他);
@@ -376,7 +376,7 @@ else
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@儲氣設備", 儲氣設備);
         oCmd.Parameters.AddWithValue("@查核項目", 查核項目);
@@ -415,7 +415,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.CommandText = sb.ToString();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@液化天然氣廠", 液化天然氣廠);
         oCmd.Parameters.AddWithValue("@儲槽編號", 儲槽編號);
@@ -450,7 +450,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.CommandText = sb.ToString();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@庫區特殊區域", 庫區特殊區域);
         oCmd.Parameters.AddWithValue("@庫區特殊區域_其他", 庫區特殊區域_其他);
@@ -479,7 +479,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.CommandText = sb.ToString();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@儲氣設備", 儲氣設備);
         oCmd.Parameters.AddWithValue("@查核項目", 查核項目);

@@ -37,6 +37,7 @@ public class OilTubeInfo_DB
     string 使用壓力 = string.Empty;
     string 使用狀態 = string.Empty;
     string 附掛橋樑數量 = string.Empty;
+    string 管線穿越箱涵數量 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
     string 修改者 = string.Empty;
@@ -66,6 +67,7 @@ public class OilTubeInfo_DB
     public string _使用壓力 { set { 使用壓力 = value; } }
     public string _使用狀態 { set { 使用狀態 = value; } }
     public string _附掛橋樑數量 { set { 附掛橋樑數量 = value; } }
+    public string _管線穿越箱涵數量 { set { 管線穿越箱涵數量 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
     public string _修改者 { set { 修改者 = value; } }
@@ -80,8 +82,8 @@ public class OilTubeInfo_DB
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 into #tmp from 石油_管線基本資料 a  
-  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度
-  where a.業者guid=@業者guid and a.年度=@年度 and a.資料狀態='A' ");
+  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
+  where a.業者guid=@業者guid and a.資料狀態='A' ");
 
         if(!string.IsNullOrEmpty(長途管線識別碼))
             sb.Append(@" and a.長途管線識別碼=@長途管線識別碼");
@@ -99,7 +101,6 @@ select * from (
         DataSet ds = new DataSet();
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
@@ -115,7 +116,7 @@ select * from (
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from  石油_管線基本資料 
-where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A' ");
+where 業者guid=@業者guid and 資料狀態='A' ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -123,7 +124,6 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A' ");
         DataTable ds = new DataTable();
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
 
         oda.Fill(ds);
         return ds;
@@ -213,6 +213,7 @@ else
 使用壓力,
 使用狀態,
 附掛橋樑數量,
+管線穿越箱涵數量,
 修改者, 
 修改日期, 
 建立者, 
@@ -238,6 +239,7 @@ else
 @使用壓力,
 @使用狀態,
 @附掛橋樑數量,
+@管線穿越箱涵數量,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -247,7 +249,7 @@ else
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
         oCmd.Parameters.AddWithValue("@轄區長途管線名稱", 轄區長途管線名稱);
@@ -267,6 +269,7 @@ else
         oCmd.Parameters.AddWithValue("@使用壓力", 使用壓力);
         oCmd.Parameters.AddWithValue("@使用狀態", 使用狀態);
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
+        oCmd.Parameters.AddWithValue("@管線穿越箱涵數量", 管線穿越箱涵數量);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -300,6 +303,7 @@ else
 使用壓力=@使用壓力,
 使用狀態=@使用狀態,
 附掛橋樑數量=@附掛橋樑數量,
+管線穿越箱涵數量=@管線穿越箱涵數量,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -308,7 +312,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.CommandText = sb.ToString();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
         oCmd.Parameters.AddWithValue("@轄區長途管線名稱", 轄區長途管線名稱);
@@ -328,6 +332,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@使用壓力", 使用壓力);
         oCmd.Parameters.AddWithValue("@使用狀態", 使用狀態);
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
+        oCmd.Parameters.AddWithValue("@管線穿越箱涵數量", 管線穿越箱涵數量);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');

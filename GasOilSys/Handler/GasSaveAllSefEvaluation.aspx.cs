@@ -13,6 +13,9 @@ using System.Xml;
 public partial class Handler_GasSaveAllSefEvaluation : System.Web.UI.Page
 {
     GasAllSuggestion_DB db = new GasAllSuggestion_DB();
+    FileTable fdb = new FileTable();
+    CodeTable_DB cdb = new CodeTable_DB();
+    GasCompanyInfo_DB cpdb = new GasCompanyInfo_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -53,6 +56,7 @@ public partial class Handler_GasSaveAllSefEvaluation : System.Web.UI.Page
             string qAnswer = (string.IsNullOrEmpty(Request["qAnswer"])) ? "" : Request["qAnswer"].ToString().Trim();
             string qViewFile = (string.IsNullOrEmpty(Request["qViewFile"])) ? "" : Request["qViewFile"].ToString().Trim();
             string qIsop = (string.IsNullOrEmpty(Request["qIsop"])) ? "" : Request["qIsop"].ToString().Trim();
+            string cpName = string.Empty;
 
             db._guid = logguid;
             db._委員guid = LogInfo.mGuid;
@@ -73,6 +77,112 @@ public partial class Handler_GasSaveAllSefEvaluation : System.Web.UI.Page
             else if (type == "edit")
             {
                 db.UpdateSuggestion(oConn, myTrans);
+            }
+
+            cpdb._guid = cpid;
+            DataTable cpdt = cpdb.GetCpName2();
+
+            if (cpdt.Rows.Count > 0)
+            {
+                cpName = cpdt.Rows[0]["cpname"].ToString().Trim() + "_";
+            }
+
+            string sn = string.Empty;
+
+            HttpFileCollection uploadFiles = Request.Files;
+            for (int i = 0; i < uploadFiles.Count; i++)
+            {
+                HttpPostedFile File = uploadFiles[i];
+                if (File.FileName.Trim() != "")
+                {
+                    string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + "Gas_Upload\\selfEvaluation\\";
+
+                    //如果上傳路徑中沒有該目錄，則自動新增
+                    if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
+                    {
+                        Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
+                    }
+
+                    cdb._群組代碼 = "021";
+                    cdb._項目代碼 = "07";
+                    DataTable cdt = cdb.GetList();
+
+                    if (cdt.Rows.Count > 0)
+                    {
+                        fdb._guid = logguid;
+                        fdb._業者guid = cpid;
+                        fdb._年度 = Server.UrlDecode(taiwanYear());
+                        fdb._檔案類型 = "07";
+
+                        if (type == "add")
+                        {
+                            sn = "0" + (i + 1).ToString();
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(sn))
+                            {
+                                if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
+                                {
+                                    sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
+                                }
+                                else
+                                {
+                                    sn = (Convert.ToInt32(sn) + 1).ToString();
+                                }
+                            }
+                            else
+                            {
+                                DataTable fdt = fdb.GetMaxSn();
+
+                                if (fdt.Rows.Count > 0)
+                                {
+                                    int maxsn = Convert.ToInt32(fdt.Rows[0]["Sort"].ToString().Trim());
+                                    if (maxsn > 9)
+                                        sn = maxsn.ToString();
+                                    else
+                                        sn = "0" + maxsn.ToString();
+                                }
+                                else
+                                {
+                                    sn = "01";
+                                }
+                            }
+                        }
+
+                        string typeName = cdt.Rows[0]["項目名稱"].ToString().Trim() + "_";
+
+                        //原檔名
+                        string orgName = Path.GetFileNameWithoutExtension(File.FileName);
+
+                        //副檔名
+                        string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
+
+                        //新檔名
+                        string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
+
+                        string file_size = File.ContentLength.ToString();
+
+                        File.SaveAs(UpLoadPath + newName + extension);
+
+                        #region 儲存檔案進附件檔
+
+                        fdb._guid = logguid;
+                        fdb._原檔名 = orgName;
+                        fdb._新檔名 = newName;
+                        fdb._附檔名 = extension;
+                        fdb._排序 = sn;
+                        fdb._檔案大小 = file_size;
+                        fdb._修改者 = LogInfo.mGuid;
+                        fdb._修改日期 = DateTime.Now;
+                        fdb._建立者 = LogInfo.mGuid;
+                        fdb._建立日期 = DateTime.Now;
+
+                        fdb.UpdateFile_Trans(oConn, myTrans);
+
+                        #endregion
+                    }
+                }
             }
 
             myTrans.Commit();

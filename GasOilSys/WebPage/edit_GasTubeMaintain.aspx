@@ -17,7 +17,7 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
         $(document).ready(function () {
-            getDDL(getTaiwanDate());
+            getDDL();
             getDDL2();
             getData();
 
@@ -132,14 +132,13 @@
             });
         }
 
-        function getDDL(year) {
+        function getDDL() {
             $.ajax({
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../handler/GetGasTubeInfo.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
-                    year: year,
                     type: "list",
                 },
                 error: function (xhr) {
@@ -152,8 +151,8 @@
                     }
                     else {
                         var ddlstr = '<option value="">請選擇</option>';
-                        if ($(data).find("data_item").length > 0) {
-                            $(data).find("data_item").each(function (i) {
+                        if ($(data).find("data_item3").length > 0) {
+                            $(data).find("data_item3").each(function (i) {
                                 ddlstr += '<option value="' + $(this).children("長途管線識別碼").text().trim() + '">' + $(this).children("長途管線識別碼").text().trim() + '</option>';
                             });
                         }

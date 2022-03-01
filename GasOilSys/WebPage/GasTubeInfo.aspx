@@ -34,9 +34,9 @@
 	<script type="text/javascript">
         $(document).ready(function () {
             $(".container").css("max-width", "1800px");
-            getYearList();
-            $("#sellist").val(getTaiwanDate());
-            $("#taiwanYear").val(getTaiwanDate());
+            //getYearList();
+            //$("#sellist").val(getTaiwanDate());
+            //$("#taiwanYear").val(getTaiwanDate());
 			getData(0);
 
             //選擇年份
@@ -85,7 +85,6 @@
 				url: "../Handler/GetGasTubeInfo.aspx",
 				data: {
                     cpid: $.getQueryString("cp"),
-                    year: $("#taiwanYear").val(),
                     type: "list",
                     PageNo: p,
                     PageSize: Page.Option.PageSize,
@@ -121,7 +120,8 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("設計壓力").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用壓力").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用狀態").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("附掛橋樑數量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("附掛橋樑數量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("管線穿越箱涵數量").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("活動斷層敏感區").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("土壤液化區").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("土石流潛勢區").text().trim() + '</td>';
@@ -132,33 +132,66 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="23">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="24">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
                         Page.CreatePage(p, $("total", data).text());
 
                         //確認權限&按鈕顯示或隱藏
-                        if ($("#sellist").val() != getTaiwanDate()) {
-                            $("#newbtn").hide();
-                            $("#th_edit").hide();
-                            $("td[name='td_edit']").hide();
-                        }
-                        else {
-                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                                 $("#newbtn").hide();
                                 $("#th_edit").hide();
                                 $("td[name='td_edit']").hide();
-                            }
-                            else {
-                                $("#newbtn").show();
-                                $("#th_edit").show();
-                                $("td[name='td_edit']").show();
-                            }
                         }
+                        else {
+                            $("#newbtn").show();
+                            $("#th_edit").show();
+                            $("td[name='td_edit']").show();
+                        }
+
+                        getConfirmedStatus();
 					}
 				}
 			});
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#newbtn").hide();
+                                        $("#editbtn").hide();
+                                        $("#th_edit").hide();
+                                        $("td[name='td_edit']").hide();
+                                    }
+                                }                                
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         //取得民國年份之下拉選單
@@ -275,10 +308,10 @@
                         </div>
 						<div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
-                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                <%--<div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
                                     <select id="sellist" class="inputex">
                                     </select> 年
-                                </div>
+                                </div>--%>
                                 <div class="right">
                                 <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
@@ -305,6 +338,7 @@
 											<th nowrap>使用<br>壓力<br>(Kg/cm<sup>2</sup>)</th>
 											<th nowrap>使用狀態<br>1.使用中<br>2.停用<br>3.備用 </th>
 											<th nowrap>附掛<br>橋樑<br>數量 </th>
+                                            <th nowrap>管線穿越<br>箱涵數量</th>
                                             <th nowrap>活動斷層敏感區<br>1.有<br>2.無 </th>
                                             <th nowrap>土壤液化區<br>1.有<br>2.無 </th>
                                             <th nowrap>土石流潛勢區<br>1.有<br>2.無 </th>

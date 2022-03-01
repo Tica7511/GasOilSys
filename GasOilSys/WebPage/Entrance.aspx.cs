@@ -31,9 +31,9 @@ public partial class WebPage_Entrance : System.Web.UI.Page
 				default:
                     break;
 				case "01": //委員
-                    gmc_db._年度 = "110"; //暫時先抓110年
+                    gmc_db._年度 = taiwanYear();
                     gmc_db._委員guid = LogInfo.mGuid;
-                    omc_db._年度 = "110"; //暫時先抓110年
+                    omc_db._年度 = taiwanYear(); 
                     omc_db._委員guid = LogInfo.mGuid;
                     DataTable Gasdt = gmc_db.GetMasterType();
                     DataTable Oildt = omc_db.GetMasterType();
@@ -95,4 +95,13 @@ public partial class WebPage_Entrance : System.Web.UI.Page
 			Response.Write("<script>alert('請重新登入'); location='SignIn.aspx';</script>");
 		}
 	}
+
+    public string taiwanYear()
+    {
+        DateTime nowdate = DateTime.Now;
+        string year = nowdate.Year.ToString();
+        string taiwanYear = (Convert.ToInt32(year) - 1911).ToString();
+
+        return taiwanYear;
+    }
 }

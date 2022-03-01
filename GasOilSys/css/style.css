@@ -6,11 +6,13 @@ body{}
 .bgO{background:url("../images/bodybgO.jpg") top center fixed;background-size: cover;}
 .bgB{background:url("../images/bodybgB.jpg") top center fixed;background-size: cover;}
 .bgG{background:url("../images/bodybgG.jpg") top center fixed;background-size: cover;}
+.bgC{background:url("../images/bodybgC.jpg") top center fixed;background-size: cover;}
 
 /*  ===== ochi框架 ===== */
 .HeaderO{background:url("../images/headerbgO.jpg") top left no-repeat; min-height: 100px;}
 .HeaderB{background:url("../images/headerbgB.jpg") top left no-repeat; min-height: 100px;}
 .HeaderG{background:url("../images/headerbgG.jpg") top left no-repeat; min-height: 100px;}
+.HeaderC{background:url("../images/headerbgC.jpg") top left no-repeat; min-height: 100px;}
 .WrapperHeader .loginfo{padding-top:5px; text-align:right;}
 .MainMenu{
 height:2.8em; font-size:18px; z-index: 998; margin-top: 50px;

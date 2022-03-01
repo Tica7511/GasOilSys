@@ -12,21 +12,21 @@ public partial class Handler_GetOilExclude : System.Web.UI.Page
 	OilCompanyExclude_DB db = new OilCompanyExclude_DB();
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		///-----------------------------------------------------
-		///功    能: 查詢石油自評表業者排除題目
-		///說    明:
-		/// * Request[""]: 
-		///-----------------------------------------------------
-		XmlDocument xDoc = new XmlDocument();
+        ///-----------------------------------------------------
+        ///功    能: 查詢石油自評表業者排除題目
+        ///說    明:
+        /// * Request["cpid"]: 業者guid
+        /// * Request["year"]: 年份
+        ///-----------------------------------------------------
+        XmlDocument xDoc = new XmlDocument();
 		try
 		{
-			if (LogInfo.competence == "01")
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
+            string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
+            
+			if (LogInfo.competence == "02")
 			{
-
-			}
-			else if (LogInfo.competence == "02")
-			{
-				db._年份 = "110";
+				db._年份 = year;
 				db._業者guid = LogInfo.companyGuid;
 				DataTable dt = db.GetList();
 				string xmlstr = string.Empty;
@@ -34,6 +34,16 @@ public partial class Handler_GetOilExclude : System.Web.UI.Page
 				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
 				xDoc.LoadXml(xmlstr);
 			}
+            else
+            {
+                db._年份 = year;
+                db._業者guid = cpid;
+                DataTable dt = db.GetList();
+                string xmlstr = string.Empty;
+                xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
+                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+                xDoc.LoadXml(xmlstr);
+            }
 		}
 		catch (Exception ex)
 		{

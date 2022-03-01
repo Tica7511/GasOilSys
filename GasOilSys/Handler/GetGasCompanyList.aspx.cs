@@ -13,21 +13,23 @@ public partial class Handler_GetGasCompanyList : System.Web.UI.Page
     GasMasterCompare_DB mc_db = new GasMasterCompare_DB();
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		///-----------------------------------------------------
-		///功    能: 查詢天然氣業者清單
-		///說    明:
-		/// * Request[""]: 
-		///-----------------------------------------------------
-		XmlDocument xDoc = new XmlDocument();
+        ///-----------------------------------------------------
+        ///功    能: 查詢天然氣業者清單
+        ///說    明:
+        /// * Request["year"]: 年度
+        ///-----------------------------------------------------
+        XmlDocument xDoc = new XmlDocument();
 		try
 		{
-			//string SearchStr = (string.IsNullOrEmpty(Request["SearchStr"])) ? "" : Request["SearchStr"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
 
-			string mGuid = string.Empty;
-			if (LogInfo.competence == "01")
-				mGuid = LogInfo.mGuid;
+            string mGuid = string.Empty;
+            if (LogInfo.competence == "01")
+                mGuid = LogInfo.mGuid;
+            else
+                year = string.Empty;
 
-			DataTable dt = db.GetCompanyList(mGuid);
+			DataTable dt = db.GetCompanyList(mGuid, year);
 
 			string xmlstr = string.Empty;
 			xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");

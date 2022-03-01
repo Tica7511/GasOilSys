@@ -20,6 +20,22 @@
 	<!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
 	<title>天然氣事業輸儲設備查核及檢測資訊系統</title>
 	<!--#include file="Head_Include.html"-->
+    <style>
+        td:first-child, th:first-child {
+         position:sticky;
+         left:0; /* 首行永遠固定於左 */
+         z-index:1;
+        }
+        
+        thead tr th {
+         position:sticky;
+         top:0; /* 列首永遠固定於上 */
+        }
+        
+        th:first-child{
+         z-index:2;
+        }
+    </style>
 	<script type="text/javascript">
 		$(document).ready(function () {
             getYearList();
@@ -98,7 +114,9 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("立即改善_改善完成數量").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("排程改善_數量").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("排程改善_改善完成數量").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("需監控點_數量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("需監控點_數量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("x座標").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("y座標").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_GasCIPS.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
@@ -106,7 +124,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="13">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="15">查詢無資料</td></tr>';
 						$("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -127,10 +145,50 @@
                                 $("td[name='td_edit']").show();
                             }
                         }
+
+                        getConfirmedStatus();
 					}
 				}
 			});
-		}
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#newbtn").hide();
+                                        $("#editbtn").hide();
+                                        $("#th_edit").hide();
+                                        $("td[name='td_edit']").hide();
+                                    }
+                                }                                
+                            });
+                        }
+                    }
+                }
+            });
+        }
 
         //取得民國年份之下拉選單
         function getYearList() {
@@ -266,6 +324,8 @@
 										<th colspan="2">立即改善</th>
 										<th colspan="2">排程改善</th>
 										<th>需監控點</th>
+                                        <th rowspan="2">x座標</th>
+                                        <th rowspan="2">y座標</th>
 										<th rowspan="2">備註</th>
 										<th id="th_edit" rowspan="2">功能 </th>
                                     </tr>

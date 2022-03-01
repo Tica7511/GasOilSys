@@ -26,7 +26,10 @@
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
-				url: "../Handler/GetOilCompanyList.aspx",
+                url: "../Handler/GetOilCompanyList.aspx",
+                data: {
+                    year: getTaiwanDate(),
+                },
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
 					console.log(xhr.responseText);
@@ -47,17 +50,28 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("營業處廠").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("組").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("中心庫區儲運課工場").text().trim() + '</td>';
+								tabstr += '<td nowrap="nowrap">' + $(this).children("資料是否確認").text().trim() + '</td>';
 								tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a href="OilInfo.aspx?cp=' + $(this).children("guid").text().trim() + '">檢視</a>';
 								tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="7">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
 						$("#tablist tbody").append(tabstr);
 					}
 				}
 			});
-		}
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
 	</script>
 </head>
 <body class="bgB">
@@ -103,6 +117,7 @@
 									<th nowrap="nowrap">營業處廠</th>
 									<th nowrap="nowrap">組</th>
 									<th nowrap="nowrap">中心庫區儲運課工場</th>
+									<th nowrap="nowrap" width="130">資料是否確認</th>
 									<th nowrap="nowrap" width="100">功能</th>
 								</tr>
                             </thead>

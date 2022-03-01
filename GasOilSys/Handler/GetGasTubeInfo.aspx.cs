@@ -25,10 +25,10 @@ public partial class Handler_GetGasTubeInfo : System.Web.UI.Page
 		try
 		{
 			string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
-			string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
-			string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
-			string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
-			string Sno = (string.IsNullOrEmpty(Request["Sno"])) ? LogInfo.companyGuid : Request["Sno"].ToString().Trim();
+			string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
+			string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+			string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
+			string Sno = (string.IsNullOrEmpty(Request["Sno"])) ? "" : Request["Sno"].ToString().Trim();
 			string PageNo = (Request["PageNo"] != null) ? Request["PageNo"].ToString().Trim() : "0";
 			int PageSize = (Request["PageSize"] != null) ? int.Parse(Request["PageSize"].ToString().Trim()) : 10;
 

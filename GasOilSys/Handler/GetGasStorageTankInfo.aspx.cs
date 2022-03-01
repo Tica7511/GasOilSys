@@ -31,7 +31,7 @@ public partial class Handler_GetGasStorageTankInfo : System.Web.UI.Page
 			if (type == "list")
 			{
 				db._業者guid = cpid;
-				db._年度 = year;
+				db._年度 = "110";
 
 				DataTable dt = db.GetList();
 				DataTable dt2 = db.GetList2();

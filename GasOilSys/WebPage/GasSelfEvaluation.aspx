@@ -25,9 +25,13 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#taiwanYear").html(getTaiwanDate());
+
             GetList();
 
             $("#lbl_CompanyName").html($("#CompanyName").val());
+
+            RemoveQuestion();
 
             // disabled
             switch ($("#Competence").val()) {
@@ -35,7 +39,6 @@
                     $(".cRadio").prop("disabled", true);
                     break;
                 case "02":
-                    RemoveQuestion(); // 業者不須自評
                     $(".mRadio").prop("disabled", true);
                     $(".mRef").prop("disabled", true);
                     break;
@@ -346,7 +349,7 @@
                             qOpinions: $("#psStr2Edit").val(),
                             qViewFile: $("#psViewFileEdit").val(),
                             //qIsop: $("#psIsopEdit").val(),
-                            qYear: "110",
+                            qYear: getTaiwanDate(),
                         },
                         error: function (xhr) {
                             alert("Error: " + xhr.status);
@@ -470,7 +473,7 @@
                         qAnswer: $("#qAnswer").val(),
                         qViewFile: $("#psViewFile").val(),
                         //qIsop: $("#psIsop").val(),
-                        qYear: "110",
+                        qYear: getTaiwanDate(),
                     },
                     error: function (xhr) {
                         alert("Error: " + xhr.status);
@@ -538,6 +541,11 @@
                                 //}
                                 $("#logGuid").val($(this).children("guid").text().trim());
                             });
+                            $("#fileUpload2").val("");
+                            $("#filelist2").empty();
+                            GetAllFileList();
+                            getExtension();
+
                             doOpenDialog6();
                         }                        
                     }
@@ -558,20 +566,34 @@
 
                 isSave = confirm(str);
 
-                if (isSave) {                    
+                if (isSave) {   
+
+                    // Get form
+                    var form = $('#form2')[0];
+
+                    // Create an FormData object
+                    var data = new FormData(form);
+
+                    // If you want to add an extra field for the FormData
+                    data.append("type", "edit");
+                    data.append("cpid", $.getQueryString("cp"));
+                    data.append("guid", $("#logGuid").val());
+                    data.append("qid", $("#qGuid").val());
+                    data.append("qOpinions", $("#psStr2All2").val());
+                    data.append("qViewFile", "");
+                    data.append("qIsop", "");
+                    $.each($("#fileUpload2")[0].files, function(i, file) {
+                        data.append('file2', file);
+                    });
+
                     $.ajax({
                         type: "POST",
                         async: false, //在沒有返回值之前,不會執行下一步動作
                         url: "../Handler/GasSaveAllSefEvaluation.aspx",
-                        data: {
-                            type: "edit",
-                            cpid: $.getQueryString("cp"),
-                            guid: $("#logGuid").val(),
-                            qid: $("#qGuid").val(),
-                            qOpinions: $("#psStr2All2").val(),
-                            qViewFile: $("#psViewFileAll2").val(),
-                            qIsop: $("#psIsopAll2").val(),
-                        },
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
                         error: function (xhr) {
                             alert("Error: " + xhr.status);
                             console.log(xhr.responseText);
@@ -605,6 +627,9 @@
             $(document).on("click", "input[name='newallbtn']", function () {
                 $("#psStr2All").val("");
                 $("#psViewFileAll").val("");
+                $("#logGuid").val("");
+                $("#fileUpload").val("");
+                $("#filelist").empty();
                 doOpenDialog5();
             });
 
@@ -622,19 +647,33 @@
                 isSave = confirm(str);
 
                 if (isSave) {
+
+                    // Get form
+                    var form = $('#form2')[0];
+
+                    // Create an FormData object
+                    var data = new FormData(form);
+
+                    // If you want to add an extra field for the FormData
+                    data.append("type", "add");
+                    data.append("cpid", $.getQueryString("cp"));
+                    data.append("guid", $("#logGuid").val());
+                    data.append("qid", $("#qGuid").val());
+                    data.append("qOpinions", $("#psStr2All").val());
+                    data.append("qViewFile", "");
+                    data.append("qIsop", "");
+                    $.each($("#fileUpload")[0].files, function(i, file) {
+                        data.append('file', file);
+                    });
+
                     $.ajax({
                         type: "POST",
                         async: false, //在沒有返回值之前,不會執行下一步動作
                         url: "../Handler/GasSaveAllSefEvaluation.aspx",
-                        data: {
-                            type: "add",
-                            cpid: $.getQueryString("cp"),
-                            guid: "",
-                            qid: $("#qGuid").val(),
-                            qOpinions: $("#psStr2All").val(),
-                            qViewFile: $("#psViewFileAll").val(),
-                            qIsop: $("#psIsopAll").val(),
-                        },
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
                         error: function (xhr) {
                             alert("Error: " + xhr.status);
                             console.log(xhr.responseText);
@@ -661,6 +700,78 @@
 
                                 GetAllList();
                                 doOpenDialog4();
+                            }
+                        }
+                    });
+                }
+            });
+
+            //上傳前的附件列表
+            $(document).on("change", "#fileUpload", function () {
+                $("#filelist").empty();
+                var fp = $("#fileUpload");
+                var lg = fp[0].files.length; // get length
+                var items = fp[0].files;
+                var fragment = "";
+
+                if (lg > 0) {
+                    for (var i = 0; i < lg; i++) {
+                        var fileName = items[i].name; // get file name
+
+                        // append li to UL tag to display File info
+                        fragment += "<label>" + (i + 1) + ". " + fileName + "</label></br>";
+                    }
+
+                    $("#filelist").append(fragment);
+                }
+            });
+
+            //上傳前的附件列表
+            $(document).on("change", "#fileUpload2", function () {
+                $("#filelist2").empty();
+                var fp = $("#fileUpload2");
+                var lg = fp[0].files.length; // get length
+                var items = fp[0].files;
+                var fragment = "";
+
+                if (lg > 0) {
+                    for (var i = 0; i < lg; i++) {
+                        var fileName = items[i].name; // get file name
+
+                        // append li to UL tag to display File info
+                        fragment += "<label>" + (i + 1) + ". " + fileName + "</label></br>";
+                    }
+
+                    $("#filelist2").append(fragment);
+                }
+            });
+
+            //刪除查核意見檔案
+            $(document).on("click", "a[name='delbtnFile']", function () {
+            var isDel = confirm("確定刪除檔案嗎?");
+                if (isDel) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/DelGasAllSefEvaluationFile.aspx",
+                        data: {
+                            cpid: $.getQueryString("cp"),
+                            sn: $(this).attr("sn"),
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert("刪除完成");
+
+                                GetAllFileList();
+                                getExtension();
                             }
                         }
                     });
@@ -857,6 +968,102 @@
             });
         }
 
+        //查核建議內的附件列表
+        function GetAllFileList() {
+			$.ajax({
+				type: "POST",
+				async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetFile.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    guid: $("#logGuid").val(),
+                    year: getTaiwanDate(),
+                    type: "07",
+				},
+				error: function (xhr) {
+					alert("Error: " + xhr.status);
+					console.log(xhr.responseText);
+				},
+				success: function (data) {
+					if ($(data).find("Error").length > 0) {
+						alert($(data).find("Error").attr("Message"));
+					}
+					else {
+						$("#tablistFile tbody").empty();
+						var tabstr = '';
+						if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var filename = $(this).children("新檔名").text().trim();
+                                var fileextension = $(this).children("附檔名").text().trim();
+								tabstr += '<tr>';
+                                tabstr += '<td nowrap="nowrap">';                                
+                                tabstr += '<img width="200px" height="200px" name="img_' + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + '" src="../DOWNLOAD.aspx?category=Gas&type=selfEvaluation&sn=' + $(this).children("排序").text().trim() +
+                                    '&v=' + $(this).children("guid").text().trim() + '" alt="' + filename + fileextension + '" style="display:none" >';                                
+                                tabstr += '<a name="a_' + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + '" href="../DOWNLOAD.aspx?category=Gas&type=selfEvaluation&sn=' + $(this).children("排序").text().trim() +
+                                    '&v=' + $(this).children("guid").text().trim() + '" style="display:none" >' + filename + fileextension + '</a>';
+                                tabstr += '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("上傳日期").text().trim() + '</td>';
+                                tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnFile" aid="' + $(this).children("guid").text().trim() +
+                                    '" sn="' + $(this).children("排序").text().trim() + '">刪除</a></td>';
+								tabstr += '</tr>';
+							});
+						}
+						else
+							tabstr += '<tr><td colspan="3">查詢無資料</td></tr>';
+                        $("#tablistFile tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '03')) {
+                                $("#uploadfile2").show();
+                                $("#thFunc").show();
+                                $("td[name='td_editFile']").show();
+                        }
+                        else {
+                            $("#uploadfile2").hide();
+                            $("#thFunc").hide();
+                            $("td[name='td_editFile']").hide();
+                        }
+					}
+				}
+			});
+        }
+
+        function getExtension() {
+			$.ajax({
+				type: "POST",
+				async: false, //在沒有返回值之前,不會執行下一步動作
+				url: "../handler/GetFile.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    guid: $("#logGuid").val(),
+                    year: getTaiwanDate(),
+                    type: "07",
+				},
+				error: function (xhr) {
+					alert("Error: " + xhr.status);
+					console.log(xhr.responseText);
+				},
+				success: function (data) {
+					if ($(data).find("Error").length > 0) {
+						alert($(data).find("Error").attr("Message"));
+					}
+					else {
+						if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var fileextension = $(this).children("附檔名").text().trim();
+								if (fileextension == ".jpg" || fileextension == ".jpeg" || fileextension == ".png") {
+                                    $("img[name='img_" + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + "']").show();
+                                }
+                                else {
+                                    $("a[name='a_" + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + "']").show();
+                                }
+							});
+						}
+					}
+				}
+			});
+        }
+
         function GetList() {
             $.ajax({
                 type: "POST",
@@ -864,7 +1071,7 @@
                 url: "../Handler/GetSelfEvaluation_QuestionList.aspx",
                 data: {
                     category: "gas",
-                    year: "110"
+                    year: getTaiwanDate(),
                 },
                 error: function (xhr) {
                     $("#errMsg").html("Error: " + xhr.status);
@@ -1026,6 +1233,10 @@
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../Handler/GetGasExclude.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate()
+                },
                 error: function (xhr) {
                     $("#errMsg").html("Error: " + xhr.status);
                     console.log(xhr.responseText);
@@ -1056,7 +1267,7 @@
                 url: "../Handler/GetGasAnswer.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
-                    year: "110"
+                    year: getTaiwanDate()
                 },
                 error: function (xhr) {
                     $("#errMsg").html("Error: " + xhr.status);
@@ -1120,7 +1331,16 @@
         function doOpenDialog6() {
             var WinHeight = $("html").height();
             var ColHeight = WinHeight * 0.6;
-            $.colorbox({ title:"編輯", inline: true, href: "#checklistedit5", width: "100%", maxWidth: "800", maxHeight: ColHeight, opacity: 0.5 });
+            $.colorbox({ title:"編輯", inline: true, href: "#checklistedit5", width: "100%", maxWidth: "1000", maxHeight: ColHeight, opacity: 0.5 });
+        }
+
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
     </script>
 </head>
@@ -1185,7 +1405,7 @@
                                     <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
                                         <thead>
                                             <tr>
-                                                <th nowrap="nowrap" rowspan="2" class="font-size3">110年天然氣生產及進口事業輸儲設備查核項目</th>
+                                                <th nowrap="nowrap" rowspan="2" class="font-size3"><span id="taiwanYear"></span>年天然氣生產及進口事業輸儲設備查核項目</th>
                                                 <th nowrap="nowrap" width="200" class="font-size3">業者</th>
                                                 <th nowrap="nowrap" width="200" class="font-size3">委員</th>
                                                 <th nowrap="nowrap" rowspan="2" class="font-size3">檢視文件</th>
@@ -1227,6 +1447,7 @@
     </div>
     <!-- 結尾用div:修正mmenu form bug -->
 
+    <form id="form2">
     <!-- logList -->
     <div style="display: none;">
         <div id="checklistedit">
@@ -1388,6 +1609,13 @@
                             <textarea id="psStr2All" rows="8" cols="" class="inputex width100"></textarea>
                         </div>
                     </div><!-- OchiRow -->
+                    <div class="OchiRow" id="uploadfile">
+                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">上傳檔案</div>
+                        <div class="OchiCell width100">
+                            <input type="file" id="fileUpload" multiple="multiple" />
+                            <div id="filelist"></div>
+                        </div>
+                    </div><!-- OchiRow -->
                     <%--<div class="OchiRow">
                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">是否列入查核意見</div>
                         <div class="OchiCell width100">
@@ -1429,6 +1657,37 @@
                             <textarea id="psStr2All2" rows="8" cols="" class="inputex width100"></textarea>
                         </div>
                     </div><!-- OchiRow -->
+                    <div class="OchiRow" id="uploadfile2">
+                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">上傳檔案</div>
+                        <div class="OchiCell width100">
+                            <input type="file" id="fileUpload2" multiple="multiple" />
+                            <div id="filelist2"></div>
+                        </div>
+                    </div><!-- OchiRow -->
+                    <div class="twocol margin10T">
+                        <div class="right">
+                            <a href="javascript:void(0);" id="ps_cancelAll2" class="genbtn">取消</a>
+                            <a href="javascript:void(0);" id="ps_savebtnAll2" class="genbtn">儲存</a>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="OchiRow">
+                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">附件列表</div>
+                        <div class="OchiCell width100">
+                            <div class="stripeMeB tbover">
+                                <table id="tablistFile" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th nowrap width="50%">檔案名稱 </th>
+                                            <th nowrap width="30%">上傳日期 </th>
+                                            <th id="thFunc" nowrap width="10%">功能 </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div><!-- stripeMe -->
+                        </div>
+                    </div><!-- OchiRow -->
                     <%--<div class="OchiRow">
                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">是否列入查核意見</div>
                         <div class="OchiCell width100">
@@ -1441,17 +1700,11 @@
                 </div> 
                 <!-- OchiTrasTable -->
             </div>
-
-            <div class="twocol margin10T">
-                <div class="right">
-                    <a href="javascript:void(0);" id="ps_cancelAll2" class="genbtn">取消</a>
-                    <a href="javascript:void(0);" id="ps_savebtnAll2" class="genbtn">儲存</a>
-                </div>
-            </div>
             <br />
             <br />
         </div>
     </div>
+    </form>
 
     <!-- 本頁面使用的JS -->
     <script type="text/javascript">

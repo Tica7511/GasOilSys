@@ -17,7 +17,7 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
-            getDDL(getTaiwanDate());
+            getDDL();
             getDDL2();
             getData();
 
@@ -35,8 +35,8 @@
 
                 if ($("#txt1").val() == '')
                     msg += "請選擇【轄區儲槽編號】\n";
-                if ($("#txt2").val() == '')
-                    msg += "請選擇【負責泵送或接收之控制室名稱】\n";
+                //if ($("#txt2").val() == '')
+                //    msg += "請選擇【負責泵送或接收之控制室名稱】\n";
                 if ($("#txt3").val() == '')
                     msg += "請輸入【液位監測方式】\n";
                 if ($("#txt4").val() == '')
@@ -69,7 +69,7 @@
                 data.append("mode", encodeURIComponent(mode));
                 data.append("year", encodeURIComponent(getTaiwanDate()));
                 data.append("txt1", encodeURIComponent($("#txt1").val()));
-                data.append("txt2", encodeURIComponent($("#txt2").val()));
+                //data.append("txt2", encodeURIComponent($("#txt2").val()));
                 data.append("txt3", encodeURIComponent($("#txt3").val()));
                 data.append("txt4", encodeURIComponent($("#txt4").val()));
                 data.append("txt5", encodeURIComponent($("#txt5").val()));
@@ -118,7 +118,8 @@
                 url: "../Handler/GetOilControl.aspx",
 				data: {
                     guid: $.getQueryString("guid"),
-                    type: "data"
+                    type: "data",
+                    no: "1"
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -132,7 +133,7 @@
 						if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
                                 $("#txt1").val($(this).children("轄區儲槽編號").text().trim());
-                                $("#txt2").val($(this).children("控制室名稱").text().trim());
+                                //$("#txt2").val($(this).children("控制室名稱").text().trim());
                                 $("#txt3").val($(this).children("液位監測方式").text().trim());
                                 $("#txt4").val($(this).children("液位監測靈敏度").text().trim());
                                 $("#txt5").val($(this).children("高液位警報設定基準").text().trim());
@@ -146,14 +147,13 @@
 			});
         }
 
-        function getDDL(year) {
+        function getDDL() {
             $.ajax({
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../handler/GetOilStorageTankInfo.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
-                    year: year,
                     type: "list",
                 },
                 error: function (xhr) {
@@ -354,10 +354,10 @@
                             </div><br />
                             <div class="OchiTrasTable width100 TitleLength09 font-size3">
                                 <div class="OchiRow">
-                                    <div class="OchiHalf">
+                                    <%--<div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">負責泵送或接收之</br>控制室名稱</div>
                                         <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100"></div>
-                                    </div><!-- OchiHalf -->
+                                    </div><!-- OchiHalf -->--%>
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">液位監測方式</div>
                                         <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100"></div>

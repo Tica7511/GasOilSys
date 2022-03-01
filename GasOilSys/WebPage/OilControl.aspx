@@ -30,6 +30,7 @@
             getYearList();
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
+            displayTable();
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
@@ -39,6 +40,11 @@
             //新增按鈕
             $(document).on("click", "#newbtn", function () {
                 location.href = "edit_OilControl.aspx?cp=" + $.getQueryString("cp");
+            });
+
+            //新增按鈕
+            $(document).on("click", "#newbtn2", function () {
+                location.href = "edit_OilControl_Pipe.aspx?cp=" + $.getQueryString("cp");
             });
 
             //編輯按鈕
@@ -166,6 +172,33 @@
                     });
                 }
             });
+
+            //刪除按鈕2
+            $(document).on("click", "a[name='delbtn2']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelOilControl2.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
         }); // end js
 
         function setDisplayed(status) {
@@ -236,7 +269,7 @@
 							$(data).find("data_item2").each(function (i) {
 								tabstr += '<tr>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("轄區儲槽編號").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + $(this).children("控制室名稱").text().trim() + '</td>';
+                                //tabstr += '<td nowrap="nowrap">' + $(this).children("控制室名稱").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("液位監測方式").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("液位監測靈敏度").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("高液位警報設定基準").text().trim() + '</td>';
@@ -249,7 +282,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="9">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -273,9 +306,98 @@
                                 $("td[name='td_edit']").show();
                             }
                         }
+
+                        $("#tablist2 tbody").empty();
+						var tabstr2 = '';
+						if ($(data).find("data_item3").length > 0) {
+							$(data).find("data_item3").each(function (i) {
+								tabstr2 += '<tr>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("管線編號").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("控制室名稱").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("洩漏監控系統").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("自有端是否有設置壓力").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("自有端是否有設置流量").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("操作壓力值").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("壓力警報設定值").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("流量警報設定值").text().trim() + '</td>';
+                                tabstr2 += '<td nowrap="nowrap">' + $(this).children("前一年度異常下降警報發生頻率").text().trim() + '</td>';
+                                tabstr2 += '<td name="td_edit2" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr2 += ' <a href="edit_OilControl_Pipe.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                tabstr2 += '</tr>';
+							});
+						}
+						else
+							tabstr2 += '<tr><td colspan="10">查詢無資料</td></tr>';
+                        $("#tablist2 tbody").append(tabstr2);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#editbtn2").hide();
+                            $("#newbtn2").hide();
+                            $("#th_edit2").hide();
+                            $("td[name='td_edit2']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#newbtn2").hide();
+                                $("#editbtn2").hide();
+                                $("#th_edit2").hide();
+                                $("td[name='td_edit2']").hide();
+                            }
+                            else {
+                                $("#newbtn2").show();
+                                $("#editbtn2").show();
+                                $("#th_edit2").show();
+                                $("td[name='td_edit2']").show();
+                            }
+                        }
+
+                        getConfirmedStatus();
 					}
 				}
 			});
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#newbtn").hide();
+                                        $("#editbtn").hide();
+                                        $("#th_edit").hide();
+                                        $("td[name='td_edit']").hide();
+                                        $("#newbtn2").hide();
+                                        $("#editbtn2").hide();
+                                        $("#th_edit2").hide();
+                                        $("td[name='td_edit2']").hide();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         //取得民國年份之下拉選單
@@ -300,8 +422,8 @@
                     else {
                         $("#sellist").empty();
                         var ddlstr = '';
-                        if ($(data).find("data_item3").length > 0) {
-                            $(data).find("data_item3").each(function (i) {
+                        if ($(data).find("data_item4").length > 0) {
+                            $(data).find("data_item4").each(function (i) {
                                 ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
                             });
                         }
@@ -312,6 +434,52 @@
                     }
                 }
             });
+        }
+
+        function displayTable() {
+            $.ajax({
+            type: "POST",
+            async: false, //在沒有返回值之前,不會執行下一步動作
+            url: "../Handler/GetCompanyName.aspx",
+            data: {
+                type: "Oil",
+                cpid: $.getQueryString("cp"),
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.status);
+                console.log(xhr.responseText);
+            },
+            success: function (data) {
+                if ($(data).find("Error").length > 0) {
+                    alert($(data).find("Error").attr("Message"));
+                }
+                else {
+                    if ($(data).find("data_item").length > 0) {
+                        $(data).find("data_item").each(function (i) {
+                            var pipeDisplay = $(this).children("管線管理不顯示").text().trim();
+                            var storageDisplay = $(this).children("儲槽設施不顯示").text().trim();
+
+                            if ((storageDisplay == 'N') && (pipeDisplay != 'N')) {
+                                $("#storageTB").hide();
+                                $("#tubeTB").show();
+                            }
+                            else if ((storageDisplay != 'N') && (pipeDisplay == 'N')) {
+                                $("#storageTB").show();
+                                $("#tubeTB").hide();
+                            }   
+                            else if ((storageDisplay != 'N') && (pipeDisplay != 'N')) {
+                                $("#storageTB").show();
+                                $("#tubeTB").show();
+                            }
+                            else {
+                                $("#storageTB").hide();
+                                $("#tubeTB").hide();
+                            }
+                        });
+                    }
+                }
+            }
+        });
         }
 
         //年月日格式=> yyyy/mm/dd
@@ -472,18 +640,19 @@
                             </div><!-- OchiTrasTable -->
                             </br>
 
-                            <div class="twocol">
+                            <div id="storageTB">
+                                <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">儲槽泵送/接收資料</div>
                                 <div class="right">
                                 <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
-                            <div class="stripeMeB tbover">
+                                <div class="stripeMeB tbover">
                                 <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0" width="0">
                                     <thead>
                                         <tr>
                                             <th >轄區儲槽編號 </th>
-                                            <th  >負責泵送或接收之控制室名稱 </th>
+                                            <%--<th  >負責泵送或接收之控制室名稱 </th>--%>
                                             <th nowrap >液位監測方式 <br>
                                                 1.機械 <br>
                                                 2.超音波 <br>
@@ -506,11 +675,43 @@
                                 </table>
                             </div>
 
-                            <div class="margin5TB font-size2">
+                                <div class="margin5TB font-size2">
                                 (1) 請依各儲槽分別填寫。<br>
                                 (2) 「液位監測方式」：請依單位使用之系統，填寫對應之數字，若有2種以上，請都填寫。<br>
                                 (3) 「液位監測靈敏度」：請對應「液位監測方式」填寫的數字，填寫該方式的靈敏度。
 
+                            </div>
+                                <br />
+                            </div>
+
+                            <div id="tubeTB">
+                                <div class="twocol">
+                                <div class="left font-size4 margin10T font-bold">管線輸送/接收資料</div>
+                                <div class="right">
+                                <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
+                                <div class="stripeMeB tbover">
+                                <table id="tablist2" width="100%" border="0" cellspacing="0" cellpadding="0" width="0">
+                                    <thead>
+                                        <tr>
+                                            <th >管線編號 </th>
+                                            <th  >負責泵送或接收之控制室名稱 </th>
+                                            <th nowrap >洩漏監控系統 <br>
+                                                (LDS,防盜油系統,DCS系統...）</th>
+                                            <th  >自有端是否有設置壓力 </th>
+                                            <th  >自有端是否有設置流量 </th>
+                                            <th  >操作壓力值 </th>
+                                            <th  >壓力計警報設定值 </th>
+                                            <th  >流量計警報設定值 </th>
+                                            <th  >前一年度警報發生頻率 <br>
+                                                次/年 </th>
+                                            <th id="th_edit2" >功能</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                             </div>
                         </div><!-- col -->
                     </div><!-- row -->
@@ -574,7 +775,7 @@
 <!-- 本頁面使用的JS -->
     <script type="text/javascript">
         $(document).ready(function(){
-        
+            
         });
     </script>
     <script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->

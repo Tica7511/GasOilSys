@@ -9,7 +9,8 @@ using System.Data;
 public partial class WebPage_GasInfo : System.Web.UI.Page
 {
 	public string username;
-	protected void Page_Load(object sender, EventArgs e)
+    public string competence;
+    protected void Page_Load(object sender, EventArgs e)
 	{
 		if (LogInfo.mGuid == "")
 			Response.Write("<script>alert('請重新登入'); location='SignIn.aspx';</script>");
@@ -23,7 +24,9 @@ public partial class WebPage_GasInfo : System.Web.UI.Page
 
 			// 登入者姓名
 			username = LogInfo.name;
-		}
+            // 登入者權限
+            competence = LogInfo.competence;
+        }
 
         DataTable isdt = Account.IfAccountPasswordEqual(LogInfo.mGuid);
         if (isdt.Rows.Count > 0)

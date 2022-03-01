@@ -569,9 +569,60 @@
                             $("#thFunc4").hide();
                             $("td[name='ftd']").hide();
                         }
+
+                        getConfirmedStatus();
 					}
 				}
 			});
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#fileall").hide();
+                                        $("#thFunc").hide();
+                                        $("td[name='ftd']").hide();
+                                        $("#fileall2").hide();
+                                        $("#thFunc2").hide();
+                                        $("td[name='ftd']").hide();
+                                        $("#fileall3").hide();
+                                        $("#thFunc3").hide();
+                                        $("td[name='ftd']").hide();
+                                        $("#fileall5").hide();
+                                        $("#thFunc5").hide();
+                                        $("td[name='ftd']").hide();
+                                        $("#fileall4").hide();
+                                        $("#thFunc4").hide();
+                                        $("td[name='ftd']").hide();
+                                    }
+                                }                                
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         function getTaiwanDate() {

@@ -90,6 +90,8 @@
                     msg += "請選擇【土石流潛勢區】\n";
                 if ($("#txt22").val() == '')
                     msg += "請選擇【淹水潛勢區】\n";
+                if ($("#txt23").val() == '')
+                    msg += "請選擇【管線穿越箱涵數量】\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);
@@ -131,6 +133,7 @@
                 data.append("txt20", encodeURIComponent($("#txt20").val()));
                 data.append("txt21", encodeURIComponent($("#txt21").val()));
                 data.append("txt22", encodeURIComponent($("#txt22").val()));
+                data.append("txt23", encodeURIComponent($("#txt23").val()));
 
                 $.ajax({
                     type: "POST",
@@ -173,7 +176,7 @@
                 url: "../Handler/GetOilTubeInfo.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
-                    year: getTaiwanDate(),
+                    year: "110",
                     Sno: $("#txt1").val(),
                     type: "list"
                 },
@@ -241,6 +244,7 @@
                                 $("#txt20").val($(this).children("土壤液化區").text().trim());
                                 $("#txt21").val($(this).children("土石流潛勢區").text().trim());
                                 $("#txt22").val($(this).children("淹水潛勢區").text().trim());
+                                $("#txt23").val($(this).children("管線穿越箱涵數量").text().trim());
 							});
 						}
 					}
@@ -527,6 +531,12 @@
                                                 <option value="無">無</option>
                                             </select>
                                         </div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線穿越箱涵數量</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="txt23" class="inputex width40" ></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->

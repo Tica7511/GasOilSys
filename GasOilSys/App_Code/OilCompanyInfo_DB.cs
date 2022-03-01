@@ -32,6 +32,7 @@ public class OilCompanyInfo_DB
 	string 管線數量 = string.Empty;
 	string 維運計畫書及成果報告 = string.Empty;
 	string 曾執行過查核日期 = string.Empty;
+	string 資料是否確認 = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -56,6 +57,7 @@ public class OilCompanyInfo_DB
 	public string _管線數量 { set { 管線數量 = value; } }
 	public string _維運計畫書及成果報告 { set { 維運計畫書及成果報告 = value; } }
 	public string _曾執行過查核日期 { set { 曾執行過查核日期 = value; } }
+	public string _資料是否確認 { set { 資料是否確認 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -121,7 +123,7 @@ public class OilCompanyInfo_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, 管線管理不顯示 from 石油_業者基本資料
+        sb.Append(@"select isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 資料是否確認 from 石油_業者基本資料
   where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
 
         oCmd.CommandText = sb.ToString();
@@ -143,6 +145,26 @@ public class OilCompanyInfo_DB
 
         sb.Append(@"select isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
   where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetCpName3()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
+  where 資料狀態='A' and guid=@guid ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -181,18 +203,21 @@ public class OilCompanyInfo_DB
         return ds;
     }
 
-    public DataTable GetCompanyList(string mGuid)
+    public DataTable GetCompanyList(string mGuid, string year)
 	{
 		SqlCommand oCmd = new SqlCommand();
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(@"select * from 石油_業者基本資料 c
+		sb.Append(@"select * from 石油_業者基本資料 c 
 left join 石油_委員業者年度對應表 m on c.guid=m.業者guid and m.資料狀態='A' and m.委員guid=@mGuid 
 where c.資料狀態='A' and c.列表是否顯示='Y' ");
 
         if (mGuid != "")
             sb.Append(@"and m.委員guid=@mGuid ");
+        if (year != "")
+            sb.Append(@"and m.年度=@年度 ");
+
         sb.Append(@"order by 排序編號 ");
 
         oCmd.CommandText = sb.ToString();
@@ -201,6 +226,7 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
 		DataTable ds = new DataTable();
 
         oCmd.Parameters.AddWithValue("@mGuid", mGuid);
+        oCmd.Parameters.AddWithValue("@年度", year);
 
         oda.Fill(ds);
 		return ds;
@@ -267,6 +293,29 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@管線數量", 管線數量);
         oCmd.Parameters.AddWithValue("@維運計畫書及成果報告", 維運計畫書及成果報告);
         oCmd.Parameters.AddWithValue("@曾執行過查核日期", 曾執行過查核日期);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"
+        update 石油_業者基本資料 set 
+        資料是否確認=@資料是否確認, 
+        修改者=@修改者, 
+        修改日期=@修改日期 
+        where guid=@guid and 資料狀態=@資料狀態 
+");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@資料是否確認", 資料是否確認);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", "A");

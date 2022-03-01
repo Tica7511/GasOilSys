@@ -67,6 +67,39 @@ public class OilStorageTankInfo_DB
     public string _資料狀態 { set { 資料狀態 = value; } }
     #endregion
 
+    public DataSet GetList(string pStart, string pEnd)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * into #tmp 
+from 石油_儲槽基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
+
+        if (!string.IsNullOrEmpty(轄區儲槽編號))
+            sb.Append(@" and 轄區儲槽編號=@轄區儲槽編號");
+
+        sb.Append(@"
+select count(*) as total from #tmp
+
+select * from (
+           select ROW_NUMBER() over (order by 轄區儲槽編號) itemNo,* from #tmp
+)#tmp where itemNo between @pStart and @pEnd ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+        oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetList()
     {
         SqlCommand oCmd = new SqlCommand();
@@ -199,7 +232,7 @@ else
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@業者名稱", 業者名稱);
         oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
@@ -251,7 +284,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.CommandText = sb.ToString();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
         oCmd.Parameters.AddWithValue("@能源局編號", 能源局編號);
         oCmd.Parameters.AddWithValue("@容量", 容量);

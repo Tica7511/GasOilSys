@@ -22,9 +22,9 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-            getYearList();
-            $("#sellist").val(getTaiwanDate());
-            getData(getTaiwanDate());
+            //getYearList();
+            //$("#sellist").val(getTaiwanDate());
+            getData();
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
@@ -180,14 +180,13 @@
             });
 		}); // end js
 
-		function getData(year) {
+		function getData() {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasStorageTankInfo.aspx",
 				data: {
                     cpid: $.getQueryString("cp"),
-                    year: year,
                     type: "list",
 				},
 				error: function (xhr) {
@@ -257,7 +256,7 @@
                         $("#tablist2 tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
-                        if ($("#sellist").val() != getTaiwanDate()) {
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                             $("#editbtn").hide();
                             $("#newbtnInfo").hide();
                             $("#newbtnEvaluation").hide();
@@ -267,28 +266,58 @@
                             $("td[name='td_editEvaluation']").hide();
                         }
                         else {
-                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
-                                $("#editbtn").hide();
-                                $("#newbtnInfo").hide();
-                                $("#newbtnEvaluation").hide();
-                                $("#th_editInfo").hide();
-                                $("#th_editEvaluation").hide();
-                                $("td[name='td_editInfo']").hide();
-                                $("td[name='td_editEvaluation']").hide();
-                            }
-                            else {
-                                $("#editbtn").show();
-                                $("#newbtnInfo").show();
-                                $("#newbtnEvaluation").show();
-                                $("#th_editInfo").show();
-                                $("#th_editEvaluation").show();
-                                $("td[name='td_editInfo']").show();
-                                $("td[name='td_editEvaluation']").show();
-                            }
+                            $("#editbtn").show();
+                            $("#newbtnInfo").show();
+                            $("#newbtnEvaluation").show();
+                            $("#th_editInfo").show();
+                            $("#th_editEvaluation").show();
+                            $("td[name='td_editInfo']").show();
+                            $("td[name='td_editEvaluation']").show();
                         }
 					}
 				}
 			});
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#editbtn").hide();
+                                        $("#newbtnInfo").hide();
+                                        $("#newbtnEvaluation").hide();
+                                        $("#th_editInfo").hide();
+                                        $("#th_editEvaluation").hide();
+                                        $("td[name='td_editInfo']").hide();
+                                        $("td[name='td_editEvaluation']").hide();
+                                    }
+                                }                                
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         //取得民國年份之下拉選單
@@ -405,10 +434,10 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
-                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                <%--<div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
                                     <select id="sellist" class="inputex">
                                     </select> 年
-                                </div>
+                                </div>--%>
                             </div><br />
                             <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">(一)儲槽基本資料表</div>

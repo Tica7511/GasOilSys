@@ -15,16 +15,32 @@
     <meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
     <title>石油業輸儲設備查核及檢測資訊系統</title>
     <!--#include file="Head_Include.html"-->
+    <style>
+        td:first-child, th:first-child {
+         position:sticky;
+         left:0; /* 首行永遠固定於左 */
+         z-index:1;
+        }
+        
+        thead tr th {
+         position:sticky;
+         top:0; /* 列首永遠固定於上 */
+        }
+        
+        th:first-child{
+         z-index:2;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            getYearList();
-            $("#sellist").val(getTaiwanDate());
-            getData(getTaiwanDate());
+            //getYearList();
+            //$("#sellist").val(getTaiwanDate());
+            getData(0);
 
             //選擇年份
-            $(document).on("change", "#sellist", function () {
-                getData($("#sellist option:selected").val());
-            });
+            //$(document).on("change", "#sellist", function () {
+            //    getData($("#sellist option:selected").val());
+            //});
 
             //新增按鈕
             $(document).on("click", "#newbtn", function () {
@@ -59,15 +75,16 @@
             });
 		}); // end js
 
-		function getData(year) {
+		function getData(p) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetOilStorageTankInfo.aspx",
 				data: {
                     cpid: $.getQueryString("cp"),
-                    year: year,
                     type: "list",
+                    PageNo: p,
+                    PageSize: Page.Option.PageSize,
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -104,28 +121,64 @@
 						else
 							tabstr += '<tr><td colspan="14">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
+                        Page.Option.Selector = "#pageblock";
+                        Page.Option.FunctionName = "getData";
+                        Page.CreatePage(p, $("total", data).text());
 
                         //確認權限&按鈕顯示或隱藏
-                        if ($("#sellist").val() != getTaiwanDate()) {
-                            $("#newbtn").hide();
-                            $("#th_edit").hide();
-                            $("td[name='td_edit']").hide();
-                        }
-                        else {
-                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                                 $("#newbtn").hide();
                                 $("#th_edit").hide();
                                 $("td[name='td_edit']").hide();
-                            }
-                            else {
-                                $("#newbtn").show();
-                                $("#th_edit").show();
-                                $("td[name='td_edit']").show();
-                            }
                         }
+                        else {
+                            $("#newbtn").show();
+                            $("#th_edit").show();
+                            $("td[name='td_edit']").show();
+                        }
+
+                        getConfirmedStatus();
 					}
 				}
 			});
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#newbtn").hide();
+                                        $("#editbtn").hide();
+                                        $("#th_edit").hide();
+                                        $("td[name='td_edit']").hide();
+                                    }
+                                }                                
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         //取得民國年份之下拉選單
@@ -240,10 +293,10 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
-                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                <%--<div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
                                     <select id="sellist" class="inputex">
                                     </select> 年
-                                </div>
+                                </div>--%>
                                 <div class="right">
                                 <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
@@ -291,7 +344,9 @@
                                     <tbody></tbody>
                                 </table>
                             </div><!-- stripeMe -->
-
+                            <div class="margin10B margin10T textcenter">
+	                            <div id="pageblock"></div>
+	                        </div>
                             <div class="margin5TB font-size2">
                                 (1) 代檢機構：1：中國石油學會；2.中華壓力容器協會；3.中華勞動學會；4.中華機械產業設備發展協會，請直接點選。<br>
                                 (2) 延長開放年限：若儲槽有申請延長開放，請填入核可延長之年限，無則填寫0。

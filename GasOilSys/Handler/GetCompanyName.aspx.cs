@@ -30,11 +30,21 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
             {
                 gdb._guid = cpid;
                 dt = gdb.GetCpName();
+                if (dt.Rows.Count > 0)
+                {
+                    dt.Columns.Add("competence", typeof(string));
+                    dt.Rows[0]["competence"] = LogInfo.competence;
+                }
             }
             else
             {
                 odb._guid = cpid;
                 dt = odb.GetCpName();
+                if (dt.Rows.Count > 0)
+                {
+                    dt.Columns.Add("competence", typeof(string));
+                    dt.Rows[0]["competence"] = LogInfo.competence;
+                }
             }                
 
             string xmlstr = string.Empty;

@@ -44,6 +44,7 @@ public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
         /// * Request["txt20"]: 土壤液化區
         /// * Request["txt21"]: 土石流潛勢區
         /// * Request["txt22"]: 淹水潛勢區
+        /// * Request["txt23"]: 管線穿越箱涵數量 
         /// * Request["mode"]:  new=新增 edit=編輯
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
@@ -89,11 +90,12 @@ public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
             string txt20 = (string.IsNullOrEmpty(Request["txt20"])) ? "" : Request["txt20"].ToString().Trim();
             string txt21 = (string.IsNullOrEmpty(Request["txt21"])) ? "" : Request["txt21"].ToString().Trim();
             string txt22 = (string.IsNullOrEmpty(Request["txt22"])) ? "" : Request["txt22"].ToString().Trim();
+            string txt23 = (string.IsNullOrEmpty(Request["txt23"])) ? "" : Request["txt23"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
             gdb._業者guid = cp;
-            gdb._年度 = Server.UrlDecode(year);
+            gdb._年度 = Server.UrlDecode("110");
             gdb._長途管線識別碼 = Server.UrlDecode(txt1);
             gdb._轄區長途管線名稱_公司 = Server.UrlDecode(txt2);
             gdb._銜接管線識別碼_上游 = Server.UrlDecode(txt3);
@@ -112,6 +114,7 @@ public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
             gdb._使用壓力 = Server.UrlDecode(txt16);
             gdb._使用狀態 = Server.UrlDecode(txt17);
             gdb._附掛橋樑數量 = Server.UrlDecode(txt18);
+            gdb._管線穿越箱涵數量 = Server.UrlDecode(txt23);
             gdb._修改者 = LogInfo.mGuid;
             gdb._修改日期 = DateTime.Now;
 
@@ -129,7 +132,7 @@ public partial class Handler_AddGasTubeInfo : System.Web.UI.Page
             }
 
             gdb2._業者guid = cp;
-            gdb2._年度 = Server.UrlDecode(year);
+            gdb2._年度 = "110";
             gdb2._長途管線識別碼 = Server.UrlDecode(txt1);
             gdb2._轄區長途管線編號名稱公司 = Server.UrlDecode(txt2);
             gdb2._活動斷層敏感區 = Server.UrlDecode(txt19);

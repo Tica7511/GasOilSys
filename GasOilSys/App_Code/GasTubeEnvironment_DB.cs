@@ -146,7 +146,7 @@ else
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
-        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度", "110");
 
         oda.Fill(ds);
         return ds;

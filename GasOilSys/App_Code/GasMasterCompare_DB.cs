@@ -106,4 +106,150 @@ where a.資料狀態='A' and a.委員guid=@委員guid and a.年度=@年度 ");
         oda.Fill(ds);
         return ds;
     }
+
+    public DataTable GetCommitteeList()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select ROW_NUMBER() over (order by 委員姓名) itemNo,*
+from 天然氣_委員業者年度對應表 
+where 資料狀態='A' and 業者guid=@業者guid and 年度=@年度 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetCommitteeData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 天然氣_委員業者年度對應表 
+where 資料狀態='A' and 業者guid=@業者guid and 委員guid=@委員guid and 年度=@年度 ");
+
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@委員guid", 委員guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        
+        oCmd.Transaction = oTran;
+        oda.Fill(ds);
+        oCmd.ExecuteNonQuery();
+        return ds;
+    }
+
+    public DataTable GetYearList()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"  
+declare @yearCount int
+
+select DISTINCT 年度 into #tmp from 天然氣_委員業者年度對應表
+where 業者guid=@業者guid and 資料狀態='A' 
+
+select @yearCount=COUNT(*) from #tmp where 年度=@年度 
+
+if(@yearCount > 0)
+	begin
+		select * from #tmp order by 年度 asc
+	end
+else
+	begin
+		insert into #tmp(年度)
+		values(@年度)
+
+		select * from #tmp order by 年度 asc
+	end ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void InsertData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 天然氣_委員業者年度對應表(  
+年度,
+委員guid,
+委員姓名,
+業者guid,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@年度,
+@委員guid,
+@委員姓名,
+@業者guid,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態  
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@委員guid", 委員guid);
+        oCmd.Parameters.AddWithValue("@委員姓名", 委員姓名);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void DeleteData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"
+        update 天然氣_委員業者年度對應表 set 
+        修改日期=@修改日期, 
+        修改者=@修改者, 
+        資料狀態='D' 
+        where 業者guid=@業者guid and 委員guid=@委員guid and 年度=@年度 ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@委員guid", 委員guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }

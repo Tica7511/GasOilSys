@@ -18,6 +18,7 @@ public partial class Handler_GetOilControl : System.Web.UI.Page
 		/// * Request["cpid"]: 業者Guid 
         /// * Request["year"]: 年度 
 		/// * Request["type"]: list=列表 data=資料列 
+		/// * Request["no"]: 1=石油_控制室_儲槽泵送接收資料 2=石油_控制室_管線輸送接收資料 
 		///-----------------------------------------------------
 		XmlDocument xDoc = new XmlDocument();
         try
@@ -26,6 +27,7 @@ public partial class Handler_GetOilControl : System.Web.UI.Page
             string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
+            string no = (string.IsNullOrEmpty(Request["no"])) ? LogInfo.companyGuid : Request["no"].ToString().Trim();
 
             if (type == "list")
             {
@@ -34,22 +36,30 @@ public partial class Handler_GetOilControl : System.Web.UI.Page
 
                 DataTable dt = db.GetList();
                 DataTable dt2 = db.GetList2();
-                DataTable dt3 = db.GetYearList();
+                DataTable dt3 = db.GetList3();
+                DataTable dt4 = db.GetYearList();
                 string xmlstr = string.Empty;
                 string xmlstr2 = string.Empty;
                 string xmlstr3 = string.Empty;
+                string xmlstr4 = string.Empty;
 
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
                 xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt2, "dataList2", "data_item2");
                 xmlstr3 = DataTableToXml.ConvertDatatableToXML(dt3, "dataList3", "data_item3");
-                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + xmlstr3 + "</root>";
+                xmlstr4 = DataTableToXml.ConvertDatatableToXML(dt4, "dataList4", "data_item4");
+                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + xmlstr3 + xmlstr4 + "</root>";
                 xDoc.LoadXml(xmlstr);
             }
             else
             {
                 db._guid = guid;
+                DataTable dt = new DataTable();
 
-                DataTable dt = db.GetData();
+                if (no == "1")
+                    dt = db.GetData();
+                else
+                    dt = db.GetData2();
+
                 string xmlstr = string.Empty;
 
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
