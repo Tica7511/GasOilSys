@@ -27,14 +27,10 @@ public partial class Handler_AddGasTubeComplete : System.Web.UI.Page
         /// * Request["txt2_2"]: 風險評估 月份
         /// * Request["txt3"]: 智慧型通管器ILI可行性
         /// * Request["txt4"]: 耐壓強度試驗TP可行性	
-        /// * Request["txt5_1"]: 緊密電位CIPS 年份	
-        /// * Request["txt5_2"]: 緊密電位CIPS 月份	
-        /// * Request["txt6_1"]: 電磁包覆PCM 年份	
-        /// * Request["txt6_2"]: 電磁包覆PCM 月份	
-        /// * Request["txt7_1"]: 智慧型通管器ILI 年份	
-        /// * Request["txt7_2"]: 智慧型通管器ILI 月份	
-        /// * Request["txt8_1"]: 耐壓強度試驗TP 年份	
-        /// * Request["txt8_2"]: 耐壓強度試驗TP 月份	
+        /// * Request["txt5"]: 緊密電位CIPS 
+        /// * Request["txt6"]: 電磁包覆PCM 	
+        /// * Request["txt7"]: 智慧型通管器ILI 	
+        /// * Request["txt8"]: 耐壓強度試驗TP 	
         /// * Request["txt9"]: 耐壓強度試驗TP介質	
         /// * Request["txt10"]: 試壓壓力與MOP壓力倍數	
         /// * Request["txt11"]: 耐壓強度試驗TP持壓時間	
@@ -69,14 +65,10 @@ public partial class Handler_AddGasTubeComplete : System.Web.UI.Page
             string txt2_2 = (string.IsNullOrEmpty(Request["txt2_2"])) ? "" : Request["txt2_2"].ToString().Trim();
             string txt3 = (string.IsNullOrEmpty(Request["txt3"])) ? "" : Request["txt3"].ToString().Trim();
             string txt4 = (string.IsNullOrEmpty(Request["txt4"])) ? "" : Request["txt4"].ToString().Trim();
-            string txt5_1 = (string.IsNullOrEmpty(Request["txt5_1"])) ? "" : Request["txt5_1"].ToString().Trim();
-            string txt5_2 = (string.IsNullOrEmpty(Request["txt5_2"])) ? "" : Request["txt5_2"].ToString().Trim();
-            string txt6_1 = (string.IsNullOrEmpty(Request["txt6_1"])) ? "" : Request["txt6_1"].ToString().Trim();
-            string txt6_2 = (string.IsNullOrEmpty(Request["txt6_2"])) ? "" : Request["txt6_2"].ToString().Trim();
-            string txt7_1 = (string.IsNullOrEmpty(Request["txt7_1"])) ? "" : Request["txt7_1"].ToString().Trim();
-            string txt7_2 = (string.IsNullOrEmpty(Request["txt7_2"])) ? "" : Request["txt7_2"].ToString().Trim();
-            string txt8_1 = (string.IsNullOrEmpty(Request["txt8_1"])) ? "" : Request["txt8_1"].ToString().Trim();
-            string txt8_2 = (string.IsNullOrEmpty(Request["txt8_2"])) ? "" : Request["txt8_2"].ToString().Trim();
+            string txt5 = (string.IsNullOrEmpty(Request["txt5"])) ? "" : Request["txt5"].ToString().Trim();
+            string txt6 = (string.IsNullOrEmpty(Request["txt6"])) ? "" : Request["txt6"].ToString().Trim();
+            string txt7 = (string.IsNullOrEmpty(Request["txt7"])) ? "" : Request["txt7"].ToString().Trim();
+            string txt8 = (string.IsNullOrEmpty(Request["txt8"])) ? "" : Request["txt8"].ToString().Trim();
             string txt9 = (string.IsNullOrEmpty(Request["txt9"])) ? "" : Request["txt9"].ToString().Trim();
             string txt10 = (string.IsNullOrEmpty(Request["txt10"])) ? "" : Request["txt10"].ToString().Trim();
             string txt11 = (string.IsNullOrEmpty(Request["txt11"])) ? "" : Request["txt11"].ToString().Trim();
@@ -92,10 +84,10 @@ public partial class Handler_AddGasTubeComplete : System.Web.UI.Page
             gdb._風險評估年月 = Server.UrlDecode(txt2_1) + "/" + Server.UrlDecode(txt2_2);
             gdb._智慧型通管器ILI可行性 = Server.UrlDecode(txt3);
             gdb._耐壓強度試驗TP可行性 = Server.UrlDecode(txt4);
-            gdb._緊密電位CIPS年月 = Server.UrlDecode(txt5_1) + "/" + Server.UrlDecode(txt5_2);
-            gdb._電磁包覆PCM年月 = Server.UrlDecode(txt6_1) + "/" + Server.UrlDecode(txt6_2);
-            gdb._智慧型通管器ILI年月 = Server.UrlDecode(txt7_1) + "/" + Server.UrlDecode(txt7_2);
-            gdb._耐壓強度試驗TP年月 = Server.UrlDecode(txt8_1) + "/" + Server.UrlDecode(txt8_2);
+            gdb._緊密電位CIPS年月 = Server.UrlDecode(txt5);
+            gdb._電磁包覆PCM年月 = Server.UrlDecode(txt6);
+            gdb._智慧型通管器ILI年月 = Server.UrlDecode(txt7);
+            gdb._耐壓強度試驗TP年月 = Server.UrlDecode(txt8);
             gdb._耐壓強度試驗TP介質 = Server.UrlDecode(txt9);
             gdb._試壓壓力與MOP壓力倍數 = Server.UrlDecode(txt10);
             gdb._耐壓強度試驗TP持壓時間 = Server.UrlDecode(txt11);

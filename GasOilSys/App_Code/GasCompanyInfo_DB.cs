@@ -85,7 +85,9 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append(@"select isnull(事業部,'')+isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 資料是否確認 from 天然氣_業者基本資料表
-  where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
+  where 資料狀態='A' and 列表是否顯示='Y' ");
+		if (!string.IsNullOrEmpty(guid))
+			sb.Append(@"and guid = @guid ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;

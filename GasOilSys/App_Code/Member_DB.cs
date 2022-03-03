@@ -67,6 +67,26 @@ public class Member_DB
     public string _資料狀態 { set { 資料狀態 = value; } }
     #endregion
 
+    public DataTable CheckMember()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"SELECT * from 會員檔 where 資料狀態='A' ");
+        if (使用者帳號 != "")
+            sb.Append(@"and 使用者帳號=@使用者帳號 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@使用者帳號", 使用者帳號);
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataSet GetList(string pStart, string pEnd)
     {
         SqlCommand oCmd = new SqlCommand();
@@ -76,11 +96,20 @@ public class Member_DB
         sb.Append(@"select * into #tmp from 會員檔 
   where 資料狀態='A' ");
 
+        if (!string.IsNullOrEmpty(帳號類別))
+            sb.Append(@"and 帳號類別=@帳號類別 ");
+        if (!string.IsNullOrEmpty(網站類別))
+            sb.Append(@"and 網站類別=@網站類別 ");
+        if (!string.IsNullOrEmpty(業者guid))
+            sb.Append(@"and 業者guid=@業者guid ");
+        if (!string.IsNullOrEmpty(KeyWord))
+            sb.Append(@"and (姓名 like '%' + @KeyWord + '%')  ");
+
         sb.Append(@"
 select count(*) as total from #tmp
 
 select * from (
-           select ROW_NUMBER() over (order by 帳號類別) itemNo,* from #tmp
+           select ROW_NUMBER() over (order by 帳號類別, 網站類別, 姓名) itemNo,* from #tmp
 )#tmp where itemNo between @pStart and @pEnd ");
 
         oCmd.CommandText = sb.ToString();
@@ -90,7 +119,29 @@ select * from (
 
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+        oCmd.Parameters.AddWithValue("@帳號類別", 帳號類別);
+        oCmd.Parameters.AddWithValue("@網站類別", 網站類別);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@KeyWord", KeyWord);
 
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 會員檔 where 資料狀態='A' and guid=@guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
         oda.Fill(ds);
         return ds;
     }
@@ -132,5 +183,120 @@ where guid=@guid
 
         oda.Fill(ds);
         return ds;
+    }
+
+    public void addMember(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 會員檔 (
+guid,
+業者guid,
+使用者帳號,
+使用者密碼,
+姓名,
+mail,
+電話,
+單位名稱,
+角色,
+帳號類別,
+網站類別,
+建立者,
+修改者,
+資料狀態 
+) values (
+@guid,
+@業者guid,
+@使用者帳號,
+@使用者密碼,
+@姓名,
+@mail,
+@電話,
+@單位名稱,
+@角色,
+@帳號類別,
+@網站類別,
+@建立者,
+@修改者,
+@資料狀態 
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@使用者帳號", 使用者帳號);
+        oCmd.Parameters.AddWithValue("@使用者密碼", 使用者密碼);
+        oCmd.Parameters.AddWithValue("@姓名", 姓名);
+        oCmd.Parameters.AddWithValue("@mail", mail);
+        oCmd.Parameters.AddWithValue("@電話", 電話);
+        oCmd.Parameters.AddWithValue("@單位名稱", 單位名稱);
+        oCmd.Parameters.AddWithValue("@角色", 角色);
+        oCmd.Parameters.AddWithValue("@帳號類別", 帳號類別);
+        oCmd.Parameters.AddWithValue("@網站類別", 網站類別);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateMember(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"update 會員檔 set 
+業者guid=@業者guid,
+使用者帳號=@使用者帳號,
+使用者密碼=@使用者密碼,
+姓名=@姓名,
+mail=@mail,
+電話=@電話,
+單位名稱=@單位名稱,
+角色=@角色,
+帳號類別=@帳號類別,
+網站類別=@網站類別,
+修改者=@修改者 
+where guid=@guid and 資料狀態=@資料狀態 
+");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@使用者帳號", 使用者帳號);
+        oCmd.Parameters.AddWithValue("@使用者密碼", 使用者密碼);
+        oCmd.Parameters.AddWithValue("@姓名", 姓名);
+        oCmd.Parameters.AddWithValue("@mail", mail);
+        oCmd.Parameters.AddWithValue("@電話", 電話);
+        oCmd.Parameters.AddWithValue("@單位名稱", 單位名稱);
+        oCmd.Parameters.AddWithValue("@角色", 角色);
+        oCmd.Parameters.AddWithValue("@帳號類別", 帳號類別);
+        oCmd.Parameters.AddWithValue("@網站類別", 網站類別);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void DeleteData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 會員檔 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
     }
 }

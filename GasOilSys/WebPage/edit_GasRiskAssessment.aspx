@@ -368,11 +368,25 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">已納入ILI結果</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt6" maxlength="2" class="inputex width100"></div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt6" class="inputex width100">
+                                                <option value="">請選擇</option>
+                                                <option value="是">是</option>
+                                                <option value="否">否</option>
+                                                <option value="NA">NA</option>
+                                            </select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">已納入CIPS結果</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt7" maxlength="2" class="inputex width100"></div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt7" class="inputex width100">
+                                                <option value="">請選擇</option>
+                                                <option value="是">是</option>
+                                                <option value="否">否</option>
+                                                <option value="NA">NA</option>
+                                            </select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">

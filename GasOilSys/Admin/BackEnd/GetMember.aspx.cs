@@ -17,18 +17,24 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
         ///-----------------------------------------------------
         ///功    能: 成員列表
         ///說明:
-        /// * Request["SearchStr"]:關鍵字
+        /// * Request["SearchStr"]:姓名關鍵字
         /// * Request["PageNo"]:欲顯示的頁碼, 由零開始
         /// * Request["PageSize"]:每頁顯示的資料筆數, 未指定預設10
+        /// * Request["txt1"]:帳號類別
+        /// * Request["txt2"]:網站類別
+        /// * Request["txt3"]:業者名稱
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
         try
         {
-            //string SearchStr = (Request["SearchStr"] != null) ?Request["SearchStr"].ToString().Trim() : "";
             string type = (string.IsNullOrEmpty(Request["type"].ToString().Trim())) ? "" : Request["type"].ToString().Trim();
-            //string mguid = (string.IsNullOrEmpty(Request["guid"].ToString().Trim())) ? "" : Request["guid"].ToString().Trim();
+            string mguid = (string.IsNullOrEmpty(Request["guid"].ToString().Trim())) ? "" : Request["guid"].ToString().Trim();
             string PageNo = (Request["PageNo"] != null) ? Request["PageNo"].ToString().Trim() : "0";
             int PageSize = (Request["PageSize"] != null) ? int.Parse(Request["PageSize"].ToString().Trim()) : 10;
+            string txt1 = (Request["txt1"] != null) ? Request["txt1"].ToString().Trim() : "";
+            string txt2 = (Request["txt2"] != null) ? Request["txt2"].ToString().Trim() : "";
+            string txt3 = (Request["txt3"] != null) ? Request["txt3"].ToString().Trim() : "";
+            string SearchStr = (Request["SearchStr"] != null) ? Request["SearchStr"].ToString().Trim() : "";
 
             if (type == "list")
             {
@@ -36,7 +42,10 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                 int pageEnd = (int.Parse(PageNo) + 1) * PageSize;
                 int pageStart = pageEnd - PageSize + 1;
 
-                //mdb._KeyWord = SearchStr;
+                mdb._帳號類別 = txt1;
+                mdb._網站類別 = txt2;
+                mdb._業者guid = txt3;
+                mdb._KeyWord = SearchStr;
                 DataSet ds = mdb.GetList(pageStart.ToString(), pageEnd.ToString());
 
                 if (ds.Tables[1].Rows.Count > 0)
@@ -53,13 +62,15 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                                 case "01":
                                     ocdb._guid = dt.Rows[i]["業者guid"].ToString();
                                     DataTable odt = ocdb.GetCpName3();
-                                    dt.Rows[i]["cName"] = odt.Rows[0]["cpname"].ToString();
+                                    if (odt.Rows.Count > 0)
+                                        dt.Rows[i]["cName"] = odt.Rows[0]["cpname"].ToString();
                                     break;
                                 //天然氣
                                 case "02":
                                     gcdb._guid = dt.Rows[i]["業者guid"].ToString();
                                     DataTable gdt = gcdb.GetCpName3();
-                                    dt.Rows[i]["cName"] = gdt.Rows[0]["cpname"].ToString();
+                                    if (gdt.Rows.Count > 0)
+                                        dt.Rows[i]["cName"] = gdt.Rows[0]["cpname"].ToString();
                                     break;
                             }
                         }
@@ -74,20 +85,12 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
             }
             else
             {
-                //mdb._M_Guid = mguid;
-                //DataTable dt = mdb.GetData();
-                //if (dt.Rows.Count > 0)
-                //{
-                //    dt.Columns.Add("EncodeGuid", typeof(string));
-                //    for (int i = 0; i < dt.Rows.Count; i++)
-                //    {
-                //        dt.Rows[i]["EncodeGuid"] = Server.UrlEncode(Common.Encrypt(dt.Rows[i]["M_Guid"].ToString()));
-                //    }
-                //}
-                //string xmlstr = string.Empty;
-                //xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-                //xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
-                //xDoc.LoadXml(xmlstr);
+                mdb._guid = mguid;
+                DataTable dt = mdb.GetData();
+                string xmlstr = string.Empty;
+                xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
+                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+                xDoc.LoadXml(xmlstr);
             }
         }
         catch (Exception ex)

@@ -36,7 +36,7 @@
         $('.nav').navgoco();
 
         $("a[name='menubtn']").click(function () {
-            location.href = ($.getQueryString("cp") != "") ? $(this).attr("link") + "?cp=" + $.getQueryString("cp") : $(this).attr("link");
+            location.href = ($.getQueryString("guid") != "") ? $(this).attr("link") + "?guid=" + $.getQueryString("guid") : $(this).attr("link");
         });
 	});
 </script>

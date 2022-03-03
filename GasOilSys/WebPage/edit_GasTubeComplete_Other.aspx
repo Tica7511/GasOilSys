@@ -20,6 +20,58 @@
             getDDL(getTaiwanDate());
             getData();
 
+            $(document).on("change", "input[name='rdYeae1']", function () {
+                if ($("input[name='rdYeae1']:checked").val() == 'Y') {
+                    $("#txt5_1").attr("disabled", false);
+                    $("#txt5_2").attr("disabled", false);
+                }
+                else {
+                    $("#txt5_1").attr("disabled", true);
+                    $("#txt5_2").attr("disabled", true);
+                    $("#txt5_1").val("");
+                    $("#txt5_2").val("");
+                }
+            });
+
+            $(document).on("change", "input[name='rdYeae2']", function () {
+                if ($("input[name='rdYeae2']:checked").val() == 'Y') {
+                    $("#txt6_1").attr("disabled", false);
+                    $("#txt6_2").attr("disabled", false);
+                }
+                else {
+                    $("#txt6_1").attr("disabled", true);
+                    $("#txt6_2").attr("disabled", true);
+                    $("#txt6_1").val("");
+                    $("#txt6_2").val("");
+                }
+            });
+
+            $(document).on("change", "input[name='rdYeae3']", function () {
+                if ($("input[name='rdYeae3']:checked").val() == 'Y') {
+                    $("#txt7_1").attr("disabled", false);
+                    $("#txt7_2").attr("disabled", false);
+                }
+                else {
+                    $("#txt7_1").attr("disabled", true);
+                    $("#txt7_2").attr("disabled", true);
+                    $("#txt7_1").val("");
+                    $("#txt7_2").val("");
+                }
+            });
+
+            $(document).on("change", "input[name='rdYeae4']", function () {
+                if ($("input[name='rdYeae4']:checked").val() == 'Y') {
+                    $("#txt8_1").attr("disabled", false);
+                    $("#txt8_2").attr("disabled", false);
+                }
+                else {
+                    $("#txt8_1").attr("disabled", true);
+                    $("#txt8_2").attr("disabled", true);
+                    $("#txt8_1").val("");
+                    $("#txt8_2").val("");
+                }
+            });
+
             //取消按鍵
             $(document).on("click", "#cancelbtn", function () {
                 var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
@@ -40,14 +92,30 @@
                     msg += "請輸入【智慧型通管器(ILI)可行性】\n";
                 if ($("#txt4").val() == '')
                     msg += "請輸入【耐壓強度試驗(TP)可行性】\n";
-                if (($("#txt5_1").val()) == '' || ($("#txt5_2").val() == ''))
-                    msg += "請輸入【緊密電位(CIPS)年/月】\n";
-                if (($("#txt6_1").val()) == '' || ($("#txt6_2").val() == ''))
-                    msg += "請輸入【電磁包覆(PCM)年/月】\n";
-                if (($("#txt7_1").val()) == '' || ($("#txt7_2").val() == ''))
-                    msg += "請輸入【智慧型通管器(ILI)年/月】\n";
-                if (($("#txt8_1").val()) == '' || ($("#txt8_2").val() == ''))
-                    msg += "請輸入【耐壓強度試驗(TP)年/月】\n";
+                if ($("input[name='rdYeae1']:checked").val() == '')
+                    msg += "請選擇【緊密電位(CIPS)年/月】\n";
+                else
+                    if ($("input[name='rdYeae1']:checked").val() == 'Y')
+                        if (($("#txt5_1").val()) == '' || ($("#txt5_2").val() == ''))
+                            msg += "請輸入【緊密電位(CIPS)年/月】\n";
+                if ($("input[name='rdYeae2']:checked").val() == '')
+                    msg += "請選擇【電磁包覆(PCM)年/月】\n";
+                else
+                    if ($("input[name='rdYeae2']:checked").val() == 'Y')
+                        if (($("#txt6_1").val()) == '' || ($("#txt6_2").val() == ''))
+                            msg += "請輸入【電磁包覆(PCM)年/月】\n";
+                if ($("input[name='rdYeae3']:checked").val() == '')
+                    msg += "請選擇【智慧型通管器(ILI)年/月】\n";
+                else
+                    if ($("input[name='rdYeae3']:checked").val() == 'Y')
+                        if (($("#txt7_1").val()) == '' || ($("#txt7_2").val() == ''))
+                            msg += "請輸入【智慧型通管器(ILI)年/月】\n";
+                if ($("input[name='rdYeae4']:checked").val() == '')
+                    msg += "請選擇【耐壓強度試驗(TP)年/月】\n";
+                else
+                    if ($("input[name='rdYeae4']:checked").val() == 'Y')
+                        if (($("#txt8_1").val()) == '' || ($("#txt8_2").val() == ''))
+                            msg += "請輸入【耐壓強度試驗(TP)年/月】\n";
                 if ($("#txt9").val() == '')
                     msg += "請輸入【耐壓強度試驗(TP)介質】\n";
                 if ($("#txt10").val() == '')
@@ -85,14 +153,22 @@
                 data.append("txt2_2", encodeURIComponent($("#txt2_2").val()));
                 data.append("txt3", encodeURIComponent($("#txt3").val()));
                 data.append("txt4", encodeURIComponent($("#txt4").val()));
-                data.append("txt5_1", encodeURIComponent($("#txt5_1").val()));
-                data.append("txt5_2", encodeURIComponent($("#txt5_2").val()));
-                data.append("txt6_1", encodeURIComponent($("#txt6_1").val()));
-                data.append("txt6_2", encodeURIComponent($("#txt6_2").val()));
-                data.append("txt7_1", encodeURIComponent($("#txt7_1").val()));
-                data.append("txt7_2", encodeURIComponent($("#txt7_2").val()));
-                data.append("txt8_1", encodeURIComponent($("#txt8_1").val()));
-                data.append("txt8_2", encodeURIComponent($("#txt8_2").val()));
+                if ($("input[name='rdYeae1']:checked").val() == 'Y')
+                    data.append("txt5", encodeURIComponent($("#txt5_1").val() + '/' + $("#txt5_2").val()));
+                else
+                    data.append("txt5", encodeURIComponent('NA'));
+                if ($("input[name='rdYeae2']:checked").val() == 'Y')
+                    data.append("txt6", encodeURIComponent($("#txt6_1").val() + '/' + $("#txt6_2").val()));
+                else
+                    data.append("txt6", encodeURIComponent('NA'));
+                if ($("input[name='rdYeae3']:checked").val() == 'Y')
+                    data.append("txt7", encodeURIComponent($("#txt7_1").val() + '/' + $("#txt7_2").val()));
+                else
+                    data.append("txt7", encodeURIComponent('NA'));
+                if ($("input[name='rdYeae4']:checked").val() == 'Y')
+                    data.append("txt8", encodeURIComponent($("#txt8_1").val() + '/' + $("#txt8_2").val()));
+                else
+                    data.append("txt8", encodeURIComponent('NA'));
                 data.append("txt9", encodeURIComponent($("#txt9").val()));
                 data.append("txt10", encodeURIComponent($("#txt10").val()));
                 data.append("txt11", encodeURIComponent($("#txt11").val()));
@@ -160,14 +236,46 @@
                                 $("#txt2_2").val(splitYearMonth(1, $(this).children("風險評估年月").text().trim()));
                                 $("#txt3").val($(this).children("智慧型通管器ILI可行性").text().trim());
                                 $("#txt4").val($(this).children("耐壓強度試驗TP可行性").text().trim());
-                                $("#txt5_1").val(splitYearMonth(0, $(this).children("緊密電位CIPS年月").text().trim()));
-                                $("#txt5_2").val(splitYearMonth(1, $(this).children("緊密電位CIPS年月").text().trim()));
-                                $("#txt6_1").val(splitYearMonth(0, $(this).children("電磁包覆PCM年月").text().trim()));
-                                $("#txt6_2").val(splitYearMonth(1, $(this).children("電磁包覆PCM年月").text().trim()));
-                                $("#txt7_1").val(splitYearMonth(0, $(this).children("智慧型通管器ILI年月").text().trim()));
-                                $("#txt7_2").val(splitYearMonth(1, $(this).children("智慧型通管器ILI年月").text().trim()));
-                                $("#txt8_1").val(splitYearMonth(0, $(this).children("耐壓強度試驗TP年月").text().trim()));
-                                $("#txt8_2").val(splitYearMonth(1, $(this).children("耐壓強度試驗TP年月").text().trim()));
+                                if ($(this).children("緊密電位CIPS年月").text().trim() == 'NA') {
+                                    $("input[name='rdYeae1'][value='N']").attr('checked', true);
+                                    $("#txt5_1").attr("disabled", true);
+                                    $("#txt5_2").attr("disabled", true);
+                                }
+                                else {
+                                    $("input[name='rdYeae1'][value='Y']").attr('checked', true);
+                                    $("#txt5_1").val(splitYearMonth(0, $(this).children("緊密電位CIPS年月").text().trim()));
+                                    $("#txt5_2").val(splitYearMonth(1, $(this).children("緊密電位CIPS年月").text().trim()));
+                                }
+                                if ($(this).children("電磁包覆PCM年月").text().trim() == 'NA') {
+                                    $("input[name='rdYeae2'][value='N']").attr('checked', true);
+                                    $("#txt6_1").attr("disabled", true);
+                                    $("#txt6_2").attr("disabled", true);
+                                }
+                                else {
+                                    $("input[name='rdYeae2'][value='Y']").attr('checked', true);
+                                    $("#txt6_1").val(splitYearMonth(0, $(this).children("電磁包覆PCM年月").text().trim()));
+                                    $("#txt6_2").val(splitYearMonth(1, $(this).children("電磁包覆PCM年月").text().trim()));
+                                }
+                                if ($(this).children("智慧型通管器ILI年月").text().trim() == 'NA') {
+                                    $("input[name='rdYeae3'][value='N']").attr('checked', true);
+                                    $("#txt7_1").attr("disabled", true);
+                                    $("#txt7_2").attr("disabled", true);
+                                }
+                                else {
+                                    $("input[name='rdYeae3'][value='Y']").attr('checked', true);
+                                    $("#txt7_1").val(splitYearMonth(0, $(this).children("智慧型通管器ILI年月").text().trim()));
+                                    $("#txt7_2").val(splitYearMonth(1, $(this).children("智慧型通管器ILI年月").text().trim()));
+                                }
+                                if ($(this).children("耐壓強度試驗TP年月").text().trim() == 'NA') {
+                                    $("input[name='rdYeae4'][value='N']").attr('checked', true);
+                                    $("#txt8_1").attr("disabled", true);
+                                    $("#txt8_2").attr("disabled", true);
+                                }
+                                else {
+                                    $("input[name='rdYeae4'][value='Y']").attr('checked', true);
+                                    $("#txt8_1").val(splitYearMonth(0, $(this).children("耐壓強度試驗TP年月").text().trim()));
+                                    $("#txt8_2").val(splitYearMonth(1, $(this).children("耐壓強度試驗TP年月").text().trim()));
+                                }
                                 $("#txt9").val($(this).children("耐壓強度試驗TP介質").text().trim());
                                 $("#txt10").val($(this).children("試壓壓力與MOP壓力倍數").text().trim());
                                 $("#txt11").val($(this).children("耐壓強度試驗TP持壓時間").text().trim());
@@ -353,6 +461,8 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">緊密電位(CIPS)年/月</div>
                                         <div class="OchiCell width100">
+                                            <input type="radio" name="rdYeae1" value="N" /> NA<br />  
+                                            <input type="radio" name="rdYeae1" value="Y" /> 
                                             民國 <input type="number" min="1" id="txt5_1" placeholder="請填寫民國年" class="inputex width40"> 年 
                                             <select id="txt5_2" class="width25 inputex" >
                                                 <option value="">請選擇</option>
@@ -376,6 +486,8 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">電磁包覆(PCM)年/月</div>
                                         <div class="OchiCell width100">
+                                            <input type="radio" name="rdYeae2" value="N" /> NA<br />  
+                                            <input type="radio" name="rdYeae2" value="Y" /> 
                                             民國 <input type="number" min="1" id="txt6_1" placeholder="請填寫民國年" class="inputex width40"> 年 
                                             <select id="txt6_2" class="width25 inputex" >
                                                 <option value="">請選擇</option>
@@ -397,6 +509,8 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">智慧型通管器(ILI)</br>年/月</div>
                                         <div class="OchiCell width100">
+                                            <input type="radio" name="rdYeae3" value="N" /> NA<br />  
+                                            <input type="radio" name="rdYeae3" value="Y" /> 
                                             民國 <input type="number" min="1" id="txt7_1" placeholder="請填寫民國年" class="inputex width40"> 年 
                                             <select id="txt7_2" class="width25 inputex" >
                                                 <option value="">請選擇</option>
@@ -420,6 +534,8 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">耐壓強度試驗(TP)</br>年/月</div>
                                         <div class="OchiCell width100">
+                                            <input type="radio" name="rdYeae4" value="N" /> NA<br />  
+                                            <input type="radio" name="rdYeae4" value="Y" /> 
                                             民國 <input type="number" min="1" id="txt8_1" placeholder="請填寫民國年" class="inputex width40"> 年 
                                             <select id="txt8_2" class="width25 inputex" >
                                                 <option value="">請選擇</option>

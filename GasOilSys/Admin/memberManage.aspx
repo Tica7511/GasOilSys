@@ -33,73 +33,148 @@
     </style>
 	<script type="text/javascript">
         $(document).ready(function () {
+            getDDL('001');
+            getDDL('002');
             getData(0);
 
-            //編輯開窗
-            $(document).on("click", "a[name='editbtn']", function () {
-                $("#CGguid").val($(this).attr("aid"));
-
-                var cguid = $("#CGguid").val();
-                
-                var sp2 = $("span[name='sp2_" + $("#CGguid").val() + "']").text();
-                var sp3 = $("span[name='sp3_" + cguid + "']").text();
-                var sp4 = $("span[name='sp4_" + cguid + "']").text();
-                var txt1 = $("input[name='rd_" + cguid + "']:checked").val();
-
-                $("#cpNameIsConfirm").html(sp2 + sp3 + sp4);
-                $("input[name='txt1'][value='" + txt1 + "']").prop("checked", true);
-
-                doOpenMagPopup();
+            //選擇帳號類別
+            $(document).on("change", "#txt1", function () {
+                if ($("#txt1 option:selected").val() == '02') {
+                    $("#txt2").attr('disabled', false);
+                    $("#txt3").attr('disabled', false);
+                }
+                else if ($("#txt1 option:selected").val() == '') {
+                    $("#txt2").val('');
+                    $("#txt3").val('');
+                    $("#txt3").empty();
+                    $("#txt3").append('<option value="">請選擇</option>');
+                    $("#txt2").attr('disabled', false);
+                    $("#txt3").attr('disabled', false);
+                }
+                else {
+                    $("#txt2").val('');
+                    $("#txt3").val('');
+                    $("#txt3").empty();
+                    $("#txt3").append('<option value="">請選擇</option>');
+                    $("#txt2").attr('disabled', true);
+                    $("#txt3").attr('disabled', true);
+                }
             });
 
-            //開窗儲存
-            $(document).on("click", "#cSubbtn", function () {
-                // Get form
-                var form = $('#form1')[0];
-
-                // Create an FormData object 
-                var data = new FormData(form);
-
-                // If you want to add an extra field for the FormData
-                data.append("guid", $("#CGguid").val());
-                data.append("type", encodeURIComponent('Gas'));
-                data.append("txt1", encodeURIComponent($("input[name='txt1']:checked").val()));
-
-                $.ajax({
-                    type: "POST",
-                    async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "BackEnd/AddIsConfirm.aspx",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    error: function (xhr) {
-                        alert("Error: " + xhr.status);
-                        console.log(xhr.responseText);
-                    },
-                    success: function (data) {
-                        if ($(data).find("Error").length > 0) {
-                            alert($(data).find("Error").attr("Message"));
+            //選擇網站類別
+            $(document).on("change", "#txt2", function () {
+                if ($("#txt2 option:selected").val() == '01') {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "BackEnd/GetCompanyName.aspx",
+                        data: {
+                            type: "Oil",
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                var ddlstr = '<option value="">請選擇</option>';
+                                if ($(data).find("data_item").length > 0) {
+                                    $(data).find("data_item").each(function (i) {
+                                        ddlstr += '<option value="' + $(this).children("guid").text().trim() + '">' + $(this).children("cpname").text().trim() + '</option>';
+                                    });
+                                }
+                                $("#txt3").empty();
+                                $("#txt3").append(ddlstr);
+                            }
                         }
-                        else {
-                            alert($("Response", data).text());
-                            getData();
-                            $.magnificPopup.close();
+                    });
+                }
+                else if ($("#txt2 option:selected").val() == '02') {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/GetCompanyName.aspx",
+                        data: {
+                            type: "Gas",
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                var ddlstr = '<option value="">請選擇</option>';
+                                if ($(data).find("data_item").length > 0) {
+                                    $(data).find("data_item").each(function (i) {
+                                        ddlstr += '<option value="' + $(this).children("guid").text().trim() + '">' + $(this).children("cpname").text().trim() + '</option>';
+                                    });
+                                }
+                                $("#txt3").empty();
+                                $("#txt3").append(ddlstr);
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                else {
+                    $("#txt3").empty();
+                    $("#txt3").append('<option value="">請選擇</option>');
+                }
+            });
+
+            //刪除按鈕
+            $(document).on("click", "a[name='delbtn']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "BackEnd/DelMember.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#pageNumber").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //查詢
+            $(document).on("click", "#subbtn", function () {
+                getData(0);
             });
         }); // end js
 
         function getData(p) {
+            $("#pageNumber").val(p);
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "BackEnd/GetMember.aspx",
                 data: {
                     type: "list",
+                    guid: "",
                     PageNo: p,
                     PageSize: Page.Option.PageSize,
+                    txt1: $("#txt1").val(),
+                    txt2: $("#txt2").val(),
+                    txt3: $("#txt3").val(),
+                    SearchStr: $("#txt4").val(),
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -137,21 +212,21 @@
                                         accountType = '台塑石化長官';
                                         break;
                                 }
-								tabstr += '<td nowrap="nowrap">' + accountType + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + $(this).children("cName").text().trim() + '</td>';
                                 var webType = $(this).children("網站類別").text().trim();
                                 if (webType == '01')
                                     webType = '石油';
                                 else if (webType == '02')
                                     webType = '天然氣';
-								tabstr += '<td nowrap="nowrap">' + webType + '</td>';
+								tabstr += '<td nowrap="nowrap">' + accountType + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + webType + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("cName").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用者帳號").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用者密碼").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("mail").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("電話").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("單位名稱").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
-                                tabstr += ' <a href="edit_memberManager.aspx?guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                tabstr += ' <a href="edit_memberManage.aspx?guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
                                 tabstr += '</tr>';
 							});
 						}
@@ -164,6 +239,54 @@
 					}
 				}
 			});
+        }
+
+        function getDDL(gNo) {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetDDLlist.aspx",
+                data: {
+                    gNo: gNo,
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        var ddlstr = '<option value="">請選擇</option>';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("項目代碼").text().trim() + '">' + $(this).children("項目名稱").text().trim() + '</option>';
+                            });
+                        }
+                        switch (gNo) {
+                            case '001':
+                                $("#txt1").empty();
+                                $("#txt1").append(ddlstr);
+                                break;
+                            case '002':
+                                $("#txt2").empty();
+                                $("#txt2").append(ddlstr);
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
     </script>
 </head>
@@ -191,6 +314,7 @@
 		<!--#include file="ManageHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
         <input type="hidden" id="CGguid" />
+        <input type="hidden" id="pageNumber" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -202,18 +326,55 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
+                                <div class="left font-size5 ">查詢:</div>
                                 <div class="right">
 
                                 </div>
-                            </div><br />
+                            </div>
+                            <div class="OchiTrasTable width100 TitleLength09 font-size3">
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">帳號類別</div>
+                                        <div class="OchiCell width100"><select id="txt1" class="width100 inputex" ></select></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">網站類別</div>
+                                        <div class="OchiCell width100"><select id="txt2" class="width100 inputex" ></select></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">業者名稱</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt3" class="width100 inputex" >
+                                                <option value="">請選擇</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">姓名</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100 "></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                            </div><!-- OchiTrasTable -->
+                            <br />
+                            <div class="twocol">
+                                <div class="left">
+                                    
+                                </div>
+                                <div class="right">
+                                    <a id="newbtn" href="edit_memberManage.aspx" title="新增" class="genbtn" >新增</a> <a id="subbtn" href="javascript:void(0);" title="查詢" class="genbtn" >查詢</a>
+                                </div>
+                            </div>
+                            <br />
                             <div class="stripeMeB tbover">
                                 <table id="tablist" border="0" cellspacing="0" cellpadding="0" width="100%">
                                     <thead>
 							        	<tr>
 							        		<th nowrap="nowrap">姓名</th>
 							        		<th nowrap="nowrap">帳號類別</th>
-							        		<th nowrap="nowrap">業者名稱</th>
 							        		<th nowrap="nowrap">網站類別</th>
+                                            <th nowrap="nowrap">業者名稱</th>
 							        		<th nowrap="nowrap">帳號</th>
 							        		<th nowrap="nowrap">密碼</th>
 							        		<th nowrap="nowrap">email</th>
