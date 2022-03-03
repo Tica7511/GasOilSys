@@ -159,7 +159,8 @@ public partial class WebPage_OilSaveAllSefEvaluation : System.Web.UI.Page
                         string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
 
                         //新檔名
-                        string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
+                        //string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
+                        string newName = orgName;
 
                         string file_size = File.ContentLength.ToString();
 
