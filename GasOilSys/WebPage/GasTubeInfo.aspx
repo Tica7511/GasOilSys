@@ -126,6 +126,7 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("土壤液化區").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("土石流潛勢區").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("淹水潛勢區").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap"><pre>' + $(this).children("備註").text().trim() + '</pre></td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_GasTubeInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
                                 tabstr += '</tr>';
@@ -343,6 +344,7 @@
                                             <th nowrap>土壤液化區<br>1.有<br>2.無 </th>
                                             <th nowrap>土石流潛勢區<br>1.有<br>2.無 </th>
                                             <th nowrap>淹水潛勢區<br>1.有<br>2.無 </th>
+                                            <th nowrap>備註 </th>
                                             <th id="th_edit">功能</th>
 										</tr>
 									</thead>

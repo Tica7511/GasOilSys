@@ -38,6 +38,7 @@ public class GasTubeInfo_DB
 	string 使用狀態 = string.Empty;
 	string 附掛橋樑數量 = string.Empty;
 	string 管線穿越箱涵數量 = string.Empty;
+	string 備註 = string.Empty;
     string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -68,6 +69,7 @@ public class GasTubeInfo_DB
 	public string _使用狀態 { set { 使用狀態 = value; } }
 	public string _附掛橋樑數量 { set { 附掛橋樑數量 = value; } }
 	public string _管線穿越箱涵數量 { set { 管線穿越箱涵數量 = value; } }
+	public string _備註 { set { 備註 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -216,6 +218,7 @@ else
 使用狀態,
 附掛橋樑數量,
 管線穿越箱涵數量,
+備註,
 修改者, 
 修改日期, 
 建立者, 
@@ -242,6 +245,7 @@ else
 @使用狀態,
 @附掛橋樑數量,
 @管線穿越箱涵數量,
+@備註,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -272,6 +276,7 @@ else
         oCmd.Parameters.AddWithValue("@使用狀態", 使用狀態);
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
         oCmd.Parameters.AddWithValue("@管線穿越箱涵數量", 管線穿越箱涵數量);
+        oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -306,6 +311,7 @@ else
 使用狀態=@使用狀態,
 附掛橋樑數量=@附掛橋樑數量,
 管線穿越箱涵數量=@管線穿越箱涵數量,
+備註=@備註,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -335,6 +341,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@使用狀態", 使用狀態);
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
         oCmd.Parameters.AddWithValue("@管線穿越箱涵數量", 管線穿越箱涵數量);
+        oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');
