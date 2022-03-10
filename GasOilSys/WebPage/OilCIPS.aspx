@@ -71,6 +71,48 @@
                     });
                 }
             });
+
+            //刪除附件
+            $(document).on("click", "a[name='delbtnFile']", function () {
+                var isDel = confirm("確定刪除檔案嗎?");
+                if (isDel) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/DelOilCIPSFile.aspx",
+                        data: {
+                            cpid: $.getQueryString("cp"),
+                            sn: $(this).attr("sn"),
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert("刪除完成");
+
+                                GetFileList();
+                                getExtension();
+                            }
+                        }
+                    });
+                }
+            });
+
+            //附件列表開窗
+            $(document).on("click", "a[name='fileListBtn']", function () {
+                $("#CGguid").val($(this).attr("aid"));
+
+                GetFileList();
+                getExtension();
+                doOpenMagPopup();
+            });
+
 		}); // end js
 
 		function getData(year) {
@@ -111,13 +153,14 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("x座標").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("y座標").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap"><a href="javascript:void(0);" name="fileListBtn" class="grebtn" aid="' + $(this).children("guid").text().trim() + '">附件列表</a></td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilCIPS.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
                                 tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="16">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="17">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -219,6 +262,115 @@
             });
         }
 
+        //附件列表
+        function GetFileList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetFile.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    guid: $("#CGguid").val(),
+                    year: getTaiwanDate(),
+                    type: "08",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#tablistFile tbody").empty();
+                        var tabstr = '';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var filename = $(this).children("新檔名").text().trim();
+                                var fileextension = $(this).children("附檔名").text().trim();
+                                tabstr += '<tr>';
+                                tabstr += '<td nowrap="nowrap">';
+                                tabstr += '<img width="200px" height="200px" name="img_' + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + '" src="../DOWNLOAD.aspx?category=Oil&type=CIPS&sn=' + $(this).children("排序").text().trim() +
+                                    '&v=' + $(this).children("guid").text().trim() + '" alt="' + filename + fileextension + '" style="display:none" >';
+                                tabstr += '<a name="a_' + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + '" href="../DOWNLOAD.aspx?category=Oil&type=CIPS&sn=' + $(this).children("排序").text().trim() +
+                                    '&v=' + $(this).children("guid").text().trim() + '" style="display:none" >' + filename + fileextension + '</a>';
+                                tabstr += '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("上傳日期").text().trim() + '</td>';
+                                tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnFile" aid="' + $(this).children("guid").text().trim() +
+                                    '" sn="' + $(this).children("排序").text().trim() + '">刪除</a></td>';
+                                tabstr += '</tr>';
+                            });
+                        }
+                        else
+                            tabstr += '<tr><td colspan="3">查詢無資料</td></tr>';
+                        $("#tablistFile tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '03')) {
+                            $("#thFunc").show();
+                            $("td[name='td_editFile']").show();
+                        }
+                        else {
+                            $("#thFunc").hide();
+                            $("td[name='td_editFile']").hide();
+                        }
+                    }
+                }
+            });
+        }
+
+        function getExtension() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetFile.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    guid: $("#CGguid").val(),
+                    year: getTaiwanDate(),
+                    type: "08",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var fileextension = $(this).children("附檔名").text().trim();
+                                if (fileextension == ".jpg" || fileextension == ".jpeg" || fileextension == ".png") {
+                                    $("img[name='img_" + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + "']").show();
+                                }
+                                else {
+                                    $("a[name='a_" + $(this).children("guid").text().trim() + $(this).children("排序").text().trim() + "']").show();
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+        function doOpenMagPopup() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
+
         //年月日格式=> yyyy/mm/dd
         function getDate(fulldate) {
 
@@ -284,6 +436,7 @@
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="CGguid" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -324,6 +477,7 @@
                                             <th  rowspan="2">x座標</th>
                                             <th  rowspan="2">y座標</th>
                                             <th  rowspan="2">備註 </th>
+                                            <th  rowspan="2">附件 </th>
                                             <th  rowspan="2" id="th_edit">功能</th>
                                         </tr>
                                         <tr>
@@ -363,6 +517,27 @@
 </form>
 </div>
 <!-- 結尾用div:修正mmenu form bug -->
+
+<!-- Magnific Popup -->
+<div id="messageblock" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle">附件列表</div>
+  <div class="padding10ALL">
+      <div class="stripeMeB tbover">
+          <table id="tablistFile" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+		        	<tr>
+		        		<th nowrap="nowrap" align="center" width="50%">檔案名稱</th>
+		        		<th nowrap="nowrap" align="center" width="30%">上傳日期</th>
+		        		<th id="thFunc" nowrap="nowrap" align="center" width="10%">功能</th>
+		        	</tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+      </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
 
 <!-- colorbox -->
 <div style="display:none;">

@@ -93,6 +93,9 @@
                 data.append("txt12", encodeURIComponent($("#txt12").val()));
                 data.append("txt13", encodeURIComponent($("#txt13").val()));
                 data.append("txt14", encodeURIComponent($("#txt14").val()));
+                $.each($("#fileUpload")[0].files, function (i, file) {
+                    data.append('file', file);
+                });
 
                 $.ajax({
                     type: "POST",
@@ -117,6 +120,26 @@
                         }
                     }
                 });
+            });
+
+            //上傳前的附件列表
+            $(document).on("change", "#fileUpload", function () {
+                $("#filelist").empty();
+                var fp = $("#fileUpload");
+                var lg = fp[0].files.length; // get length
+                var items = fp[0].files;
+                var fragment = "";
+
+                if (lg > 0) {
+                    for (var i = 0; i < lg; i++) {
+                        var fileName = items[i].name; // get file name
+
+                        // append li to UL tag to display File info
+                        fragment += "<label>" + (i + 1) + ". " + fileName + "</label></br>";
+                    }
+
+                    $("#filelist").append(fragment);
+                }
             });
 
             $(".pickDate").datepick({
@@ -273,7 +296,7 @@
 <body class="bgB">
 <!-- 開頭用div:修正mmenu form bug -->
 <div>
-<form>
+<form id="form1">
 <!-- Preloader -->
 <div id="preloader" >
 	<div id="status" >
@@ -427,6 +450,14 @@
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
                                         <div class="OchiCell width100"><input type="text" id="txt14" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <br />
+                                <div class="OchiRow">
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">附件上傳</div>
+                                    <div class="OchiCell width100">
+                                        <input type="file" id="fileUpload" multiple="multiple" />
+                                        <div id="filelist"></div>
+                                    </div>
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
                         </div><!-- col -->

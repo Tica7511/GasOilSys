@@ -177,6 +177,16 @@ namespace ED.HR.DOWNLOAD.WebForm
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
+                                case "CIPS":
+                                    dirPath += "CIPS\\";
+                                    Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    Fdb._排序 = sn;
+                                    dt = Fdb.GetFileData();
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                    }
+                                    break;
                             }
                             break;
                         case "WeekReport":
