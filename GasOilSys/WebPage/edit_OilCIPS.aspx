@@ -20,6 +20,131 @@
             getDDL();
             getData();
 
+            //座標列表開窗
+            $(document).on("click", "#xymgbox", function () {
+                if ($.getQueryString("guid") == "") {
+                    alert("請先儲存此頁再新增異常點尚未改善完成之座標");
+                    return false;
+                }
+
+                $("#CoGguid").val($.getQueryString("guid"));
+                getCoordinate();
+                doOpenMagPopup2();
+            });
+
+            //新增座標
+            $(document).on("click", "#newbtnxy", function () {
+                $("#Gguid").val("");
+                $("#typeName").html("新增座標");
+                $("#xy1").val("");
+                $("#xy2").val("");
+                $("#xy3").val("");
+                doOpenMagPopup3();
+            });
+
+            //編輯座標
+            $(document).on("click", "a[name='editbtnxy']", function () {
+                $("#Gguid").val($(this).attr("aid"));
+                $("#typeName").html("編輯座標");
+                getCoordinateData();
+                doOpenMagPopup3();
+            });
+
+            //取消 新增/編輯座標
+            $(document).on("click", "#cancelbtn2", function () {
+                $("#CoGguid").val();
+                getCoordinate();
+                doOpenMagPopup2();
+            });
+
+            //座標儲存
+            $(document).on("click", "#subbtn2", function () {
+                var msg = '';
+
+                if ($("#xy1").val() == '')
+                    msg += "請輸入【x座標】\n";
+                if ($("#xy2").val() == '')
+                    msg += "請輸入【y座標】\n";
+                if ($("#xy3").val() == '')
+                    msg += "請輸入【級距】\n";
+
+                if (msg != "") {
+                    alert("Error message: \n" + msg);
+                    return false;
+                }
+
+                // Get form
+                var form = $('#form1')[0];
+
+                // Create an FormData object 
+                var data = new FormData(form);
+
+                var mode = ($.getQueryString("guid") == "") ? "new" : "edit";
+
+                // If you want to add an extra field for the FormData
+                data.append("cp", $.getQueryString("cp"));
+                data.append("pGuid", $.getQueryString("guid"));
+                data.append("guid", $("#Gguid").val());
+                data.append("mode", encodeURIComponent(mode));
+                data.append("year", encodeURIComponent(getTaiwanDate()));
+                data.append("txt1", encodeURIComponent($("#xy1").val()));
+                data.append("txt2", encodeURIComponent($("#xy2").val()));
+                data.append("txt3", encodeURIComponent($("#xy3").val()));
+
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "../handler/AddOilCIPSxy.aspx",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    error: function (xhr) {
+                        alert("Error: " + xhr.status);
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            alert($("Response", data).text());
+
+                            $("#CoGguid").val();
+                            getCoordinate();
+                            doOpenMagPopup2();
+                        }
+                    }
+                });
+            });
+
+            //刪除座標
+            $(document).on("click", "a[name='delbtn2']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelOilCIPSxy.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getCoordinate();
+                            }
+                        }
+                    });
+                }
+            });
+
             //取消按鍵
             $(document).on("click", "#cancelbtn", function () {
                 var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
@@ -184,8 +309,6 @@
                                 $("#txt9").val($(this).children("排成改善_數量").text().trim());
                                 $("#txt10").val($(this).children("排成改善_改善完成數量").text().trim());
                                 $("#txt11").val($(this).children("需監控點數量").text().trim());
-                                $("#txt12").val($(this).children("x座標").text().trim());
-                                $("#txt13").val($(this).children("y座標").text().trim());
                                 $("#txt14").val($(this).children("備註").text().trim());
                             });
                         }
@@ -221,6 +344,85 @@
 
                         $("#txt1").empty();
                         $("#txt1").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        function getCoordinate() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilCIPSxy.aspx",
+                data: {
+                    pGuid: $.getQueryString("guid"),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#tablistcoordinate tbody").empty();
+                        var tabstr = '';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                tabstr += '<tr>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("x座標").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("y座標").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("級距").text().trim() + '</td>';
+                                tabstr += '<td name="td_editCoordinate" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a> ';
+                                tabstr += '<a href="javascript:void(0);" name="editbtnxy" mid="edit" aid="' + $(this).children("guid").text().trim() + '">編輯</a></td>'
+                                tabstr += '</tr>';
+                            });
+                        }
+                        else
+                            tabstr += '<tr><td colspan="4">查詢無資料</td></tr>';
+                        $("#tablistcoordinate tbody").append(tabstr);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '03')) {
+                            $("#thFunc2").show();
+                            $("td[name='td_editCoordinate']").show();
+                        }
+                        else {
+                            $("#thFunc2").hide();
+                            $("td[name='td_editCoordinate']").hide();
+                        }
+                    }
+                }
+            });
+        }
+
+        function getCoordinateData() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilCIPSxy.aspx",
+                data: {
+                    guid: $("#Gguid").val(),
+                    type: "data",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                $("#xy1").val($(this).children("x座標").text().trim());
+                                $("#xy2").val($(this).children("y座標").text().trim());
+                                $("#xy3").val($(this).children("級距").text().trim());
+                            });
+                        }
                     }
                 }
             });
@@ -272,6 +474,36 @@
             return nowTwYear;
         }
 
+        function doOpenMagPopup2() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock2'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
+
+        function doOpenMagPopup3() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock3'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
+
         //function getTaiwanDate() {
         //    var nowDate = new Date();
 
@@ -315,6 +547,9 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
+        <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="CoGguid" />
+        <input type="hidden" id="Gguid" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -433,18 +668,12 @@
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">數量</div>
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt11" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">異常點尚未改善完成之座標</div>
+                                        <div class="OchiCell width100"><a href="javascript:void(0);" id="xymgbox" class="genbtn">座標列表</a></div>
+                                    </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 </br>
-                                <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">x座標</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt12" class="inputex width100"></div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">y座標</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt13" class="inputex width100"></div>
-                                    </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
@@ -518,6 +747,67 @@
         <br /><br />
     </div>
 </div>
+
+<!-- Magnific Popup -->
+<div id="messageblock2" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle">異常點尚未改善完成之座標</div>
+  <div class="padding10ALL">
+      <div class="twocol">
+          <div class="right">
+            <a id="newbtnxy" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+          </div>
+      </div><br />
+      <div class="stripeMeB tbover">
+          <table id="tablistcoordinate" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+		        	<tr>
+		        		<th nowrap="nowrap" align="center">x座標</th>
+		        		<th nowrap="nowrap" align="center">y座標</th>
+		        		<th nowrap="nowrap" align="center">級距</th>
+		        		<th id="thFunc2" nowrap="nowrap" align="center" width="10%">功能</th>
+		        	</tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+      </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
+
+<!-- Magnific Popup -->
+<div id="messageblock3" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle"><span id="typeName"></span></div>
+  <div class="padding10ALL">
+      <div class="OchiTrasTable width100 TitleLength08 font-size3">
+          <div class="OchiRow">
+              <div class="OchiHalf">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">x座標</div>
+                  <div class="OchiCell width100"><input id="xy1" type="text" class="inputex width100"></div>
+              </div><!-- OchiHalf -->
+              <div class="OchiHalf">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">y座標</div>
+                  <div class="OchiCell width100"><input id="xy2" type="text" class="inputex width100"></div>
+              </div><!-- OchiHalf -->
+          </div><!-- OchiRow -->
+          <div class="OchiRow">
+              <div class="OchiHalf">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">級距</div>
+                  <div class="OchiCell width100"><input id="xy3" type="text" class="inputex width100"></div>
+              </div><!-- OchiHalf -->
+          </div><!-- OchiRow -->
+      </div><!-- OchiTrasTable -->
+
+      <div class="twocol margin10T">
+            <div class="right">
+                <a id="cancelbtn2" href="javascript:void(0);" class="genbtn closecolorbox">取消</a>
+                <a id="subbtn2" href="javascript:void(0);" class="genbtn">儲存</a>
+            </div>
+        </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
 
 <!-- 本頁面使用的JS -->
     <script type="text/javascript">

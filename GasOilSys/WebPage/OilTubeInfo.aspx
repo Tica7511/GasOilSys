@@ -125,13 +125,14 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("土壤液化區").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("土石流潛勢區").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("淹水潛勢區").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap"><pre>' + $(this).children("備註").text().trim() + '</pre></td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilTubeInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
                                 tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="24">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="25">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
@@ -345,6 +346,7 @@
                                             <th nowrap>土壤<br>液化區</th>
                                             <th nowrap>土石流<br>潛勢區</th>
                                             <th nowrap>淹水<br>潛勢區</th>
+                                            <th nowrap>備註 </th>
                                             <th id="th_edit">功能</th>
                                         </tr>
                                     </thead>
@@ -353,7 +355,24 @@
                             </div>
                             <div class="margin10B margin10T textcenter">
 	                            <div id="pageblock"></div>
-	                        </div>
+	                        </div><br>
+
+                            <div class="margin5TB font-size2">
+                                填表說明：<br />
+                                (1)請依各管線分別填寫。
+                                (2) 「銜接管線識別碼(上游)」：請填寫與該管線上游端直接銜接之管線試別碼，原則上僅一條管線，若為三通或其他設計，有多條管線直接銜接，請於備註欄位填寫說明。<br>
+                                (3) 「銜接管線識別碼(下游)」：請填寫與該管線下游端直接銜接之管線試別碼，原則上僅一條管線，若為三通或其他設計，有多條管線直接銜接，請於備註欄位填寫說明。<br>
+                                (4) 厚度請填寫到小數點後兩位，請依據ASME B36.10M Welded and Seamless Wrought Steel Pipe填寫公稱厚度，例如25.40 mm。若同一管線有2種以上之管徑，請填寫最大管徑，其他管徑請填寫於備註欄。<br>
+                                (5) 管線長度單位公里，請填寫到小數點後三位，例如5.140公里。<br>
+                                (6) 停用管線之內容物，請填如(氮封)、(空管)、(水)。<br>
+                                (7) 緊急遮斷閥請填寫除2端以外有幾處。<br>
+                                (8) 設計壓力與使用壓力(請填寫近年內之MOP)單位請採用kg/cm2。<br>
+                                (9) 請填寫同一管線附掛橋樑的數量。<br>
+                                (10) 廢棄管線與非中油公司資產管線，請勿列入。<br>
+                                (11) 「管線穿越箱涵數量」：請填寫該管線目前已知穿越箱涵的數量。<br>
+                                (12)「活動斷層敏感區」、「土壤液化區」、「土石流潛勢區」、「淹水潛勢區」：若該管線有經過左列之環境特質，請選有，反之，若沒有經過該項環境特質，則選無，若有其他環境特質請於備註欄位填寫。註：可參考國家災害防救科技中心NCDR之災害潛勢地圖網站
+
+                            </div>
                         </div><!-- col -->
                     </div><!-- row -->
 

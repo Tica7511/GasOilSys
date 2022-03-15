@@ -17,6 +17,7 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#lastYearSP").html(getTaiwanDate() - 1);
             getYearList();
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
@@ -301,7 +302,7 @@
                                 </table>
                             </div>
                             <div class="margin5TB font-size2">
-                                (1) 前一年度維修、換管、遷管或開挖：109年度所進行管線的維護作業種類。<br>
+                                (1) 前一年度維修、換管、遷管或開挖：<span id="lastYearSP"></span>年度所進行管線的維護作業種類。<br>
                                 (2) 管段位置：請填寫管線維修或開挖之位置說明。
 
                             </div>

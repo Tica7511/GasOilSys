@@ -1383,16 +1383,17 @@
                                     </span>
                                     <span class="btnright">
                                         <div class="font-size4 font-normal">
-                                            <span id="alertText" style="color: red">* 請先點選儲存再離開表單</span>
-                                            <input type="button" id="subbtnTop" value="儲存" class="genbtn" />
-                                            <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/附件3、110年度石油業者石油管線及儲油設施查核.docx" target="_blank">查核填寫內容下載</a>
-                                            <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/查核配合事項_石油.pptx" target="_blank">查核配合事項下載</a>
-                                            <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/附件4、110年度石油業者簡報內容格式_管線及儲槽.pptx" target="_blank">簡報大綱下載</a>
+                                            <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核填寫內容下載-石油.docx" target="_blank">查核填寫內容下載</a> 
+                                            <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核配事項下載-石油.pdf" target="_blank">查核配合事項下載</a> 
+                                            <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/111年度簡報大綱下載-石油.pptx" target="_blank">簡報大綱下載</a>
+                                            <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度應準備資料下載-石油.pdf" target="_blank">應準備資料下載</a>
                                         </div>
                                     </span>
                                 </div>
                                 <div class="twocol">
                                     <div class="right font-normal font-size4">
+                                        <span id="alertText" style="color: red">* 請先點選儲存再離開表單</span>
+                                        <input type="button" id="subbtnTop" value="儲存" class="genbtn" />&nbsp;&nbsp;
                                         <a href="#" id="btnallopen"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;全部展開</a>&nbsp;&nbsp;
 									<a href="#" id="btnallclose"><i class="fa fa-minus-square-o" aria-hidden="true"></i>&nbsp;全部收合</a>
                                     </div>

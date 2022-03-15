@@ -45,6 +45,7 @@ public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
         /// * Request["txt21"]: 土石流潛勢區
         /// * Request["txt22"]: 淹水潛勢區
         /// * Request["txt23"]: 管線穿越箱涵數量
+        /// * Request["txt24"]: 備註
         /// * Request["mode"]:  new=新增 edit=編輯
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
@@ -91,6 +92,7 @@ public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
             string txt21 = (string.IsNullOrEmpty(Request["txt21"])) ? "" : Request["txt21"].ToString().Trim();
             string txt22 = (string.IsNullOrEmpty(Request["txt22"])) ? "" : Request["txt22"].ToString().Trim();
             string txt23 = (string.IsNullOrEmpty(Request["txt23"])) ? "" : Request["txt23"].ToString().Trim();
+            string txt24 = (string.IsNullOrEmpty(Request["txt24"])) ? "" : Request["txt24"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -115,6 +117,7 @@ public partial class Handler_AddOilTubeInfo : System.Web.UI.Page
             odb._使用狀態 = Server.UrlDecode(txt17);
             odb._附掛橋樑數量 = Server.UrlDecode(txt18);
             odb._管線穿越箱涵數量 = Server.UrlDecode(txt23);
+            odb._備註 = Server.UrlDecode(txt24);
             odb._修改者 = LogInfo.mGuid;
             odb._修改日期 = DateTime.Now;
 

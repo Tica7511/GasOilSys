@@ -134,6 +134,7 @@
                 data.append("txt21", encodeURIComponent($("#txt21").val()));
                 data.append("txt22", encodeURIComponent($("#txt22").val()));
                 data.append("txt23", encodeURIComponent($("#txt23").val()));
+                data.append("txt24", encodeURIComponent($("#txt24").val()));
 
                 $.ajax({
                     type: "POST",
@@ -245,6 +246,7 @@
                                 $("#txt21").val($(this).children("土石流潛勢區").text().trim());
                                 $("#txt22").val($(this).children("淹水潛勢區").text().trim());
                                 $("#txt23").val($(this).children("管線穿越箱涵數量").text().trim());
+                                $("#txt24").val($(this).children("備註").text().trim());
 							});
 						}
 					}
@@ -538,6 +540,10 @@
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線穿越箱涵數量</div>
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt23" class="inputex width40" ></div>
                                     </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
+                                    <div class="OchiCell width100"><textarea id="txt24" rows="5" cols="" class="inputex width100" ></textarea></div>
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
                         </div><!-- col -->
