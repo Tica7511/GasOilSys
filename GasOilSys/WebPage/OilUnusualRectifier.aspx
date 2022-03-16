@@ -303,6 +303,11 @@
                                     <tbody></tbody>
                                 </table>
                             </div>
+                            <div class="margin5TB font-size2">
+
+                                填表說明：<br>
+                                (1) 依填表時整流站現況填寫，曾故障已修復的不用填
+							</div>
                         </div><!-- col -->
                     </div><!-- row -->
 

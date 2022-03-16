@@ -26,6 +26,8 @@
             }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
 
             $(".datepick-trigger").hide();
+            $("#spLastYear2").html(getTaiwanDate() - 2);
+            $("#spLastYear1").html(getTaiwanDate() - 1);
 
             getYearList();
             $("#sellist").val(getTaiwanDate());
@@ -561,6 +563,10 @@
                                     <tbody></tbody>
                                 </table>
                             </div>
+                            <div class="margin5TB font-size2">
+                                填表說明：<br>
+                                (1) 前二年：<span id="spLastYear2"></span>年；前一年：<span id="spLastYear1"></span>年
+							</div>
                         </div><!-- col -->
                     </div><!-- row -->
 

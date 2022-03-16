@@ -36,7 +36,7 @@
                 $("#caddr").attr('disabled', false);
                 $("#storagetank").attr('disabled', false);
                 $("#pipeline").attr('disabled', false);
-                $("#report").attr('disabled', false);
+                //$("#report").attr('disabled', false);
                 $("#checkdate").attr('disabled', false);
             });
 
@@ -53,7 +53,7 @@
                     $("#caddr").attr('disabled', true);
                     $("#storagetank").attr('disabled', true);
                     $("#pipeline").attr('disabled', true);
-                    $("#report").attr('disabled', true);
+                    //$("#report").attr('disabled', true);
                     $("#checkdate").attr('disabled', true);
 
                     getData();
@@ -72,7 +72,7 @@
                         caddr: $("#caddr").val(),
                         storagetank: $("#storagetank").val(),
                         pipeline: $("#pipeline").val(),
-                        report: $("#report").val(),
+                        //report: $("#report").val(),
                         checkdate: $("#checkdate").val(),
 			    	},
 			    	error: function (xhr) {
@@ -116,7 +116,7 @@
 								$("#caddr").val($(this).children("地址").text().trim());
 								$("#storagetank").val($(this).children("儲槽數量").text().trim());
 								$("#pipeline").val($(this).children("管線數量").text().trim());
-								$("#report").val($(this).children("維運計畫書及成果報告").text().trim());
+								//$("#report").val($(this).children("維運計畫書及成果報告").text().trim());
 								$("#checkdate").val($(this).children("曾執行過查核日期").text().trim());
 							});
 						}
@@ -215,26 +215,26 @@
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">電話</div>
                                         <div class="OchiCell width100"><input type="text" id="ctel" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">儲槽數量</div>
                                         <div class="OchiCell width100"><input type="text" id="storagetank" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線數量</div>
-                                        <div class="OchiCell width100"><input type="text" id="pipeline" class="inputex width100" disabled></div>
-                                    </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">維運計畫書及成果報告</div>
-                                        <div class="OchiCell width100"><input type="text" id="report" class="inputex width100" disabled></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線數量</div>
+                                        <div class="OchiCell width100"><input type="text" id="pipeline" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">曾執行過查核日期</div>
                                         <div class="OchiCell width100"><input type="text" id="checkdate" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <%--<div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">維運計畫書及成果報告</div>
+                                        <div class="OchiCell width100"><input type="text" id="report" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->--%>
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
                         </div><!-- col -->

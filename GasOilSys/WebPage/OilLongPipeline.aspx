@@ -216,7 +216,7 @@
                                 
                             </div><br />
                                 填表說明：<br />
-                                (1) 請直接貼上正確路徑圖，於雲端平台若須新增或更新，目前尚未開放上傳，請將相關檔EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
+                                (1) 目前尚未開放上傳，須新增或更新，目前尚未開放上傳，請將相關檔EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
                         </div><!-- col -->
                     </div><!-- row -->
 
