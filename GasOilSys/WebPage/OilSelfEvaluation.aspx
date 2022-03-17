@@ -25,6 +25,7 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#exportBtn").attr("href", "../Handler/OilEvaluationReport.aspx?cp=" + $.getQueryString("cp"));
             $("#taiwanYear").html(getTaiwanDate());
 
             GetList();
@@ -1383,6 +1384,7 @@
                                     </span>
                                     <span class="btnright">
                                         <div class="font-size4 font-normal">
+                                            <a id="exportBtn" href="#" class="genbtn">產生報告</a>
                                             <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核填寫內容下載-石油.docx" target="_blank">查核填寫內容下載</a> 
                                             <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核配事項下載-石油.pdf" target="_blank">查核配合事項下載</a> 
                                             <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/111年度簡報大綱下載-石油.pptx" target="_blank">簡報大綱下載</a>

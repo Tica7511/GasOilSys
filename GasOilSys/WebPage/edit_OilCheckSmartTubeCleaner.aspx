@@ -341,7 +341,13 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">檢測方法</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100"></div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt2" class="width100 inputex" >
+                                                <option value="">請選擇</option>
+                                                <option value="MFL">MFL</option>
+                                                <option value="UT">UT</option>
+                                            </select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次執行 年/月</div>

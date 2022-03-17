@@ -30,7 +30,7 @@
             getYearList();
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
-            displayTable();
+            //displayTable();
 
             //選擇年份
             $(document).on("change", "#sellist", function () {

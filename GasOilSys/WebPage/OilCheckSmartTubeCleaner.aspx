@@ -344,37 +344,6 @@
                                 </table>
                             </div><br>
 
-                            <div class="stripeMeB tbover">
-                                <table id="tablist2" border="0" cellspacing="0" cellpadding="0" width="100%">
-                                    <thead>
-                                        <tr style='background-color:#C4E1FF'>
-                                            <th align='center' colspan='3'><font face='標楷體'>查核日期</font></th>
-                                            <th align='left' colspan='2'><font face='標楷體'>111年2月3日</font></th>
-                                        </tr>
-                                        <tr style='background-color:#C4E1FF'>
-                                            <th align='center' colspan='3'><font face='標楷體'>查核委員</font></th>
-                                            <th align='left' colspan='2'><font face='標楷體'>蔡明曉專家、林明洲專家、林文忠課長、徐一量教授、吳榮正副組長</font></th>
-                                        </tr>
-                                        <tr style='background-color:#C4E1FF'>
-                                            <th align='center' colspan='3'><font face='標楷體'>主管機關出席人員</font></th>
-                                            <th align='left' colspan='2'><font face='標楷體'></font></th>
-                                        </tr>
-                                        <tr style='background-color:#C4E1FF'>
-                                            <th align='center' colspan='3'><font face='標楷體'>事業單位陪檢人員</font></th>
-                                            <th align='left' colspan='2'><font face='標楷體'></font></th>
-                                        </tr>
-                                        <tr style='background-color:#C4E1FF'>
-                                            <th >項 <br>
-                                                 目</th>
-                                            <th >分類</th>
-                                            <th >編號</th>
-                                            <th width="70%" >查核結果及建議事項</th>
-                                            <th width="10%" >查核建<br>議等級</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div><br>
-
                             <div class="margin5TB font-size2">
                                 填表說明：<br>
                                 (1) 只要有執行過ILI檢測的管線，皆須填寫最近一次檢測之結果。<br>

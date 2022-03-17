@@ -219,4 +219,68 @@ where 業者guid=@業者guid and 年度=@年度 and 題目guid = @題目guid and
         oda.Fill(ds);
         return ds;
     }
+
+    public DataTable GetAllEvaluation()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select A.石油自評表分類guid, A.石油自評表分類負責類別 as 分類,A.石油自評表分類父層guid, 
+A.石油自評表分類名稱,A.石油自評表分類排序, B.guid as 總評guid, B.委員guid, B.委員, B.委員意見 
+into #tmp from 石油_自評表分類檔 A
+left join 石油_自評表委員總評 B on A.石油自評表分類guid = B.題目guid 
+WHERE A.石油自評表分類年份=@年度 and B.業者guid=@業者guid and B.資料狀態='A' 
+  
+
+select C.項目名稱 as 項目, Ap.* from #tmp Ap 
+left join 代碼檔 C on Ap.分類 = C.項目代碼 
+WHERE C.群組代碼='004' 
+order by 分類, CONVERT(int, Ap.石油自評表分類排序) ASC 
+");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetAllEvaluation05()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select A.石油自評表分類guid, A.石油自評表分類負責類別 as 分類,A.石油自評表分類父層guid, 
+A.石油自評表分類名稱,A.石油自評表分類排序, B.guid as 總評guid, B.委員guid, B.委員, B.委員意見 
+into #tmp from 石油_自評表分類檔 A
+left join 石油_自評表委員總評 B on A.石油自評表分類guid = B.題目guid 
+WHERE A.石油自評表分類年份=@年度 and B.業者guid=@業者guid and B.資料狀態='A' 
+  
+
+select C.項目名稱 as 項目, Ap.* from #tmp Ap 
+left join 代碼檔 C on Ap.分類 = C.項目代碼 
+WHERE C.群組代碼='004' and Ap.分類='5' 
+order by 分類, CONVERT(int, Ap.石油自評表分類排序) ASC 
+");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
 }
