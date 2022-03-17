@@ -106,7 +106,7 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(@"select isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname from 天然氣_業者基本資料表
+		sb.Append(@"select isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname, 代碼 from 天然氣_業者基本資料表
   where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
 
 		oCmd.CommandText = sb.ToString();

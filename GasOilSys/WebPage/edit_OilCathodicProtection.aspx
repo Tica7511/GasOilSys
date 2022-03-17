@@ -327,7 +327,15 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">合格標準</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100 "></div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt4" class="width100 inputex" >
+                                                <option value="">請選擇</option>
+                                                <option value="通電電位< -850mVCSE">通電電位< -850mVCSE</option>
+                                                <option value="極化電位< -850mVCSE">極化電位< -850mVCSE</option>
+                                                <option value="極化量>100mV">極化量>100mV</option>
+                                                <option value="其他">其他</option>
+                                            </select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">整流站狀態</div>

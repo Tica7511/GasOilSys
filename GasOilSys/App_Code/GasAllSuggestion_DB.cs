@@ -88,6 +88,30 @@ order by 修改日期 desc ");
         return ds;
     }
 
+    public DataTable GetCommittee()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select 委員  
+from 天然氣_自評表委員總評
+WHERE 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
+GROUP BY 委員 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetData()
     {
         SqlCommand oCmd = new SqlCommand();
@@ -215,6 +239,70 @@ where 業者guid=@業者guid and 年度=@年度 and 題目guid = @題目guid and
 
         oCmd.Transaction = oTran;
         oCmd.ExecuteNonQuery();
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetAllEvaluation()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select A.天然氣自評表分類guid, A.天然氣自評表分類負責類別 as 分類,A.天然氣自評表分類父層guid, 
+A.天然氣自評表分類名稱,A.天然氣自評表分類排序, B.guid as 總評guid, B.委員guid, B.委員, B.委員意見 
+into #tmp from 天然氣_自評表分類檔 A
+left join 天然氣_自評表委員總評 B on A.天然氣自評表分類guid = B.題目guid 
+WHERE A.天然氣自評表分類年份=@年度 and B.業者guid=@業者guid and B.資料狀態='A' 
+  
+
+select C.項目名稱 as 項目, Ap.* from #tmp Ap 
+left join 代碼檔 C on Ap.分類 = C.項目代碼 
+WHERE C.群組代碼='004' 
+order by 分類, CONVERT(int, Ap.天然氣自評表分類排序) ASC 
+");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetAllEvaluation05()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select A.天然氣自評表分類guid, A.天然氣自評表分類負責類別 as 分類,A.天然氣自評表分類父層guid, 
+A.天然氣自評表分類名稱,A.天然氣自評表分類排序, B.guid as 總評guid, B.委員guid, B.委員, B.委員意見 
+into #tmp from 天然氣_自評表分類檔 A
+left join 天然氣_自評表委員總評 B on A.天然氣自評表分類guid = B.題目guid 
+WHERE A.天然氣自評表分類年份=@年度 and B.業者guid=@業者guid and B.資料狀態='A' 
+  
+
+select C.項目名稱 as 項目, Ap.* from #tmp Ap 
+left join 代碼檔 C on Ap.分類 = C.項目代碼 
+WHERE C.群組代碼='004' and Ap.分類='5' 
+order by 分類, CONVERT(int, Ap.天然氣自評表分類排序) ASC 
+");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 
         oda.Fill(ds);
         return ds;
