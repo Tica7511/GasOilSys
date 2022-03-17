@@ -38,12 +38,15 @@
             switch ($("#Competence").val()) {
                 case "01":
                     $(".cRadio").prop("disabled", true);
+                    $("#exportBtn").hide();
                     break;
                 case "02":
                     $(".mRadio").prop("disabled", true);
                     $(".mRef").prop("disabled", true);
+                    $("#exportBtn").hide();
                     break;
                 case "03":
+                    $("#exportBtn").show();
                     break;
                 default:
                     $("#subbtn").hide();
@@ -52,6 +55,7 @@
                     $(".cRadio").prop("disabled", true);
                     $(".mRadio").prop("disabled", true);
                     $(".mRef").prop("disabled", true);
+                    $("#exportBtn").hide();
                     break;
             }
 

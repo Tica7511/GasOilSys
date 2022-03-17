@@ -260,7 +260,7 @@ public partial class Handler_OilEvaluationReport : System.Web.UI.Page
 
                     #region 查核建議等級
 
-                    tmpstr += "<td align='center'><font face='標楷體'></font></td>";
+                    tmpstr += "<td align='center'><font face='標楷體'>" + dt.Rows[k]["委員"].ToString().Trim() + "</font></td>";
 
                     #endregion
 
