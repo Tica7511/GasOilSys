@@ -38,10 +38,10 @@
                 if ($("#txt3").val() == '')
                     msg += "請輸入【文件日期】\n";
 
-                if (msg != "") {
-                    alert("Error message: \n" + msg);
-                    return false;
-                }
+                //if (msg != "") {
+                //    alert("Error message: \n" + msg);
+                //    return false;
+                //}
 
                 // Get form
                 var form = $('#form1')[0];

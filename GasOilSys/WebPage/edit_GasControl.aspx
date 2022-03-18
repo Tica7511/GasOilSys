@@ -32,16 +32,16 @@
                 var msg = '';
 
                 if ($("#txt1").val() == '')
-                    msg += "請選擇【依據文件名稱】\n";
+                    msg += "請輸入【依據文件名稱】\n";
                 if ($("#txt2").val() == '')
-                    msg += "請選擇【文件編號】\n";
+                    msg += "請輸入【文件編號】\n";
                 if ($("#txt3").val() == '')
                     msg += "請輸入【文件日期】\n";
 
-                if (msg != "") {
-                    alert("Error message: \n" + msg);
-                    return false;
-                }
+                //if (msg != "") {
+                //    alert("Error message: \n" + msg);
+                //    return false;
+                //}
 
                 // Get form
                 var form = $('#form1')[0];

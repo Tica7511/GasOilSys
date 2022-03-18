@@ -38,10 +38,10 @@
                 if ($("#txt3").val() == '')
                     msg += "請輸入【前一年】\n";
 
-                if (msg != "") {
-                    alert("Error message: \n" + msg);
-                    return false;
-                }
+                //if (msg != "") {
+                //    alert("Error message: \n" + msg);
+                //    return false;
+                //}
 
                 // Get form
                 var form = $('#form1')[0];

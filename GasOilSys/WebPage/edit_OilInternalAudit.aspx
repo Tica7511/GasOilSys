@@ -42,10 +42,10 @@
                 if ($("#txt5").val() == '')
                     msg += "請輸入【佐證資料說明】\n";
 
-                if (msg != "") {
-                    alert("Error message: \n" + msg);
-                    return false;
-                }
+                //if (msg != "") {
+                //    alert("Error message: \n" + msg);
+                //    return false;
+                //}
 
                 // Get form
                 var form = $('#form1')[0];
