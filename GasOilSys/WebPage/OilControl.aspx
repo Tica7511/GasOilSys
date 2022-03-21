@@ -71,12 +71,12 @@
             $(document).on("click", "#subbtn", function () {
                 var msg = '';
 
-                if ($("#docName").val() == '')
-                    msg += "請輸入【依據文件名稱】\n";
-                if ($("#docNo").val() == '')
-                    msg += "請輸入【文件編號】\n";
-                if ($("#docDate").val() == '')
-                    msg += "請輸入【文件日期】\n";
+                //if ($("#docName").val() == '')
+                //    msg += "請輸入【依據文件名稱】\n";
+                //if ($("#docNo").val() == '')
+                //    msg += "請輸入【文件編號】\n";
+                //if ($("#docDate").val() == '')
+                //    msg += "請輸入【文件日期】\n";
                 //if ($("#pressureHz").val() == '')
                 //    msg += "請輸入【壓力計校正頻率】\n";
                 //if ($("#pressureRecentTime").val() == '')
@@ -85,14 +85,14 @@
                 //    msg += "請輸入【流量計校正頻率】\n";
                 //if ($("#flowRecentTime").val() == '')
                 //    msg += "請輸入【最近一次校正時間】\n";
-                if ($("#monitorTime").val() == '')
-                    msg += "請輸入【為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期】\n";
-                if ($("#TotalOperator").val() == '')
-                    msg += "請輸入【合格操作人員總數】\n";
+                //if ($("#monitorTime").val() == '')
+                //    msg += "請輸入【為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期】\n";
+                //if ($("#TotalOperator").val() == '')
+                //    msg += "請輸入【合格操作人員總數】\n";
                 if (!$("input[name='rbShift']").is(":checked"))
                     msg += "請輸入【輪班制度】\n";
-                if ($("#classPerson").val() == '')
-                    msg += "請輸入【每班人數】\n";
+                //if ($("#classPerson").val() == '')
+                //    msg += "請輸入【每班人數】\n";
                 if (!$("input[name='rbClassTime']").is(":checked"))
                     msg += "請輸入【每班時數】\n";
 
