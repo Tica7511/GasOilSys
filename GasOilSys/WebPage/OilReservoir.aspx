@@ -32,7 +32,6 @@
                 $("#editbtn").hide();
                 $("#backbtn").show();
                 $("#subbtn").show();
-                $("#mode").val("edit");
 
                 setDisplayed(false);
 
@@ -83,7 +82,6 @@
                 var data = new FormData(form);
 
                 data.append("cguid", $.getQueryString("cp"));
-                data.append("mode", $("#mode").val());
                 data.append("checkAreaOther", $("#checkAreaOther").val());
 
                 $.ajax({

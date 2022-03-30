@@ -16,7 +16,15 @@
                         </ul>
                     </span>
                 </div><!-- HeaderOtherLinkWrapper -->
-                <span class="HeaderOtherLinkOpen"><a href="#HeaderOtherLinkS" class="open-popup-link">外部連結</a></span>
+                <span class="HeaderOtherLinkOpen">
+                    <span id="HeaderOtherLink">
+                        <ul>
+                            <li><a href="../Handler/SignOut.aspx">登出</a></li>
+                            <li><a id="changepwdA" onclick="doOpenPasswordDialog()" href="javascript:void(0);">變更密碼</a></li>
+                            <li><a id="managebtn" href="../Admin/memberManage.aspx" target="_blank">後台管理</a></li>
+                        </ul>
+                    </span>
+                </span>
                 <div id="HeaderOtherLinkS" class="magpopup magSizeM mfp-hide">
                     <div class="magpopupTitle textcenter">外部連結</div>
                     <span id="HeaderOtherLinkCopy"></span>

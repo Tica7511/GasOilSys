@@ -131,7 +131,7 @@ public class OilControl_DB
 
         sb.Append(@"select * from 石油_控制室_儲槽泵送接收資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
-            sb.Append(@" and 年度=@年度");
+            sb.Append(@" and 年度=@年度 ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -153,7 +153,7 @@ public class OilControl_DB
 
         sb.Append(@"select * from 石油_控制室_管線輸送接收資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
-            sb.Append(@" and 年度=@年度");
+            sb.Append(@" and 年度=@年度 ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;

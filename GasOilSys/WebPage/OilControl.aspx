@@ -589,7 +589,7 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正頻率</div>
-                                        <div class="OchiCell width100"><input type="number" min="1" id="pressureHz" class="inputex width80" disabled> 次/年</div>
+                                        <div class="OchiCell width100"><input type="text" id="pressureHz" class="inputex width80" disabled> 次/年</div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
@@ -600,7 +600,7 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計校正頻率</div>
-                                        <div class="OchiCell width100"><input type="number" min="0" id="flowHz" class="inputex width80" disabled> 次/年</div>
+                                        <div class="OchiCell width100"><input type="text" id="flowHz" class="inputex width80" disabled> 次/年</div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>

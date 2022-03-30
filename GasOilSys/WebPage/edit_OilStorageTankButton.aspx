@@ -192,8 +192,8 @@
                     }
                     else {
                         var ddlstr = '<option value="">請選擇</option>';
-                        if ($(data).find("data_item").length > 0) {
-                            $(data).find("data_item").each(function (i) {
+                        if ($(data).find("data_item3").length > 0) {
+                            $(data).find("data_item3").each(function (i) {
                                 ddlstr += '<option value="' + $(this).children("轄區儲槽編號").text().trim() + '">' + $(this).children("轄區儲槽編號").text().trim() + '</option>';
                             });
                         }

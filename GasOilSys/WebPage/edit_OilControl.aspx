@@ -166,41 +166,8 @@
                     }
                     else {
                         var ddlstr = '<option value="">請選擇</option>';
-                        if ($(data).find("data_item").length > 0) {
-                            $(data).find("data_item").each(function (i) {
-                                ddlstr += '<option value="' + $(this).children("轄區儲槽編號").text().trim() + '">' + $(this).children("轄區儲槽編號").text().trim() + '</option>';
-                            });
-                        }
-
-                        $("#txt1").empty();
-                        $("#txt1").append(ddlstr);
-                    }
-                }
-            });
-        }
-
-        function getDDL(year) {
-            $.ajax({
-                type: "POST",
-                async: false, //在沒有返回值之前,不會執行下一步動作
-                url: "../handler/GetOilStorageTankInfo.aspx",
-                data: {
-                    cpid: $.getQueryString("cp"),
-                    year: year,
-                    type: "list",
-                },
-                error: function (xhr) {
-                    alert("Error: " + xhr.status);
-                    console.log(xhr.responseText);
-                },
-                success: function (data) {
-                    if ($(data).find("Error").length > 0) {
-                        alert($(data).find("Error").attr("Message"));
-                    }
-                    else {
-                        var ddlstr = '<option value="">請選擇</option>';
-                        if ($(data).find("data_item").length > 0) {
-                            $(data).find("data_item").each(function (i) {
+                        if ($(data).find("data_item3").length > 0) {
+                            $(data).find("data_item3").each(function (i) {
                                 ddlstr += '<option value="' + $(this).children("轄區儲槽編號").text().trim() + '">' + $(this).children("轄區儲槽編號").text().trim() + '</option>';
                             });
                         }

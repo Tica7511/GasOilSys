@@ -41,19 +41,17 @@ public partial class Handler_AddOilReservoir : System.Web.UI.Page
             #endregion
 
             string cguid = string.IsNullOrEmpty(Request["cguid"]) ? "" : Request["cguid"].ToString().Trim();
-            string mode = string.IsNullOrEmpty(Request["mode"]) ? "" : Request["mode"].ToString().Trim();
             string checkAreaOther = string.IsNullOrEmpty(Request["checkAreaOther"]) ? "" : Request["checkAreaOther"].ToString().Trim();
             string tmpGuid = Guid.NewGuid().ToString("N");
 
+            db._guid = tmpGuid;
             db._業者guid = cguid;
             db._庫區特殊區域 = string.IsNullOrEmpty(Request["checkArea"]) ? "" : Request["checkArea"].ToString().Trim();
             db._庫區特殊區域_其他 = checkAreaOther;
             db._年度 = taiwanYear(DateTime.Now);
             db._建立者 = LogInfo.mGuid;
             db._修改者 = LogInfo.mGuid;
-
-            if (mode == "new")
-                db._guid = tmpGuid;
+                
 
             db.InsertData(oConn, myTrans);
 
