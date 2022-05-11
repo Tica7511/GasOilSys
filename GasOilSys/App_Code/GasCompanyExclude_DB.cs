@@ -17,6 +17,7 @@ public class GasCompanyExclude_DB
 
 	#region private
 	string id = string.Empty;
+	string 角色 = string.Empty;
 	string 業者guid = string.Empty;
 	string 年份 = string.Empty;
 	string 排除題目guid = string.Empty;
@@ -29,6 +30,7 @@ public class GasCompanyExclude_DB
 	#endregion
 	#region public
 	public string _id { set { id = value; } }
+	public string _角色 { set { 角色 = value; } }
 	public string _業者guid { set { 業者guid = value; } }
 	public string _年份 { set { 年份 = value; } }
 	public string _排除題目guid { set { 排除題目guid = value; } }
@@ -50,7 +52,7 @@ public class GasCompanyExclude_DB
 select a.年份,b.天然氣自評表分類名稱,a.排除分類guid,a.排除題目guid
 from 天然氣_自評表業者排除表 a
 left join 天然氣_自評表分類檔 b on a.排除分類guid=b.天然氣自評表分類guid
-where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A'
+where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A' and 角色=@角色
 union
 select
 a.年份,b.天然氣自評表分類名稱,case when c.天然氣自評表分類guid is null then a.排除分類guid else c.天然氣自評表分類guid end as 排除分類guid
@@ -58,7 +60,7 @@ a.年份,b.天然氣自評表分類名稱,case when c.天然氣自評表分類gu
 from 天然氣_自評表業者排除表 a
 left join 天然氣_自評表分類檔 b on a.排除分類guid=b.天然氣自評表分類guid
 left join 天然氣_自評表分類檔 c on a.排除分類guid=c.天然氣自評表分類父層guid and b.天然氣自評表分類階層=c.天然氣自評表分類階層-1
-where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A' ");
+where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A' and 角色=@角色 ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
@@ -67,6 +69,7 @@ where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A' ");
 
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@年份", 年份);
+		oCmd.Parameters.AddWithValue("@角色", 角色);
 
 		oda.Fill(ds);
 		return ds;

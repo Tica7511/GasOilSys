@@ -28,6 +28,7 @@ public partial class Handler_GetOilExclude : System.Web.UI.Page
 			{
 				db._年份 = year;
 				db._業者guid = LogInfo.companyGuid;
+				db._角色 = LogInfo.competence;
 				DataTable dt = db.GetList();
 				string xmlstr = string.Empty;
 				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
@@ -38,6 +39,7 @@ public partial class Handler_GetOilExclude : System.Web.UI.Page
             {
                 db._年份 = year;
                 db._業者guid = cpid;
+                db._角色 = "01";
                 DataTable dt = db.GetList();
                 string xmlstr = string.Empty;
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
