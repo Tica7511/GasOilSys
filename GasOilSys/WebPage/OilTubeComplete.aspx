@@ -21,6 +21,13 @@
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
 
+            //管線識別碼開窗
+            $(document).on("click", "a[name='pipeSnPopUp']", function () {
+                $("#PipeSnOnlyForPopup").val($(this).attr("aid"));
+                getPipeSnPopupContent();
+                doOpenPipeSnPopup();
+            });
+
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
@@ -57,7 +64,38 @@
                     });
                 }
             });
-		}); // end js
+        }); // end js
+
+        function getPipeSnPopupContent() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilTubeSn.aspx",
+                data: {
+                    sn: $("#PipeSnOnlyForPopup").val(),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                $("#pipSnTxt0").text($(this).children("長途管線識別碼").text().trim());
+                                $("#pipSnTxt1").text($(this).children("起點").text().trim());
+                                $("#pipSnTxt2").text($(this).children("迄點").text().trim());
+                                $("#pipSnTxt3").text($(this).children("管徑吋").text().trim());
+                                $("#pipSnTxt4").text($(this).children("內容物").text().trim());
+                            });
+                        }
+                    }
+                }
+            });
+        }
 
 		function getData(year) {
 			$.ajax({
@@ -83,7 +121,8 @@
 						if ($(data).find("data_item").length > 0) {
 							$(data).find("data_item").each(function (i) {
 								tabstr += '<tr>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
+								tabstr += '<td nowrap="nowrap"><a href="javascript:void(0);" name="pipeSnPopUp" aid="'
+                                    + $(this).children("長途管線識別碼").text().trim() + '">' + $(this).children("長途管線識別碼").text().trim() + '</a></td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("風險評估年月").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("智慧型通管器ILI可行性").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("耐壓強度試驗TP可行性").text().trim() + '</td>';
@@ -245,6 +284,21 @@
 
             return nowTwYear;
         }
+
+        function doOpenPipeSnPopup() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#pipeSnPopUpMessage'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
     </script>
 </head>
 <body class="bgB">
@@ -270,6 +324,7 @@
 <div class="WrapperBody" id="WrapperBody">        
         <!--#include file="OilHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="PipeSnOnlyForPopup" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -382,6 +437,43 @@
 </form>
 </div>
 <!-- 結尾用div:修正mmenu form bug -->
+
+<!-- Magnific Popup -->
+<div id="pipeSnPopUpMessage" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle">管線識別碼 / <span id="pipSnTxt0"></span></div>
+  <div class="padding10ALL">
+      <div class="margin35T padding5RL">
+          <div class="OchiTrasTable width100 TitleLength08 font-size3">
+              <div class="OchiRow">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">起點</div>
+                  <div class="OchiCell width100">
+                      <span id="pipSnTxt1"></span>
+                  </div>
+              </div><!-- OchiRow -->
+              <div class="OchiRow">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">迄點</div>
+                  <div class="OchiCell width100">
+                      <span id="pipSnTxt2"></span>
+                  </div>
+              </div><!-- OchiRow -->
+              <div class="OchiRow">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">管徑(吋)</div>
+                  <div class="OchiCell width100">
+                      <span id="pipSnTxt3"></span>
+                  </div>
+              </div><!-- OchiRow -->
+              <div class="OchiRow">
+                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">內容物</div>
+                  <div class="OchiCell width100">
+                      <span id="pipSnTxt4"></span>
+                  </div>
+              </div><!-- OchiRow -->
+          </div><!-- OchiTrasTable -->
+      </div>
+  </div>
+  
+
+</div><!--magpopup -->
 
 <!-- colorbox -->
 <div style="display:none;">

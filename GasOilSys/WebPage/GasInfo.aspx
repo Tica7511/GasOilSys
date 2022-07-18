@@ -19,6 +19,8 @@
 		$(document).ready(function () {
             getData();
 
+            $("a[name='delbtn']").hide();
+
             //編輯按鈕
             $(document).on("click", "#editbtn", function () {
                 $("#editbtn").hide();
@@ -26,6 +28,60 @@
                 $("#subbtn").show();
 
                 disabled(false);
+            });
+
+            //場站新增按鈕
+            $(document).on("click", "#newbtn", function () {
+                $("#sc_type").val('');
+                $("#txt_name").val('');
+                doOpenMagPopup();
+            });
+
+            //場站編輯按鈕
+            $(document).on("click", "#editbtn2", function () {
+                $("a[name='delbtn']").show();
+                $("#editbtn2").hide();
+                $("#cancelbtn").show();
+            });
+
+            //場站取消按鈕
+            $(document).on("click", "#cancelbtn", function () {
+                $("a[name='delbtn']").hide();
+                $("#editbtn2").show();
+                $("#cancelbtn").hide();
+            });
+
+            //場站取消按鈕
+            $(document).on("click", "a[name='delbtn']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelGasInfoState.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+
+                                location.href = "GasInfo.aspx?cp=" + $.getQueryString("cp");
+                            }
+                        }
+                    });
+                }
+            });
+
+            //場站彈出視窗取消按鈕
+            $(document).on("click", "#cancelbtn2", function () {
+                $.magnificPopup.close();
             });
 
             //返回按鈕
@@ -101,6 +157,88 @@
                     }
                 });
             });
+
+            //場站中心儲存按鈕
+            $(document).on("click", "#subbtn2", function () {
+
+                var msg = '';
+                var status = true;
+
+                if ($("#sc_type option:selected").val() == '')
+                    msg += "請選擇【場站類別】\n";
+                if ($("#txt_name").val() == '')
+                    msg += "請輸入【中心名稱】\n";
+
+                if (msg != "") {
+                    alert("Error message: \n" + msg);
+                    return false;
+                }
+
+                $.ajax({
+			    	type: "POST",
+			    	async: false, //在沒有返回值之前,不會執行下一步動作
+			    	url: "../Handler/GetGasInfo.aspx",
+                    data: {
+                        type: "data",
+                        cpid: $.getQueryString("cp"),
+                        centralType: $("#sc_type option:selected").val(),
+                        centralName: $("#txt_name").val()
+			    	},
+			    	error: function (xhr) {
+			    		alert("Error: " + xhr.status);
+			    		console.log(xhr.responseText);
+			    	},
+			    	success: function (data) {
+			    		if ($(data).find("Error").length > 0) {
+			    			alert($(data).find("Error").attr("Message"));
+			    		}
+			    		else {
+                            if ($("dtCount", data).text() != '0') {
+                                alert('已有相同的場站名稱!請重新輸入');
+                                status = false;
+                            }
+                        }
+			    	}
+                });
+
+                if (status == false)
+                    return false;
+
+                // Get form
+                var form = $('#form1')[0];
+
+                // Create an FormData object 
+                var data = new FormData(form);
+
+                // If you want to add an extra field for the FormData
+                data.append("cid", $.getQueryString("cp"));
+                data.append("txt1", $("#sc_type option:selected").val());
+                data.append("txt2", encodeURIComponent($("#txt_name").val()));
+
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "../handler/AddGasInfoState.aspx",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    error: function (xhr) {
+                        alert("Error: " + xhr.status);
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            alert($("Response", data).text());
+
+                            location.href = "GasInfo.aspx?cp=" + $.getQueryString("cp");
+                        }
+                    }
+                });
+            });
         }); // end js
 
         function disabled(status) {
@@ -135,7 +273,8 @@
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasInfo.aspx",
-				data: {
+                data: {
+                    type: "list",
 					cpid: $.getQueryString("cp")
 				},
 				error: function (xhr) {
@@ -185,12 +324,47 @@
 						if ($(data).find("data_item2").length > 0) {
 							$(data).find("data_item2").each(function (i) {
 								tabstr += '<tr>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("戰場類別中心名稱").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("配氣站").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("開關站").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("隔離站").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("計量站").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("清管站").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("戰場類別中心名稱").text().trim() + '</td>';
+
+                                if (i == (parseInt($("dtCount", data).text()) - 1)) {
+                                    tabstr += '<td nowrap="nowrap"><span id="sp_1">' + $(this).children("配氣站").text().trim() + '</span></td>';
+                                    tabstr += '<td nowrap="nowrap"><span id="sp_2">' + $(this).children("開關站").text().trim() + '</span></td>';
+                                    tabstr += '<td nowrap="nowrap"><span id="sp_3">' + $(this).children("隔離站").text().trim() + '</span></td>';
+                                    tabstr += '<td nowrap="nowrap"><span id="sp_4">' + $(this).children("計量站").text().trim() + '</span></td>';
+                                    tabstr += '<td nowrap="nowrap"><span id="sp_5">' + $(this).children("清管站").text().trim() + '</span></td>';
+                                }
+                                else {
+                                    if ($(this).children("配氣站").text().trim() != '')
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("配氣站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                        + $(this).children("配氣站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                    else
+                                        tabstr += '<td nowrap="nowrap"></td>';
+
+                                    if ($(this).children("開關站").text().trim() != '')
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("開關站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                        + $(this).children("開關站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                    else
+                                        tabstr += '<td nowrap="nowrap"></td>';
+
+                                    if ($(this).children("隔離站").text().trim() != '')
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("隔離站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                        + $(this).children("隔離站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                    else
+                                        tabstr += '<td nowrap="nowrap"></td>';
+
+                                    if ($(this).children("計量站").text().trim() != '')
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("計量站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                        + $(this).children("計量站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                    else
+                                        tabstr += '<td nowrap="nowrap"></td>';
+
+                                    if ($(this).children("清管站").text().trim() != '')
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("清管站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                        + $(this).children("清管站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                    else
+                                        tabstr += '<td nowrap="nowrap"></td>';
+                                }
+                                
 								tabstr += '</tr>';
 							});
 						}
@@ -201,10 +375,17 @@
                         //確認權限&按鈕顯示或隱藏
                         if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                             $("#editbtn").hide();
+                            $("#editbtn2").hide();
+                            $("#newbtn").hide();
                         }
                         else {
                             $("#editbtn").show();
+                            $("#editbtn2").show();
+                            $("#newbtn").show();
                         }
+
+                        if ($("#sp_1").text() == '0' && $("#sp_2").text() == '0' && $("#sp_3").text() == '0' && $("#sp_4").text() == '0' && $("#sp_5").text() == '0')
+                            $("#editbtn2").hide();
                     }
 
                     getConfirmedStatus();
@@ -244,6 +425,21 @@
                         }
                     }
                 }
+            });
+        }
+
+        function doOpenMagPopup() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
             });
         }
     </script>
@@ -460,8 +656,19 @@
                                         <!-- 管線資料end -->
                                     </div>
                                 </div>
+                                
 								<div class="margin10T">
                                     <div class="collapseTitle font-blackA font-size4">D.天然氣進口事業轄區場站名稱</div>
+                                    <div class="twocol">
+                                        <div class="left">
+                                            
+                                        </div>
+                                        <div class="right">
+                                            <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                            <a id="editbtn2" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                            <a id="cancelbtn" href="javascript:void(0);" title="取消" class="genbtn" style="display:none">取消</a>
+                                        </div>
+                                    </div>
                                         <div class="stripeMeG margin5T tbover">
                                             <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
 												<thead>
@@ -501,6 +708,50 @@
 </form>
 </div>
 <!-- 結尾用div:修正mmenu form bug -->
+
+<!-- Magnific Popup -->
+<div id="messageblock" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle"><span id="cpNameIsConfirm2"></span>新增場站中心</div>
+  <div class="padding10ALL">
+      <div class="twocol">
+      </div><br />
+      <div class="stripeMeB tbover">
+          <table id="tablist3" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+		        	<tr>
+		        		<th nowrap="nowrap" align="center" width="50">場站類別</th>
+		        		<th nowrap="nowrap" align="center" width="150">中心名稱</th>
+		        	</tr>
+              </thead>
+              <tbody>
+                  <td nowrap="nowrap" align="center">
+                      <select id="sc_type" class="inputex width100">
+                          <option value="">請選擇</option>
+                          <option value="配氣站">配氣站</option>
+                          <option value="開關站">開關站</option>
+                          <option value="隔離站">隔離站</option>
+                          <option value="計量站">計量站</option>
+                          <option value="清管站">清管站</option>
+                      </select>
+                  </td>
+                  <td>
+                      <input id="txt_name" type="text" class="inputex width100" />
+                  </td>
+              </tbody>
+          </table>
+      </div>
+
+      <div class="twocol margin5TB">
+		<div class="left"><span id="errMsg" style="color:red;"></span></div>
+			<div class="right">
+				<a id="cancelbtn2" href="javascript:void(0);" class="genbtn">取消</a>
+				<a id="subbtn2" href="javascript:void(0);" class="genbtn">儲存</a>
+			</div>
+	 </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
 
 <!-- colorbox -->
 <div style="display:none;">

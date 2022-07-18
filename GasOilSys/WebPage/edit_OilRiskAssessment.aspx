@@ -355,11 +355,11 @@
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">已納入ILI結果</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt6" maxlength="2" class="inputex width100"></div>
+                                        <div class="OchiCell width100"><input type="text" id="txt6" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">已納入CIPS結果</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt7" maxlength="2" class="inputex width100"></div>
+                                        <div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">

@@ -456,13 +456,13 @@
                                     <select id="sellist" class="inputex">
                                     </select> 年
                                 </div>
-                                <div class="right">
+                                <%--<div class="right">
                                     <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
                                     <a id="subbtn" href="javascript:void(0);" title="儲存" class="genbtn" style="display:none">儲存</a>
-                                </div>
+                                </div>--%>
                             </div><br />
-                            <div class="font-size3"><input type="checkbox" name="usercheck" value="01" disabled="disabled"> 用戶管線定期檢查：<input type="checkbox" name="usercheck" value="02" disabled="disabled"> 委外檢查</div><br />
+                            <%--<div class="font-size3"><input type="checkbox" name="usercheck" value="01" disabled="disabled"> 用戶管線定期檢查：<input type="checkbox" name="usercheck" value="02" disabled="disabled"> 委外檢查</div><br />--%>
 
                             <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">用戶管線定期檢查計畫及檢查結果:</div>

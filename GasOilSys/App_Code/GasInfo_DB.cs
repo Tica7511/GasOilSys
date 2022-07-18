@@ -153,7 +153,128 @@ WHERE [業者guid]=@業者guid and [年度]=@年度 and [資料狀態]='A' ");
 		return ds;
 	}
 
-	public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
+    public DataTable GetData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select * from 天然氣_事業單位基本資料表_進口事業轄區場站名稱 
+where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A'   
+");
+
+        if (!string.IsNullOrEmpty(中心名稱))
+            sb.Append(@" and 中心名稱=@中心名稱");
+        if (!string.IsNullOrEmpty(場站類別))
+            sb.Append(@" and 場站類別=@場站類別");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@中心名稱", 中心名稱);
+        oCmd.Parameters.AddWithValue("@場站類別", 場站類別);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetDataGuid()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select * from 天然氣_事業單位基本資料表_進口事業轄區場站名稱 
+where guid=@guid 
+");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetMaxSn()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select ISNULL(MAX(排序), '0') maxSn from 天然氣_事業單位基本資料表_進口事業轄區場站名稱 
+where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A' 
+");
+        if (!string.IsNullOrEmpty(場站類別))
+            sb.Append(@" and 場站類別=@場站類別");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@場站類別", 場站類別);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void InsertData(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 天然氣_事業單位基本資料表_進口事業轄區場站名稱(  
+年度,
+業者guid,
+場站類別,
+中心名稱,
+排序,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@年度,
+@業者guid,
+@場站類別,
+@中心名稱,
+@排序,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態 
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@場站類別", 場站類別);
+        oCmd.Parameters.AddWithValue("@中心名稱", 中心名稱);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.Append(@"update 天然氣_事業單位基本資料表 set  
@@ -220,4 +341,47 @@ where 業者guid=@業者guid and 資料狀態=@資料狀態
 		oCmd.Transaction = oTran;
 		oCmd.ExecuteNonQuery();
 	}
+
+    public void UpdateDataSn(string Sn)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 天然氣_事業單位基本資料表_進口事業轄區場站名稱 set  
+排序=@排序加一 
+where 年度=@年度 and 業者guid=@業者guid and 場站類別=@場站類別 and 中心名稱=@中心名稱 and 資料狀態=@資料狀態 
+ ";
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@場站類別", 場站類別);
+        oCmd.Parameters.AddWithValue("@中心名稱", 中心名稱);
+        oCmd.Parameters.AddWithValue("@排序加一", Sn);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public void DeleteData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 天然氣_事業單位基本資料表_進口事業轄區場站名稱 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }
