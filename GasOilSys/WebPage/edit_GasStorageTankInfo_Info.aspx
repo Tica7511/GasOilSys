@@ -68,7 +68,7 @@
                 data.append("cp", $.getQueryString("cp"));
                 data.append("guid", $.getQueryString("guid"));
                 data.append("mode", encodeURIComponent(mode));
-                data.append("year", encodeURIComponent(getTaiwanDate()));
+                data.append("year", encodeURIComponent('110'));
                 data.append("txt1", encodeURIComponent($("#txt1").val()));
                 data.append("txt2", encodeURIComponent($("#txt2").val()));
                 data.append("txt3", encodeURIComponent($("#txt3").val()));

@@ -90,6 +90,7 @@ public class GasStorageTankInfo_DB
         sb.Append(@"select * from 天然氣_儲槽設施資料_儲槽基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
             sb.Append(@" and 年度=@年度");
+        sb.Append(@" ORDER BY 儲槽編號 ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;

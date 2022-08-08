@@ -92,20 +92,43 @@ from 石油_查核簡報上傳 where 資料狀態='A' and 業者guid=@業者guid
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
-declare @datacount int
-select @datacount= count(*) from 石油_查核簡報上傳 where 年度=@年度 and 業者guid=@業者guid and 資料狀態=@資料狀態
+--declare @datacount int
+--select @datacount= count(*) from 石油_查核簡報上傳 where 年度=@年度 and 業者guid=@業者guid and 資料狀態=@資料狀態
+--
+--if @datacount>0
+--    begin
+--        update 石油_查核簡報上傳 set
+--        檔案名稱=@檔案名稱,
+--        修改者=@修改者,
+--        修改日期=@修改日期
+--        where 年度=@年度 and 業者guid=@業者guid and 資料狀態=@資料狀態
+--    end
+--else
+--    begin
+--        insert into  石油_查核簡報上傳( 
+--        guid,
+--        業者guid,
+--        年度,
+--        檔案名稱,
+--        建立者,
+--        建立日期,
+--        修改者,
+--        修改日期,
+--        資料狀態
+--        ) values (
+--        @guid,
+--        @業者guid,
+--        @年度,
+--        @檔案名稱,
+--        @建立者,
+--        @建立日期,
+--        @修改者,
+--        @修改日期,
+--        @資料狀態 
+--        )
+--    end
 
-if @datacount>0
-    begin
-        update 石油_查核簡報上傳 set
-        檔案名稱=@檔案名稱,
-        修改者=@修改者,
-        修改日期=@修改日期
-        where 年度=@年度 and 業者guid=@業者guid and 資料狀態=@資料狀態
-    end
-else
-    begin
-        insert into  石油_查核簡報上傳( 
+insert into  石油_查核簡報上傳( 
         guid,
         業者guid,
         年度,
@@ -126,7 +149,6 @@ else
         @修改日期,
         @資料狀態 
         )
-    end
 ");
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();

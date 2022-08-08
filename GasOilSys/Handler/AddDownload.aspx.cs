@@ -64,12 +64,12 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                 case "gas":
                     switch (type)
                     {
-                        case "report":
-                            grdb._業者guid = cpid;
-                            dt = grdb.GetList();
-                            if (dt.Rows.Count > 0)
-                                throw new Exception("請先刪除報告再上傳");
-                            break;
+                        //case "report":
+                        //    grdb._業者guid = cpid;
+                        //    dt = grdb.GetList();
+                        //    if (dt.Rows.Count > 0)
+                        //        throw new Exception("請先刪除報告再上傳");
+                        //    break;
                         case "pipeinspect":
                             gidb._guid = guid;
                             dt = gidb.GetData();
@@ -82,12 +82,12 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                 case "oil":
                     switch (type)
                     {
-                        case "report":
-                            ordb._業者guid = cpid;
-                            dt = ordb.GetList();
-                            if (dt.Rows.Count > 0)
-                                throw new Exception("請先刪除簡報再上傳");
-                            break;
+                        //case "report":
+                        //    ordb._業者guid = cpid;
+                        //    dt = ordb.GetList();
+                        //    if (dt.Rows.Count > 0)
+                        //        throw new Exception("請先刪除簡報再上傳");
+                        //    break;
                         case "pipeinspect":
                             oidb._guid = guid;
                             dt = oidb.GetData();
@@ -208,6 +208,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                             {
                                 case "report":
                                     grdb._guid = Guid.NewGuid().ToString("N");
+                                    grdb._業者guid = cpid;
                                     grdb._年度 = year;
                                     grdb._檔案名稱 = newName;
                                     grdb._建立者 = LogInfo.mGuid;
@@ -243,6 +244,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                             {
                                 case "report":
                                     ordb._guid = Guid.NewGuid().ToString("N");
+                                    ordb._業者guid = cpid;
                                     ordb._年度 = year;
                                     ordb._檔案名稱 = newName;
                                     ordb._建立者 = LogInfo.mGuid;

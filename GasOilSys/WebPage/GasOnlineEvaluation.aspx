@@ -131,7 +131,12 @@
 				var form = $('#form1')[0];
 
 				// Create an FormData object 
-				var data = new FormData(form);
+                var data = new FormData(form);
+
+                var curFiles = [];
+                var files = this.files;
+
+                Array.prototype.push.apply(curFiles, files);
 
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
@@ -139,6 +144,9 @@
                 data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "1");
+                for (var i = 0, j = curFiles.length; i < j; i) {
+                    data.append("myFile[]", curFiles[i]);
+                }
 
                 $.ajax({
 				    type: "POST",
@@ -189,7 +197,12 @@
 				var form = $('#form1')[0];
 
 				// Create an FormData object 
-				var data = new FormData(form);
+                var data = new FormData(form);
+
+                var curFiles = [];
+                var files = this.files;
+
+                Array.prototype.push.apply(curFiles, files);
 
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
@@ -197,6 +210,9 @@
                 data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "2");
+                for (var i = 0, j = curFiles.length; i < j; i) {
+                    data.append("myFile2[]", curFiles[i]);
+                }
 
                 $.ajax({
 				    type: "POST",
@@ -247,7 +263,12 @@
 				var form = $('#form1')[0];
 
 				// Create an FormData object 
-				var data = new FormData(form);
+                var data = new FormData(form);
+
+                var curFiles = [];
+                var files = this.files;
+
+                Array.prototype.push.apply(curFiles, files);
 
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
@@ -255,6 +276,9 @@
                 data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "3");
+                for (var i = 0, j = curFiles.length; i < j; i) {
+                    data.append("myFile3[]", curFiles[i]);
+                }
 
                 $.ajax({
 				    type: "POST",
@@ -305,7 +329,12 @@
 				var form = $('#form1')[0];
 
 				// Create an FormData object 
-				var data = new FormData(form);
+                var data = new FormData(form);
+
+                var curFiles = [];
+                var files = this.files;
+
+                Array.prototype.push.apply(curFiles, files);
 
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
@@ -313,6 +342,9 @@
                 data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "5");
+                for (var i = 0, j = curFiles.length; i < j; i) {
+                    data.append("myFile5[]", curFiles[i]);
+                }
 
                 $.ajax({
 				    type: "POST",
@@ -363,7 +395,12 @@
 				var form = $('#form1')[0];
 
 				// Create an FormData object 
-				var data = new FormData(form);
+                var data = new FormData(form);
+
+                var curFiles = [];
+                var files = this.files;
+
+                Array.prototype.push.apply(curFiles, files);
 
 				// If you want to add an extra field for the FormData
                 data.append("cpid", $.getQueryString("cp"));
@@ -371,6 +408,9 @@
                 data.append("year", getTaiwanDate());
                 data.append("type", "online");
                 data.append("details", "4");
+                for (var i = 0, j = curFiles.length; i < j; i) {
+                    data.append("myFile4[]", curFiles[i]);
+                }
 
                 $.ajax({
 				    type: "POST",
@@ -676,7 +716,7 @@
                                                 <div id="filediv">
                                                     <%--<span id="zipText" class="font-size4 font-bold" style="color: red">*檔案壓縮中，請稍後... </span>--%>
                                                     <span id="alertText" class="font-size4 font-bold" style="color: red">*檔案上傳中，請稍後... </span>
-                                                    <input type="file" id="fileUpload" name="fileUpload" />
+                                                    <input type="file" id="fileUpload" multiple="multiple" name="fileUpload" />
                                                     <input type="button" id="savebtn" value="上傳" class="genbtn" />
                                                     <input type="button" id="cancelbtn" value="取消" class="genbtn" />
                                                 </div>   
@@ -708,7 +748,7 @@
                                             <input type="button" title="儲槽管理檔案上傳" id="filebtn2" name="filebtn" value="上傳檔案" class="genbtn" />
                                                 <div id="filediv2">
                                                     <span id="alertText2" class="font-size4 font-bold" style="color: red">*檔案上傳中，請稍後... </span>
-                                                    <input type="file" id="fileUpload2" name="fileUpload" />
+                                                    <input type="file" id="fileUpload2" multiple="multiple" name="fileUpload" />
                                                     <input type="button" id="savebtn2" value="上傳" class="genbtn" />
                                                     <input type="button" id="cancelbtn2" value="取消" class="genbtn" />
                                                 </div>
@@ -740,7 +780,7 @@
                                             <input type="button" title="災害防救檔案上傳" id="filebtn3" name="filebtn" value="上傳檔案" class="genbtn" />
                                                 <div id="filediv3">
                                                     <span id="alertText3" class="font-size4 font-bold" style="color: red">*檔案上傳中，請稍後... </span>
-                                                    <input type="file" id="fileUpload3" name="fileUpload" />
+                                                    <input type="file" id="fileUpload3" multiple="multiple" name="fileUpload" />
                                                     <input type="button" id="savebtn3" value="上傳" class="genbtn" />
                                                     <input type="button" id="cancelbtn3" value="取消" class="genbtn" />
                                                 </div>
@@ -772,7 +812,7 @@
                                                 <input type="button" title="法規檔案上傳" id="filebtn5" name="filebtn" value="上傳檔案" class="genbtn" />
                                                 <div id="filediv5">
                                                     <span id="alertText5" class="font-size4 font-bold" style="color: red">*檔案上傳中，請稍後... </span>
-                                                    <input type="file" id="fileUpload5" name="fileUpload" />
+                                                    <input type="file" id="fileUpload5" multiple="multiple" name="fileUpload" />
                                                     <input type="button" id="savebtn5" value="上傳" class="genbtn" />
                                                     <input type="button" id="cancelbtn5" value="取消" class="genbtn" />
                                                 </div>  
@@ -803,7 +843,7 @@
                                                 <input type="button" title="關鍵基礎設施檔案上傳" id="filebtn4" name="filebtn" value="上傳檔案" class="genbtn" />
                                                 <div id="filediv4">
                                                     <span id="alertText4" class="font-size4 font-bold" style="color: red">*檔案上傳中，請稍後... </span>
-                                                    <input type="file" id="fileUpload4" name="fileUpload" />
+                                                    <input type="file" id="fileUpload4" multiple="multiple" name="fileUpload" />
                                                     <input type="button" id="savebtn4" value="上傳" class="genbtn" />
                                                     <input type="button" id="cancelbtn4" value="取消" class="genbtn" />
                                                 </div>
