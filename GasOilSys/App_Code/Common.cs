@@ -308,7 +308,7 @@ public class Account
 			LogInfo.tel= dt.Rows[0]["電話"].ToString();
 			LogInfo.email = dt.Rows[0]["mail"].ToString();
 			LogInfo.orgcd = dt.Rows[0]["單位"].ToString();
-			LogInfo.orgname = dt.Rows[0]["單位名稱"].ToString();
+			//LogInfo.orgname = dt.Rows[0]["部門代號"].ToString();
 			LogInfo.competence = dt.Rows[0]["帳號類別"].ToString();
 			LogInfo.user = dt.Rows[0]["網站類別"].ToString();
 		}

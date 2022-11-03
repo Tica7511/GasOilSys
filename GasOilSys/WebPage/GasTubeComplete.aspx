@@ -37,10 +37,12 @@
             getYearList();
             $("#sellist").val(getTaiwanDate());
             $("#taiwanYear").val(getTaiwanDate());
+            $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#taiwanYear").val() + "&category=tubecomplete");
             getData(0);
             getYearList2();
             $("#sellist2").val(getTaiwanDate());
             $("#taiwanYear2").val(getTaiwanDate());
+            $("#exportbtn2").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#taiwanYear").val() + "&category=tubecomplete2");
             getData2(0);
 
             //管線識別碼開窗
@@ -53,12 +55,14 @@
             //選擇年份(幹線及環線管線)
             $(document).on("change", "#sellist", function () {
                 $("#taiwanYear").val($("#sellist option:selected").val());
+                $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#taiwanYear").val() + "&category=tubecomplete");
                 getData(0);
             });
 
             //選擇年份(幹線及環線管線)
             $(document).on("change", "#sellist2", function () {
                 $("#taiwanYear2").val($("#sellist2 option:selected").val());
+                $("#exportbtn2").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#taiwanYear").val() + "&category=tubecomplete2");
                 getData2(0);
             });
 
@@ -569,7 +573,8 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
-                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                             <div class="font-size4 font-bold">幹線及環線管線</div>
@@ -608,7 +613,8 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
-                                <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn2" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                             <div class="font-size4 margin10T font-bold">幹線及環線管線以外</div>

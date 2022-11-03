@@ -37,6 +37,7 @@
             //getYearList();
             //$("#sellist").val(getTaiwanDate());
             //$("#taiwanYear").val(getTaiwanDate());
+            $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=tubeinfo");
 			getData(0);
 
             //選擇年份
@@ -314,7 +315,8 @@
                                     </select> 年
                                 </div>--%>
                                 <div class="right">
-                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a> 
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
 							<div class="stripeMeG tbover">

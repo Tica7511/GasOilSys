@@ -70,7 +70,15 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                                     gcdb._guid = dt.Rows[i]["業者guid"].ToString();
                                     DataTable gdt = gcdb.GetCpName3();
                                     if (gdt.Rows.Count > 0)
-                                        dt.Rows[i]["cName"] = gdt.Rows[0]["cpname"].ToString();
+                                    {
+                                        for (int j = 0; j < dt.Rows.Count; j++)
+                                        {
+                                            if (gdt.Rows[0]["guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+                                                dt.Rows[i]["cName"] = gdt.Rows[0]["公司名稱"].ToString().Trim();
+                                            else
+                                                dt.Rows[i]["cName"] = gdt.Rows[0]["cpname"].ToString();
+                                        }
+                                    }
                                     break;
                             }
                         }

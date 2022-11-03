@@ -32,6 +32,12 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                 dt = gdb.GetCpName();
                 if (dt.Rows.Count > 0)
                 {
+					for(int i = 0; i < dt.Rows.Count; i++)
+                    {
+						if (dt.Rows[i]["guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+							dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
+					}					
+
                     dt.Columns.Add("competence", typeof(string));
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }

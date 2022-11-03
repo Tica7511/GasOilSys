@@ -98,6 +98,29 @@ select * from (
 		return ds;
 	}
 
+	public DataTable GetExportList()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select * 
+from 天然氣_管線完整性管理作為_幹線及環線管線 where 資料狀態='A' and 業者guid=@業者guid ");
+		if (!string.IsNullOrEmpty(年度))
+			sb.Append(@" and 年度=@年度");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
 	public DataSet GetList_Out(string pStart, string pEnd)
 	{
 		SqlCommand oCmd = new SqlCommand();
@@ -128,6 +151,29 @@ select * from (
 		oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
 		oCmd.Parameters.AddWithValue("@pStart", pStart);
 		oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public DataTable GetExportList_Out()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select * 
+from 天然氣_管線完整性管理作為_幹線及環線管線以外 where 資料狀態='A' and 業者guid=@業者guid ");
+		if (!string.IsNullOrEmpty(年度))
+			sb.Append(@" and 年度=@年度");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
 
 		oda.Fill(ds);
 		return ds;
