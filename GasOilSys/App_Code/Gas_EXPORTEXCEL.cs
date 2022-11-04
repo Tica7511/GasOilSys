@@ -21,6 +21,8 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
         GasTubeComplete_DB db2 = new GasTubeComplete_DB();
         GasCheckSmartTubeCleaner_DB db3 = new GasCheckSmartTubeCleaner_DB();
         GasCIPS_DB db4 = new GasCIPS_DB();
+        GasUnusualRectifier_DB db5 = new GasUnusualRectifier_DB();
+        GasTubeMaintain_DB db6 = new GasTubeMaintain_DB();
         protected void Page_Load(object sender, EventArgs e)
         {
             string category = Common.FilterCheckMarxString(Request.QueryString["category"]);
@@ -318,6 +320,68 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_緊密電位檢測(CIPS).xls";
+
+                    #endregion
+                    break;
+                case "unusualrectifier":
+                    #region 異常整流站
+
+                    db5._業者guid = cpid;
+                    db5._年度 = year;
+                    dt = db5.GetList();
+
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("異常整流站名稱");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("異常起始日期 (年/月)");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("異常狀況");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("整流站修復進度 1.公司報修2.設計中3.向地方主管機關提出申請中4.修復中");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("影響長途管線識別碼");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("預計完成日期");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("備註");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["異常整流站名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["異常起始日期年月"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["異常狀況"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["整流站修復進度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["影響長途管線識別碼"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["預計完成日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_異常整流站.xls";
+
+                    #endregion
+                    break;
+                case "tubemaintain":
+                    #region 管線維修或開挖
+
+                    db6._業者guid = cpid;
+                    db6._年度 = year;
+                    dt = db6.GetList();
+
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("前一年度 1.維修2.換管3.遷管4.開挖");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("長度(公尺)");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("管段位置");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("備註");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["長途管線識別碼"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["前一年度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["長度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["管線位置"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_管線維修或開挖.xls";
 
                     #endregion
                     break;
