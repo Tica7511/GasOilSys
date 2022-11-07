@@ -23,6 +23,9 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
         GasCIPS_DB db4 = new GasCIPS_DB();
         GasUnusualRectifier_DB db5 = new GasUnusualRectifier_DB();
         GasTubeMaintain_DB db6 = new GasTubeMaintain_DB();
+        GasRiskAssessment_DB db7 = new GasRiskAssessment_DB();
+        GasTubeCheck_DB db8 = new GasTubeCheck_DB();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string category = Common.FilterCheckMarxString(Request.QueryString["category"]);
@@ -67,6 +70,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db1._業者guid = cpid;
                     dt = db1.GetExportList();
 
+                    hssfworkbook.SetSheetName(0, "管線基本資料");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("轄區長途管線名稱(公司)");
@@ -134,6 +138,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db2._年度 = year;
                     dt = db2.GetExportList();
 
+                    hssfworkbook.SetSheetName(0, "管線完整性管理作為_幹線及環線管線");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("風險評估 年/月");
@@ -181,6 +186,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db2._年度 = year;
                     dt = db2.GetExportList_Out();
 
+                    hssfworkbook.SetSheetName(0, "管線完整性管理作為_幹線及環線管線以外");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("風險評估 年/月");
@@ -228,6 +234,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db3._年度 = year;
                     dt = db3.GetList();
 
+                    hssfworkbook.SetSheetName(0, "智慧型通管器檢查(ILI)");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("檢測方法");
@@ -287,6 +294,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db4._年度 = year;
                     dt = db4.GetList();
 
+                    hssfworkbook.SetSheetName(0, "緊密電位檢測(CIPS)");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("同時檢測管線數量");
@@ -330,6 +338,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db5._年度 = year;
                     dt = db5.GetList();
 
+                    hssfworkbook.SetSheetName(0, "異常整流站");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("異常整流站名稱");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("異常起始日期 (年/月)");
@@ -363,6 +372,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     db6._年度 = year;
                     dt = db6.GetList();
 
+                    hssfworkbook.SetSheetName(0, "管線維修或開挖");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("前一年度 1.維修2.換管3.遷管4.開挖");
@@ -382,6 +392,130 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_管線維修或開挖.xls";
+
+                    #endregion
+                    break;
+                case "riskassessment":
+                    #region 風險評估
+
+                    db7._業者guid = cpid;
+                    db7._年度 = year;
+                    dt = db7.GetList();
+
+                    hssfworkbook.SetSheetName(0, "風險評估");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("最近一次執行日期 (年/月)");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("再評估時機 1.定期(5年) 2.風險因子異動");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("管線長度 (公里)");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("分段數量");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("已納入ILI結果");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("已納入CIPS結果");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("已納入巡管結果 1.是 2.否");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("各等級風險管段數量 (高)");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("各等級風險管段數量 (中)");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("各等級風險管段數量 (低)");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("降低中高風險管段之相關作為文件名稱");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("改善後風險等級高、中、低");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["長途管線識別碼"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["最近一次執行日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["再評估時機"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["管線長度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["分段數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["已納入ILI結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["已納入CIPS結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["已納入巡管結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["各等級風險管段數量_高"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["各等級風險管段數量_中"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["各等級風險管段數量_低"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["降低中高風險管段之相關作為文件名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["改善後風險等級高中低"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_風險評估.xls";
+
+                    #endregion
+                    break;
+                case "tubecheck":
+                    #region 管線巡檢
+
+                    db8._業者guid = cpid;
+                    db8._年度 = year;
+                    dt = db8.GetList();
+
+                    hssfworkbook.SetSheetName(0, "管線巡檢");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("每日巡檢次數 01:1次 02:2次 03:3次(含)以上");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("巡管人數");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("巡管工具 01:PDA 02:手機 03:其他");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("巡管工具其他");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("主管監督查核 Y:有 N:無");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("主管監督查核次");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("是否有加強巡檢點 Y:有 N:無");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("是否有加強巡檢點敘述");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["每日巡檢次數"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["巡管人數"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["巡管工具"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["巡管工具其他"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["主管監督查核"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["主管監督查核次"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["是否有加強巡檢點"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["是否有加強巡檢點敘述"].ToString().Trim());
+                        }
+                    }
+
+                    dt.Clear();
+                    dt = db8.GetList2();
+
+                    hssfworkbook.CreateSheet("依據文件資料");
+                    sheet = hssfworkbook.GetSheetAt(1);
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("依據文件名稱");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("文件編號");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("文件日期");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["依據文件名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["文件編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["文件日期"].ToString().Trim());
+                        }
+                    }
+
+                    dt.Clear();
+                    dt = db8.GetList3();
+
+                    hssfworkbook.CreateSheet("異常情形統計資料");
+                    sheet = hssfworkbook.GetSheetAt(2);
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("管線巡檢情形");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("前兩年");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("前一年");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["管線巡檢情形"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["前兩年"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["前一年"].ToString().Trim());
+                        }
+                    }
+
+
+                    fileName = cpName + "_風險評估.xls";
 
                     #endregion
                     break;

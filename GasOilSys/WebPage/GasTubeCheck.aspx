@@ -31,11 +31,13 @@
 
             getYearList();
             $("#sellist").val(getTaiwanDate());
-			getData(getTaiwanDate());
+            getData(getTaiwanDate());
+            $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + getTaiwanDate() + "&category=tubecheck");
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
+                $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#sellist option:selected").val() + "&category=tubecheck");
             });
 
             //新增按鈕(依據文件資料)
@@ -529,6 +531,7 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
                                     <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
                                     <a id="subbtn" href="javascript:void(0);" title="儲存" class="genbtn" style="display:none">儲存</a>
