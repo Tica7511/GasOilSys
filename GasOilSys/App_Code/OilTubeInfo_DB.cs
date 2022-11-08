@@ -131,6 +131,28 @@ where 業者guid=@業者guid and 資料狀態='A' ");
         return ds;
     }
 
+    public DataTable GetExportList()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 from 石油_管線基本資料 a  
+  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
+  where a.業者guid=@業者guid and a.資料狀態='A' 
+  order by 長途管線識別碼 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetYearList()
     {
         SqlCommand oCmd = new SqlCommand();
