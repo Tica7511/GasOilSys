@@ -19,6 +19,8 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
         OilCompanyInfo_DB odb = new OilCompanyInfo_DB();
         OilTubeInfo_DB db1 = new OilTubeInfo_DB();
         OilTubeComplete_DB db2 = new OilTubeComplete_DB();
+        OilCheckSmartTubeCleaner_DB db3 = new OilCheckSmartTubeCleaner_DB();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -167,6 +169,66 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_管線完整性管理作為.xls";
+
+                    #endregion
+                    break;
+                case "checksmarttubecleaner":
+                    #region 智慧型通管器檢查(ILI)
+
+                    db3._業者guid = cpid;
+                    db3._年度 = year;
+                    dt = db3.GetList();
+
+                    hssfworkbook.SetSheetName(0, "智慧型通管器檢查(ILI)");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("檢測方法");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("最近一次執行 年/月");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("報告產出 年/月");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("檢測長度 公里");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("管壁減薄30%-40%數量_內部腐蝕數量");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("管壁減薄30%-40%數量_內部開挖確認數量");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("管壁減薄30%-40%數量_外部腐蝕數量");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("管壁減薄30%-40%數量_外部開挖確認數量");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("管壁減薄40%-50%數量_內部腐蝕數量");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("管壁減薄40%-50%數量_內部開挖確認數量");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("管壁減薄40%-50%數量_外部腐蝕數量");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("管壁減薄40%-50%數量_外部開挖確認數量");
+                    sheet.GetRow(0).CreateCell(13).SetCellValue("管壁減薄50%以上數量_內部腐蝕數量");
+                    sheet.GetRow(0).CreateCell(14).SetCellValue("管壁減薄50%以上數量_內部開挖確認數量");
+                    sheet.GetRow(0).CreateCell(15).SetCellValue("管壁減薄50%以上數量_外部腐蝕數量");
+                    sheet.GetRow(0).CreateCell(16).SetCellValue("管壁減薄50%以上數量_外部開挖確認數量");
+                    sheet.GetRow(0).CreateCell(17).SetCellValue("Dent_變形量>12%數量");
+                    sheet.GetRow(0).CreateCell(18).SetCellValue("Dent_開挖確認數量");
+                    sheet.GetRow(0).CreateCell(19).SetCellValue("備註");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["長途管線識別碼"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["檢測方法"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["最近一次執行年月"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["報告產出年月"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["檢測長度公里"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["減薄數量_內1"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["減薄數量_內_開挖確認1"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["減薄數量_外"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["減薄數量_外_開挖確認1"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["減薄數量_內2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["減薄數量_內_開挖確認2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["減薄數量_外2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["減薄數量_外_開挖確認2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["減薄數量_內3"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(14).SetCellValue(dt.Rows[i]["減薄數量_內_開挖確認3"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(15).SetCellValue(dt.Rows[i]["減薄數量_外3"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(16).SetCellValue(dt.Rows[i]["減薄數量_外_開挖確認3"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(17).SetCellValue(dt.Rows[i]["Dent"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(18).SetCellValue(dt.Rows[i]["Dent_開挖確認"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_智慧型通管器檢查(ILI).xls";
 
                     #endregion
                     break;
