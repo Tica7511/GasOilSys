@@ -24,6 +24,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
         OilUnusualRectifier_DB db5 = new OilUnusualRectifier_DB();
         OilTubeCheck_DB db6 = new OilTubeCheck_DB();
         OilTubeMaintain_DB db7 = new OilTubeMaintain_DB();
+        OilRiskAssessment_DB db8 = new OilRiskAssessment_DB();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -404,6 +405,54 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_管線維修或開挖.xls";
+
+                    #endregion
+                    break;
+                case "riskassessment":
+                    #region 風險評估
+
+                    db8._業者guid = cpid;
+                    db8._年度 = year;
+                    dt = db8.GetList();
+
+                    hssfworkbook.SetSheetName(0, "風險評估");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("最近一次執行日期 (年/月)");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("再評估時機 1.定期(5年) 2.風險因子異動");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("管線長度 (公里)");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("分段數量");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("已納入ILI結果");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("已納入CIPS結果");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("已納入巡管結果 1.是 2.否");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("各等級風險管段數量 (高)");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("各等級風險管段數量 (中)");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("各等級風險管段數量 (低)");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("降低中高風險管段之相關作為文件名稱");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("改善後風險等級高、中、低");
+                    sheet.GetRow(0).CreateCell(13).SetCellValue("備註");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["長途管線識別碼"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["最近一次執行日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["再評估時機"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["管線長度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["分段數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["已納入ILI結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["已納入CIPS結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["已納入巡管結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["各等級風險管段數量_高"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["各等級風險管段數量_中"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["各等級風險管段數量_低"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["文件名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["改善後風險等級"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_風險評估.xls";
 
                     #endregion
                     break;
