@@ -36,6 +36,7 @@
             //getYearList();
             //$("#sellist").val(getTaiwanDate());
             getData(0);
+            $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=storagetankinfo");
 
             //選擇年份
             //$(document).on("change", "#sellist", function () {
@@ -298,7 +299,8 @@
                                     </select> 年
                                 </div>--%>
                                 <div class="right">
-                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                             <div class="stripeMeB tbover">
