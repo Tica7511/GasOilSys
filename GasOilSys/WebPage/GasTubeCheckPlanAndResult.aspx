@@ -467,6 +467,7 @@
                             <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">用戶管線定期檢查計畫及檢查結果:</div>
                                 <div class="right">
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a> 
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />

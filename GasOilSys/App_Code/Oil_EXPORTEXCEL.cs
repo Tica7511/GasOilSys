@@ -26,6 +26,10 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
         OilTubeMaintain_DB db7 = new OilTubeMaintain_DB();
         OilRiskAssessment_DB db8 = new OilRiskAssessment_DB();
         OilStorageTankInfo_DB db9 = new OilStorageTankInfo_DB();
+        OilStorageTankBWT_DB db10 = new OilStorageTankBWT_DB();
+        OilStorageTankButton_DB db11 = new OilStorageTankButton_DB();
+        OilButtonChange_DB db12 = new OilButtonChange_DB();
+        OilCathodicProtection_DB db13 = new OilCathodicProtection_DB();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -499,6 +503,160 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_儲槽基本資料.xls";
+
+                    #endregion
+                    break;
+                case "storagetankBWT":
+                    #region 儲槽基礎、壁板、頂板
+
+                    db10._業者guid = cpid;
+                    db10._年度 = year;
+                    dt = db10.GetList();
+
+                    hssfworkbook.SetSheetName(0, "儲槽基礎、壁板、頂板");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("基礎與底板間是否具防水包覆層設計 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("沈陷量測點數");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("沈陷量測日期");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("接地電阻<10Ω 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("壁板外部嚴重腐蝕或點蝕 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("第一層壁板內部下方腐蝕 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("維修方式是否有符合API653 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("外浮頂之Shunt及設置等導電良好 1.良好 2.不佳 3.無Shunt");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["防水包覆層設計"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["沈陷量測點數"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["沈陷量測日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["儲槽接地電阻"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["壁板外部嚴重腐蝕或點蝕"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["第一層壁板內部下方腐蝕"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["壁板維修方式是否有符合API653"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["設置等導電良好度"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_儲槽基礎壁板頂板.xls";
+
+                    #endregion
+                    break;
+                case "storagetankbutton":
+                    #region 儲槽底板
+
+                    db11._業者guid = cpid;
+                    db11._年度 = year;
+                    dt = db11.GetList();
+
+                    hssfworkbook.SetSheetName(0, "儲槽底板");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("執行MFL檢測 1.全部 2.部分 3.無");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("防蝕塗層 1.無 2.FRP 3.EPOXY 4.其他");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("塗層全面重新施加日期 年/月");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("最近一次開放塗層維修情形 1.全部 2.部分 3.無");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("銲道腐蝕 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("局部變形 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("最近一次開放是否有維修 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("內容物側最小剩餘厚度(mm)");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("內容物側最大腐蝕速率(mm/yr)");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("土壤側最小剩餘厚度(mm)");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("土壤側最大腐蝕速率(mm/yr)");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("是否有更換過底板 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(13).SetCellValue("綜合判定 1.良好 2.須持續追蹤");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["執行MFL檢測"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["防蝕塗層"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["塗層全面重新施加日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["最近一次開放塗層維修情形"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["銲道腐蝕"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["局部變形"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["最近一次開放是否有維修"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["內容物側最小剩餘厚度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["內容物側最大腐蝕速率"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["土壤側最小剩餘厚度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["土壤側最大腐蝕速率"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["是否有更換過底板"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["綜合判定"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_儲槽底板.xls";
+
+                    #endregion
+                    break;
+                case "buttonchange":
+                    #region 底板更換紀錄
+
+                    db12._業者guid = cpid;
+                    db12._年度 = year;
+                    dt = db12.GetList();
+
+                    hssfworkbook.SetSheetName(0, "底板更換紀錄");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("更換日期(YYYMMDD)");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("更換面積(M2)");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("更換原因");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["更換日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["更換面積"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["更換原因"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_底板更換紀錄.xls";
+
+                    #endregion
+                    break;
+                case "cathodicprotection":
+                    #region 陰極防蝕系統
+
+                    db13._業者guid = cpid;
+                    db13._年度 = year;
+                    dt = db13.GetList2();
+
+                    hssfworkbook.SetSheetName(0, "陰極防蝕系統");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("設置 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("整流站名稱");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("合格標準 1. 通電電位< -850mVCSE 2.極化電位< -850mVCSE 3.極化量>100mV 4.其他");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("整流站狀態 1.正常 2.異常");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("系統狀態 1.正常 2.異常");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("設置長效型參考電極種類 1.鋅 2.飽和硫酸銅 3.無");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("測試點數量");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("陽極地床種類 1.深井 2.淺井");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("備註");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["設置"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["整流站名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["合格標準"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["整流站狀態"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["系統狀態"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["設置長效型參考電極種類"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["測試點數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["陽極地床種類"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_陰極防蝕系統.xls";
 
                     #endregion
                     break;
