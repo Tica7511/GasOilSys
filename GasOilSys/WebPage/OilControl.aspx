@@ -30,11 +30,15 @@
             getYearList();
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
+            $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + getTaiwanDate() + "&category=control");
+            $("#exportbtn2").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + getTaiwanDate() + "&category=control2");
             //displayTable();
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
+                $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#sellist option:selected").val() + "&category=control");
+                $("#exportbtn2").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#sellist option:selected").val() + "&category=control2");
             });
 
             //新增按鈕
@@ -644,7 +648,8 @@
                                 <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">儲槽泵送/接收資料</div>
                                 <div class="right">
-                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                                 <div class="stripeMeB tbover">
@@ -681,7 +686,8 @@
                                 <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">管線輸送/接收資料</div>
                                 <div class="right">
-                                <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn2" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                                 <div class="stripeMeB tbover">

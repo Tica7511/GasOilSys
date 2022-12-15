@@ -22,18 +22,18 @@
             getData(getTaiwanDate());
             $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + getTaiwanDate() + "&category=tubecomplete");
 
-            //管線識別碼開窗
-            $(document).on("click", "a[name='pipeSnPopUp']", function () {
-                $("#PipeSnOnlyForPopup").val($(this).attr("aid"));
-                getPipeSnPopupContent();
-                doOpenPipeSnPopup();
-            });
-
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
                 $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#sellist option:selected").val() + "&category=tubecomplete");
             });
+
+            //管線識別碼開窗
+            $(document).on("click", "a[name='pipeSnPopUp']", function () {
+                $("#PipeSnOnlyForPopup").val($(this).attr("aid"));
+                getPipeSnPopupContent();
+                doOpenPipeSnPopup();
+            });            
 
             //新增按鈕
             $(document).on("click", "#newbtn", function () {

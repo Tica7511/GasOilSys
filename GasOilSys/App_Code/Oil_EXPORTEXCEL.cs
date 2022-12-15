@@ -30,6 +30,8 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
         OilStorageTankButton_DB db11 = new OilStorageTankButton_DB();
         OilButtonChange_DB db12 = new OilButtonChange_DB();
         OilCathodicProtection_DB db13 = new OilCathodicProtection_DB();
+        OilTankPipeline_DB db14 = new OilTankPipeline_DB();
+        OilControl_DB db15 = new OilControl_DB();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -657,6 +659,106 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_陰極防蝕系統.xls";
+
+                    #endregion
+                    break;
+                case "tankpipeline":
+                    #region 槽區管線
+
+                    db14._業者guid = cpid;
+                    db14._年度 = year;
+                    dt = db14.GetList();
+
+                    hssfworkbook.SetSheetName(0, "槽區管線");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("槽區管線 具保溫層管線 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("槽區管線 管線支撐座腐蝕疑慮 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("備註");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["管線具保溫層"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["管線支撐座腐蝕疑慮"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_槽區管線.xls";
+
+                    #endregion
+                    break;
+                case "control":
+                    #region 控制室 儲槽泵送/接收資料
+
+                    db15._業者guid = cpid;
+                    db15._年度 = year;
+                    dt = db15.GetList2();
+
+                    hssfworkbook.SetSheetName(0, "控制室 儲槽泵送接收資料");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("液位監測方式 1.機械 2.超音波 3.雷達 4.RF transmitter 5.其他");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("液位監測靈敏度(mm)");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("高液位警報設定基準(mm)");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("前一年度高液位警報發生頻率 次/年");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("靜態時(未進出)液位異常下降警報設定基準(mm)");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("前一年度異常下降警報發生頻率 次/年");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["液位監測方式"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["液位監測靈敏度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["高液位警報設定基準"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["前一年度高液位警報發生頻率"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["液位異常下降警報設定基準"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["前一年度異常下降警報發生頻率"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_控制室_儲槽泵送接收資料.xls";
+
+                    #endregion
+                    break;
+                case "control2":
+                    #region 控制室 管線輸送/接收資料
+
+                    db15._業者guid = cpid;
+                    db15._年度 = year;
+                    dt = db15.GetList3();
+
+                    hssfworkbook.SetSheetName(0, "控制室 管線輸送接收資料");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("管線編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("負責泵送或接收之控制室名稱");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("洩漏監控系統(LDS,防盜油系統,DCS系統...)");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("自有端是否有設置壓力");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("自有端是否有設置流量");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("操作壓力值");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("壓力計警報設定值(上限/下限)");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("流量計警報設定值(上限/下限)");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("前一年度警報發生頻率 次/年");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["管線編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["控制室名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["洩漏監控系統"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["自有端是否有設置壓力"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["自有端是否有設置流量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["操作壓力值"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["壓力警報設定值"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["流量警報設定值"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["前一年度異常下降警報發生頻率"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_控制室_管線輸送接收資料.xls";
 
                     #endregion
                     break;
