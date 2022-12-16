@@ -30,10 +30,12 @@
             getYearList();
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
+            $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + getTaiwanDate() + "&category=control");
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
+                $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#sellist option:selected").val() + "&category=control");
             });
 
             //新增按鈕
@@ -475,7 +477,8 @@
                             <div class="twocol">
                                 <div class="left font-size4 margin10T font-bold">依據文件資料</div>
                                 <div class="right">
-                                <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
                             <div class="stripeMeG tbover margin5T">

@@ -32,6 +32,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
         OilCathodicProtection_DB db13 = new OilCathodicProtection_DB();
         OilTankPipeline_DB db14 = new OilTankPipeline_DB();
         OilControl_DB db15 = new OilControl_DB();
+        OilAccidentLearning_DB db16 = new OilAccidentLearning_DB();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -759,6 +760,34 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_控制室_管線輸送接收資料.xls";
+
+                    #endregion
+                    break;
+                case "accidentlearning":
+                    #region 事故學習
+
+                    db16._業者guid = cpid;
+                    db16._年度 = year;
+                    dt = db16.GetList();
+
+                    hssfworkbook.SetSheetName(0, "事故學習");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("事故日期");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("事故名稱");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("事故原因");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("改善作為");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["事故日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["事故名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["事故原因"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["改善作為"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_事故學習.xls";
 
                     #endregion
                     break;
