@@ -44,6 +44,10 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
         /// * Request["txt21"]: 低壓排放塔
         /// * Request["txt22"]: 高壓排放塔
         /// * Request["txt23"]: NG2 熱值 調整摻配站
+        /// * Request["txt24"]: 年度查核姓名
+        /// * Request["txt25"]: 年度查核職稱
+        /// * Request["txt26"]: 年度查核分機
+        /// * Request["txt27"]: 年度查核email
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -65,6 +69,7 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             #endregion
 
             string cid = (string.IsNullOrEmpty(Request["cid"])) ? "" : Request["cid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string txt1 = (string.IsNullOrEmpty(Request["txt1"])) ? "" : Request["txt1"].ToString().Trim();
             string txt2 = (string.IsNullOrEmpty(Request["txt2"])) ? "" : Request["txt2"].ToString().Trim();
             string txt3 = (string.IsNullOrEmpty(Request["txt3"])) ? "" : Request["txt3"].ToString().Trim();
@@ -88,8 +93,13 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             string txt21 = (string.IsNullOrEmpty(Request["txt21"])) ? "" : Request["txt21"].ToString().Trim();
             string txt22 = (string.IsNullOrEmpty(Request["txt22"])) ? "" : Request["txt22"].ToString().Trim();
             string txt23 = (string.IsNullOrEmpty(Request["txt23"])) ? "" : Request["txt23"].ToString().Trim();
+            string txt24 = (string.IsNullOrEmpty(Request["txt24"])) ? "" : Request["txt24"].ToString().Trim();
+            string txt25 = (string.IsNullOrEmpty(Request["txt25"])) ? "" : Request["txt25"].ToString().Trim();
+            string txt26 = (string.IsNullOrEmpty(Request["txt26"])) ? "" : Request["txt26"].ToString().Trim();
+            string txt27 = (string.IsNullOrEmpty(Request["txt27"])) ? "" : Request["txt27"].ToString().Trim();
 
             db._業者guid = cid;
+            db._年度 = year;
             db._事業名稱 = Server.UrlDecode(txt1);
             db._地址 = Server.UrlDecode(txt2);
             db._電話 = Server.UrlDecode(txt3);
@@ -114,10 +124,26 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             db._低壓排放塔 = Server.UrlDecode(txt21);
             db._高壓排放塔 = Server.UrlDecode(txt22);
             db._NG2摻配站 = Server.UrlDecode(txt23);
+            db._年度查核姓名 = Server.UrlDecode(txt24);
+            db._年度查核職稱 = Server.UrlDecode(txt25);
+            db._年度查核分機 = Server.UrlDecode(txt26);
+            db._年度查核email = Server.UrlDecode(txt27);
             db._修改者 = LogInfo.mGuid;
             db._修改日期 = DateTime.Now;
 
-            db.UpdateData(oConn, myTrans);
+            DataTable dt = db.GetInfo();
+
+            if (dt.Rows.Count > 0)
+            {
+                db.UpdateData(oConn, myTrans);
+            }
+            else
+            {
+                db._建立者 = LogInfo.mGuid;
+                db._建立日期 = DateTime.Now;
+
+                db.InsertPipeData(oConn, myTrans);
+            }
 
             myTrans.Commit();
 

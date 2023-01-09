@@ -25,21 +25,24 @@ public partial class Handler_GetGasInfo : System.Web.UI.Page
 		{
 			string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
+			string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
 			string centralType = (string.IsNullOrEmpty(Request["centralType"])) ? "" : Request["centralType"].ToString().Trim();
 			string centralName = (string.IsNullOrEmpty(Request["centralName"])) ? "" : Request["centralName"].ToString().Trim();
             string dtCount = string.Empty;
 
             if(type == "list")
             {
-                db._年度 = "110";
+                db._年度 = year;
                 db._業者guid = cpid;
                 DataTable dt = db.GetInfo();
                 DataTable dt2 = db.GetList();
+                DataTable ydt = db.GetYearList();
 
                 dtCount = dt2.Rows.Count.ToString();
 
                 if (dt2.Rows.Count > 0)
                 {
+                    dt2.Columns.Add("年度", typeof(string));
                     dt2.Columns.Add("配氣站guid", typeof(string));
                     dt2.Columns.Add("開關站guid", typeof(string));
                     dt2.Columns.Add("隔離站guid", typeof(string));
@@ -106,22 +109,27 @@ public partial class Handler_GetGasInfo : System.Web.UI.Page
                             }
 
                             #endregion
+
+                            dt2.Rows[i]["年度"] = year;
                         }
                     }
+
                 }
 
 
                 string xmlstr = string.Empty;
                 string xmlstr2 = string.Empty;
+                string xmlstr3 = string.Empty;
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
                 xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt2, "dataList2", "data_item2");
-                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><dtCount>" + dtCount + "</dtCount>" + xmlstr + xmlstr2 + "</root>";
+                xmlstr3 = DataTableToXml.ConvertDatatableToXML(ydt, "dataList3", "data_item3");
+                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><dtCount>" + dtCount + "</dtCount>" + xmlstr + xmlstr2 + xmlstr3 + "</root>";
                 xDoc.LoadXml(xmlstr);
             }
             else
             {
                 db._業者guid = cpid;
-                db._年度 = "110";
+                db._年度 = year;
                 db._場站類別 = centralType;
                 db._中心名稱 = centralName;
 

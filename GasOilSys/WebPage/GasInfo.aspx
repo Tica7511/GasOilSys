@@ -17,9 +17,16 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
 		$(document).ready(function () {
-            getData();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
 
             $("a[name='delbtn']").hide();
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
 
             //編輯按鈕
             $(document).on("click", "#editbtn", function () {
@@ -109,6 +116,7 @@
 
                 // If you want to add an extra field for the FormData
                 data.append("cid", $.getQueryString("cp"));
+                data.append("year", $("#sellist option:selected").val());
                 data.append("txt1", encodeURIComponent($("#cname").val()));
                 data.append("txt2", encodeURIComponent($("#caddr").val()));
                 data.append("txt3", encodeURIComponent($("#ctel").val()));
@@ -132,6 +140,10 @@
                 data.append("txt21", encodeURIComponent($("#ov9").val()));
                 data.append("txt22", encodeURIComponent($("#ov10").val()));
                 data.append("txt23", encodeURIComponent($("#ov11").val()));
+                data.append("txt24", encodeURIComponent($("#txt1").val()));
+                data.append("txt25", encodeURIComponent($("#txt2").val()));
+                data.append("txt26", encodeURIComponent($("#txt3").val()));
+                data.append("txt27", encodeURIComponent($("#txt4").val()));
 
                 $.ajax({
                     type: "POST",
@@ -181,6 +193,7 @@
                     data: {
                         type: "data",
                         cpid: $.getQueryString("cp"),
+                        year: $("#sellist option:selected").val(),
                         centralType: $("#sc_type option:selected").val(),
                         centralName: $("#txt_name").val()
 			    	},
@@ -212,6 +225,7 @@
 
                 // If you want to add an extra field for the FormData
                 data.append("cid", $.getQueryString("cp"));
+                data.append("year", $("#sellist option:selected").val());
                 data.append("txt1", $("#sc_type option:selected").val());
                 data.append("txt2", encodeURIComponent($("#txt_name").val()));
 
@@ -266,16 +280,21 @@
             $("#ov9").attr("disabled", status);
             $("#ov10").attr("disabled", status);
             $("#ov11").attr("disabled", status);
+            $("#txt1").attr("disabled", status);
+            $("#txt2").attr("disabled", status);
+            $("#txt3").attr("disabled", status);
+            $("#txt4").attr("disabled", status);
         }
 
-		function getData() {
+		function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasInfo.aspx",
                 data: {
                     type: "list",
-					cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -286,38 +305,72 @@
 						alert($(data).find("Error").attr("Message"));
 					}
 					else {
-						if ($(data).find("data_item").length > 0) {
-							$(data).find("data_item").each(function (i) {
-								$("#cname").val($(this).children("事業名稱").text().trim());
-								$("#ctel").val($(this).children("電話").text().trim());
-								$("#caddr").val($(this).children("地址").text().trim());
-								$("#mainline").val($.FormatThousandGroup($(this).children("輸氣幹線").text().trim()));
-								$("#cycleline").val($.FormatThousandGroup($(this).children("輸氣環線").text().trim()));
-								$("#specialline").val($.FormatThousandGroup($(this).children("配氣專管").text().trim()));
-								$("#finishline").val($.FormatThousandGroup($(this).children("場內成品線").text().trim()));
-								$("#sealine").val($.FormatThousandGroup($(this).children("海底管線").text().trim()));
-								$("#LNGline").val($.FormatThousandGroup($(this).children("LNG管線").text().trim()));
-								$("#BOGline").val($.FormatThousandGroup($(this).children("BOG管線").text().trim()));
-								$("#NGline").val($.FormatThousandGroup($(this).children("NG管線").text().trim()));
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                $("#cname").val($(this).children("事業名稱").text().trim());
+                                $("#ctel").val($(this).children("電話").text().trim());
+                                $("#caddr").val($(this).children("地址").text().trim());
+                                $("#mainline").val($.FormatThousandGroup($(this).children("輸氣幹線").text().trim()));
+                                $("#cycleline").val($.FormatThousandGroup($(this).children("輸氣環線").text().trim()));
+                                $("#specialline").val($.FormatThousandGroup($(this).children("配氣專管").text().trim()));
+                                $("#finishline").val($.FormatThousandGroup($(this).children("場內成品線").text().trim()));
+                                $("#sealine").val($.FormatThousandGroup($(this).children("海底管線").text().trim()));
+                                $("#LNGline").val($.FormatThousandGroup($(this).children("LNG管線").text().trim()));
+                                $("#BOGline").val($.FormatThousandGroup($(this).children("BOG管線").text().trim()));
+                                $("#NGline").val($.FormatThousandGroup($(this).children("NG管線").text().trim()));
                                 $("#supplycity").val($(this).children("供氣對象縣市").text().trim());
                                 $("input[name='supplygas']").prop("checked", false);
-								var arySupplyGas = $(this).children("供應天然氣").text().trim().split(',');
-								$.each(arySupplyGas, function (key, value) {
-									$("input[name='supplygas'][value='" + value + "']").prop("checked", true);
-								});
-								$("#ov1").val($(this).children("儲槽").text().trim());
-								$("#ov2").val($(this).children("注氣站").text().trim());
-								$("#ov3").val($(this).children("加壓站").text().trim());
-								$("#ov4").val($(this).children("配氣站").text().trim());
-								$("#ov5").val($(this).children("隔離站").text().trim());
-								$("#ov6").val($(this).children("開關站").text().trim());
-								$("#ov7").val($(this).children("清管站").text().trim());
-								$("#ov8").val($(this).children("整壓計量站").text().trim());
-								$("#ov9").val($(this).children("低壓排放塔").text().trim());
-								$("#ov10").val($(this).children("高壓排放塔").text().trim());
-								$("#ov11").val($(this).children("NG2摻配站").text().trim());
-							});
-						}
+                                var arySupplyGas = $(this).children("供應天然氣").text().trim().split(',');
+                                $.each(arySupplyGas, function (key, value) {
+                                    $("input[name='supplygas'][value='" + value + "']").prop("checked", true);
+                                });
+                                $("#ov1").val($(this).children("儲槽").text().trim());
+                                $("#ov2").val($(this).children("注氣站").text().trim());
+                                $("#ov3").val($(this).children("加壓站").text().trim());
+                                $("#ov4").val($(this).children("配氣站").text().trim());
+                                $("#ov5").val($(this).children("隔離站").text().trim());
+                                $("#ov6").val($(this).children("開關站").text().trim());
+                                $("#ov7").val($(this).children("清管站").text().trim());
+                                $("#ov8").val($(this).children("整壓計量站").text().trim());
+                                $("#ov9").val($(this).children("低壓排放塔").text().trim());
+                                $("#ov10").val($(this).children("高壓排放塔").text().trim());
+                                $("#ov11").val($(this).children("NG2摻配站").text().trim());
+                                $("#txt1").val($(this).children("年度查核姓名").text().trim());
+                                $("#txt2").val($(this).children("年度查核職稱").text().trim());
+                                $("#txt3").val($(this).children("年度查核分機").text().trim());
+                                $("#txt4").val($(this).children("年度查核email").text().trim());
+                            });
+                        }
+                        else {
+                            $("#cname").val('');
+                            $("#ctel").val('');
+                            $("#caddr").val('');
+                            $("#mainline").val('');
+                            $("#cycleline").val('');
+                            $("#specialline").val('');
+                            $("#finishline").val('');
+                            $("#sealine").val('');
+                            $("#LNGline").val('');
+                            $("#BOGline").val('');
+                            $("#NGline").val('');
+                            $("#supplycity").val('');
+                            $("input[name='supplygas']").prop("checked", false);
+                            $("#ov1").val('');
+                            $("#ov2").val('');
+                            $("#ov3").val('');
+                            $("#ov4").val('');
+                            $("#ov5").val('');
+                            $("#ov6").val('');
+                            $("#ov7").val('');
+                            $("#ov8").val('');
+                            $("#ov9").val('');
+                            $("#ov10").val('');
+                            $("#ov11").val('');
+                            $("#txt1").val('');
+                            $("#txt2").val('');
+                            $("#txt3").val('');
+                            $("#txt4").val('');
+                        }
 
 						$("#tablist tbody").empty();
 						var tabstr = '';
@@ -335,32 +388,47 @@
                                 }
                                 else {
                                     if ($(this).children("配氣站").text().trim() != '')
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("配氣站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
-                                        + $(this).children("配氣站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        if ($(this).children("年度").text().trim() == getTaiwanDate())
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("配氣站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                                + $(this).children("配氣站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        else
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("配氣站").text().trim() + '</td>';
                                     else
                                         tabstr += '<td nowrap="nowrap"></td>';
 
                                     if ($(this).children("開關站").text().trim() != '')
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("開關站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
-                                        + $(this).children("開關站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        if ($(this).children("年度").text().trim() == getTaiwanDate())
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("開關站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                                + $(this).children("開關站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        else
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("開關站").text().trim() + '</td>';                                    
                                     else
                                         tabstr += '<td nowrap="nowrap"></td>';
 
                                     if ($(this).children("隔離站").text().trim() != '')
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("隔離站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
-                                        + $(this).children("隔離站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        if ($(this).children("年度").text().trim() == getTaiwanDate())
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("隔離站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                                + $(this).children("隔離站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        else
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("隔離站").text().trim() + '</td>';                                    
                                     else
                                         tabstr += '<td nowrap="nowrap"></td>';
 
                                     if ($(this).children("計量站").text().trim() != '')
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("計量站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
-                                        + $(this).children("計量站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        if ($(this).children("年度").text().trim() == getTaiwanDate())
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("計量站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                                + $(this).children("計量站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        else
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("計量站").text().trim() + '</td>';                                    
                                     else
                                         tabstr += '<td nowrap="nowrap"></td>';
 
                                     if ($(this).children("清管站").text().trim() != '')
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("清管站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
-                                        + $(this).children("清管站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        if ($(this).children("年度").text().trim() == getTaiwanDate())
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("清管站").text().trim() + ' <a name="delbtn" href="javascript:void(0);" aid="'
+                                                + $(this).children("清管站guid").text().trim() + '" style="float:right">刪除</a>' + '</td>';
+                                        else
+                                            tabstr += '<td nowrap="nowrap">' + $(this).children("清管站").text().trim() + '</td>';                                    
                                     else
                                         tabstr += '<td nowrap="nowrap"></td>';
                                 }
@@ -373,19 +441,26 @@
                         $("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
-                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                        if ($("#sellist").val() != getTaiwanDate()) {
                             $("#editbtn").hide();
                             $("#editbtn2").hide();
                             $("#newbtn").hide();
                         }
                         else {
-                            $("#editbtn").show();
-                            $("#editbtn2").show();
-                            $("#newbtn").show();
-                        }
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#editbtn").hide();
+                                $("#editbtn2").hide();
+                                $("#newbtn").hide();
+                            }
+                            else {
+                                $("#editbtn").show();
+                                $("#editbtn2").show();
+                                $("#newbtn").show();
+                            }
 
-                        if ($("#sp_1").text() == '0' && $("#sp_2").text() == '0' && $("#sp_3").text() == '0' && $("#sp_4").text() == '0' && $("#sp_5").text() == '0')
-                            $("#editbtn2").hide();
+                            if ($("#sp_1").text() == '0' && $("#sp_2").text() == '0' && $("#sp_3").text() == '0' && $("#sp_4").text() == '0' && $("#sp_5").text() == '0')
+                                $("#editbtn2").hide();
+                        }                        
                     }
 
                     getConfirmedStatus();
@@ -426,6 +501,52 @@
                     }
                 }
             });
+        }
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasInfo.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item3").length > 0) {
+                            $(data).find("data_item3").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
 
         function doOpenMagPopup() {
@@ -478,6 +599,10 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
                                 <div id="fileall" class="right">
                                 <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                 <a id="backbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
@@ -510,6 +635,32 @@
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">電話</div>
                                                     <div class="OchiCell width100"><input type="text" id="ctel" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                            </div><!-- OchiRow -->
+
+                                            </br>
+                                            <div class="OchiRow">
+                                                <div class="margin5TB font-size4" style="text-align:center">本年度查核聯絡窗口</div>
+                                            </div><!-- OchiRow -->
+
+                                            <div class="OchiRow">
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">姓名</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt1" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">職稱</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                            </div><!-- OchiRow -->
+                                            <div class="OchiRow">
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">分機</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100" disabled></div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 
@@ -659,7 +810,8 @@
                                 
 								<div class="margin10T">
                                     <div class="collapseTitle font-blackA font-size4">D.天然氣進口事業轄區場站名稱</div>
-                                    <div class="twocol">
+                                    <div>
+                                        <div class="twocol">
                                         <div class="left">
                                             
                                         </div>
@@ -669,7 +821,7 @@
                                             <a id="cancelbtn" href="javascript:void(0);" title="取消" class="genbtn" style="display:none">取消</a>
                                         </div>
                                     </div>
-                                        <div class="stripeMeG margin5T tbover">
+                                    <div class="stripeMeG margin5T tbover">
                                             <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
 												<thead>
 													<tr>
@@ -684,6 +836,7 @@
 												<tbody></tbody>
                                             </table>
                                         </div><!-- stripeMe -->
+                                    </div>                                    
                                 </div>
                             </div><!-- collapse1 -->
                         </div><!-- col -->

@@ -41,13 +41,14 @@ public partial class Handler_AddGasInfoState : System.Web.UI.Page
             #endregion
 
             string cid = (string.IsNullOrEmpty(Request["cid"])) ? "" : Request["cid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string txt1 = (string.IsNullOrEmpty(Request["txt1"])) ? "" : Request["txt1"].ToString().Trim();
             string txt2 = (string.IsNullOrEmpty(Request["txt2"])) ? "" : Request["txt2"].ToString().Trim();
             string sn = string.Empty;
             string xmlstr = string.Empty;
 
             db._業者guid = cid;
-            db._年度 = "110";
+            db._年度 = year;
             db._場站類別 = txt1;
             db._中心名稱 = Server.UrlDecode(txt2);
 

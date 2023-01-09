@@ -43,6 +43,10 @@ public class GasInfo_DB
 	string 低壓排放塔 = string.Empty;
 	string 高壓排放塔 = string.Empty;
 	string NG2摻配站 = string.Empty;
+	string 年度查核姓名 = string.Empty;
+	string 年度查核職稱 = string.Empty;
+	string 年度查核分機 = string.Empty;
+	string 年度查核email = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -83,6 +87,10 @@ public class GasInfo_DB
 	public string _低壓排放塔 { set { 低壓排放塔 = value; } }
 	public string _高壓排放塔 { set { 高壓排放塔 = value; } }
 	public string _NG2摻配站 { set { NG2摻配站 = value; } }
+	public string _年度查核姓名 { set { 年度查核姓名 = value; } }
+	public string _年度查核職稱 { set { 年度查核職稱 = value; } }
+	public string _年度查核分機 { set { 年度查核分機 = value; } }
+	public string _年度查核email { set { 年度查核email = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -103,12 +111,16 @@ public class GasInfo_DB
 
 		sb.Append(@"select * from 天然氣_事業單位基本資料表 where 資料狀態='A' and 業者guid=@業者guid ");
 
+		if(!string.IsNullOrEmpty(年度))
+			sb.Append(@" and 年度=@年度 ");
+
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
 		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
 		DataTable ds = new DataTable();
 
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
 
 		oda.Fill(ds);
 		return ds;
@@ -231,7 +243,125 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A'
         return ds;
     }
 
-    public void InsertData(SqlConnection oConn, SqlTransaction oTran)
+	public void InsertPipeData(SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"insert into 天然氣_事業單位基本資料表(  
+業者guid,
+年度,
+事業名稱,
+電話,
+地址,
+輸氣幹線,
+輸氣環線,
+配氣專管,
+場內成品線,
+海底管線,
+LNG管線,
+BOG管線,
+NG管線,
+供氣對象縣市,
+供應天然氣,
+儲槽,
+注氣站,
+加壓站,
+配氣站,
+隔離站,
+開關站,
+清管站,
+整壓計量站,
+低壓排放塔,
+高壓排放塔,
+NG2摻配站,
+年度查核姓名,
+年度查核職稱,
+年度查核分機,
+年度查核email,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@業者guid,
+@年度,
+@事業名稱,
+@電話,
+@地址,
+@輸氣幹線,
+@輸氣環線,
+@配氣專管,
+@場內成品線,
+@海底管線,
+@LNG管線,
+@BOG管線,
+@NG管線,
+@供氣對象縣市,
+@供應天然氣,
+@儲槽,
+@注氣站,
+@加壓站,
+@配氣站,
+@隔離站,
+@開關站,
+@清管站,
+@整壓計量站,
+@低壓排放塔,
+@高壓排放塔,
+@NG2摻配站,
+@年度查核姓名,
+@年度查核職稱,
+@年度查核分機,
+@年度查核email,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態 
+) ");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
+		oCmd.Parameters.AddWithValue("@事業名稱", 事業名稱);
+		oCmd.Parameters.AddWithValue("@電話", 電話);
+		oCmd.Parameters.AddWithValue("@地址", 地址);
+		oCmd.Parameters.AddWithValue("@輸氣幹線", 輸氣幹線);
+		oCmd.Parameters.AddWithValue("@輸氣環線", 輸氣環線);
+		oCmd.Parameters.AddWithValue("@配氣專管", 配氣專管);
+		oCmd.Parameters.AddWithValue("@場內成品線", 場內成品線);
+		oCmd.Parameters.AddWithValue("@海底管線", 海底管線);
+		oCmd.Parameters.AddWithValue("@LNG管線", LNG管線);
+		oCmd.Parameters.AddWithValue("@BOG管線", BOG管線);
+		oCmd.Parameters.AddWithValue("@NG管線", NG管線);
+		oCmd.Parameters.AddWithValue("@供氣對象縣市", 供氣對象縣市);
+		oCmd.Parameters.AddWithValue("@供應天然氣", 供應天然氣);
+		oCmd.Parameters.AddWithValue("@儲槽", 儲槽);
+		oCmd.Parameters.AddWithValue("@注氣站", 注氣站);
+		oCmd.Parameters.AddWithValue("@加壓站", 加壓站);
+		oCmd.Parameters.AddWithValue("@配氣站", 配氣站);
+		oCmd.Parameters.AddWithValue("@隔離站", 隔離站);
+		oCmd.Parameters.AddWithValue("@開關站", 開關站);
+		oCmd.Parameters.AddWithValue("@清管站", 清管站);
+		oCmd.Parameters.AddWithValue("@整壓計量站", 整壓計量站);
+		oCmd.Parameters.AddWithValue("@低壓排放塔", 低壓排放塔);
+		oCmd.Parameters.AddWithValue("@高壓排放塔", 高壓排放塔);
+		oCmd.Parameters.AddWithValue("@NG2摻配站", NG2摻配站);
+		oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
+		oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
+		oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
+		oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
+		oCmd.Parameters.AddWithValue("@修改者", 修改者);
+		oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+		oCmd.Parameters.AddWithValue("@建立者", 建立者);
+		oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+		oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
+
+	public void InsertData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"insert into 天然氣_事業單位基本資料表_進口事業轄區場站名稱(  
@@ -277,7 +407,13 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A'
     public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.Append(@"update 天然氣_事業單位基本資料表 set  
+
+		sb.Append(@"
+
+
+
+
+update 天然氣_事業單位基本資料表 set  
 事業名稱=@事業名稱,
 電話=@電話,
 地址=@地址,
@@ -302,14 +438,19 @@ NG管線=@NG管線,
 低壓排放塔=@低壓排放塔,
 高壓排放塔=@高壓排放塔,
 NG2摻配站=@NG2摻配站,
+年度查核姓名=@年度查核姓名,
+年度查核職稱=@年度查核職稱,
+年度查核分機=@年度查核分機,
+年度查核email=@年度查核email,
 修改者=@修改者, 
 修改日期=@修改日期 
-where 業者guid=@業者guid and 資料狀態=@資料狀態 
+where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
  ");
 		SqlCommand oCmd = oConn.CreateCommand();
 		oCmd.CommandText = sb.ToString();
 
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
 		oCmd.Parameters.AddWithValue("@事業名稱", 事業名稱);
 		oCmd.Parameters.AddWithValue("@電話", 電話);
         oCmd.Parameters.AddWithValue("@地址", 地址);
@@ -334,6 +475,10 @@ where 業者guid=@業者guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@低壓排放塔", 低壓排放塔);
         oCmd.Parameters.AddWithValue("@高壓排放塔", 高壓排放塔);
 		oCmd.Parameters.AddWithValue("@NG2摻配站", NG2摻配站);
+		oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
+		oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
+		oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
+		oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
 		oCmd.Parameters.AddWithValue("@修改者", 修改者);
 		oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
 		oCmd.Parameters.AddWithValue("@資料狀態", 'A');
@@ -384,4 +529,42 @@ where guid=@guid ";
         oCmd.ExecuteNonQuery();
         oCmd.Connection.Close();
     }
+
+	public DataTable GetYearList()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"  
+declare @yearCount int
+
+select DISTINCT 年度 into #tmp from 天然氣_事業單位基本資料表
+where 業者guid=@業者guid and 資料狀態='A' 
+
+select @yearCount=COUNT(*) from #tmp where 年度=@年度 
+
+if(@yearCount > 0)
+	begin
+		select * from #tmp order by 年度 asc
+	end
+else
+	begin
+		insert into #tmp(年度)
+		values(@年度)
+
+		select * from #tmp order by 年度 asc
+	end ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
+
+		oda.Fill(ds);
+		return ds;
+	}
 }
