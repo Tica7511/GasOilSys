@@ -16,17 +16,23 @@ public partial class Handler_GetOilInfo : System.Web.UI.Page
 		///功    能: 查詢天然氣業者基本資料
 		///說    明:
 		/// * Request["cpid"]: 業者Guid 
+		/// * Request["year"]: 年度 
 		///-----------------------------------------------------
 		XmlDocument xDoc = new XmlDocument();
         try
         {
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
             
             db._guid = cpid;
-            DataTable dt = db.GetInfoDetail();
+            db._年度 = year;
+            DataTable dt = db.GetInfoDetail2();
+            DataTable ydt = db.GetYearList();
             string xmlstr = string.Empty;
+            string xmlstr2 = string.Empty;
             xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+            xmlstr2 = DataTableToXml.ConvertDatatableToXML(ydt, "dataList2", "data_item2");
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + "</root>";
             xDoc.LoadXml(xmlstr);
         }
         catch (Exception ex)

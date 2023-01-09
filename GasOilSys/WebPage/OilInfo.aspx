@@ -17,7 +17,10 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
-            getData();
+            getYearList();
+            getCompanyNameTitile();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
 
             if (($("#Competence").val() != '02') && ($("#Competence").val() != '03'))
                 $("#editbtn").hide();
@@ -25,6 +28,11 @@
                 $("#editbtn").show();
 
             getConfirmedStatus();
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
 
             //編輯按鈕
             $(document).on("click", "#editbtn", function () {
@@ -68,6 +76,7 @@
 			    	url: "../Handler/AddOilInfo.aspx",
 			    	data: {
                         cid: $.getQueryString("cp"),
+                        year: $("#sellist option:selected").val(),
                         ctel: $("#ctel").val(),
                         caddr: $("#caddr").val(),
                         storagetank: $("#storagetank").val(),
@@ -92,13 +101,42 @@
             });
         }); // end js
 
-        function getData() {
+        function getCompanyNameTitile() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                $("#cname").val($(this).children("cpname").text().trim());
+                            });
+                        }
+                    }
+                }
+            });
+        }        
+
+        function getData(year) {
             $.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetOilInfo.aspx",
 				data: {
-                    cpid: $.getQueryString("cp")
+                    cpid: $.getQueryString("cp"),
+                    year: year
 				},
 				error: function (xhr) {
 					alert("Error: " + xhr.status);
@@ -109,20 +147,74 @@
 						alert($(data).find("Error").attr("Message"));
 					}
 					else {
-						if ($(data).find("data_item").length > 0) {
+                        if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function () {
-                                $("#cname").val($(this).children("事業名稱").text().trim());
-								$("#ctel").val($(this).children("電話").text().trim());
-								$("#caddr").val($(this).children("地址").text().trim());
-								$("#storagetank").val($(this).children("儲槽數量").text().trim());
-								$("#pipeline").val($(this).children("管線數量").text().trim());
-								//$("#report").val($(this).children("維運計畫書及成果報告").text().trim());
-								$("#checkdate").val($(this).children("曾執行過查核日期").text().trim());
-							});
-						}
+                                $("#ctel").val($(this).children("電話").text().trim());
+                                $("#caddr").val($(this).children("地址").text().trim());
+                                $("#storagetank").val($(this).children("儲槽數量").text().trim());
+                                $("#pipeline").val($(this).children("管線數量").text().trim());
+                                //$("#report").val($(this).children("維運計畫書及成果報告").text().trim());
+                                $("#checkdate").val($(this).children("曾執行過查核日期").text().trim());
+                            });
+                        }
+                        else {
+                            $("#ctel").val($(this).children("").text().trim());
+                            $("#caddr").val($(this).children("").text().trim());
+                            $("#storagetank").val($(this).children("").text().trim());
+                            $("#pipeline").val($(this).children("").text().trim());
+                            $("#checkdate").val($(this).children("").text().trim());
+                        }
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#editbtn").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#editbtn").hide();
+                            }
+                            else {
+                                $("#editbtn").show();
+                            }
+                        }
 					}
 				}
 			});
+        }
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilInfo.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
         }
 
         //確認資料是否完成
@@ -158,6 +250,16 @@
                     }
                 }
             });
+        }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
         }
     </script>
 </head>
@@ -195,10 +297,14 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
+                                <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>
                                 <div id="fileall" class="right">
-                                <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
-                                <a id="backbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
-                                <a id="subbtn" href="javascript:void(0);" class="genbtn" style="display:none">儲存</a>
+                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
+                                    <a id="backbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
+                                    <a id="subbtn" href="javascript:void(0);" class="genbtn" style="display:none">儲存</a>
                                 </div>
                             </div><br />
                             <div class="OchiTrasTable width100 TitleLength09 font-size3">

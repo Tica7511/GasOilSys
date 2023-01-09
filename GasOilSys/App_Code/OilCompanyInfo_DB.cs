@@ -18,6 +18,7 @@ public class OilCompanyInfo_DB
 	string id = string.Empty;
 	string guid = string.Empty;
 	string 父層guid = string.Empty;
+	string 年度 = string.Empty;
 	int 排序編號;
 	string 公司名稱 = string.Empty;
 	string 處 = string.Empty;
@@ -43,6 +44,7 @@ public class OilCompanyInfo_DB
 	public string _id { set { id = value; } }
 	public string _guid { set { guid = value; } }
 	public string _父層guid { set { 父層guid = value; } }
+	public string _年度 { set { 年度 = value; } }
 	public int _排序編號 { set { 排序編號 = value; } }
 	public string _公司名稱 { set { 公司名稱 = value; } }
 	public string _處 { set { 處 = value; } }
@@ -112,6 +114,66 @@ public class OilCompanyInfo_DB
         DataTable ds = new DataTable();
 
         oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetInfoDetail2()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * 
+        from 石油_事業單位基本資料表  
+		where 資料狀態='A' and 年度=@年度 and 業者guid=@業者guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetYearList()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"  
+declare @yearCount int
+
+select DISTINCT 年度 into #tmp from 石油_事業單位基本資料表
+where 業者guid=@業者guid and 資料狀態='A' 
+
+select @yearCount=COUNT(*) from #tmp where 年度=@年度 
+
+if(@yearCount > 0)
+	begin
+		select * from #tmp order by 年度 asc
+	end
+else
+	begin
+		insert into #tmp(年度)
+		values(@年度)
+
+		select * from #tmp order by 年度 asc
+	end ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
 
         oda.Fill(ds);
         return ds;
@@ -270,11 +332,64 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         return ds;
     }
 
+    public void InsertCompanyInfo(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"
+        insert into 石油_事業單位基本資料表(
+業者guid, 
+年度, 
+電話, 
+地址, 
+儲槽數量, 
+管線數量, 
+維運計畫書及成果報告,
+曾執行過查核日期,
+建立者,
+建立日期,
+修改者,
+修改日期,
+資料狀態 ) values (
+@業者guid, 
+@年度, 
+@電話, 
+@地址, 
+@儲槽數量, 
+@管線數量, 
+@維運計畫書及成果報告,
+@曾執行過查核日期,
+@建立者,
+@建立日期,
+@修改者,
+@修改日期,
+@資料狀態 ) 
+");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@業者guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@電話", 電話);
+        oCmd.Parameters.AddWithValue("@地址", 地址);
+        oCmd.Parameters.AddWithValue("@儲槽數量", 儲槽數量);
+        oCmd.Parameters.AddWithValue("@管線數量", 管線數量);
+        oCmd.Parameters.AddWithValue("@維運計畫書及成果報告", 維運計畫書及成果報告);
+        oCmd.Parameters.AddWithValue("@曾執行過查核日期", 曾執行過查核日期);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
     public void UpdateCompanyInfo(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
-        update 石油_業者基本資料 set
+        update 石油_事業單位基本資料表 set
         電話=@電話, 
         地址=@地址, 
         儲槽數量=@儲槽數量, 
@@ -283,12 +398,13 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         曾執行過查核日期=@曾執行過查核日期,
         修改者=@修改者,
         修改日期=@修改日期
-        where guid=@guid and 資料狀態=@資料狀態 
+        where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
 ");
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
-        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@電話", 電話);
         oCmd.Parameters.AddWithValue("@地址", 地址);
         oCmd.Parameters.AddWithValue("@儲槽數量", 儲槽數量);

@@ -20,6 +20,7 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
 		///功    能: 修改 石油業者基本資料
 		///說    明:
 		/// * Request["cid"]: guid 
+		/// * Request["year"]: 年度 
 		/// * Request["ctel"]: 電話 
 		/// * Request["caddr"]: 地址 
 		/// * Request["storagetank"]: 儲槽數量 
@@ -47,6 +48,7 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
             #endregion
 
             string cid = (string.IsNullOrEmpty(Request["cid"])) ? "" : Request["cid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string ctel = (string.IsNullOrEmpty(Request["ctel"])) ? "" : Request["ctel"].ToString().Trim();
             string caddr = (string.IsNullOrEmpty(Request["caddr"])) ? "" : Request["caddr"].ToString().Trim();
             string storagetank = (string.IsNullOrEmpty(Request["storagetank"])) ? "" : Request["storagetank"].ToString().Trim();
@@ -55,6 +57,7 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
             string checkdate = (string.IsNullOrEmpty(Request["checkdate"])) ? "" : Request["checkdate"].ToString().Trim();
 
             db._guid = cid;
+            db._年度 = year;
             db._電話 = ctel;
             db._地址 = caddr;
             db._儲槽數量 = storagetank;
@@ -63,7 +66,19 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
             db._曾執行過查核日期 = checkdate;
             db._修改者 = LogInfo.mGuid;
 
-            db.UpdateCompanyInfo(oConn, myTrans);
+            DataTable dt = db.GetInfoDetail2();
+
+            if (dt.Rows.Count > 0)
+            {
+                db.UpdateCompanyInfo(oConn, myTrans);
+            }
+            else
+            {
+                db._建立者 = LogInfo.mGuid;
+                db._建立日期 = DateTime.Now;
+
+                db.InsertCompanyInfo(oConn, myTrans);
+            }
 
             myTrans.Commit();
 
