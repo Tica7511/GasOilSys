@@ -27,6 +27,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
         GasTubeCheck_DB db8 = new GasTubeCheck_DB();
         GasControl_DB db9 = new GasControl_DB();
         GasAccidentLearning_DB db10 = new GasAccidentLearning_DB();
+        GasTubeCheckPlanAndResult_DB db11 = new GasTubeCheckPlanAndResult_DB();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -130,6 +131,32 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_管線基本資料.xls";
+
+                    #endregion
+                    break;
+                case "tubecheckplanandresult":
+                    #region 用戶管線定期檢查計畫及檢查結果
+
+                    db11._業者guid = cpid;
+                    db11._年度 = year;
+                    dt = db11.GetList2().Tables[1];
+
+                    hssfworkbook.SetSheetName(0, "用戶管線定期檢查計畫及檢查結果");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("用戶名稱");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("檢查期限 01:符合 02:不符合");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("檢查結果 01:符合 02:不符合 03:拒檢");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["用戶名稱"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["檢查期限是否符合"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["檢查結果是否符合"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_用戶管線定期檢查計畫及檢查結果.xls";
 
                     #endregion
                     break;

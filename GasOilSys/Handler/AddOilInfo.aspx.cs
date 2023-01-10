@@ -55,15 +55,23 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
             string pipeline = (string.IsNullOrEmpty(Request["pipeline"])) ? "" : Request["pipeline"].ToString().Trim();
             string report = (string.IsNullOrEmpty(Request["report"])) ? "" : Request["report"].ToString().Trim();
             string checkdate = (string.IsNullOrEmpty(Request["checkdate"])) ? "" : Request["checkdate"].ToString().Trim();
+            string txt1 = (string.IsNullOrEmpty(Request["txt1"])) ? "" : Request["txt1"].ToString().Trim();
+            string txt2 = (string.IsNullOrEmpty(Request["txt2"])) ? "" : Request["txt2"].ToString().Trim();
+            string txt3 = (string.IsNullOrEmpty(Request["txt3"])) ? "" : Request["txt3"].ToString().Trim();
+            string txt4 = (string.IsNullOrEmpty(Request["txt4"])) ? "" : Request["txt4"].ToString().Trim();
 
             db._guid = cid;
             db._年度 = year;
-            db._電話 = ctel;
-            db._地址 = caddr;
-            db._儲槽數量 = storagetank;
-            db._管線數量 = pipeline;
-            db._維運計畫書及成果報告 = report;
-            db._曾執行過查核日期 = checkdate;
+            db._電話 = Server.UrlDecode(ctel);
+            db._地址 = Server.UrlDecode(caddr);
+            db._儲槽數量 = Server.UrlDecode(storagetank);
+            db._管線數量 = Server.UrlDecode(pipeline);
+            db._維運計畫書及成果報告 = Server.UrlDecode(report);
+            db._曾執行過查核日期 = Server.UrlDecode(checkdate);
+            db._年度查核姓名 = Server.UrlDecode(txt1);
+            db._年度查核職稱 = Server.UrlDecode(txt2);
+            db._年度查核分機 = Server.UrlDecode(txt3);
+            db._年度查核email = Server.UrlDecode(txt4);
             db._修改者 = LogInfo.mGuid;
 
             DataTable dt = db.GetInfoDetail2();

@@ -33,6 +33,10 @@ public class OilCompanyInfo_DB
 	string 管線數量 = string.Empty;
 	string 維運計畫書及成果報告 = string.Empty;
 	string 曾執行過查核日期 = string.Empty;
+	string 年度查核姓名 = string.Empty;
+	string 年度查核職稱 = string.Empty;
+	string 年度查核分機 = string.Empty;
+	string 年度查核email = string.Empty;
 	string 資料是否確認 = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
@@ -59,6 +63,10 @@ public class OilCompanyInfo_DB
 	public string _管線數量 { set { 管線數量 = value; } }
 	public string _維運計畫書及成果報告 { set { 維運計畫書及成果報告 = value; } }
 	public string _曾執行過查核日期 { set { 曾執行過查核日期 = value; } }
+	public string _年度查核姓名 { set { 年度查核姓名 = value; } }
+	public string _年度查核職稱 { set { 年度查核職稱 = value; } }
+	public string _年度查核分機 { set { 年度查核分機 = value; } }
+	public string _年度查核email { set { 年度查核email = value; } }
 	public string _資料是否確認 { set { 資料是否確認 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
@@ -345,6 +353,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 管線數量, 
 維運計畫書及成果報告,
 曾執行過查核日期,
+年度查核姓名,
+年度查核職稱,
+年度查核分機,
+年度查核email,
 建立者,
 建立日期,
 修改者,
@@ -358,6 +370,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 @管線數量, 
 @維運計畫書及成果報告,
 @曾執行過查核日期,
+@年度查核姓名,
+@年度查核職稱,
+@年度查核分機,
+@年度查核email,
 @建立者,
 @建立日期,
 @修改者,
@@ -375,6 +391,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@管線數量", 管線數量);
         oCmd.Parameters.AddWithValue("@維運計畫書及成果報告", 維運計畫書及成果報告);
         oCmd.Parameters.AddWithValue("@曾執行過查核日期", 曾執行過查核日期);
+        oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
+        oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
+        oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
+        oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
@@ -396,8 +416,12 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         管線數量=@管線數量,  
         維運計畫書及成果報告=@維運計畫書及成果報告, 
         曾執行過查核日期=@曾執行過查核日期,
-        修改者=@修改者,
-        修改日期=@修改日期
+        年度查核姓名=@年度查核姓名,
+        年度查核職稱=@年度查核職稱,
+        年度查核分機=@年度查核分機,
+        年度查核email=@年度查核email,
+        修改者 =@修改者,
+        修改日期=@修改日期 
         where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
 ");
         SqlCommand oCmd = oConn.CreateCommand();
@@ -411,6 +435,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@管線數量", 管線數量);
         oCmd.Parameters.AddWithValue("@維運計畫書及成果報告", 維運計畫書及成果報告);
         oCmd.Parameters.AddWithValue("@曾執行過查核日期", 曾執行過查核日期);
+        oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
+        oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
+        oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
+        oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", "A");

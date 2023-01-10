@@ -36,16 +36,8 @@
 
             //編輯按鈕
             $(document).on("click", "#editbtn", function () {
-                $("#editbtn").hide();
-                $("#backbtn").show();
-                $("#subbtn").show();
-                
-                $("#ctel").attr('disabled', false);
-                $("#caddr").attr('disabled', false);
-                $("#storagetank").attr('disabled', false);
-                $("#pipeline").attr('disabled', false);
-                //$("#report").attr('disabled', false);
-                $("#checkdate").attr('disabled', false);
+                $("#sellist").attr("disabled", true);
+                btnDisable(false);
             });
 
             //返回按鈕
@@ -53,18 +45,9 @@
                 var str = confirm('尚未儲存的部分將不會更改，確定返回嗎?');
 
                 if (str) {
-                    $("#editbtn").show();
-                    $("#backbtn").hide();
-                    $("#subbtn").hide();
-                    
-                    $("#ctel").attr('disabled', true);
-                    $("#caddr").attr('disabled', true);
-                    $("#storagetank").attr('disabled', true);
-                    $("#pipeline").attr('disabled', true);
-                    //$("#report").attr('disabled', true);
-                    $("#checkdate").attr('disabled', true);
-
-                    getData();
+                    btnDisable(true);
+                    $("#sellist").attr("disabled", false);
+                    getData($("#sellist option:selected").val());
                 }
             });
 
@@ -77,12 +60,16 @@
 			    	data: {
                         cid: $.getQueryString("cp"),
                         year: $("#sellist option:selected").val(),
-                        ctel: $("#ctel").val(),
-                        caddr: $("#caddr").val(),
-                        storagetank: $("#storagetank").val(),
-                        pipeline: $("#pipeline").val(),
+                        ctel: encodeURIComponent($("#ctel").val()),
+                        caddr: encodeURIComponent($("#caddr").val()),
+                        storagetank: encodeURIComponent($("#storagetank").val()),
+                        pipeline: encodeURIComponent($("#pipeline").val()),
                         //report: $("#report").val(),
-                        checkdate: $("#checkdate").val(),
+                        checkdate: encodeURIComponent($("#checkdate").val()),
+                        txt1: encodeURIComponent($("#txt1").val()),
+                        txt2: encodeURIComponent($("#txt2").val()),
+                        txt3: encodeURIComponent($("#txt3").val()),
+                            txt4: encodeURIComponent($("#txt4").val())
 			    	},
 			    	error: function (xhr) {
 			    		alert("Error: " + xhr.status);
@@ -100,6 +87,30 @@
 			    });
             });
         }); // end js
+
+        function btnDisable(status) {
+            if (status == true) {
+                $("#editbtn").show();
+                $("#backbtn").hide();
+                $("#subbtn").hide();
+            }
+            else {
+                $("#editbtn").hide();
+                $("#backbtn").show();
+                $("#subbtn").show();
+            }            
+
+            $("#ctel").attr('disabled', status);
+            $("#caddr").attr('disabled', status);
+            $("#storagetank").attr('disabled', status);
+            $("#pipeline").attr('disabled', status);
+            //$("#report").attr('disabled', false);
+            $("#checkdate").attr('disabled', status);
+            $("#txt1").attr('disabled', status);
+            $("#txt2").attr('disabled', status);
+            $("#txt3").attr('disabled', status);
+            $("#txt4").attr('disabled', status);
+        }
 
         function getCompanyNameTitile() {
             $.ajax({
@@ -155,6 +166,10 @@
                                 $("#pipeline").val($(this).children("管線數量").text().trim());
                                 //$("#report").val($(this).children("維運計畫書及成果報告").text().trim());
                                 $("#checkdate").val($(this).children("曾執行過查核日期").text().trim());
+                                $("#txt1").val($(this).children("年度查核姓名").text().trim());
+                                $("#txt2").val($(this).children("年度查核職稱").text().trim());
+                                $("#txt3").val($(this).children("年度查核分機").text().trim());
+                                $("#txt4").val($(this).children("年度查核email").text().trim());
                             });
                         }
                         else {
@@ -163,6 +178,10 @@
                             $("#storagetank").val($(this).children("").text().trim());
                             $("#pipeline").val($(this).children("").text().trim());
                             $("#checkdate").val($(this).children("").text().trim());
+                            $("#txt1").val($(this).children("").text().trim());
+                            $("#txt2").val($(this).children("").text().trim());
+                            $("#txt3").val($(this).children("").text().trim());
+                            $("#txt4").val($(this).children("").text().trim());
                         }
 
                         //確認權限&按鈕顯示或隱藏
@@ -336,6 +355,33 @@
                                         <div class="OchiCell width100"><input type="text" id="checkdate" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
+
+                                </br>
+                                <div class="OchiRow">
+                                    <div class="margin5TB font-size4" style="text-align:center">本年度查核聯絡窗口</div>
+                                </div><!-- OchiRow -->
+
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">姓名</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt1" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">職稱</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">分機</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+
                                 <div class="OchiRow">
                                     <%--<div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">維運計畫書及成果報告</div>

@@ -29,9 +29,12 @@
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
 
+            $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + getTaiwanDate() + "&category=tubecheckplanandresult");
+
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
+                $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&year=" + $("#sellist option:selected").val() + "&category=tubecheckplanandresult");
 			});
 
             //編輯按鈕
