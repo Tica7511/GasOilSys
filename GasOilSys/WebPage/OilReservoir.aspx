@@ -26,6 +26,17 @@
                 getData($("#sellist option:selected").val());
             });
 
+            //勾選 是否曾被環保署公告為土壤及地下水汙染控制/整治場址
+            $(document).on("change", "input[name='checkControl']", function () {
+                if ($("input[name='checkControl']:checked").val() == '01') {
+                    $("input[name='checkLifted']").attr("disabled", false);
+                }
+                if ($("input[name='checkControl']:checked").val() == '02') {
+                    $("input[name='checkLifted']").attr("disabled", true);
+                    $("input[name='checkLifted']").prop("checked", false);
+                }
+            });
+
             //編輯按鈕
             $(document).on("click", "#editbtn", function () {
                 $("#sellist").attr('disabled', true);
@@ -82,7 +93,8 @@
                 var data = new FormData(form);
 
                 data.append("cguid", $.getQueryString("cp"));
-                data.append("checkAreaOther", $("#checkAreaOther").val());
+                data.append("checkAreaOther", encodeURIComponent($("#checkAreaOther").val()));
+                data.append("ReservoirArea", encodeURIComponent($("#ReservoirArea").val()));
 
                 $.ajax({
                     type: "POST",
@@ -146,11 +158,17 @@
         }); // end js
 
         function setDisplayed(status) {
+            $("#ReservoirArea").attr("disabled", status);
             $("input[name='checkArea']").attr("disabled", status);
             if ($("input[name='checkArea'][value='05']").is(":checked"))
                 $("#checkAreaOther").attr("disabled", status);
             else
                 $("#checkAreaOther").attr("disabled", !status);
+            $("input[name='checkControl']").attr("disabled", status);
+            if ($("input[name='checkControl']:checked").val() == '01')
+                $("input[name='checkLifted']").attr("disabled", status);
+            if ($("input[name='checkControl']:checked").val() == '02')
+                $("input[name='checkLifted']").attr("disabled", !status);            
         }
 
         function setNothing() {
@@ -202,6 +220,9 @@
                                     $("input[name='checkArea'][value='" + value + "']").prop("checked", true);
                                 });
                                 $("#checkAreaOther").val($(this).children("庫區特殊區域_其他").text().trim());
+                                $("#ReservoirArea").val($(this).children("庫區面積").text().trim());
+                                $("input[name='checkControl'][value='" + $(this).children("土壤及地下水控制").text().trim() + "']").prop("checked", true);
+                                $("input[name='checkLifted'][value='" + $(this).children("土壤及地下水控制_是否解除").text().trim() + "']").prop("checked", true);
 
                                 $("#nGuid").val($(this).children("guid").text().trim());
 
@@ -215,6 +236,10 @@
                             });
                         }
                         else {
+                            $("input[name='checkArea']").prop("checked", false);
+                            $("#ReservoirArea").val("");
+                            $("input[name='checkControl']").prop("checked", false);
+                            $("input[name='checkLifted']").prop("checked", false);
                             $("#content").append('<div id="notfound" class="BoxBorderSa BoxRadiusB padding5ALL textcenter"><div class="opa6 font-size3">目前無資料</div></div>');
                         }
 
@@ -411,18 +436,30 @@
                                     <input type="checkbox" name="checkArea" value="06" disabled> 以上皆無
                                 </div>
                             </div>
+                            <div class="font-size3 lineheight03">
+                                2. 庫區面積(公頃): <input type="text" id="ReservoirArea" class="inputex" disabled>
+                            </div>
+                            <div class="font-size3 lineheight03">
+                                3. 是否曾被環保署公告為土壤及地下水汙染控制/整治場址？ 
+                                <input type="radio" name="checkControl" value="01" disabled> 是
+                                <input type="radio" name="checkControl" value="02" disabled> 否 
+                                是否已解除?
+                                <input type="radio" name="checkLifted" value="01" disabled> 是
+                                <input type="radio" name="checkLifted" value="02" disabled> 否
+                            </div>
                             <div class="twocol">
                                 <div class="right">
                                     <%--<a id="editbtnContent" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>--%>
                                 </div>
                             </div>
                             <div class="font-size3 lineheight03">
-                                2. 儲槽配置圖<br>
+                                4. 儲槽配置圖<br>
                                 <%--<input type="file" name="fileName" style="display:none" multiple />
                                 <div id="filelist"></div>--%>
                                 <div id="content">
                                     
-                                </div><br />
+                                </div>
+                                <br />
                                 填表說明：<br />
                                 (1) 目前尚未開放上傳，須新增或更新，請將相關檔EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
                             </div>

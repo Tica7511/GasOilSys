@@ -42,12 +42,16 @@ public partial class Handler_AddOilReservoir : System.Web.UI.Page
 
             string cguid = string.IsNullOrEmpty(Request["cguid"]) ? "" : Request["cguid"].ToString().Trim();
             string checkAreaOther = string.IsNullOrEmpty(Request["checkAreaOther"]) ? "" : Request["checkAreaOther"].ToString().Trim();
+            string ReservoirArea = string.IsNullOrEmpty(Request["ReservoirArea"]) ? "" : Request["ReservoirArea"].ToString().Trim();
             string tmpGuid = Guid.NewGuid().ToString("N");
 
             db._guid = tmpGuid;
             db._業者guid = cguid;
             db._庫區特殊區域 = string.IsNullOrEmpty(Request["checkArea"]) ? "" : Request["checkArea"].ToString().Trim();
-            db._庫區特殊區域_其他 = checkAreaOther;
+            db._庫區特殊區域_其他 = Server.UrlDecode(checkAreaOther);
+            db._庫區面積 = Server.UrlDecode(ReservoirArea);
+            db._土壤及地下水控制 = string.IsNullOrEmpty(Request["checkControl"]) ? "" : Request["checkControl"].ToString().Trim();
+            db._土壤及地下水控制_是否解除 = string.IsNullOrEmpty(Request["checkLifted"]) ? "" : Request["checkLifted"].ToString().Trim();
             db._年度 = taiwanYear(DateTime.Now);
             db._建立者 = LogInfo.mGuid;
             db._修改者 = LogInfo.mGuid;

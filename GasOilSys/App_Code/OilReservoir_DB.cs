@@ -21,6 +21,9 @@ public class OilReservoir_DB
     string 年度 = string.Empty;
     string 庫區特殊區域 = string.Empty;
     string 庫區特殊區域_其他 = string.Empty;
+    string 庫區面積 = string.Empty;
+    string 土壤及地下水控制 = string.Empty;
+    string 土壤及地下水控制_是否解除 = string.Empty;
     string 內容 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
@@ -35,6 +38,9 @@ public class OilReservoir_DB
     public string _年度 { set { 年度 = value; } }
     public string _庫區特殊區域 { set { 庫區特殊區域 = value; } }
     public string _庫區特殊區域_其他 { set { 庫區特殊區域_其他 = value; } }
+    public string _庫區面積 { set { 庫區面積 = value; } }
+    public string _土壤及地下水控制 { set { 土壤及地下水控制 = value; } }
+    public string _土壤及地下水控制_是否解除 { set { 土壤及地下水控制_是否解除 = value; } }
     public string _內容 { set { 內容 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
@@ -135,6 +141,9 @@ if(@Ncount > 0)
         update 石油_庫區基本資料 set
         庫區特殊區域=@庫區特殊區域,
         庫區特殊區域_其他=@庫區特殊區域_其他,
+        庫區面積=@庫區面積,
+        土壤及地下水控制=@土壤及地下水控制,
+        土壤及地下水控制_是否解除=@土壤及地下水控制_是否解除,
         修改者=@修改者,
         修改日期=@修改日期 
         where 年度=@年度 and 業者guid=@業者guid 
@@ -147,6 +156,9 @@ else
         業者guid,
         庫區特殊區域,
         庫區特殊區域_其他,
+        庫區面積,
+        土壤及地下水控制,
+        土壤及地下水控制_是否解除,
         建立者,
         修改者,
         資料狀態
@@ -156,6 +168,9 @@ else
         @業者guid,
         @庫區特殊區域,
         @庫區特殊區域_其他,
+        @庫區面積,
+        @土壤及地下水控制,
+        @土壤及地下水控制_是否解除,
         @建立者,
         @修改者,
         @資料狀態 )
@@ -169,6 +184,9 @@ else
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@庫區特殊區域", 庫區特殊區域);
         oCmd.Parameters.AddWithValue("@庫區特殊區域_其他", 庫區特殊區域_其他);
+        oCmd.Parameters.AddWithValue("@庫區面積", 庫區面積);
+        oCmd.Parameters.AddWithValue("@土壤及地下水控制", 土壤及地下水控制);
+        oCmd.Parameters.AddWithValue("@土壤及地下水控制_是否解除", 土壤及地下水控制_是否解除);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
