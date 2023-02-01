@@ -18,7 +18,7 @@ public partial class Admin_memberManage : System.Web.UI.Page
         {
             if (LogInfo.competence != "03")
             {
-                Response.Write("<script>alert('您尚未有此也面之權限!將返回登入頁面'); location='../Handler/SignOut.aspx';</script>");
+                Response.Write("<script>alert('您尚未有此頁面之權限!將返回登入頁面'); location='../Handler/SignOut.aspx';</script>");
             }
 
             // 登入者姓名
