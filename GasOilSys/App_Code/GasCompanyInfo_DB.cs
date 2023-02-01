@@ -55,7 +55,10 @@ public class GasCompanyInfo_DB
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(@"select * from 天然氣_業者基本資料表 c 
+		sb.Append(@"select 
+管線數量=(select count(*) from 天然氣_管線基本資料 where 業者guid=c.guid and 資料狀態='A'),
+儲槽數量=(select count(*) from 天然氣_儲槽設施資料_儲槽基本資料 where 業者guid=c.guid and 資料狀態='A'),
+* from 天然氣_業者基本資料表 c 
 left join 天然氣_委員業者年度對應表 m on c.guid=m.業者guid and m.資料狀態='A' and m.委員guid=@mGuid 
 where c.資料狀態='A' and c.列表是否顯示='Y' ");
 

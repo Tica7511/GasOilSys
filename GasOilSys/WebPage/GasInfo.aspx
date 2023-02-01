@@ -122,6 +122,7 @@
                 data.append("txt3", encodeURIComponent($("#ctel").val()));
                 data.append("txt4", encodeURIComponent($("#mainline").val()));
                 data.append("txt5", encodeURIComponent($("#cycleline").val()));
+                data.append("txt28", encodeURIComponent($("#businessline").val()));
                 data.append("txt6", encodeURIComponent($("#specialline").val()));
                 data.append("txt7", encodeURIComponent($("#finishline").val()));
                 data.append("txt8", encodeURIComponent($("#sealine").val()));
@@ -261,6 +262,7 @@
             $("#caddr").attr("disabled", status);
             $("#mainline").attr("disabled", status);
             $("#cycleline").attr("disabled", status);
+            $("#businessline").attr("disabled", status);
             $("#specialline").attr("disabled", status);
             $("#finishline").attr("disabled", status);
             $("#sealine").attr("disabled", status);
@@ -312,6 +314,7 @@
                                 $("#caddr").val($(this).children("地址").text().trim());
                                 $("#mainline").val($.FormatThousandGroup($(this).children("輸氣幹線").text().trim()));
                                 $("#cycleline").val($.FormatThousandGroup($(this).children("輸氣環線").text().trim()));
+                                $("#businessline").val($.FormatThousandGroup($(this).children("營業線").text().trim()));
                                 $("#specialline").val($.FormatThousandGroup($(this).children("配氣專管").text().trim()));
                                 $("#finishline").val($.FormatThousandGroup($(this).children("場內成品線").text().trim()));
                                 $("#sealine").val($.FormatThousandGroup($(this).children("海底管線").text().trim()));
@@ -347,6 +350,7 @@
                             $("#caddr").val('');
                             $("#mainline").val('');
                             $("#cycleline").val('');
+                            $("#businessline").val('');
                             $("#specialline").val('');
                             $("#finishline").val('');
                             $("#sealine").val('');
@@ -687,31 +691,38 @@
 
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">營業線</div>
+                                                    <div class="OchiCell width100"><input type="text" id="businessline" class="inputex width80" disabled> 公尺</div>
+                                                </div><!-- OchiHalf -->
+                                                <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">配氣專管</div>
                                                     <div class="OchiCell width100"><input type="text" id="specialline" class="inputex width80" disabled> 公尺</div>
                                                 </div><!-- OchiHalf -->
+                                            </div><!-- OchiRow -->
+
+                                            <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">場內成品線</div>
                                                     <div class="OchiCell width100"><input type="text" id="finishline" class="inputex width80" disabled> 公尺</div>
                                                 </div><!-- OchiHalf -->
-                                            </div><!-- OchiRow -->
-
-                                            <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">海底管線</div>
                                                     <div class="OchiCell width100"><input type="text" id="sealine" class="inputex width80" disabled> 公尺</div>
                                                 </div><!-- OchiHalf -->
-                                                <div class="OchiHalf">
-                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">LNG 管線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="LNGline" class="inputex width80" disabled> 公尺</div>
-                                                </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">LNG 管線</div>
+                                                    <div class="OchiCell width100"><input type="text" id="LNGline" class="inputex width80" disabled> 公尺</div>
+                                                </div><!-- OchiHalf -->
+                                                <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">BOG 管線</div>
                                                     <div class="OchiCell width100"><input type="text" id="BOGline" class="inputex width80" disabled> 公尺</div>
                                                 </div><!-- OchiHalf -->
+                                            </div><!-- OchiRow -->
+
+                                            <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">NG 管線</div>
                                                     <div class="OchiCell width100"><input type="text" id="NGline" class="inputex width80" disabled> 公尺</div>

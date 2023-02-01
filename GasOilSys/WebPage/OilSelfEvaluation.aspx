@@ -1107,8 +1107,44 @@
                                         dataStr += '<td>' + $(this).attr("lvName") + '</td>';
                                         dataStr += '<td></td><td></td>';
                                         dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td>';
-                                        dataStr += '<td></td>';
-                                        dataStr += '<td></td>';
+                                        if ($(this).attr("psall") != '') {
+                                            $.ajax({
+                                                type: "POST",
+                                                async: false, //在沒有返回值之前,不會執行下一步動作
+                                                url: "../Handler/GetOilAllSuggestion.aspx",
+                                                data: {
+                                                    cpid: $.getQueryString("cp"),
+                                                    qid: $(this).attr("lvGuid"),
+                                                },
+                                                error: function (xhr) {
+                                                    alert("Error: " + xhr.status);
+                                                    console.log(xhr.responseText);
+                                                },
+                                                success: function (data) {
+                                                    if ($(data).find("Error").length > 0) {
+                                                        alert($(data).find("Error").attr("Message"));
+                                                    }
+                                                    else {
+                                                        var dataStr2 = '';
+                                                        if ($(data).find("data_item").length > 0) {
+                                                            dataStr2 += '<td><span name="spcom_' + $(this).attr("lvGuid") + '">查核建議...</span></td>';
+                                                            dataStr += dataStr2;
+                                                        }
+                                                        else {
+                                                            dataStr += '<td><span name="spcom_' + $(this).attr("lvGuid") + '"></span></td>';
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            dataStr += '<td><span name="spcom_' + $(this).attr("lvGuid") + '"></span></td>';
+                                        }
+                                        dataStr += '<td style="text-align:center;">';
+                                        if ($(this).attr("psall") != '') {
+                                            dataStr += '<input type="button" class="grebtn font-size3" value="查核建議" guid="' + $(this).attr("lvGuid") + '" name="psallbtn" title="查核建議" />';
+                                        }
+                                        dataStr += '</td>';
                                         dataStr += '</tr>'
                                         $("#tablist tbody").append(dataStr);
                                     });

@@ -48,6 +48,7 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
         /// * Request["txt25"]: 年度查核職稱
         /// * Request["txt26"]: 年度查核分機
         /// * Request["txt27"]: 年度查核email
+        /// * Request["txt28"]: 營業線
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -97,6 +98,7 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             string txt25 = (string.IsNullOrEmpty(Request["txt25"])) ? "" : Request["txt25"].ToString().Trim();
             string txt26 = (string.IsNullOrEmpty(Request["txt26"])) ? "" : Request["txt26"].ToString().Trim();
             string txt27 = (string.IsNullOrEmpty(Request["txt27"])) ? "" : Request["txt27"].ToString().Trim();
+            string txt28 = (string.IsNullOrEmpty(Request["txt28"])) ? "" : Request["txt28"].ToString().Trim();
 
             db._業者guid = cid;
             db._年度 = year;
@@ -105,6 +107,7 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             db._電話 = Server.UrlDecode(txt3);
             db._輸氣幹線 = Server.UrlDecode(txt4);
             db._輸氣環線 = Server.UrlDecode(txt5);
+            db._營業線 = Server.UrlDecode(txt28);
             db._配氣專管 = Server.UrlDecode(txt6);
             db._場內成品線 = Server.UrlDecode(txt7);
             db._海底管線 = Server.UrlDecode(txt8);

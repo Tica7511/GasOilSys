@@ -351,7 +351,7 @@
                                         <div class="OchiCell width100"><input type="text" id="pipeline" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">曾執行過查核日期</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">前一次查核日期</div>
                                         <div class="OchiCell width100"><input type="text" id="checkdate" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->

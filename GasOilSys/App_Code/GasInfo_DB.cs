@@ -24,6 +24,7 @@ public class GasInfo_DB
 	string 地址 = string.Empty;
 	string 輸氣幹線 = string.Empty;
 	string 輸氣環線 = string.Empty;
+	string 營業線 = string.Empty;
 	string 配氣專管 = string.Empty;
 	string 場內成品線 = string.Empty;
 	string 海底管線 = string.Empty;
@@ -68,6 +69,7 @@ public class GasInfo_DB
 	public string _地址 { set { 地址 = value; } }
 	public string _輸氣幹線 { set { 輸氣幹線 = value; } }
 	public string _輸氣環線 { set { 輸氣環線 = value; } }
+	public string _營業線 { set { 營業線 = value; } }
 	public string _配氣專管 { set { 配氣專管 = value; } }
 	public string _場內成品線 { set { 場內成品線 = value; } }
 	public string _海底管線 { set { 海底管線 = value; } }
@@ -254,6 +256,7 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A'
 地址,
 輸氣幹線,
 輸氣環線,
+營業線,
 配氣專管,
 場內成品線,
 海底管線,
@@ -289,6 +292,7 @@ NG2摻配站,
 @地址,
 @輸氣幹線,
 @輸氣環線,
+@營業線,
 @配氣專管,
 @場內成品線,
 @海底管線,
@@ -328,6 +332,7 @@ NG2摻配站,
 		oCmd.Parameters.AddWithValue("@地址", 地址);
 		oCmd.Parameters.AddWithValue("@輸氣幹線", 輸氣幹線);
 		oCmd.Parameters.AddWithValue("@輸氣環線", 輸氣環線);
+		oCmd.Parameters.AddWithValue("@營業線", 營業線);
 		oCmd.Parameters.AddWithValue("@配氣專管", 配氣專管);
 		oCmd.Parameters.AddWithValue("@場內成品線", 場內成品線);
 		oCmd.Parameters.AddWithValue("@海底管線", 海底管線);
@@ -419,6 +424,7 @@ update 天然氣_事業單位基本資料表 set
 地址=@地址,
 輸氣幹線=@輸氣幹線,
 輸氣環線=@輸氣環線,
+營業線=@營業線,
 配氣專管=@配氣專管,
 場內成品線=@場內成品線,
 海底管線=@海底管線,
@@ -456,6 +462,7 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@地址", 地址);
 		oCmd.Parameters.AddWithValue("@輸氣幹線", 輸氣幹線);
         oCmd.Parameters.AddWithValue("@輸氣環線", 輸氣環線);
+        oCmd.Parameters.AddWithValue("@營業線", 營業線);
         oCmd.Parameters.AddWithValue("@配氣專管", 配氣專管);
 		oCmd.Parameters.AddWithValue("@場內成品線", 場內成品線);
 		oCmd.Parameters.AddWithValue("@海底管線", 海底管線);
