@@ -33,7 +33,10 @@ public partial class Handler_GasEvaluationReport : System.Web.UI.Page
 
         if (dt.Rows.Count > 0)
         {
-            cpName = dt.Rows[0]["cpname"].ToString().Trim();
+            if (cpid == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+                cpName = dt.Rows[0]["公司名稱"].ToString().Trim();
+            else
+                cpName = dt.Rows[0]["cpname"].ToString().Trim();
         }
         dt = null;
 

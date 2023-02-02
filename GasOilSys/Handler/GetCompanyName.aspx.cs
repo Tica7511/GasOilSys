@@ -48,7 +48,13 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                 dt = odb.GetCpName();
                 if (dt.Rows.Count > 0)
                 {
-                    dt.Columns.Add("competence", typeof(string));
+					for (int i = 0; i < dt.Rows.Count; i++)
+					{
+						if (dt.Rows[i]["guid"].ToString().Trim() == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+							dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
+					}
+
+					dt.Columns.Add("competence", typeof(string));
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }
             }                

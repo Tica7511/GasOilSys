@@ -33,7 +33,10 @@ public partial class Handler_OilEvaluationReport : System.Web.UI.Page
 
         if (dt.Rows.Count > 0)
         {
-            cpName = dt.Rows[0]["cpname"].ToString().Trim();
+            if (cpid == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+                cpName = dt.Rows[0]["公司名稱"].ToString().Trim();
+            else
+                cpName = dt.Rows[0]["cpname"].ToString().Trim();
         }
         dt = null;
 
