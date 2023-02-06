@@ -106,6 +106,7 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("容量").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("內徑").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("內容物").text().trim() + '</td>';
+								tabstr += '<td nowrap="nowrap">' + $(this).children("油品種類").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("形式").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("啟用日期").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("代行檢查_代檢機構1").text().trim() + '</td>';
@@ -314,6 +315,7 @@
                                             <th nowrap rowspan="2">內徑 <br>
                                                 (公尺） </th>
                                             <th nowrap rowspan="2">內容物 </th>
+                                            <th nowrap rowspan="2">油品種類 </th>
                                             <th nowrap rowspan="2">形式 <br>
                                                 1.錐頂 <br>
                                                 2.內浮頂 <br>

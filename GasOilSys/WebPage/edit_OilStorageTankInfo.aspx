@@ -20,6 +20,7 @@
             getDDL('014');
             getDDL('015');
             getDDL('016');
+            getDDL('023');
             getData();
 
             //轄區儲槽編號 認證有無重複序號
@@ -109,6 +110,7 @@
                 data.append("txt11", encodeURIComponent($("#txt11").val()));
                 data.append("txt12", encodeURIComponent($("#txt12").val()));
                 data.append("txt13", encodeURIComponent($("#txt13").val()));
+                data.append("txt14", encodeURIComponent($("#txt14").val()));
 
                 $.ajax({
                     type: "POST",
@@ -211,6 +213,7 @@
                                 $("#txt11").val(getDate($(this).children("代行檢查_外部日期1").text().trim()));
                                 $("#txt12").val($(this).children("代行檢查_代檢機構2").text().trim());
                                 $("#txt13").val(getDate($(this).children("代行檢查_外部日期2").text().trim()));
+                                $("#txt14").val(getDate($(this).children("油品種類").text().trim()));
 							});
 						}
 					}
@@ -255,6 +258,10 @@
                                 $("#txt12").empty();
                                 $("#txt10").append(ddlstr);
                                 $("#txt12").append(ddlstr);
+                                break;
+                            case '023':
+                                $("#txt14").empty();
+                                $("#txt14").append(ddlstr);
                                 break;
                         }
                     }
@@ -397,21 +404,25 @@
                                         <div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">形式</div>
-                                        <div class="OchiCell width100"><select id="txt6" class="width100 inputex" ></select></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">油品種類</div>
+                                        <div class="OchiCell width100"><select id="txt14" class="width100 inputex" ></select></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">形式</div>
+                                        <div class="OchiCell width100"><select id="txt6" class="width100 inputex" ></select></div>
+                                    </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">狀態</div>
                                         <div class="OchiCell width100"><select id="txt7" class="width100 inputex" ></select></div>
                                     </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">延長開放年限</div>
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt8" class="inputex width30" value="0"> 年</div>
                                     </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">啟用日期</div>
                                         <div class="OchiCell width100">

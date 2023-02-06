@@ -26,6 +26,7 @@ public class OilStorageTankInfo_DB
     string 容量 = string.Empty;
     string 內徑 = string.Empty;
     string 內容物 = string.Empty;
+    string 油品種類 = string.Empty;
     string 形式 = string.Empty;
     string 啟用日期 = string.Empty;
     string 代行檢查_代檢機構1 = string.Empty;
@@ -52,6 +53,7 @@ public class OilStorageTankInfo_DB
     public string _容量 { set { 容量 = value; } }
     public string _內徑 { set { 內徑 = value; } }
     public string _內容物 { set { 內容物 = value; } }
+    public string _油品種類 { set { 油品種類 = value; } }
     public string _形式 { set { 形式 = value; } }
     public string _啟用日期 { set { 啟用日期 = value; } }
     public string _代行檢查_代檢機構1 { set { 代行檢查_代檢機構1 = value; } }
@@ -194,6 +196,7 @@ else
 容量,
 內徑,
 內容物,
+油品種類,
 形式,
 啟用日期,
 代行檢查_代檢機構1,
@@ -215,6 +218,7 @@ else
 @容量,
 @內徑,
 @內容物,
+@油品種類,
 @形式,
 @啟用日期,
 @代行檢查_代檢機構1,
@@ -240,6 +244,7 @@ else
         oCmd.Parameters.AddWithValue("@容量", 容量);
         oCmd.Parameters.AddWithValue("@內徑", 內徑);
         oCmd.Parameters.AddWithValue("@內容物", 內容物);
+        oCmd.Parameters.AddWithValue("@油品種類", 油品種類);
         oCmd.Parameters.AddWithValue("@形式", 形式);
         oCmd.Parameters.AddWithValue("@啟用日期", 啟用日期);
         oCmd.Parameters.AddWithValue("@代行檢查_代檢機構1", 代行檢查_代檢機構1);
@@ -268,6 +273,7 @@ else
 容量=@容量,
 內徑=@內徑,
 內容物=@內容物,
+油品種類=@油品種類,
 形式=@形式,
 啟用日期=@啟用日期,
 代行檢查_代檢機構1=@代行檢查_代檢機構1,
@@ -290,6 +296,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@容量", 容量);
         oCmd.Parameters.AddWithValue("@內徑", 內徑);
         oCmd.Parameters.AddWithValue("@內容物", 內容物);
+        oCmd.Parameters.AddWithValue("@油品種類", 油品種類);
         oCmd.Parameters.AddWithValue("@形式", 形式);
         oCmd.Parameters.AddWithValue("@啟用日期", 啟用日期);
         oCmd.Parameters.AddWithValue("@代行檢查_代檢機構1", 代行檢查_代檢機構1);
