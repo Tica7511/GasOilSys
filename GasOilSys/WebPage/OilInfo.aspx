@@ -63,7 +63,9 @@
                         ctel: encodeURIComponent($("#ctel").val()),
                         caddr: encodeURIComponent($("#caddr").val()),
                         storagetank: encodeURIComponent($("#storagetank").val()),
+                        storagetankcapacity: encodeURIComponent($("#storagetankcapacity").val()),
                         pipeline: encodeURIComponent($("#pipeline").val()),
+                        pipelinelength: encodeURIComponent($("#pipelinelength").val()),
                         //report: $("#report").val(),
                         checkdate: encodeURIComponent($("#checkdate").val()),
                         txt1: encodeURIComponent($("#txt1").val()),
@@ -103,7 +105,9 @@
             $("#ctel").attr('disabled', status);
             $("#caddr").attr('disabled', status);
             $("#storagetank").attr('disabled', status);
+            $("#storagetankcapacity").attr('disabled', status);
             $("#pipeline").attr('disabled', status);
+            $("#pipelinelength").attr('disabled', status);
             //$("#report").attr('disabled', false);
             $("#checkdate").attr('disabled', status);
             $("#txt1").attr('disabled', status);
@@ -163,7 +167,9 @@
                                 $("#ctel").val($(this).children("電話").text().trim());
                                 $("#caddr").val($(this).children("地址").text().trim());
                                 $("#storagetank").val($(this).children("儲槽數量").text().trim());
+                                $("#storagetankcapacity").val($(this).children("儲槽容量").text().trim());
                                 $("#pipeline").val($(this).children("管線數量").text().trim());
+                                $("#pipelinelength").val($(this).children("管線長度").text().trim());
                                 //$("#report").val($(this).children("維運計畫書及成果報告").text().trim());
                                 $("#checkdate").val($(this).children("曾執行過查核日期").text().trim());
                                 $("#txt1").val($(this).children("年度查核姓名").text().trim());
@@ -176,7 +182,9 @@
                             $("#ctel").val($(this).children("").text().trim());
                             $("#caddr").val($(this).children("").text().trim());
                             $("#storagetank").val($(this).children("").text().trim());
+                            $("#storagetankcapacity").val($(this).children("").text().trim());
                             $("#pipeline").val($(this).children("").text().trim());
+                            $("#pipelinelength").val($(this).children("").text().trim());
                             $("#checkdate").val($(this).children("").text().trim());
                             $("#txt1").val($(this).children("").text().trim());
                             $("#txt2").val($(this).children("").text().trim());
@@ -347,8 +355,18 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">儲槽容量(公秉)</div>
+                                        <div class="OchiCell width100"><input type="text" id="storagetankcapacity" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線數量</div>
                                         <div class="OchiCell width100"><input type="text" id="pipeline" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線長度(公里)</div>
+                                        <div class="OchiCell width100"><input type="text" id="pipelinelength" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">前一次查核日期</div>

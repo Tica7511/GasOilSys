@@ -30,7 +30,9 @@ public class OilCompanyInfo_DB
 	string 電話 = string.Empty;
 	string 地址 = string.Empty;
 	string 儲槽數量 = string.Empty;
+	string 儲槽容量 = string.Empty;
 	string 管線數量 = string.Empty;
+	string 管線長度 = string.Empty;
 	string 維運計畫書及成果報告 = string.Empty;
 	string 曾執行過查核日期 = string.Empty;
 	string 年度查核姓名 = string.Empty;
@@ -60,7 +62,9 @@ public class OilCompanyInfo_DB
 	public string _電話 { set { 電話 = value; } }
 	public string _地址 { set { 地址 = value; } }
 	public string _儲槽數量 { set { 儲槽數量 = value; } }
+	public string _儲槽容量 { set { 儲槽容量 = value; } }
 	public string _管線數量 { set { 管線數量 = value; } }
+	public string _管線長度 { set { 管線長度 = value; } }
 	public string _維運計畫書及成果報告 { set { 維運計畫書及成果報告 = value; } }
 	public string _曾執行過查核日期 { set { 曾執行過查核日期 = value; } }
 	public string _年度查核姓名 { set { 年度查核姓名 = value; } }
@@ -350,7 +354,9 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 電話, 
 地址, 
 儲槽數量, 
+儲槽容量, 
 管線數量, 
+管線長度, 
 維運計畫書及成果報告,
 曾執行過查核日期,
 年度查核姓名,
@@ -367,7 +373,9 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 @電話, 
 @地址, 
 @儲槽數量, 
+@儲槽容量, 
 @管線數量, 
+@管線長度, 
 @維運計畫書及成果報告,
 @曾執行過查核日期,
 @年度查核姓名,
@@ -388,7 +396,9 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@電話", 電話);
         oCmd.Parameters.AddWithValue("@地址", 地址);
         oCmd.Parameters.AddWithValue("@儲槽數量", 儲槽數量);
+        oCmd.Parameters.AddWithValue("@儲槽容量", 儲槽容量);
         oCmd.Parameters.AddWithValue("@管線數量", 管線數量);
+        oCmd.Parameters.AddWithValue("@管線長度", 管線長度);
         oCmd.Parameters.AddWithValue("@維運計畫書及成果報告", 維運計畫書及成果報告);
         oCmd.Parameters.AddWithValue("@曾執行過查核日期", 曾執行過查核日期);
         oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
@@ -413,7 +423,9 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         電話=@電話, 
         地址=@地址, 
         儲槽數量=@儲槽數量, 
+        儲槽容量=@儲槽容量, 
         管線數量=@管線數量,  
+        管線長度=@管線長度,  
         維運計畫書及成果報告=@維運計畫書及成果報告, 
         曾執行過查核日期=@曾執行過查核日期,
         年度查核姓名=@年度查核姓名,
@@ -432,7 +444,9 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@電話", 電話);
         oCmd.Parameters.AddWithValue("@地址", 地址);
         oCmd.Parameters.AddWithValue("@儲槽數量", 儲槽數量);
+        oCmd.Parameters.AddWithValue("@儲槽容量", 儲槽容量);
         oCmd.Parameters.AddWithValue("@管線數量", 管線數量);
+        oCmd.Parameters.AddWithValue("@管線長度", 管線長度);
         oCmd.Parameters.AddWithValue("@維運計畫書及成果報告", 維運計畫書及成果報告);
         oCmd.Parameters.AddWithValue("@曾執行過查核日期", 曾執行過查核日期);
         oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
