@@ -79,6 +79,7 @@
                 data.append("txt7", encodeURIComponent($("#txt7").val()));
                 data.append("txt8", encodeURIComponent($("#txt8").val()));
                 data.append("txt9", encodeURIComponent($("#txt9").val()));
+                data.append("txt10", encodeURIComponent($("#txt10").val()));
 
                 $.ajax({
                     type: "POST",
@@ -143,6 +144,7 @@
                                 $("#txt7").val($(this).children("第一層壁板內部下方腐蝕").text().trim());
                                 $("#txt8").val($(this).children("壁板維修方式是否有符合API653").text().trim());
                                 $("#txt9").val($(this).children("設置等導電良好度").text().trim());
+                                $("#txt10").val($(this).children("壁板是否具包覆層").text().trim());
 							});
 						}
 					}
@@ -333,6 +335,16 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壁板是否具包覆層</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt10" class="width100 inputex" >
+                                                <option value="">請選擇</option>
+                                                <option value="有">有</option>
+                                                <option value="無">無</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">壁板外部嚴重腐蝕或點蝕</div>
                                         <div class="OchiCell width100">
                                             <select id="txt6" class="width100 inputex" >
@@ -342,6 +354,8 @@
                                             </select>
                                         </div>
                                     </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">第一層壁板內部下方腐蝕</div>
                                         <div class="OchiCell width100">
@@ -352,8 +366,6 @@
                                             </select>
                                         </div>
                                     </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">維修方式是否有符合API653</div>
                                         <div class="OchiCell width100">

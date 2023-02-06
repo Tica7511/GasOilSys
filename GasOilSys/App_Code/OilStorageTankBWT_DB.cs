@@ -25,6 +25,7 @@ public class OilStorageTankBWT_DB
     string 沈陷量測點數 = string.Empty;
     string 沈陷量測日期 = string.Empty;
     string 儲槽接地電阻 = string.Empty;
+    string 壁板是否具包覆層 = string.Empty;
     string 壁板外部嚴重腐蝕或點蝕 = string.Empty;
     string 第一層壁板內部下方腐蝕 = string.Empty;
     string 壁板維修方式是否有符合API653 = string.Empty;
@@ -46,6 +47,7 @@ public class OilStorageTankBWT_DB
     public string _沈陷量測點數 { set { 沈陷量測點數 = value; } }
     public string _沈陷量測日期 { set { 沈陷量測日期 = value; } }
     public string _儲槽接地電阻 { set { 儲槽接地電阻 = value; } }
+    public string _壁板是否具包覆層 { set { 壁板是否具包覆層 = value; } }
     public string _壁板外部嚴重腐蝕或點蝕 { set { 壁板外部嚴重腐蝕或點蝕 = value; } }
     public string _第一層壁板內部下方腐蝕 { set { 第一層壁板內部下方腐蝕 = value; } }
     public string _壁板維修方式是否有符合API653 { set { 壁板維修方式是否有符合API653 = value; } }
@@ -147,6 +149,7 @@ else
 沈陷量測點數,
 沈陷量測日期,
 儲槽接地電阻,
+壁板是否具包覆層,
 壁板外部嚴重腐蝕或點蝕,
 第一層壁板內部下方腐蝕,
 壁板維修方式是否有符合API653,
@@ -163,6 +166,7 @@ else
 @沈陷量測點數,
 @沈陷量測日期,
 @儲槽接地電阻,
+@壁板是否具包覆層,
 @壁板外部嚴重腐蝕或點蝕,
 @第一層壁板內部下方腐蝕,
 @壁板維修方式是否有符合API653,
@@ -183,6 +187,7 @@ else
         oCmd.Parameters.AddWithValue("@沈陷量測點數", 沈陷量測點數);
         oCmd.Parameters.AddWithValue("@沈陷量測日期", 沈陷量測日期);
         oCmd.Parameters.AddWithValue("@儲槽接地電阻", 儲槽接地電阻);
+        oCmd.Parameters.AddWithValue("@壁板是否具包覆層", 壁板是否具包覆層);
         oCmd.Parameters.AddWithValue("@壁板外部嚴重腐蝕或點蝕", 壁板外部嚴重腐蝕或點蝕);
         oCmd.Parameters.AddWithValue("@第一層壁板內部下方腐蝕", 第一層壁板內部下方腐蝕);
         oCmd.Parameters.AddWithValue("@壁板維修方式是否有符合API653", 壁板維修方式是否有符合API653);
@@ -207,6 +212,7 @@ else
 沈陷量測點數=@沈陷量測點數,
 沈陷量測日期=@沈陷量測日期,
 儲槽接地電阻=@儲槽接地電阻,
+壁板是否具包覆層=@壁板是否具包覆層,
 壁板外部嚴重腐蝕或點蝕=@壁板外部嚴重腐蝕或點蝕,
 第一層壁板內部下方腐蝕=@第一層壁板內部下方腐蝕,
 壁板維修方式是否有符合API653=@壁板維修方式是否有符合API653,
@@ -225,6 +231,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@沈陷量測點數", 沈陷量測點數);
         oCmd.Parameters.AddWithValue("@沈陷量測日期", 沈陷量測日期);
         oCmd.Parameters.AddWithValue("@儲槽接地電阻", 儲槽接地電阻);
+        oCmd.Parameters.AddWithValue("@壁板是否具包覆層", 壁板是否具包覆層);
         oCmd.Parameters.AddWithValue("@壁板外部嚴重腐蝕或點蝕", 壁板外部嚴重腐蝕或點蝕);
         oCmd.Parameters.AddWithValue("@第一層壁板內部下方腐蝕", 第一層壁板內部下方腐蝕);
         oCmd.Parameters.AddWithValue("@壁板維修方式是否有符合API653", 壁板維修方式是否有符合API653);

@@ -90,6 +90,7 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("沈陷量測點數").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("沈陷量測日期").text().trim()) + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("儲槽接地電阻").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("壁板是否具包覆層").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("壁板外部嚴重腐蝕或點蝕").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("第一層壁板內部下方腐蝕").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("壁板維修方式是否有符合API653").text().trim() + '</td>';
@@ -100,7 +101,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="10">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="11">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -292,7 +293,7 @@
                                         <tr>
                                             <th nowrap rowspan="3">轄區儲槽編號 </th>
                                             <th nowrap colspan="4">基礎 </th>
-                                            <th nowrap colspan="3">壁板 </th>
+                                            <th nowrap colspan="4">壁板 </th>
                                             <th nowrap>頂板 </th>
                                             <th id="th_edit" nowrap rowspan="3">功能 </th>
                                         </tr>
@@ -301,6 +302,7 @@
                                             <th nowrap>沈陷量測<br>點數 </th>
                                             <th nowrap>沈陷量測<br>日期 </th>
                                             <th nowrap>接地電阻<br>&lt;10Ω </th>
+                                            <th nowrap>壁板是否具<br>包附層 </th>
                                             <th nowrap>壁板外部<br>嚴重腐蝕或點蝕 </th>
                                             <th nowrap>第一層壁板<br>內部下方腐蝕 </th>
                                             <th nowrap>維修方式<br>是否有符合API653</th>
@@ -311,6 +313,8 @@
                                                 2.無 </th>
                                             <th >&nbsp;</th>
                                             <th >年/月/日 </th>
+                                            <th >1.有 <br>
+                                                2.無 </th>
                                             <th >1.有 <br>
                                                 2.無 </th>
                                             <th >1.有 <br>

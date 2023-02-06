@@ -31,6 +31,7 @@ public partial class Handler_AddOilStorageTankBWT : System.Web.UI.Page
         /// * Request["txt7"]: 第一層壁板內部下方腐蝕
         /// * Request["txt8"]: 壁板維修方式是否有符合API653
         /// * Request["txt9"]: 設置等導電良好度
+        /// * Request["txt10"]: 壁板是否具包覆層
         /// * Request["mode"]: new=新增 edit=編輯
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
@@ -64,6 +65,7 @@ public partial class Handler_AddOilStorageTankBWT : System.Web.UI.Page
             string txt7 = (string.IsNullOrEmpty(Request["txt7"])) ? "" : Request["txt7"].ToString().Trim();
             string txt8 = (string.IsNullOrEmpty(Request["txt8"])) ? "" : Request["txt8"].ToString().Trim();
             string txt9 = (string.IsNullOrEmpty(Request["txt9"])) ? "" : Request["txt9"].ToString().Trim();
+            string txt10 = (string.IsNullOrEmpty(Request["txt10"])) ? "" : Request["txt10"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -74,6 +76,7 @@ public partial class Handler_AddOilStorageTankBWT : System.Web.UI.Page
             odb._沈陷量測點數 = Server.UrlDecode(txt3);
             odb._沈陷量測日期 = Server.UrlDecode(txt4);
             odb._儲槽接地電阻 = Server.UrlDecode(txt5);
+            odb._壁板是否具包覆層 = Server.UrlDecode(txt10);
             odb._壁板外部嚴重腐蝕或點蝕 = Server.UrlDecode(txt6);
             odb._第一層壁板內部下方腐蝕 = Server.UrlDecode(txt7);
             odb._壁板維修方式是否有符合API653 = Server.UrlDecode(txt8);

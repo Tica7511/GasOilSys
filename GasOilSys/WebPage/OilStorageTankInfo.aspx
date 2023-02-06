@@ -121,7 +121,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="14">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="15">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
