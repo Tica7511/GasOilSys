@@ -477,14 +477,15 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(2).SetCellValue("容量（公秉）");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("內徑 (公尺）");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");
-                    sheet.GetRow(0).CreateCell(5).SetCellValue("形式 1.錐頂 2.內浮頂 3.外浮頂 4.掩體式");
-                    sheet.GetRow(0).CreateCell(6).SetCellValue("啟用日期 年/月");
-                    sheet.GetRow(0).CreateCell(7).SetCellValue("代行檢查有效期限 代檢機構(填表說明)");
-                    sheet.GetRow(0).CreateCell(8).SetCellValue("代行檢查有效期限 外部 年/月/日");
-                    sheet.GetRow(0).CreateCell(9).SetCellValue("代行檢查有效期限(填表說明)");
-                    sheet.GetRow(0).CreateCell(10).SetCellValue("代行檢查有效期限 內部 年/月/日");
-                    sheet.GetRow(0).CreateCell(11).SetCellValue("狀態 1.使用中 2.開放中 3.停用 4.其他");
-                    sheet.GetRow(0).CreateCell(12).SetCellValue("延長開放年限多?年");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("油品種類 1.原油 2.汽油 3.柴油 4.煤油 5.輕油 6.液化石油氣 7.航空燃油 8.燃料油");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("形式 1.錐頂 2.內浮頂 3.外浮頂 4.掩體式");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("啟用日期 年/月");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("代行檢查有效期限 代檢機構(填表說明)");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("代行檢查有效期限 外部 年/月/日");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("代行檢查有效期限(填表說明)");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("代行檢查有效期限 內部 年/月/日");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("狀態 1.使用中 2.開放中 3.停用 4.其他");
+                    sheet.GetRow(0).CreateCell(13).SetCellValue("延長開放年限多?年");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -495,14 +496,15 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["容量"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["內徑"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["內容物"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["代行檢查_代檢機構1"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["代行檢查_外部日期1"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["代行檢查_代檢機構2"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["代行檢查_外部日期2"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["延長開放年限"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品種類"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["代行檢查_代檢機構1"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["代行檢查_外部日期1"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).etCellValue(dt.Rows[i]["代行檢查_代檢機構2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["代行檢查_外部日期2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["延長開放年限"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_儲槽基本資料.xls";
@@ -523,10 +525,11 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(2).SetCellValue("沈陷量測點數");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("沈陷量測日期");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("接地電阻<10Ω 1.有 2.無");
-                    sheet.GetRow(0).CreateCell(5).SetCellValue("壁板外部嚴重腐蝕或點蝕 1.有 2.無");
-                    sheet.GetRow(0).CreateCell(6).SetCellValue("第一層壁板內部下方腐蝕 1.有 2.無");
-                    sheet.GetRow(0).CreateCell(7).SetCellValue("維修方式是否有符合API653 1.有 2.無");
-                    sheet.GetRow(0).CreateCell(8).SetCellValue("外浮頂之Shunt及設置等導電良好 1.良好 2.不佳 3.無Shunt");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("壁板是否具包覆層 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("壁板外部嚴重腐蝕或點蝕 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("第一層壁板內部下方腐蝕 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("維修方式是否有符合API653 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("外浮頂之Shunt及設置等導電良好 1.良好 2.不佳 3.無Shunt");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -537,10 +540,11 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["沈陷量測點數"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["沈陷量測日期"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["儲槽接地電阻"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["壁板外部嚴重腐蝕或點蝕"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["第一層壁板內部下方腐蝕"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["壁板維修方式是否有符合API653"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["設置等導電良好度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["壁板是否具包覆層"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["壁板外部嚴重腐蝕或點蝕"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["第一層壁板內部下方腐蝕"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["壁板維修方式是否有符合API653"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["設置等導電良好度"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_儲槽基礎壁板頂板.xls";
