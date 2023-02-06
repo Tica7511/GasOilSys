@@ -681,51 +681,51 @@
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">輸氣幹線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="mainline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="mainline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">輸氣環線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="cycleline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="cycleline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">營業線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="businessline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="businessline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">配氣專管</div>
-                                                    <div class="OchiCell width100"><input type="text" id="specialline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="specialline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">場內成品線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="finishline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="finishline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">海底管線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="sealine" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="sealine" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">LNG 管線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="LNGline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="LNGline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">BOG 管線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="BOGline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="BOGline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 
                                             <div class="OchiRow">
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">NG 管線</div>
-                                                    <div class="OchiCell width100"><input type="text" id="NGline" class="inputex width80" disabled> 公尺</div>
+                                                    <div class="OchiCell width100"><input type="text" id="NGline" class="inputex width80" disabled> 公里</div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 

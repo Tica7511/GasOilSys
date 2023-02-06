@@ -333,7 +333,7 @@
 											<th nowrap>厚度<br>(mm)</th>
 											<th nowrap>管材<br>(詳細規格)</th>
 											<th nowrap>包覆材料 </th>
-											<th nowrap>轄管長度<br>(公尺)</th>
+											<th nowrap>轄管長度<br>(公里)</th>
 											<th nowrap>內容物 </th>
 											<th nowrap>緊急遮斷閥<br>(處)</th>
 											<th nowrap>建置年<br>(民國年月)</th>

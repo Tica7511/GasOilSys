@@ -501,7 +501,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["代行檢查_代檢機構1"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["代行檢查_外部日期1"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(10).etCellValue(dt.Rows[i]["代行檢查_代檢機構2"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["代行檢查_代檢機構2"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["代行檢查_外部日期2"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["延長開放年限"].ToString().Trim());
