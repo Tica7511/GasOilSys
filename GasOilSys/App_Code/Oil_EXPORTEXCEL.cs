@@ -256,7 +256,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("同時檢測管線數量");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("最近一次執行 年/月");
-                    sheet.GetRow(0).CreateCell(3).SetCellValue("報告產出 年/月");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("折線圖 年/月");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("檢測長度 公里");
                     sheet.GetRow(0).CreateCell(5).SetCellValue("合格標準");
                     sheet.GetRow(0).CreateCell(6).SetCellValue("立即改善_數量");
