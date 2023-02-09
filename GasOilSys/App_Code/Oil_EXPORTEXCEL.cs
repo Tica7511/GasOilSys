@@ -212,7 +212,8 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(16).SetCellValue("管壁減薄50%以上數量_外部開挖確認數量");
                     sheet.GetRow(0).CreateCell(17).SetCellValue("Dent_變形量>12%數量");
                     sheet.GetRow(0).CreateCell(18).SetCellValue("Dent_開挖確認數量");
-                    sheet.GetRow(0).CreateCell(19).SetCellValue("備註");
+                    sheet.GetRow(0).CreateCell(19).SetCellValue("外部腐蝕保護電位符合標準要求數量");
+                    sheet.GetRow(0).CreateCell(20).SetCellValue("備註");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -237,7 +238,8 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(16).SetCellValue(dt.Rows[i]["減薄數量_外_開挖確認3"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(17).SetCellValue(dt.Rows[i]["Dent"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(18).SetCellValue(dt.Rows[i]["Dent_開挖確認"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["外部腐蝕保護電位符合標準要求數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(20).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_智慧型通管器檢查(ILI).xls";

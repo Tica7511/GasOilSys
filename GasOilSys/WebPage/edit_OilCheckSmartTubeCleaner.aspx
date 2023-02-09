@@ -111,6 +111,7 @@
                 data.append("txt18", encodeURIComponent($("#txt18").val()));
                 data.append("txt19", encodeURIComponent($("#txt19").val()));
                 data.append("txt20", encodeURIComponent($("#txt20").val()));
+                data.append("txt21", encodeURIComponent($("#txt21").val()));
 
                 $.ajax({
                     type: "POST",
@@ -188,6 +189,7 @@
                                 $("#txt18").val($(this).children("Dent").text().trim());
                                 $("#txt19").val($(this).children("Dent_開挖確認").text().trim());
                                 $("#txt20").val($(this).children("備註").text().trim());
+                                $("#txt21").val($(this).children("外部腐蝕保護電位符合標準要求數量").text().trim());
 							});
 						}
 					}
@@ -484,7 +486,12 @@
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt19" class="inputex width40"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
+                                </br>
                                 <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外部腐蝕保護電位符合標準要求數量</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="txt21" class="inputex width40"></div>
+                                    </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
                                         <div class="OchiCell width100"><input type="text" id="txt20" class="inputex width100"></div>

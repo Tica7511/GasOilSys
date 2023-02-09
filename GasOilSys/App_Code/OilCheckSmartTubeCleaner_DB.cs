@@ -38,6 +38,7 @@ public class OilCheckSmartTubeCleaner_DB
     string 減薄數量_外_開挖確認3 = string.Empty;
     string Dent = string.Empty;
     string Dent_開挖確認 = string.Empty;
+    string 外部腐蝕保護電位符合標準要求數量 = string.Empty;
     string 備註 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
@@ -69,6 +70,7 @@ public class OilCheckSmartTubeCleaner_DB
     public string _減薄數量_外_開挖確認3 { set { 減薄數量_外_開挖確認3 = value; } }
     public string _Dent { set { Dent = value; } }
     public string _Dent_開挖確認 { set { Dent_開挖確認 = value; } }
+    public string _外部腐蝕保護電位符合標準要求數量 { set { 外部腐蝕保護電位符合標準要求數量 = value; } }
     public string _備註 { set { 備註 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
@@ -181,6 +183,7 @@ else
 減薄數量_外_開挖確認3,
 Dent,
 Dent_開挖確認,
+外部腐蝕保護電位符合標準要求數量,
 備註,
 修改者, 
 修改日期, 
@@ -208,6 +211,7 @@ Dent_開挖確認,
 @減薄數量_外_開挖確認3,
 @Dent,
 @Dent_開挖確認,
+@外部腐蝕保護電位符合標準要求數量,
 @備註,
 @修改者, 
 @修改日期, 
@@ -239,6 +243,7 @@ Dent_開挖確認,
         oCmd.Parameters.AddWithValue("@減薄數量_外_開挖確認3", 減薄數量_外_開挖確認3);
         oCmd.Parameters.AddWithValue("@Dent", Dent);
         oCmd.Parameters.AddWithValue("@Dent_開挖確認", Dent_開挖確認);
+        oCmd.Parameters.AddWithValue("@外部腐蝕保護電位符合標準要求數量", 外部腐蝕保護電位符合標準要求數量);
         oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
@@ -274,6 +279,7 @@ Dent_開挖確認,
 減薄數量_外_開挖確認3=@減薄數量_外_開挖確認3,
 Dent=@Dent,
 Dent_開挖確認=@Dent_開挖確認,
+外部腐蝕保護電位符合標準要求數量=@外部腐蝕保護電位符合標準要求數量,
 備註=@備註,
 修改者=@修改者, 
 修改日期=@修改日期 
@@ -304,6 +310,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@減薄數量_外_開挖確認3", 減薄數量_外_開挖確認3);
         oCmd.Parameters.AddWithValue("@Dent", Dent);
         oCmd.Parameters.AddWithValue("@Dent_開挖確認", Dent_開挖確認);
+        oCmd.Parameters.AddWithValue("@外部腐蝕保護電位符合標準要求數量", 外部腐蝕保護電位符合標準要求數量);
         oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
