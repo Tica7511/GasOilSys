@@ -325,7 +325,7 @@
                                                 2.無 </th>
                                             <th  valign="top">1.良好 <br>
                                                 2.不佳 <br>
-                                                3.無Shunt</th>
+                                                3.不適用</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

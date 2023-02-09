@@ -389,7 +389,7 @@
                                                 <option value="">請選擇</option>
                                                 <option value="良好">良好</option>
                                                 <option value="不佳">不佳</option>
-                                                <option value="無Shunt">無Shunt</option>
+                                                <option value="不適用">不適用</option>
                                             </select>
                                         </div>
                                     </div><!-- OchiHalf -->
