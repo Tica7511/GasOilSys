@@ -306,7 +306,7 @@
                                             <th nowrap>壁板外部<br>嚴重腐蝕或點蝕 </th>
                                             <th nowrap>第一層壁板<br>內部下方腐蝕 </th>
                                             <th nowrap>維修方式<br>是否有符合API653</th>
-                                            <th nowrap>外浮頂之Shunt<br>及設置等導電良好 </th>
+                                            <th nowrap>外浮頂之等電位<br>裝置性能 </th>
                                         </tr>
                                         <tr>
                                             <th >1.有 <br>

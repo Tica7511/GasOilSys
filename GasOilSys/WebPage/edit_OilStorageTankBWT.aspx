@@ -383,7 +383,7 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外浮頂之Shunt及設置等導電良好</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外浮頂之等電位裝置性能</div>
                                         <div class="OchiCell width100">
                                             <select id="txt9" class="width100 inputex" >
                                                 <option value="">請選擇</option>

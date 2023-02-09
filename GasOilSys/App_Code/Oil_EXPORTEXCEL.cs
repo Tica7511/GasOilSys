@@ -529,7 +529,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(6).SetCellValue("壁板外部嚴重腐蝕或點蝕 1.有 2.無");
                     sheet.GetRow(0).CreateCell(7).SetCellValue("第一層壁板內部下方腐蝕 1.有 2.無");
                     sheet.GetRow(0).CreateCell(8).SetCellValue("維修方式是否有符合API653 1.有 2.無");
-                    sheet.GetRow(0).CreateCell(9).SetCellValue("外浮頂之Shunt及設置等導電良好 1.良好 2.不佳 3.不適用");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("外浮頂之等電位裝置性能 1.良好 2.不佳 3.不適用");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
