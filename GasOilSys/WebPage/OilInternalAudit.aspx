@@ -344,7 +344,7 @@
                                         <tr>
                                             <th nowrap>日期 </th>
                                             <th nowrap>執行單位 </th>
-                                            <th nowrap>稽核範圍 </th>
+                                            <th nowrap>稽核缺失 </th>
                                             <th nowrap>缺失改善執行狀況 </th>
                                             <th nowrap>佐證資料說明 </th>
                                             <th nowrap>佐證檔案 </th>
@@ -355,10 +355,7 @@
                                 </table>
                             </div><!-- stripeMe -->
                             <div class="margin5TB font-size2">
-                                (1) 過去3年長途管線內部稽核執行紀錄(公司內相關單位)<br>
-                                (2) 稽核範圍：請填稽核廠區範圍。
-
-
+                                (1) 最近一次儲槽內部稽核執行紀錄(公司內相關單位)
                             </div>
                         </div><!-- col -->
                     </div><!-- row -->

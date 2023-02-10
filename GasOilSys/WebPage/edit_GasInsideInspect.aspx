@@ -317,7 +317,7 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">稽核範圍</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">稽核缺失</div>
                                         <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
