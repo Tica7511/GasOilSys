@@ -1104,7 +1104,10 @@
                                     var dataStr = '';
                                     $(data).find("lv" + i).each(function (index) {
                                         dataStr = '<tr guid="' + $(this).attr("lvGuid") + '" data-tt-id="' + $(this).attr("lvGuid") + '">';
-                                        dataStr += '<td>' + $(this).attr("lvName") + '</td>';
+                                        if ($(this).attr("psred") == 'Y')
+                                            dataStr += '<td><span style="color: red">' + $(this).attr("lvName") + '</span></td>';
+                                        else
+                                            dataStr += '<td>' + $(this).attr("lvName") + '</td>';
                                         dataStr += '<td></td><td></td>';
                                         dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td>';
                                         if ($(this).attr("psall") != '') {
@@ -1215,7 +1218,10 @@
                 if ($(this).attr("lvGuid") != undefined) {
                     var sGuid = $(this).attr("lvGuid");
                     dataStr += '<tr guid="' + $(this).attr("lvGuid") + '" data-tt-id="' + $(this).attr("lvGuid") + '" data-tt-parent-id="' + $(this).attr("pGuid") + '" class="son' + trrCss + '">';
-                    dataStr += '<td>' + $(this).attr("lvName") + '</td>';
+                    if ($(this).attr("psred") == 'Y')
+                        dataStr += '<td><span style="color: red">' + $(this).attr("lvName") + '</span></td>';
+                    else
+                        dataStr += '<td>' + $(this).attr("lvName") + '</td>';                    
                     dataStr += '<td></td><td></td>';
                     dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td>';
                     if ($(this).attr("psall") != '') {

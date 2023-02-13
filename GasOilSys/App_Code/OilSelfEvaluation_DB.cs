@@ -70,9 +70,9 @@ public class OilSelfEvaluation_DB
 declare @cYear nvarchar(4)=@Year;
 
 select (
-select lv1.石油自評表分類guid as lvGuid,lv1.石油自評表分類名稱 as lvName,lv1.石油自評表分類階層 as lv,isnull(lv1.石油自評表分類參考資料,'') as ref, isnull(lv1.石油自評表是否總評,'') as psall
-,lv2.石油自評表分類guid as lvGuid,lv2.石油自評表分類名稱 as lvName,lv2.石油自評表分類父層guid as pGuid,lv2.石油自評表分類階層 as lv,isnull(lv2.石油自評表分類參考資料,'') as ref, isnull(lv2.石油自評表是否總評,'') as psall
-,lv3.石油自評表分類guid as lvGuid,lv3.石油自評表分類名稱 as lvName,lv3.石油自評表分類父層guid as pGuid,lv3.石油自評表分類階層 as lv,isnull(lv3.石油自評表分類參考資料,'') as ref, isnull(lv3.石油自評表是否總評,'') as psall
+select lv1.石油自評表分類guid as lvGuid,lv1.石油自評表分類名稱 as lvName,lv1.石油自評表分類階層 as lv,isnull(lv1.石油自評表分類參考資料,'') as ref, isnull(lv1.石油自評表是否總評,'') as psall, isnull(lv1.石油自評表是否紅字,'') as psred
+,lv2.石油自評表分類guid as lvGuid,lv2.石油自評表分類名稱 as lvName,lv2.石油自評表分類父層guid as pGuid,lv2.石油自評表分類階層 as lv,isnull(lv2.石油自評表分類參考資料,'') as ref, isnull(lv2.石油自評表是否總評,'') as psall, isnull(lv2.石油自評表是否紅字,'') as psred
+,lv3.石油自評表分類guid as lvGuid,lv3.石油自評表分類名稱 as lvName,lv3.石油自評表分類父層guid as pGuid,lv3.石油自評表分類階層 as lv,isnull(lv3.石油自評表分類參考資料,'') as ref, isnull(lv3.石油自評表是否總評,'') as psall, isnull(lv3.石油自評表是否紅字,'') as psred
 ,q.石油自評表題目guid as qGuid,q.石油自評表題目名稱 as qTitle,q.石油自評表題目分類guid as pGuid
 from 石油_自評表分類檔 lv1
 left join 石油_自評表分類檔 lv2 on lv1.石油自評表分類guid=lv2.石油自評表分類父層guid and lv2.石油自評表分類狀態='A' and lv2.石油自評表分類年份=@cYear
