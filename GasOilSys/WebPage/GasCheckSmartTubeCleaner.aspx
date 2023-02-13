@@ -104,6 +104,7 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("減薄50以上數量_外開挖確認").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("Dent_大於12").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("Dent_開挖確認").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("外部腐蝕保護電位符合標準要求數量").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_GasCheckSmartTubeCleaner.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
@@ -111,7 +112,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="21">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="22">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -312,6 +313,9 @@
                                         <th nowrap colspan="4">減薄40%-50%數量</th>
                                         <th nowrap colspan="4">減薄50%以上數量</th>
                                         <th nowrap colspan="2">Dent</th>
+                                        <th nowrap rowspan="2">外部腐蝕保護<br>
+                                                電位符合標準<br>
+                                                要求數量 </th>
                                         <th nowrap rowspan="2">備註</th>
                                         <th id="th_edit" rowspan="2">功能 </th>
                                     </tr>

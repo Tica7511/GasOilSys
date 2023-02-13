@@ -703,7 +703,7 @@
                                         <th rowspan="2">長途管線<br />識別碼</th>
 										<th rowspan="2">同時檢測管線數量</th>
 										<th rowspan="2">最近一次執行<br />年/月</th>
-										<th rowspan="2">報告產出<br />年/月</th>
+										<th rowspan="2">折線圖產出<br />年/月</th>
 										<th rowspan="2">檢測長度<br />(公里)</th>
 										<th rowspan="2">合格標準<br />請參照<br />填表說明(2)</th>
 										<th colspan="2">立即改善</th>

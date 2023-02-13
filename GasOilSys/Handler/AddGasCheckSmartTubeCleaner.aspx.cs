@@ -43,6 +43,7 @@ public partial class Handler_AddGasCheckSmartTubeCleaner : System.Web.UI.Page
         /// * Request["txt18"]: Dent 變形量>12%數量
         /// * Request["txt19"]: Dent 開挖確認數量
         /// * Request["txt20"]: 備註
+        /// * Request["txt21"]: 外部腐蝕保護電位符合標準要求數量
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -87,6 +88,7 @@ public partial class Handler_AddGasCheckSmartTubeCleaner : System.Web.UI.Page
             string txt18 = (string.IsNullOrEmpty(Request["txt18"])) ? "" : Request["txt18"].ToString().Trim();
             string txt19 = (string.IsNullOrEmpty(Request["txt19"])) ? "" : Request["txt19"].ToString().Trim();
             string txt20 = (string.IsNullOrEmpty(Request["txt20"])) ? "" : Request["txt20"].ToString().Trim();
+            string txt21 = (string.IsNullOrEmpty(Request["txt21"])) ? "" : Request["txt21"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -112,6 +114,7 @@ public partial class Handler_AddGasCheckSmartTubeCleaner : System.Web.UI.Page
             gdb._Dent_大於12 = Server.UrlDecode(txt18);
             gdb._Dent_開挖確認 = Server.UrlDecode(txt19);
             gdb._備註 = Server.UrlDecode(txt20);
+            gdb._外部腐蝕保護電位符合標準要求數量 = Server.UrlDecode(txt21);
             gdb._修改者 = LogInfo.mGuid;
             gdb._修改日期 = DateTime.Now;
 

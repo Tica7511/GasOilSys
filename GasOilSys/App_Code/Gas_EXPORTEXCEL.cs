@@ -284,7 +284,8 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(16).SetCellValue("管壁減薄50%以上數量_外部開挖確認數量");
                     sheet.GetRow(0).CreateCell(17).SetCellValue("Dent_變形量>12%數量");
                     sheet.GetRow(0).CreateCell(18).SetCellValue("Dent_開挖確認數量");
-                    sheet.GetRow(0).CreateCell(19).SetCellValue("備註");
+                    sheet.GetRow(0).CreateCell(19).SetCellValue("外部腐蝕保護電位符合標準要求數量");
+                    sheet.GetRow(0).CreateCell(20).SetCellValue("備註");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -309,7 +310,8 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(16).SetCellValue(dt.Rows[i]["減薄50以上數量_外開挖確認"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(17).SetCellValue(dt.Rows[i]["Dent_大於12"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(18).SetCellValue(dt.Rows[i]["Dent_開挖確認"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["外部腐蝕保護電位符合標準要求數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(20).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_智慧型通管器檢查(ILI).xls";
@@ -328,7 +330,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("同時檢測管線數量");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("最近一次執行 年/月");
-                    sheet.GetRow(0).CreateCell(3).SetCellValue("報告產出 年/月");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("折線圖 年/月");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("檢測長度 公里");
                     sheet.GetRow(0).CreateCell(5).SetCellValue("合格標準");
                     sheet.GetRow(0).CreateCell(6).SetCellValue("立即改善_數量");
