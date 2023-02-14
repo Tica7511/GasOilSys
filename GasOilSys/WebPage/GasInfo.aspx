@@ -26,6 +26,7 @@
             //選擇年份
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
+                $("a[name='delbtn']").hide();
             });
 
             //編輯按鈕

@@ -14,6 +14,7 @@
 			$("#Ncategory").val($.getQueryString("category"));
 			$("#Ntype").val($.getQueryString("type"));
             $("#NcpName").val($.getQueryString("cpName"));
+            $("#Ncpguid").val($.getQueryString("cpguid"));
 
             $("#okbtn").click(function () {
                 // Get form
@@ -25,6 +26,7 @@
                 data.append('category', $("#Ncategory").val());
                 data.append('type', $("#Ntype").val());
                 data.append('cpName', $("#NcpName").val());
+                data.append('cpguid', $("#Ncpguid").val());
                 data.append('file', $("#myfile").get(0).files[0]);
 
 				$.ajax({
@@ -75,6 +77,7 @@
 		<input id="Ncategory" type="hidden" />
 		<input id="Ntype" type="hidden" />
 		<input id="NcpName" type="hidden" />
+		<input id="Ncpguid" type="hidden" />
         <div>
             <table width="100%">
                 <tr>

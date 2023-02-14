@@ -209,7 +209,7 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
-                                    <%--<a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>--%>
+                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                 </div>
                             </div><br />
                             <div id="content">

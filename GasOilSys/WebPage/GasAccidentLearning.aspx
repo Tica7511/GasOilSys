@@ -296,7 +296,12 @@
 								</thead>
 								<tbody></tbody>
                             </table>
-                        </div><!-- stripeMe -->
+                        </div><!-- stripeMe --><br>
+                        <div class="margin5TB font-size2">
+                                填表說明：<br>
+                                (1) 填寫最近3年轄區事故分析檢討及改善情形。
+
+                            </div>
                     </div><!-- col -->
                 </div><!-- row -->
             </div>

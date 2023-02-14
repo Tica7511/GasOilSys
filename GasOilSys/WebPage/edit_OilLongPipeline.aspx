@@ -26,7 +26,7 @@
                     tinymce.activeEditor.windowManager.close();
                     tinymce.activeEditor.windowManager.open({
                         title: "圖片上傳",
-                        url: '../../tinymce/ImageUpload/upload.aspx?category=Oil_Upload&type=longpipeline&cpName=' + $("#companyName").text(),
+                        url: '../../tinymce/ImageUpload/upload.aspx?category=Oil_Upload&type=longpipeline&cpName=' + $("#companyName").text() + '&cpguid=' + $.getQueryString("cp"),
                         width: 380,
                         height: 140
                     });

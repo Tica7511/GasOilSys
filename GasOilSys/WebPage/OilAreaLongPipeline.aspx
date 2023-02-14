@@ -55,10 +55,13 @@
                         var content = '';
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                if ($(this).children("內容").text().trim() != "")
+                                if ($(this).children("內容").text().trim() != "") {
+                                    $("#nGuid").val($(this).children("guid").text().trim());
                                     content += $(this).children("內容").text().trim();
-                                else
+                                }
+                                else {
                                     content += '<div class="BoxBorderSa BoxRadiusB padding5ALL textcenter" ><div class="opa6 font-size3">目前無資料</div></div>';
+                                }                                    
                             });
                         }
                         else
@@ -210,7 +213,7 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
-                                    <%--<a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>--%>
+                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                 </div>
                             </div><br />
                             <div id="content">

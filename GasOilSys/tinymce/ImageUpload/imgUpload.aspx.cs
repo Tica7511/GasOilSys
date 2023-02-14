@@ -7,10 +7,13 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Configuration;
 using System.Xml;
+using System.Data;
 
 public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+	OilCompanyInfo_DB ocdb = new OilCompanyInfo_DB();
+	GasCompanyInfo_DB gcdb = new GasCompanyInfo_DB();
+	protected void Page_Load(object sender, EventArgs e)
 	{
 		XmlDocument xDoc = new XmlDocument();
 		try
@@ -21,7 +24,37 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 				string category = string.IsNullOrEmpty(Request["category"]) ? "" : Common.FilterCheckMarxString(Request["category"].ToString().Trim());
 				string type = string.IsNullOrEmpty(Request["type"]) ? "" : Common.FilterCheckMarxString(Request["type"].ToString().Trim());
 				string cpName = string.IsNullOrEmpty(Request["cpName"]) ? "" : Common.FilterCheckMarxString(Request["cpName"].ToString().Trim());
+				string cpguid = string.IsNullOrEmpty(Request["cpguid"]) ? "" : Common.FilterCheckMarxString(Request["cpguid"].ToString().Trim());
 				string typeName = string.Empty;
+
+				DataTable dt = new DataTable();
+
+				if(category == "Oil_Upload")
+                {
+					ocdb._guid = cpguid;
+					dt = ocdb.GetCpName2();
+
+					if (dt.Rows.Count > 0)
+					{
+						if (cpguid == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+							cpName = dt.Rows[0]["公司名稱"].ToString().Trim();
+						else
+							cpName = dt.Rows[0]["cpname"].ToString().Trim();
+					}
+				}
+                else
+                {
+					gcdb._guid = cpguid;
+					dt = gcdb.GetCpName2();
+
+					if (dt.Rows.Count > 0)
+					{
+						if (cpguid == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+							cpName = dt.Rows[0]["公司名稱"].ToString().Trim();
+						else
+							cpName = dt.Rows[0]["cpname"].ToString().Trim();
+					}
+				}
 
                 switch (type)
                 {
@@ -37,7 +70,7 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 				}
 
 				//圖片路徑
-				ImgUpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + category + "\\" + type + "\\" + cpName + "\\";
+				ImgUpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + category + "\\"+ type + "\\" + cpName + "\\";
 
                 HttpFileCollection files = Request.Files;
                 HttpPostedFile afile = files[0];
@@ -101,5 +134,14 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 		xNode.SetAttribute("Message", (string.IsNullOrWhiteSpace(err.Message) ? "" : err.Message.Trim().Replace("'", "")));
 		xDoc.DocumentElement.AppendChild(xNode);
 		return xDoc;
+	}
+
+	public string taiwanYear()
+	{
+		DateTime nowdate = DateTime.Now;
+		string year = nowdate.Year.ToString();
+		string taiwanYear = (Convert.ToInt32(year) - 1911).ToString();
+
+		return taiwanYear;
 	}
 }
