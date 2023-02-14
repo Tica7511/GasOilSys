@@ -461,7 +461,7 @@
                                 </div>
                                 <br />
                                 填表說明：<br />
-                                (1) 目前尚未開放上傳，須新增或更新，請將相關檔EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
+                                (1) 若新增或修改出現問題 請EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
                             </div>
                         </div><!-- col -->
                     </div><!-- row -->
