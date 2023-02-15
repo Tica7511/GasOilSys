@@ -227,6 +227,7 @@
                                 $("#nGuid").val($(this).children("guid").text().trim());
 
                                 if ($(this).children("Content").text().trim() != '') {
+                                    $("#nGuid").val($(this).children("guid").text().trim());
                                     constr += $(this).children("Content").text().trim();
                                     $("#content").append(constr);
                                 }
