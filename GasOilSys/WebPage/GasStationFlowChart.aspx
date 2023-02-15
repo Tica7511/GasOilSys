@@ -25,6 +25,11 @@
             $(document).on("change", "#sellist", function () {
                 getData($("#sellist option:selected").val());
             });
+
+            //圖片編輯按鈕
+            $(document).on("click", "#editbtn", function () {
+                location.href = 'edit_GasStationFlowChart.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $("#nGuid").val();
+            });
 		}); // end js
 
         function getData(year) {
@@ -60,7 +65,22 @@
                             content += '<div class="BoxBorderSa BoxRadiusB padding5ALL textcenter" ><div class="opa6 font-size3">目前無資料</div></div>';
 
                         $("#content").append(content);
-					}
+                    }
+
+                    //確認權限&按鈕顯示或隱藏
+                    if ($("#sellist").val() != getTaiwanDate()) {
+                        $("#editbtn").hide();
+                    }
+                    else {
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                            $("#editbtn").hide();
+                        }
+                        else {
+                            $("#editbtn").show();
+                        }
+                    }
+
+                    getConfirmedStatus();
 				}
 			});
         }
@@ -95,6 +115,41 @@
                             ddlstr += '<option>請選擇</option>'
                         }
                         $("#sellist").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //確認資料是否完成
+        function getConfirmedStatus() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ($("#Competence").val() != '03') {
+                                    if (dataConfirm == "是") {
+                                        $("#editbtn").hide();
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
             });
@@ -135,6 +190,7 @@
 <div class="WrapperBody" id="WrapperBody">
 		<!--#include file="GasHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="nGuid" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -151,13 +207,14 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
+                                    <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                 </div>
                             </div><br />
                             <div id="content">
                                 
                             </div><br />
                             填表說明：<br />
-                            (1) 目前尚未開放上傳，須新增或更新，請將相關檔EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
+                            (1) 若新增或修改出現問題 請EMAIL至 <a href="mailto:suyu_lin@itri.org.tw">suyu_lin@itri.org.tw</a> 林素玉工程師
                         </div><!-- col -->
                     </div><!-- row -->
 

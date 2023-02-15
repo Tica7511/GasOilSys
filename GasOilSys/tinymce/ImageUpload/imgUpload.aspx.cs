@@ -67,6 +67,9 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 					case "longpipeline":
 						typeName = "長途管線路徑圖";
 						break;
+					case "station":
+						typeName = "場站概況分佈圖";
+						break;
 				}
 
 				//圖片路徑

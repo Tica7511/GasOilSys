@@ -117,4 +117,56 @@ else
 		oda.Fill(ds);
 		return ds;
 	}
+
+	public void InsertData(SqlConnection oConn, SqlTransaction oTran)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.Append(@"
+declare @Ncount int
+
+select @Ncount=count(*) from 天然氣_場站概況分佈圖 where 業者guid=@業者guid and 年度=@年度
+
+if(@Ncount > 0)
+    begin
+        update 天然氣_場站概況分佈圖 set
+        內容=@內容,
+        修改者=@修改者,
+        修改日期=@修改日期 
+        where 年度=@年度 and 業者guid=@業者guid 
+    end
+else
+    begin
+        insert into 天然氣_場站概況分佈圖 (
+        guid,
+        年度,
+        業者guid,
+        內容,
+        建立者,
+        修改者,
+        資料狀態
+        ) values (
+        @guid,
+        @年度,
+        @業者guid,
+        @內容,
+        @建立者,
+        @修改者,
+        @資料狀態 )
+    end 
+");
+		SqlCommand oCmd = oConn.CreateCommand();
+		oCmd.CommandText = sb.ToString();
+
+		oCmd.Parameters.AddWithValue("@guid", guid);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@內容", 內容);
+		oCmd.Parameters.AddWithValue("@建立者", 建立者);
+		oCmd.Parameters.AddWithValue("@修改者", 修改者);
+		oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+		oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+		oCmd.Transaction = oTran;
+		oCmd.ExecuteNonQuery();
+	}
 }
