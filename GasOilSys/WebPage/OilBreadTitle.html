@@ -1,10 +1,7 @@
 ﻿<span class="filetitle font-size7" id="companyName"></span>
 <span class="btnright">
-    <div class="font-size4 font-normal">
-        <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核填寫內容下載-石油.docx" target="_blank">查核填寫內容下載</a> 
-        <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年查核配合事項下載(石油).pdf" target="_blank">查核配合事項下載</a> 
-        <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/111年度簡報大綱下載-石油.pptx" target="_blank">簡報大綱下載</a>
-        <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度應準備資料下載-石油.pdf" target="_blank">應準備資料下載</a>
+    <div id="div_OilFilesDownload" class="font-size4 font-normal">
+
     </div>
 </span>
 
@@ -29,6 +26,29 @@
 				else {
 					if ($(data).find("data_item").length > 0) {
 						$(data).find("data_item").each(function (i) {
+							var str = '';
+							$("#div_OilFilesDownload").empty();
+							switch ($(this).children("單位屬性").text().trim()) {
+								case "01":
+									str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油查核填寫內容下載(管線及儲槽).docx" target="_blank">查核填寫內容下載</a> ' +
+										'<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年查核配合事項下載(石油).pdf" target="_blank">查核配合事項下載</a> ' +
+										'<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油簡報大網下載(管線及儲槽).pptx" target="_blank">簡報大綱下載</a> ' +
+										'<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油應準備資料下載(管線及儲槽).docx" target="_blank">應準備資料下載</a> ';
+									break;
+								case "02":
+                                    str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油查核填寫內容下載(金馬行銷)).docx" target="_blank">查核填寫內容下載</a> ' +
+                                        '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年查核配合事項下載(石油).pdf" target="_blank">查核配合事項下載</a> ' +
+                                        '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油簡報大綱下載(金馬行銷).pptx" target="_blank">簡報大綱下載</a> ' +
+                                        '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油應準備資料下載(金馬行銷).docx" target="_blank">應準備資料下載</a> ';
+									break;
+								case "03":
+                                    str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油查核填寫內容下載(僅儲槽).docx" target="_blank">查核填寫內容下載</a> ' +
+                                        '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年查核配合事項下載(石油).pdf" target="_blank">查核配合事項下載</a> ' +
+                                        '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油簡報大綱下載(僅儲槽).pptx" target="_blank">簡報大綱下載</a> ' +
+                                        '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年石油應準備資料下載(僅儲槽).docx" target="_blank">應準備資料下載</a> ';
+                                    break;
+							}
+							$("#div_OilFilesDownload").append(str);
 							$("#companyName").html($(this).children("cpname").text().trim());
 						});
 					}
