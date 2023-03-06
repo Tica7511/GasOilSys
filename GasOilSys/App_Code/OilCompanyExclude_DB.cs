@@ -52,7 +52,7 @@ public class OilCompanyExclude_DB
 select a.年份,b.石油自評表分類名稱,a.排除分類guid,a.排除題目guid
 from 石油_自評表業者排除表 a
 left join 石油_自評表分類檔 b on a.排除分類guid=b.石油自評表分類guid
-where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A' and 角色=@角色 
+where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A'  
 union
 select
 a.年份,b.石油自評表分類名稱,case when c.石油自評表分類guid is null then a.排除分類guid else c.石油自評表分類guid end as 排除分類guid
@@ -60,7 +60,7 @@ a.年份,b.石油自評表分類名稱,case when c.石油自評表分類guid is 
 from 石油_自評表業者排除表 a
 left join 石油_自評表分類檔 b on a.排除分類guid=b.石油自評表分類guid
 left join 石油_自評表分類檔 c on a.排除分類guid=c.石油自評表分類父層guid and b.石油自評表分類階層=c.石油自評表分類階層-1
-where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A' and 角色=@角色 ");
+where 業者guid=@業者guid and 年份=@年份 and 資料狀態='A'  ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;

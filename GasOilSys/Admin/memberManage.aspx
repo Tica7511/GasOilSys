@@ -67,7 +67,7 @@
                     $.ajax({
                         type: "POST",
                         async: false, //在沒有返回值之前,不會執行下一步動作
-                        url: "BackEnd/GetCompanyName.aspx",
+                        url: "../Handler/GetCompanyName.aspx",
                         data: {
                             type: "Oil",
                         },

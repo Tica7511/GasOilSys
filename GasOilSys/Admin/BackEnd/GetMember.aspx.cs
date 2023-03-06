@@ -63,7 +63,10 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                                     ocdb._guid = dt.Rows[i]["業者guid"].ToString();
                                     DataTable odt = ocdb.GetCpName3();
                                     if (odt.Rows.Count > 0)
-                                        dt.Rows[i]["cName"] = odt.Rows[0]["cpname"].ToString();
+                                        if (odt.Rows[0]["guid"].ToString().Trim() == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+                                            dt.Rows[i]["cName"] = odt.Rows[0]["公司名稱"].ToString().Trim();
+                                        else
+                                            dt.Rows[i]["cName"] = odt.Rows[0]["cpname"].ToString();
                                     break;
                                 //天然氣
                                 case "02":
