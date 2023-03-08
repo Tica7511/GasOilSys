@@ -146,6 +146,43 @@ select * from (
         return ds;
     }
 
+    public DataSet GetMemberLogData(string pStart, string pEnd, string beginDate, string endDate)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select A.*, case when A.登入結果='Success' then '成功' when A.登入結果='Fail' then '失敗' end as 登入結果_V, B.姓名, B.帳號類別, CONVERT(nvarchar(100),A.建立日期, 20) as 登入日期 into #tmp
+                    from 會員登入Log A
+                    left join 會員檔 B on A.帳號=B.使用者帳號
+                    where (@姓名='' or B.姓名 like '%' + @姓名 + '%') and (@帳號類別='' or B.帳號類別=@帳號類別) ");
+        if (!string.IsNullOrEmpty(beginDate))
+            sb.Append(@"and A.建立日期>=CONVERT(datetime, @beginDate) ");
+        if (!string.IsNullOrEmpty(endDate))
+            sb.Append(@"and A.建立日期<=CONVERT(datetime, @endDate)");
+
+        sb.Append(@"
+select count(*) as total from #tmp
+
+select * from (
+           select ROW_NUMBER() over (order by 建立日期 desc) itemNo,* from #tmp
+)#tmp where itemNo between @pStart and @pEnd ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@姓名", 姓名);
+        oCmd.Parameters.AddWithValue("@帳號類別", 帳號類別);
+        oCmd.Parameters.AddWithValue("@beginDate", beginDate);
+        oCmd.Parameters.AddWithValue("@endDate", endDate);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void UpdatePwd()
     {
         SqlCommand oCmd = new SqlCommand();
