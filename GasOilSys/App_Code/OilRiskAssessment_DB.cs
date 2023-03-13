@@ -163,6 +163,7 @@ else
 各等級風險管段數量_低,
 文件名稱,
 改善後風險等級,
+備註,
 修改者, 
 修改日期, 
 建立者, 
@@ -183,6 +184,7 @@ else
 @各等級風險管段數量_低,
 @文件名稱,
 @改善後風險等級,
+@備註,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -207,6 +209,7 @@ else
         oCmd.Parameters.AddWithValue("@各等級風險管段數量_低", 各等級風險管段數量_低);
         oCmd.Parameters.AddWithValue("@文件名稱", 文件名稱);
         oCmd.Parameters.AddWithValue("@改善後風險等級", 改善後風險等級);
+        oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -235,6 +238,7 @@ else
 各等級風險管段數量_低=@各等級風險管段數量_低,
 文件名稱=@文件名稱,
 改善後風險等級=@改善後風險等級,
+備註=@備註,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -257,6 +261,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@各等級風險管段數量_低", 各等級風險管段數量_低);
         oCmd.Parameters.AddWithValue("@文件名稱", 文件名稱);
         oCmd.Parameters.AddWithValue("@改善後風險等級", 改善後風險等級);
+        oCmd.Parameters.AddWithValue("@備註", 備註);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');

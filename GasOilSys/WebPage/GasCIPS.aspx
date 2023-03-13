@@ -434,13 +434,19 @@
                         $("#tablistFile tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
-                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '03')) {
-                            $("#thFunc").show();
-                            $("td[name='td_editFile']").show();
-                        }
-                        else {
+                        if ($("#sellist").val() != getTaiwanDate()) {
                             $("#thFunc").hide();
                             $("td[name='td_editFile']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#thFunc").hide();
+                                $("td[name='td_editFile']").hide();
+                            }
+                            else {
+                                $("#thFunc").show();
+                                $("td[name='td_editFile']").show();
+                            }
                         }
                     }
                 }
@@ -483,13 +489,19 @@
                         $("#tablistcoordinate tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
-                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '03')) {
-                            $("#thFunc2").show();
-                            $("td[name='td_editCoordinate']").show();
-                        }
-                        else {
+                        if ($("#sellist").val() != getTaiwanDate()) {
                             $("#thFunc2").hide();
                             $("td[name='td_editCoordinate']").hide();
+                        }
+                        else {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                                $("#thFunc2").hide();
+                                $("td[name='td_editCoordinate']").hide();
+                            }
+                            else {
+                                $("#thFunc2").show();
+                                $("td[name='td_editCoordinate']").show();
+                            }
                         }
                     }
                 }
