@@ -1107,7 +1107,29 @@
                                             dataStr += '<td><span style="color: red">' + $(this).attr("lvName") + '</span></td>';
                                         else
                                             dataStr += '<td>' + $(this).attr("lvName") + '</td>';
-                                        dataStr += '<td></td><td></td>';
+                                        if ($(this).attr("psanswer") == 'Y') {
+                                            dataStr += '<td align="center" nowrap>';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="00" class="cRadio" /><br>0</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="01" class="cRadio" /><br>1</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="02" class="cRadio" /><br>2</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="03" class="cRadio" /><br>3</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="04" class="cRadio" /><br>4</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="05" class="cRadio" /><br>5</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="06" class="cRadio" /><br>&emsp;</div>';
+                                            dataStr += '</td>';
+                                            dataStr += '<td align="center" nowrap>';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="00" class="psCtrl mRadio" /><br>0</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="01" class="psCtrl mRadio" /><br>1</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="02" class="psCtrl mRadio" /><br>2</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="03" class="psCtrl mRadio" /><br>3</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="04" class="psCtrl mRadio" /><br>4</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="05" class="psCtrl mRadio" /><br>5</div>&emsp;';
+                                            dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="06" class="psCtrl mRadio" /><br>&emsp;</div>';
+                                            dataStr += '</td>';
+                                        }
+                                        else {
+                                            dataStr += '<td></td><td></td>';
+                                        }                                            
                                         dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td><td></td>';
                                         dataStr += '<td style="text-align:center;">';
                                         if ($(this).attr("psall") != '') {
@@ -1188,7 +1210,29 @@
                         dataStr += '<td><span style="color: red">' + $(this).attr("lvName") + '</span></td>';
                     else
                         dataStr += '<td>' + $(this).attr("lvName") + '</td>';
-                    dataStr += '<td></td><td></td>';
+                    if ($(this).attr("psanswer") == 'Y') {
+                        dataStr += '<td align="center" nowrap>';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="00" class="cRadio" /><br>0</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="01" class="cRadio" /><br>1</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="02" class="cRadio" /><br>2</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="03" class="cRadio" /><br>3</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="04" class="cRadio" /><br>4</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="05" class="cRadio" /><br>5</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="cg_' + $(this).attr("lvGuid") + '" value="06" class="cRadio" /><br>&emsp;</div>';
+                        dataStr += '</td>';
+                        dataStr += '<td align="center" nowrap>';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="00" class="psCtrl mRadio" /><br>0</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="01" class="psCtrl mRadio" /><br>1</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="02" class="psCtrl mRadio" /><br>2</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="03" class="psCtrl mRadio" /><br>3</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="04" class="psCtrl mRadio" /><br>4</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="05" class="psCtrl mRadio" /><br>5</div>&emsp;';
+                        dataStr += '<div class="inlineitem textcenter"><input type="radio" name="mg_' + $(this).attr("lvGuid") + '" value="06" class="psCtrl mRadio" /><br>&emsp;</div>';
+                        dataStr += '</td>';
+                    }
+                    else {
+                        dataStr += '<td></td><td></td>';
+                    }
                     dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td>';
                     if ($(this).attr("psall") != '') {
                         $.ajax({

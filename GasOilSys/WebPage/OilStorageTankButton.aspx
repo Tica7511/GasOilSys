@@ -296,7 +296,7 @@
                                     <thead>
                                         <tr>
                                             <th nowrap rowspan="2">轄區<br>儲槽<br>編號</th>
-                                            <th nowrap valign="top">執行<br>MFL<br>檢測 </th>
+                                            <th nowrap valign="top">執行<br>土壤側<br>檢測 </th>
                                             <th nowrap valign="top">防蝕塗層</th>
                                             <th nowrap valign="top">塗層全面<br>重新施加日期 </th>
                                             <th nowrap valign="top">最近一次<br>開放塗層<br>維修情形 </th>

@@ -176,7 +176,7 @@ public partial class Handler_GasEvaluationReport : System.Web.UI.Page
                             temstr = "0" + (k + 1).ToString();
                         }
 
-                        sn = getTaiwanYear() + dt3.Rows[0]["代碼"].ToString().Trim() + "OA" + temstr;
+                        sn = getTaiwanYear() + dt3.Rows[0]["代碼"].ToString().Trim() + "-0A" + temstr;
                     }
 
                     tmpstr += "<td align='center'><font face='標楷體'>" + sn + "</font></td>";

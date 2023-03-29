@@ -355,7 +355,7 @@
                             <div class="OchiTrasTable width100 TitleLength09 font-size3">
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">執行MFL檢測</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">執行土壤側檢測</div>
                                         <div class="OchiCell width100">
                                             <select id="txt2" class="width100 inputex" >
                                                 <option value="">請選擇</option>
@@ -477,7 +477,7 @@
                             </div><!-- OchiTrasTable -->
                             </br>
                             <div class="margin5TB font-size2">
-                                (1) 執行MFL檢測：填寫儲槽底板磁通漏檢測執行情形，請填1、2或3。<br>
+                                (1) 執行土壤側檢測：填寫儲槽底板磁通漏檢測執行情形，請填1、2或3。<br>
                                 (2) 防蝕塗層：請填寫儲槽底板塗層種類對應之數值，如：1、2 、3或4。<br>
                                 (3) 塗層全面重新施加日期：請填寫塗層全面重新施作完成之日期，非定期內部開放修補日期。<br>
                                 (4) 「最近一次開放是否有維修」：此欄位如勾選「有」，請於備註欄填寫相對應文件編號，並於現場提供相關詳細維修紀錄資料。<br>

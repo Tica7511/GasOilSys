@@ -70,9 +70,9 @@ public class OilSelfEvaluation_DB
 declare @cYear nvarchar(4)=@Year;
 
 select (
-select lv1.石油自評表分類guid as lvGuid,lv1.石油自評表分類名稱 as lvName,lv1.石油自評表分類階層 as lv,isnull(lv1.石油自評表分類參考資料,'') as ref, isnull(lv1.石油自評表是否總評,'') as psall, isnull(lv1.石油自評表是否紅字,'') as psred
-,lv2.石油自評表分類guid as lvGuid,lv2.石油自評表分類名稱 as lvName,lv2.石油自評表分類父層guid as pGuid,lv2.石油自評表分類階層 as lv,isnull(lv2.石油自評表分類參考資料,'') as ref, isnull(lv2.石油自評表是否總評,'') as psall, isnull(lv2.石油自評表是否紅字,'') as psred
-,lv3.石油自評表分類guid as lvGuid,lv3.石油自評表分類名稱 as lvName,lv3.石油自評表分類父層guid as pGuid,lv3.石油自評表分類階層 as lv,isnull(lv3.石油自評表分類參考資料,'') as ref, isnull(lv3.石油自評表是否總評,'') as psall, isnull(lv3.石油自評表是否紅字,'') as psred
+select lv1.石油自評表分類guid as lvGuid,lv1.石油自評表分類名稱 as lvName,lv1.石油自評表分類階層 as lv,isnull(lv1.石油自評表分類參考資料,'') as ref, isnull(lv1.石油自評表是否總評,'') as psall, isnull(lv1.石油自評表是否紅字,'') as psred, isnull(lv1.石油自評表是否填寫答案,'') as psanswer 
+,lv2.石油自評表分類guid as lvGuid,lv2.石油自評表分類名稱 as lvName,lv2.石油自評表分類父層guid as pGuid,lv2.石油自評表分類階層 as lv,isnull(lv2.石油自評表分類參考資料,'') as ref, isnull(lv2.石油自評表是否總評,'') as psall, isnull(lv2.石油自評表是否紅字,'') as psred, isnull(lv2.石油自評表是否填寫答案,'') as psanswer 
+,lv3.石油自評表分類guid as lvGuid,lv3.石油自評表分類名稱 as lvName,lv3.石油自評表分類父層guid as pGuid,lv3.石油自評表分類階層 as lv,isnull(lv3.石油自評表分類參考資料,'') as ref, isnull(lv3.石油自評表是否總評,'') as psall, isnull(lv3.石油自評表是否紅字,'') as psred, isnull(lv3.石油自評表是否填寫答案,'') as psanswer 
 ,q.石油自評表題目guid as qGuid,q.石油自評表題目名稱 as qTitle,q.石油自評表題目分類guid as pGuid
 from 石油_自評表分類檔 lv1
 left join 石油_自評表分類檔 lv2 on lv1.石油自評表分類guid=lv2.石油自評表分類父層guid and lv2.石油自評表分類狀態='A' and lv2.石油自評表分類年份=@cYear
@@ -106,6 +106,25 @@ for xml auto,root('root')
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append(@"select 石油自評表題目guid,石油自評表題目年份 from 石油_自評表題目檔 where 石油自評表題目狀態='A' ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		//oCmd.Parameters.AddWithValue("@A", A);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public DataTable GetParentQuestionGuid()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select 石油自評表分類guid,石油自評表分類年份 from 石油_自評表分類檔 where 石油自評表分類狀態='A' and 石油自評表是否填寫答案='Y' ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
