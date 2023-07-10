@@ -18,6 +18,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
+
 			$(document).on("keyup", "body", function (e) {
 				if (e.keyCode == 13)
 					$("#lgbtn").click();
@@ -58,7 +59,7 @@
             var ColHeight = WinHeight * 0.8;
             $.colorbox({ inline: true, href: "#passwordDia", width: "100%", maxWidth: "600", maxHeight: ColHeight, opacity: 0.5 });
         }
-	</script>
+    </script>
 </head>
 <body>
 	<form id="form1">

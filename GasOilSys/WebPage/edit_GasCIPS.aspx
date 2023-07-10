@@ -560,7 +560,7 @@
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt2" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次執行 年/月</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">折線圖產出日期 年/月</div>
                                         <div class="OchiCell width100">
                                             民國 <input type="number" min="1" id="txt3_1" placeholder="請填寫民國年" class="inputex width40"> 年 
                                             <select id="txt3_2" class="width25 inputex" >
@@ -583,7 +583,7 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">折線圖產出 年/月</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">複判會議日期 年/月</div>
                                         <div class="OchiCell width100">
                                             民國 <input type="number" min="1" id="txt4_1" placeholder="請填寫民國年" class="inputex width40"> 年 
                                             <select id="txt4_2" class="width25 inputex" >

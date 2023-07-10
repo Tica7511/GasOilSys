@@ -1103,6 +1103,7 @@
                                 if (i == 1) {
                                     var dataStr = '';
                                     $(data).find("lv" + i).each(function (index) {
+                                        var sGuid = $(this).attr("lvGuid");
                                         dataStr = '<tr guid="' + $(this).attr("lvGuid") + '" data-tt-id="' + $(this).attr("lvGuid") + '">';
                                         if ($(this).attr("psred") == 'Y')
                                             dataStr += '<td><span style="color: red">' + $(this).attr("lvName") + '</span></td>';
@@ -1152,18 +1153,18 @@
                                                     else {
                                                         var dataStr2 = '';
                                                         if ($(data).find("data_item").length > 0) {
-                                                            dataStr2 += '<td><span name="spcom_' + $(this).attr("lvGuid") + '">查核建議...</span></td>';
+                                                            dataStr2 += '<td><span name="spcom_' + sGuid + '">查核建議...</span></td>';
                                                             dataStr += dataStr2;
                                                         }
                                                         else {
-                                                            dataStr += '<td><span name="spcom_' + $(this).attr("lvGuid") + '"></span></td>';
+                                                            dataStr += '<td><span name="spcom_' + sGuid + '"></span></td>';
                                                         }
                                                     }
                                                 }
                                             });
                                         }
                                         else {
-                                            dataStr += '<td><span name="spcom_' + $(this).attr("lvGuid") + '"></span></td>';
+                                            dataStr += '<td><span name="spcom_' + sGuid + '"></span></td>';
                                         }
                                         dataStr += '<td style="text-align:center;">';
                                         if ($(this).attr("psall") != '') {

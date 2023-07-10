@@ -1102,6 +1102,7 @@
                                 if (i == 1) {
                                     var dataStr = '';
                                     $(data).find("lv" + i).each(function (index) {
+                                        var sGuid = $(this).attr("lvGuid");
                                         dataStr = '<tr guid="' + $(this).attr("lvGuid") + '" data-tt-id="' + $(this).attr("lvGuid") + '">';
                                         if ($(this).attr("psred") == 'Y')
                                             dataStr += '<td><span style="color: red">' + $(this).attr("lvName") + '</span></td>';
@@ -1130,7 +1131,40 @@
                                         else {
                                             dataStr += '<td></td><td></td>';
                                         }                                            
-                                        dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td><td></td>';
+                                        dataStr += '<td style="text-align:center;">' + $(this).attr("ref") + '</td>';
+                                        if ($(this).attr("psall") != '') {
+                                            $.ajax({
+                                                type: "POST",
+                                                async: false, //在沒有返回值之前,不會執行下一步動作
+                                                url: "../Handler/GetGasAllSuggestion.aspx",
+                                                data: {
+                                                    cpid: $.getQueryString("cp"),
+                                                    qid: $(this).attr("lvGuid"),
+                                                },
+                                                error: function (xhr) {
+                                                    alert("Error: " + xhr.status);
+                                                    console.log(xhr.responseText);
+                                                },
+                                                success: function (data) {
+                                                    if ($(data).find("Error").length > 0) {
+                                                        alert($(data).find("Error").attr("Message"));
+                                                    }
+                                                    else {
+                                                        var dataStr2 = '';
+                                                        if ($(data).find("data_item").length > 0) {
+                                                            dataStr2 += '<td><span name="spcom_' + sGuid + '">查核建議...</span></td>';
+                                                            dataStr += dataStr2;
+                                                        }
+                                                        else {
+                                                            dataStr += '<td><span name="spcom_' + sGuid + '"></span></td>';
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            dataStr += '<td><span name="spcom_' + sGuid + '"></span></td>';
+                                        }
                                         dataStr += '<td style="text-align:center;">';
                                         if ($(this).attr("psall") != '') {
                                             dataStr += '<input type="button" class="grebtn font-size3" value="查核建議" guid="' + $(this).attr("lvGuid") + '" name="psallbtn" title="查核建議" />';

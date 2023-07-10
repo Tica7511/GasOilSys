@@ -463,7 +463,7 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外部腐蝕保護電位符合標準要求數量</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外部腐蝕保護電位不符合標準要求數量</div>
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt21" class="inputex width40"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">

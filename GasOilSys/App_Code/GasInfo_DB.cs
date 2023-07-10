@@ -226,7 +226,7 @@ where guid=@guid
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"
-select ISNULL(MAX(排序), '0') maxSn from 天然氣_事業單位基本資料表_進口事業轄區場站名稱 
+select ISNULL(MAX(CONVERT(int,排序)), '0') maxSn from 天然氣_事業單位基本資料表_進口事業轄區場站名稱 
 where 業者guid=@業者guid and 年度=@年度 and 資料狀態='A' 
 ");
         if (!string.IsNullOrEmpty(場站類別))

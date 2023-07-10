@@ -794,7 +794,7 @@
                                                     <div class="OchiCell width100"><input type="text" id="ov7"  class="inputex width100" disabled></div>
                                                 </div><!-- OchiHalf -->
                                                 <div class="OchiHalf">
-                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">整壓計量站</div>
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">計量站</div>
                                                     <div class="OchiCell width100"><input type="text" id="ov8"  class="inputex width100" disabled></div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->

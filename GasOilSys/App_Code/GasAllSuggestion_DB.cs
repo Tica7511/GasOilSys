@@ -260,7 +260,7 @@ WHERE A.天然氣自評表分類年份=@年度 and B.業者guid=@業者guid and 
 
 select C.項目名稱 as 項目, Ap.* from #tmp Ap 
 left join 代碼檔 C on Ap.分類 = C.項目代碼 
-WHERE C.群組代碼='004' 
+WHERE C.群組代碼='027' 
 order by 分類, CONVERT(int, Ap.天然氣自評表分類排序) ASC 
 ");
 
@@ -292,7 +292,7 @@ WHERE A.天然氣自評表分類年份=@年度 and B.業者guid=@業者guid and 
 
 select C.項目名稱 as 項目, Ap.* from #tmp Ap 
 left join 代碼檔 C on Ap.分類 = C.項目代碼 
-WHERE C.群組代碼='004' and Ap.分類='5' 
+WHERE C.群組代碼='027' and Ap.分類='6' 
 order by 分類, CONVERT(int, Ap.天然氣自評表分類排序) ASC 
 ");
 

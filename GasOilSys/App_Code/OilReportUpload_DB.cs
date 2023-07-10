@@ -88,6 +88,26 @@ from 石油_查核簡報上傳 where 資料狀態='A' and 業者guid=@業者guid
         return ds;
     }
 
+    public DataTable GetDataFileName()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_查核簡報上傳 where 資料狀態='A' and 業者guid=@業者guid and 檔案名稱=@檔案名稱 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@檔案名稱", 檔案名稱);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void SaveFile(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();

@@ -143,7 +143,7 @@ public partial class Handler_GasEvaluationReport : System.Web.UI.Page
             {
                 string type = dt.Rows[k]["分類"].ToString().Trim();
 
-                if (type != "5")
+                if (type != "6")
                 {
                     tmpstr += "<tr>";
 
@@ -174,6 +174,10 @@ public partial class Handler_GasEvaluationReport : System.Web.UI.Page
                         if (k.ToString().Length == 1)
                         {
                             temstr = "0" + (k + 1).ToString();
+                        }
+                        else
+                        {
+                            temstr = (k + 1).ToString();
                         }
 
                         sn = getTaiwanYear() + dt3.Rows[0]["代碼"].ToString().Trim() + "-0A" + temstr;
@@ -218,7 +222,7 @@ public partial class Handler_GasEvaluationReport : System.Web.UI.Page
             {
                 string type = dt05.Rows[w]["分類"].ToString().Trim();
 
-                if (type == "5")
+                if (type == "6")
                 {
                     tmpstr += "<tr>";
 
@@ -271,7 +275,7 @@ public partial class Handler_GasEvaluationReport : System.Web.UI.Page
                     #endregion
 
                     tmpstr += "</tr>";
-                }                
+                }
             }
         }
         else

@@ -85,7 +85,7 @@ public class GasTubeInfo_DB
 
 		sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 into #tmp from 天然氣_管線基本資料 a 
   left join 天然氣_管線路徑環境特質 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度
-  where a.業者guid=@業者guid and a.年度=@年度 and a.資料狀態='A' ");
+  where a.業者guid=@業者guid and a.年度=@年度 and a.資料狀態='A'  ");
 
         if (!string.IsNullOrEmpty(長途管線識別碼))
             sb.Append(@" and a.長途管線識別碼=@長途管線識別碼");

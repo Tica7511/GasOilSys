@@ -236,7 +236,7 @@ WHERE A.石油自評表分類年份=@年度 and B.業者guid=@業者guid and B.�
 
 select C.項目名稱 as 項目, Ap.* from #tmp Ap 
 left join 代碼檔 C on Ap.分類 = C.項目代碼 
-WHERE C.群組代碼='004' 
+WHERE C.群組代碼='026' 
 order by 分類, CONVERT(int, Ap.石油自評表分類排序) ASC 
 ");
 

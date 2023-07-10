@@ -27,6 +27,7 @@
 
             $(document).on("click", "#cancelbtn", function () {
                 getData();
+                $("#fileUpload").val("");
                 $("#filediv").hide();
                 $("#filebtn").show();
             });
@@ -99,6 +100,7 @@
                         else {
                             alert($("Response", data).text());
                             getData();
+                            $("#fileUpload").val("");
                             $("#filediv").hide();
                             $("#filebtn").show();
 				    	}

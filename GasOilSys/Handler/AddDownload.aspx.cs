@@ -105,6 +105,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                     }                    
                     break;
             }
+
+            dt.Clear();
             #endregion
 
             // 檔案上傳
@@ -214,6 +216,11 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     grdb._建立者 = LogInfo.mGuid;
                                     grdb._修改者 = LogInfo.mGuid;
 
+                                    dt = grdb.GetDataFileName();
+                                    if (dt.Rows.Count > 0)
+                                        if (!string.IsNullOrEmpty(dt.Rows[0]["檔案名稱"].ToString().Trim()))
+                                            throw new Exception("有相同的檔案名稱，請先刪除檔案再上傳");
+
                                     grdb.SaveFile(oConn, myTrans);
                                     break;
                                 case "pipeinspect":
@@ -249,6 +256,11 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     ordb._檔案名稱 = newName;
                                     ordb._建立者 = LogInfo.mGuid;
                                     ordb._修改者 = LogInfo.mGuid;
+
+                                    dt = ordb.GetDataFileName();
+                                    if (dt.Rows.Count > 0)
+                                        if (!string.IsNullOrEmpty(dt.Rows[0]["檔案名稱"].ToString().Trim()))
+                                            throw new Exception("有相同的檔案名稱，請先刪除檔案再上傳");
 
                                     ordb.SaveFile(oConn, myTrans);
                                     break;

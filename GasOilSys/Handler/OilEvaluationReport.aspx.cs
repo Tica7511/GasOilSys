@@ -139,136 +139,152 @@ public partial class Handler_OilEvaluationReport : System.Web.UI.Page
             int Tno = 0;
             int Cno = 0;
             int Dno = 0;
+            int Ano = 0;
 
             for (int k = 0; k < dt.Rows.Count; k++)
             {
                 string type = dt.Rows[k]["分類"].ToString().Trim();
                 string code = string.Empty;
 
-                if (type != "5")
+                tmpstr += "<tr>";
+
+                #region 項目
+
+                tmpstr += "<td valign='middle'><font face='標楷體'>" + dt.Rows[k]["項目"].ToString().Trim() + "</font></td>";
+
+                #endregion
+
+                #region 分類
+
+                string gName = dt.Rows[k]["石油自評表分類名稱"].ToString().Trim();
+                string[] gArr = Regex.Split(gName, "[(]文");
+                gName = gArr[0];
+                tmpstr += "<td align='center'><font face='標楷體'>" + gName + "</font></td>";
+
+                #endregion
+
+                #region 編號
+
+                string temstr = string.Empty;
+
+                switch (type)
                 {
-
-                    tmpstr += "<tr>";
-
-                    #region 項目
-
-                    tmpstr += "<td valign='middle'><font face='標楷體'>" + dt.Rows[k]["項目"].ToString().Trim() + "</font></td>";
-
-                    #endregion
-
-                    #region 分類
-
-                    string gName = dt.Rows[k]["石油自評表分類名稱"].ToString().Trim();
-                    string[] gArr = Regex.Split(gName, "[(]文");
-                    gName = gArr[0];
-                    tmpstr += "<td align='center'><font face='標楷體'>" + gName + "</font></td>";
-
-                    #endregion
-
-                    #region 編號
-
-                    string temstr = string.Empty;
-
-                    switch (type)
-                    {
-                        case "1":
-                            code = "P";
-                            Pno++;
-                            if (Pno.ToString().Length == 1)
-                            {
-                                if (Pno == 10)
-                                {
-                                    temstr = Pno.ToString();
-                                }
-                                else
-                                {
-                                    temstr = "0" + Pno.ToString();
-                                }
-                            }
-                            else
+                    case "1":
+                        code = "P";
+                        Pno++;
+                        if (Pno.ToString().Length == 1)
+                        {
+                            if (Pno == 10)
                             {
                                 temstr = Pno.ToString();
                             }
-                            break;
-                        case "2":
-                            code = "T";
-                            Tno++;
-                            if (Tno.ToString().Length == 1)
-                            {
-                                if (Tno == 10)
-                                {
-                                    temstr = Tno.ToString();
-                                }
-                                else
-                                {
-                                    temstr = "0" + Tno.ToString();
-                                }
-                            }
                             else
+                            {
+                                temstr = "0" + Pno.ToString();
+                            }
+                        }
+                        else
+                        {
+                            temstr = Pno.ToString();
+                        }
+                        break;
+                    case "2":
+                        code = "T";
+                        Tno++;
+                        if (Tno.ToString().Length == 1)
+                        {
+                            if (Tno == 10)
                             {
                                 temstr = Tno.ToString();
                             }
-                            break;
-                        case "3":
-                            code = "C";
-                            Cno++;
-                            if (Cno.ToString().Length == 1)
-                            {
-                                if(Cno == 10)
-                                {
-                                    temstr = Cno.ToString();
-                                }
-                                else
-                                {
-                                    temstr = "0" + Cno.ToString();
-                                }
-                            }
                             else
+                            {
+                                temstr = "0" + Tno.ToString();
+                            }
+                        }
+                        else
+                        {
+                            temstr = Tno.ToString();
+                        }
+                        break;
+                    case "3":
+                        code = "C";
+                        Cno++;
+                        if (Cno.ToString().Length == 1)
+                        {
+                            if (Cno == 10)
                             {
                                 temstr = Cno.ToString();
                             }
-                            break;
-                        case "4":
-                            code = "D";
-                            Dno++;
-                            if (Dno.ToString().Length == 1)
-                            {
-                                if (Dno == 10)
-                                {
-                                    temstr = Dno.ToString();
-                                }
-                                else
-                                {
-                                    temstr = "0" + Dno.ToString();
-                                }
-                            }
                             else
+                            {
+                                temstr = "0" + Cno.ToString();
+                            }
+                        }
+                        else
+                        {
+                            temstr = Cno.ToString();
+                        }
+                        break;
+                    case "4":
+                        code = "D";
+                        Dno++;
+                        if (Dno.ToString().Length == 1)
+                        {
+                            if (Dno == 10)
                             {
                                 temstr = Dno.ToString();
                             }
-                            break;
-                    }
-
-                    sn = getTaiwanYear() + "-" + temstr + code;
-
-                    tmpstr += "<td align='center'><font face='標楷體'>" + sn + "</font></td>";
-
-                    #endregion
-
-                    #region 查核結果及建議事項
-
-                    tmpstr += "<td align='center'><font face='標楷體'>" + dt.Rows[k]["委員意見"].ToString().Trim() + "</font></td>";
-
-                    #endregion
-
-                    #region 查核建議等級
-
-                    tmpstr += "<td align='center'><font face='標楷體'>" + dt.Rows[k]["委員"].ToString().Trim() + "</font></td>";
-
-                    #endregion
-
-                    tmpstr += "</tr>";
+                            else
+                            {
+                                temstr = "0" + Dno.ToString();
+                            }
+                        }
+                        else
+                        {
+                            temstr = Dno.ToString();
+                        }
+                        break;
+                    case "5":
+                        code = "A";
+                        Ano++;
+                        if (Ano.ToString().Length == 1)
+                        {
+                            if (Ano == 10)
+                            {
+                                temstr = Ano.ToString();
+                            }
+                            else
+                            {
+                                temstr = "0" + Ano.ToString();
+                            }
+                        }
+                        else
+                        {
+                            temstr = Ano.ToString();
+                        }
+                        break;
                 }
+
+                sn = getTaiwanYear() + "-" + temstr + code;
+
+                tmpstr += "<td align='center'><font face='標楷體'>" + sn + "</font></td>";
+
+                #endregion
+
+                #region 查核結果及建議事項
+
+                tmpstr += "<td align='center'><font face='標楷體'>" + dt.Rows[k]["委員意見"].ToString().Trim() + "</font></td>";
+
+                #endregion
+
+                #region 查核建議等級
+
+                tmpstr += "<td align='center'><font face='標楷體'>" + dt.Rows[k]["委員"].ToString().Trim() + "</font></td>";
+
+                #endregion
+
+                tmpstr += "</tr>";
             }
         }
         else

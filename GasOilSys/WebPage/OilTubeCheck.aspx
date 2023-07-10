@@ -557,10 +557,10 @@
                                 <table id="tablist" border="0" cellspacing="0" cellpadding="0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th >管線巡檢情形 </th>
+                                            <th width="40%">管線巡檢情形 </th>
                                             <th >前二年 </th>
                                             <th >前一年 </th>
-                                            <th id="th_edit" >功能 </th>
+                                            <th width="10%" id="th_edit" >功能 </th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
