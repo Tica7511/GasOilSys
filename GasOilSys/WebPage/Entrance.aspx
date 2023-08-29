@@ -22,10 +22,14 @@
 	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
         $(document).ready(function () {
+            $("#tdCheckCounseling").hide();
+            $("#tdStatistics").hide();
+            $("#tdProjectManagement").hide();
+
 
             switch ($("#Competence").val()) {
                 case "01":
-                    $("#tdWeekReport").hide();
+                    $("#tdWeekReport").hide();                    
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
                             $("#tdGas").hide();
@@ -61,7 +65,7 @@
                     break;
             }			
 		});
-	</script>
+    </script>
 </head>
 <body>
 	<input type="hidden" id="Competence" value="<%= identity %>" />
@@ -69,7 +73,7 @@
     <div class="loginwrapper padding10RL">
     <div class="enterblock">
         <div class="loginheader textcenter">
-            <img src="<%= ResolveUrl("~/images/boe-logo.png") %>" class="imgcenter" />
+            <%--<img src="<%= ResolveUrl("~/images/boe-logo.png") %>" class="imgcenter" />--%>
             <div class="font-size8 font-shadowA font-bold">石油與天然氣輸儲設備查核及檢測雲端平台</div>
         </div>
     	<div class="padding10ALL">
@@ -94,6 +98,26 @@
                             <i class="fa fa-calendar font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">週報、季報、月報</div>
                             <div class="font-size3">管理系統</div>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="33%" id="tdCheckCounseling">
+                        <a href="oil-index.html" target="_blank" class="enerbtn">
+                            <i class="fa fa-check-square-o font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">查核與檢測紀錄</div>
+                        </a>
+                    </td>
+                    <td width="33%" id="tdStatistics">
+                        <a href="GasStorageTankAndPipe.aspx" target="_blank" class="enerbtn">
+                            <i class="fa fa-pie-chart font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">統計查詢</div>
+                        </a>
+                    </td>
+                    <td width="33%" id="tdProjectManagement">
+                        <a href="week-index.html" target="_blank" class="enerbtn">
+                            <i class="fa fa-briefcase font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">計劃管理文件</div>
                         </a>
                     </td>
                 </tr>

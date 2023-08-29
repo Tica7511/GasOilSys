@@ -272,7 +272,7 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("排成改善_數量").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("排成改善_改善完成數量").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("需監控點數量").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
+                                tabstr += '<td>' + $(this).children("備註").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileListBtn" class="grebtn" aid="' + $(this).children("guid").text().trim() + '">附件列表</a></td>';
                                 tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="coordinateBtn" class="grebtn" aid="' + $(this).children("guid").text().trim() + '">座標列表</a></td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
@@ -707,9 +707,9 @@
                                         <tr>
                                             <th  rowspan="2">長途管線識別碼 </th>
                                             <th  rowspan="2">同時檢測管線數量 </th>
-                                            <th  rowspan="2">最近一次執行 <br>
-                                                年/月 </th>
                                             <th  rowspan="2">折線圖產出 <br>
+                                                年/月 </th>
+                                            <th  rowspan="2">複判日期 <br>
                                                 年/月 </th>
                                             <th  rowspan="2">檢測長度 <br>
                                                 (公里)</th>
