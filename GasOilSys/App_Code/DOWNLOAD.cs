@@ -202,6 +202,32 @@ namespace ED.HR.DOWNLOAD.WebForm
                         case "WeekReport":
 
                             break;
+                        case "VerificationTest":
+                            dirPath += "VerificationTest\\";
+                            switch (type)
+                            {
+                                case "Check":
+                                    dirPath += "Check\\";
+                                    Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    Fdb._排序 = sn;
+                                    dt = Fdb.GetFileData();
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                    }
+                                    break;
+                                case "Relation":
+                                    dirPath += "Relation\\";
+                                    Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    Fdb._排序 = sn;
+                                    dt = Fdb.GetFileData();
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                    }
+                                    break;
+                            }
+                            break;
                     }
 
                     //原檔名

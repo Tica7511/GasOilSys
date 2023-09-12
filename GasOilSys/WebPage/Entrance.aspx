@@ -22,13 +22,13 @@
 	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
         $(document).ready(function () {
-            $("#tdCheckCounseling").hide();
             $("#tdStatistics").hide();
             $("#tdProjectManagement").hide();
 
 
             switch ($("#Competence").val()) {
                 case "01":
+                    $("#tdCheckCounseling").hide();
                     $("#tdWeekReport").hide();                    
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
@@ -40,6 +40,7 @@
                     }
                     break;
                 case "02":
+                    $("#tdCheckCounseling").hide();
                     break;
                 case "03":
                     switch ($("#EnterCtrl").val()) {
@@ -56,10 +57,12 @@
                     break;
                 //中油長官
                 case "05":
+                    $("#tdCheckCounseling").hide();
                     $("#tdWeekReport").hide();
                     break;
                 //台塑長官
                 case "06":
+                    $("#tdCheckCounseling").hide();
                     $("#tdGas").hide();
                     $("#tdWeekReport").hide();
                     break;
@@ -83,17 +86,17 @@
                         <a href="OilCompanyList.aspx" id="" target="_blank" class="enerbtn">
                             <i class="fa fa-code-fork font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">石油業輸儲設備</div>
-                            <div class="font-size3">查核及檢測資訊系統</div>
+                            <div class="font-size3">現場查核</div>
                         </a>
                     </td>
                     <td width="33%" id="tdGas">
                         <a href="GasCompanyList.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-fire font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">天然氣事業輸儲設備</div>
-                            <div class="font-size3">查核及檢測資訊系統</div>
+                            <div class="font-size3">現場查核</div>
                         </a>
                     </td>
-                    <td width="33%" id="tdWeekReport">
+                   <td width="33%" id="tdWeekReport">
                         <a href="WeekIndex.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-calendar font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">週報、季報、月報</div>
@@ -103,9 +106,9 @@
                 </tr>
                 <tr>
                     <td width="33%" id="tdCheckCounseling">
-                        <a href="oil-index.html" target="_blank" class="enerbtn">
+                        <a href="VerificationTest.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-check-square-o font-sizeIcon" aria-hidden="true"></i>
-                            <div class="font-size5 font-bold">查核與檢測紀錄</div>
+                            <div class="font-size5 font-bold">查核與檢測資料</div>
                         </a>
                     </td>
                     <td width="33%" id="tdStatistics">

@@ -81,6 +81,36 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
 		return ds;
 	}
 
+	public DataTable GetCompanyListVerification(string mGuid, string year)
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select c.guid, c.公司名稱, c.事業部, c.營業處廠, c.中心庫區儲運課工場 
+from 天然氣_業者基本資料表 c 
+left join 天然氣_委員業者年度對應表 m on c.guid=m.業者guid and m.資料狀態='A' and m.委員guid=@mGuid 
+where c.資料狀態='A' and c.列表是否顯示='Y' ");
+
+		if (mGuid != "")
+			sb.Append(@"and m.委員guid=@mGuid ");
+		if (year != "")
+			sb.Append(@"and m.年度=@年度 ");
+
+		sb.Append(@"order by 排序編號 ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@mGuid", mGuid);
+		oCmd.Parameters.AddWithValue("@年度", year);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
 	public DataTable GetCpName()
 	{
 		SqlCommand oCmd = new SqlCommand();

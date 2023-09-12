@@ -55,7 +55,7 @@ public class FileTable
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select *, CONVERT(nvarchar(100),建立日期, 20) as 上傳日期 from 附件檔 where 資料狀態='A' and 業者guid=@業者guid and 年度=@年度 ");
+        sb.Append(@"select *, CONVERT(nvarchar(100),建立日期, 20) as 上傳日期 from 附件檔 where 資料狀態='A' and (@業者guid='' or 業者guid=@業者guid) and (@年度='' or 年度=@年度) ");
         if (!string.IsNullOrEmpty(檔案類型))
             sb.Append(@"and 檔案類型=@檔案類型 ");
         if (!string.IsNullOrEmpty(guid))
@@ -239,6 +239,40 @@ guid,
 
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "D");
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable DelFileFine()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"update 附件檔 set 
+            資料狀態=@資料狀態,
+            修改者=@修改者,
+            修改日期=@修改日期
+            where guid=@guid ");
+
+        if (!string.IsNullOrEmpty(檔案類型))
+            sb.Append(@" and 檔案類型=@檔案類型 ");
+
+        if (!string.IsNullOrEmpty(排序))
+            sb.Append(@" and 排序=@排序 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@排序", 排序);
         oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);

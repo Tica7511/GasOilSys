@@ -64,6 +64,7 @@ public partial class Handler_AddFile : System.Web.UI.Page
             #endregion
 
             // 檔案上傳
+
             HttpFileCollection uploadFiles = Request.Files;
             for (int i = 0; i < uploadFiles.Count; i++)
             {
