@@ -22,14 +22,11 @@
 	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
         $(document).ready(function () {
-            $("#tdStatistics").hide();
             $("#tdProjectManagement").hide();
-
-
             switch ($("#Competence").val()) {
                 case "01":
-                    $("#tdCheckCounseling").hide();
                     $("#tdWeekReport").hide();                    
+                    $("#tdStatistics").hide();
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
                             $("#tdGas").hide();
@@ -40,6 +37,7 @@
                     }
                     break;
                 case "02":
+                    $("#tdStatistics").hide();
                     $("#tdCheckCounseling").hide();
                     break;
                 case "03":
@@ -53,15 +51,18 @@
                     }
                     break;
                 case "04":
+                    $("#tdStatistics").hide();
                     $("#tdWeekReport").hide();
                     break;
                 //中油長官
                 case "05":
                     $("#tdCheckCounseling").hide();
+                    $("#tdStatistics").hide();
                     $("#tdWeekReport").hide();
                     break;
                 //台塑長官
                 case "06":
+                    $("#tdStatistics").hide();
                     $("#tdCheckCounseling").hide();
                     $("#tdGas").hide();
                     $("#tdWeekReport").hide();
@@ -112,7 +113,7 @@
                         </a>
                     </td>
                     <td width="33%" id="tdStatistics">
-                        <a href="GasStorageTankAndPipe.aspx" target="_blank" class="enerbtn">
+                        <a href="StatisticsPipeAndTank.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-pie-chart font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">統計查詢</div>
                         </a>

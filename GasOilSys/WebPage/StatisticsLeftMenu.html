@@ -1,0 +1,24 @@
+﻿<ul id="Salllist" class='nav'>
+    <li><a name="menubtn" href="javascript:void(0);" link='StatisticsPipeAndTank.aspx' target='_self'>石油天然氣儲槽或管線數量統計查詢</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='StatisticsCountyPipeAndTank.aspx' target='_self'>縣市別儲槽或管線數量統計查詢</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='StatisticsYearsTracking.aspx' target='_self'>歷年改善追蹤統計查詢</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='StatisticsAuditReport.aspx' target='_self'>查核報告統計查詢</a></li>
+    <li><a name="menubtn" href="javascript:void(0);" link='StatisticsTestReport.aspx' target='_self'>檢測報告統計查詢</a></li>
+</ul>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var pathAry = window.location.pathname.split('/');
+        var pathName = pathAry[(pathAry.length - 1)];
+        var pathNameAry = pathName.split('_');
+        var pathParentName = pathNameAry[(pathNameAry.length - 1)];
+        $("#navmenuV a[link='" + pathParentName + "']").parent().addClass("active");
+        $("#navmenuV a[link='" + pathParentName + "']").parent().parent().parent().addClass("open");
+        $('.nav').navgoco();
+
+        $("a[name='menubtn']").click(function () {
+            location.href = ($.getQueryString("cp") != "") ? $(this).attr("link") + "?cp=" + $.getQueryString("cp") : $(this).attr("link");
+        });
+    });
+</script>

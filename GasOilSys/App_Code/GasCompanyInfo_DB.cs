@@ -121,6 +121,14 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
   where 資料狀態='A' and 列表是否顯示='Y' ");
 		if (!string.IsNullOrEmpty(guid))
 			sb.Append(@"and guid = @guid ");
+		if (!string.IsNullOrEmpty(公司名稱))
+			sb.Append(@"and 公司名稱 = @公司名稱 ");
+		if (!string.IsNullOrEmpty(事業部))
+			sb.Append(@"and 事業部 = @事業部 ");
+		if (!string.IsNullOrEmpty(營業處廠))
+			sb.Append(@"and 營業處廠 = @營業處廠 ");
+		if (!string.IsNullOrEmpty(中心庫區儲運課工場))
+			sb.Append(@"and 中心庫區儲運課工場 = @中心庫區儲運課工場 ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
@@ -128,6 +136,10 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
 		DataTable ds = new DataTable();
 
 		oCmd.Parameters.AddWithValue("@guid", guid);
+		oCmd.Parameters.AddWithValue("@公司名稱", 公司名稱);
+		oCmd.Parameters.AddWithValue("@事業部", 事業部);
+		oCmd.Parameters.AddWithValue("@營業處廠", 營業處廠);
+		oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", 中心庫區儲運課工場);
 
 		oda.Fill(ds);
 		return ds;
@@ -192,7 +204,122 @@ where c.資料狀態='A' and c.列表是否顯示='Y' ");
 		return ds;
 	}
 
-    public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
+	public DataTable GetDistinctCpName(string selectName)
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select distinct " + selectName);
+		
+		sb.Append(@" as showName from 天然氣_業者基本資料表
+  where 資料狀態='A' and 列表是否顯示='Y' and " + selectName + " <> '' and " + selectName + " is not null ");
+		if (!string.IsNullOrEmpty(guid))
+			sb.Append(@"and guid = @guid ");
+		if (!string.IsNullOrEmpty(公司名稱))
+			sb.Append(@"and 公司名稱 = @公司名稱 ");
+		if (!string.IsNullOrEmpty(事業部))
+			sb.Append(@"and 事業部 = @事業部 ");
+		if (!string.IsNullOrEmpty(營業處廠))
+			sb.Append(@"and 營業處廠 = @營業處廠 ");
+		if (!string.IsNullOrEmpty(中心庫區儲運課工場))
+			sb.Append(@"and 中心庫區儲運課工場 = @中心庫區儲運課工場 ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@guid", guid);
+		oCmd.Parameters.AddWithValue("@公司名稱", 公司名稱);
+		oCmd.Parameters.AddWithValue("@事業部", 事業部);
+		oCmd.Parameters.AddWithValue("@營業處廠", 營業處廠);
+		oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", 中心庫區儲運課工場);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public DataTable GetCpNameStatistics()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select 
+'02' as 類別, guid, 公司名稱, 事業部, 營業處廠, 中心庫區儲運課工場, 
+pipeCount=(select count(*) as allCount from 天然氣_管線基本資料 where 業者guid=天然氣_業者基本資料表.guid and 資料狀態='A' ), 
+tankCount=(select count(*) as allCount from 天然氣_儲槽設施資料_儲槽基本資料 where 業者guid=天然氣_業者基本資料表.guid and 資料狀態='A' )  
+from 天然氣_業者基本資料表 
+where 資料狀態='A' and 列表是否顯示='Y' ");
+		if (!string.IsNullOrEmpty(guid))
+			sb.Append(@"and guid = @guid ");
+		if (!string.IsNullOrEmpty(公司名稱))
+			sb.Append(@"and 公司名稱 = @公司名稱 ");
+		if (!string.IsNullOrEmpty(事業部))
+			sb.Append(@"and 事業部 = @事業部 ");
+		if (!string.IsNullOrEmpty(營業處廠))
+			sb.Append(@"and 營業處廠 = @營業處廠 ");
+		if (!string.IsNullOrEmpty(中心庫區儲運課工場))
+			sb.Append(@"and 中心庫區儲運課工場 = @中心庫區儲運課工場 ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@guid", guid);
+		oCmd.Parameters.AddWithValue("@公司名稱", 公司名稱);
+		oCmd.Parameters.AddWithValue("@事業部", 事業部);
+		oCmd.Parameters.AddWithValue("@營業處廠", 營業處廠);
+		oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", 中心庫區儲運課工場);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public DataTable GetCountList()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"
+  declare @管線數量總合 int
+  declare @管線長度總合 float
+  declare @儲槽數量總合 int
+  declare @儲槽容量總合 float
+
+  set @管線數量總合 = (select count(*) from 天然氣_管線基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
+  where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  set @管線長度總合 = (select isnull(sum(convert(float, a.轄管長度)),0) from 天然氣_管線基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
+  where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  set @儲槽數量總合 = (select count(*) from 天然氣_儲槽設施資料_儲槽基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
+  where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  set @儲槽容量總合 = (select isnull(sum(convert(float, a.容量)),0) from 天然氣_儲槽設施資料_儲槽基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
+  where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+
+  select @管線數量總合 as 管線數量總合, @管線長度總合 as 管線長度總合, @儲槽數量總合 as 儲槽數量總合, @儲槽容量總合 as 儲槽容量總合 ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@公司名稱", 公司名稱);
+		oCmd.Parameters.AddWithValue("@事業部", 事業部);
+		oCmd.Parameters.AddWithValue("@營業處廠", 營業處廠);
+		oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", 中心庫區儲運課工場);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
