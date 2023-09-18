@@ -20,7 +20,7 @@ body{}
 .HeaderP {background: url("../images/headerbgP.jpg") top left no-repeat;min-height: 100px;}
 .WrapperHeader .loginfo{padding-top:5px; text-align:right;}
 .MainMenu{
-height:2.8em; font-size:18px; z-index: 998; margin-top: 50px;
+height:2.8em; font-size:18px; z-index: 998; margin-top: 10px;
 
 }
 .MainMenuO{
