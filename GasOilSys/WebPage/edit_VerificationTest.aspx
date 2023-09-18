@@ -28,8 +28,8 @@
                 $("#btn_object_delete").hide();
             }
             else {
-                //$("#filediv").empty();
-                //$("#filediv").append('<input name="fileNameCheck" type="file" />');
+                $("#filediv").empty();
+                $("#filediv").append('<input name="fileNameCheck" type="file" />');
                 $("#sel_type").prop("disabled", false);
                 $("#btn_object").show();
                 $("#btn_object_delete").show();
@@ -60,6 +60,66 @@
                 $("#tObjectGuid").val($(this).attr('aid'));
                 $("#txt_object").val($(this).attr('cname'));
                 $.magnificPopup.close();
+            });
+
+            //刪除查核檢測報告
+            $(document).on("click", "#delfileCheck", function () {
+                var isDel = confirm("確定刪除檔案嗎?");
+                if (isDel) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/DelVerificationTestFile.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                            type: $(this).attr("atype"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                $("#filediv").empty();
+                                $("#filediv").append('<input name="fileNameCheck" type="file" />');
+                            }
+                        }
+                    });
+                }
+            });
+
+            //刪除相關報告
+            $(document).on("click", "a[name='delbtnFile']", function () {
+                var isDel = confirm("確定刪除檔案嗎?");
+                if (isDel) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/DelVerificationTestFile.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                            sn: $(this).attr("asn"),
+                            type: $(this).attr("atype"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getDataFileRelation();
+                            }
+                        }
+                    });
+                }
             });
 
             //對象開窗取消按鈕
@@ -164,7 +224,7 @@
                         else {
                             alert($("Response", data).text());
 
-                            location.href = "VerificationTest.aspx";
+                            location.href = "edit_VerificationTest.aspx?guid=" + $("vguid", data).text();
                         }
                     }
                 });
@@ -192,7 +252,10 @@
 
             //取消按鈕
             $(document).on("click", "#cancelbtn", function () {
-                location.href = "VerificationTest.aspx";
+                var isDel = confirm("尚未儲存的部分將不會更改，確定返回嗎?");
+                if (isDel) {
+                    location.href = "VerificationTest.aspx";
+                }
             });
 
             $(".pickDate").datepick({
@@ -226,20 +289,20 @@
                             $(data).find("data_item").each(function (i) {
                                 $("#sel_type").val($(this).children("類別").text().trim());
                                 $("#txt_object").val($(this).children("對象").text().trim());
-                                $("#tObjectGuid").val($(this).children("對象guid").text().trim());
+                                $("#tObjectGuid").val($(this).children("業者guid").text().trim());
                                 $("#txt_timeBegin").val($(this).children("查核日期起").text().trim());
                                 $("#txt_timeEnd").val($(this).children("查核日期迄").text().trim());
                                 $("#txt_session").val($(this).children("場次").text().trim());
 
-                                //if (($(this).children("新檔名").text().trim() == '') || ($(this).children("新檔名").text().trim() == null)) {
-                                //    $("#filediv").empty();
-                                //    $("#filediv").append('<input name="fileNameCheck" type="file" />');
-                                //}
-                                //else {
-                                //    $("#filediv").empty();
-                                //    $("#filediv").append('<input name="fileNameCheck" type="file" /><a href=../DOWNLOAD.aspx?category=VerificationTest&type=Check&v=' + $(this).children("guid").text().trim() + '">' +
-                                //        $(this).children("新檔名").text().trim() + $(this).children("附檔名").text().trim() + '</a> <a id="delfileCheck" aid="' + $(this).children("guid").text().trim() + '" class="genbtn" >刪除</a>');
-                                //}
+                                if (($(this).children("新檔名").text().trim() == '') || ($(this).children("新檔名").text().trim() == null)) {
+                                    $("#filediv").empty();
+                                    $("#filediv").append('<input name="fileNameCheck" type="file" />');
+                                }
+                                else {
+                                    $("#filediv").empty();
+                                    $("#filediv").append('<a href=../DOWNLOAD.aspx?category=VerificationTest&type=Check&v=' + $(this).children("guid").text().trim() + '&sn=' + $(this).children("排序").text().trim() + '>' +
+                                        $(this).children("新檔名").text().trim() + $(this).children("附檔名").text().trim() + '</a> <a id="delfileCheck" aid="' + $(this).children("guid").text().trim() + '" atype="10" class="genbtn" >刪除</a>');
+                                }
                             });
                         }
                     }
@@ -254,9 +317,7 @@
                 async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../handler/GetFile.aspx",
                 data: {
-                    cpid: $.getQueryString("cp"),
                     guid: $.getQueryString("guid"),
-                    year: $.getQueryString("year"),
                     type: "11",
                 },
                 error: function (xhr) {
@@ -279,7 +340,7 @@
                                     '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnFile" aid="' + $(this).children("guid").text().trim() +
-                                    '" sn="' + $(this).children("排序").text().trim() + '">刪除</a></td>';
+                                    '" asn="' + $(this).children("排序").text().trim() + '" atype="11">刪除</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
@@ -500,15 +561,15 @@
                                         <input id="txt_session" type="number" min="0" max="99" class="inputex width15" />
                                     </div>
                                 </div><!-- OchiHalf -->
-                                <%--<div class="OchiHalf">
+                                <div class="OchiHalf">
                                     <div class="OchiCell OchiTitle TitleSetWidth">查核/檢測報告</div>
                                     <div id="filediv" class="OchiCell width100"></div>                         
-                                </div>--%>
+                                </div>
                                 <!-- OchiHalf -->
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
 
-                        <%--<div class="OchiTrasTable width100 font-size3 TitleLength05">
+                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
                             <div class="OchiRow">
                                 <div class="OchiHalf">
                                     <div class="OchiCell OchiTitle TitleSetWidth">相關報告</div>
@@ -531,7 +592,7 @@
                                     </div>
                                 </div><!-- OchiHalf -->
                             </div><!-- OchiRow -->
-                        </div>--%><!-- OchiTrasTable -->
+                        </div><!-- OchiTrasTable -->
 
                         <div class="textright margin10T">
                             <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" >取消</a>

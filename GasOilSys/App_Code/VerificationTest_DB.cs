@@ -150,6 +150,7 @@ from 查核與檢測資料_基本資料表 where 資料狀態='A' and guid=@guid
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.Append(@"insert into 查核與檢測資料_基本資料表(  
+guid,
 年度,
 業者guid,
 類別,
@@ -163,6 +164,7 @@ from 查核與檢測資料_基本資料表 where 資料狀態='A' and guid=@guid
 建立者, 
 建立日期, 
 資料狀態 ) values ( 
+@guid,
 @年度,
 @業者guid,
 @類別,
@@ -180,6 +182,7 @@ from 查核與檢測資料_基本資料表 where 資料狀態='A' and guid=@guid
 		SqlCommand oCmd = oConn.CreateCommand();
 		oCmd.CommandText = sb.ToString();
 
+		oCmd.Parameters.AddWithValue("@guid", guid);
 		oCmd.Parameters.AddWithValue("@年度", 年度);
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@類別", 類別);

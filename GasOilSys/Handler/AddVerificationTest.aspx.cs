@@ -80,6 +80,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
                     throw new Exception("場次不可重複請重新填寫");
                 }
 
+                db._guid = guid;
                 db._建立者 = LogInfo.mGuid;
                 db._建立日期 = DateTime.Now;
 
@@ -106,123 +107,127 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
                 db.UpdateData(oConn, myTrans);
             }
 
-            // 檔案上傳
-            //HttpFileCollection uploadFiles = Request.Files;
-            //for (int i = 0; i < uploadFiles.Count; i++)
-            //{
-            //    HttpPostedFile File = uploadFiles[i];
-            //    if (File.FileName.Trim() != "")
-            //    {
-            //        string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + "VerificationTest\\";
-            //        //如果上傳路徑中沒有該目錄，則自動新增
-            //        if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
-            //        {
-            //            Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
-            //        }
+           //檔案上傳
+           HttpFileCollection uploadFiles = Request.Files;
+            for (int i = 0; i < uploadFiles.Count; i++)
+            {
+                HttpPostedFile File = uploadFiles[i];
+                if (File.FileName.Trim() != "")
+                {
+                    string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + "VerificationTest\\";
+                    fdb._guid = guid;
+                    fdb._業者guid = cp;
+                    fdb._年度 = Server.UrlDecode(year);
 
-            //        if (!string.IsNullOrEmpty(Server.UrlDecode(isCheck)) && i == 0)
-            //        {
-            //            if (i == 0)
-            //            {
-            //                UpLoadPath += "Check\\";
-            //                fdb._檔案類型 = "10";
-            //            }
-            //        }
-            //        else
-            //        {
-            //            UpLoadPath += "Relation\\";
-            //            fdb._檔案類型 = "11";
+                    if (!string.IsNullOrEmpty(Server.UrlDecode(isCheck)) && i == 0)
+                    {
+                        if (i == 0)
+                        {
+                            UpLoadPath += "Check\\";
+                            fdb._檔案類型 = "10";
+                            sn = "01";
+                        }
+                    }
+                    else
+                    {
+                        UpLoadPath += "Relation\\";
+                        fdb._檔案類型 = "11";
 
-            //            if (Server.UrlDecode(mode) == "new")
-            //            {
-            //                if((i == 1) && (Server.UrlDecode(isCheck) == "Y"))
-            //                {
-            //                    sn = "0" + i.ToString();
-            //                }
-            //                else
-            //                {
-            //                    if (!string.IsNullOrEmpty(sn))
-            //                    {
-            //                        if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
-            //                        {
-            //                            sn = "0" + (i + 1).ToString();
-            //                        }
-            //                        else
-            //                        {
-            //                            sn = (Convert.ToInt32(sn) + 1).ToString();
-            //                        }
-            //                    }
-            //                    else{
-            //                        sn = "0" + (i + 1).ToString();
-            //                    }
-            //                }                       
-            //            }
-            //            else
-            //            {
-            //                if (!string.IsNullOrEmpty(sn))
-            //                {
-            //                    if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
-            //                    {
-            //                        sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
-            //                    }
-            //                    else
-            //                    {
-            //                        sn = (Convert.ToInt32(sn) + 1).ToString();
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    DataTable fdt = fdb.GetMaxSn();
+                        if (Server.UrlDecode(mode) == "new")
+                        {
+                            if ((i == 1) && (Server.UrlDecode(isCheck) == "Y"))
+                            {
+                                sn = "0" + i.ToString();
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(sn))
+                                {
+                                    if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
+                                    {
+                                        sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
+                                    }
+                                    else
+                                    {
+                                        sn = (Convert.ToInt32(sn) + 1).ToString();
+                                    }
+                                }
+                                else
+                                {
+                                    sn = "0" + i.ToString();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(sn))
+                            {
+                                if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
+                                {
+                                    sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
+                                }
+                                else
+                                {
+                                    sn = (Convert.ToInt32(sn) + 1).ToString();
+                                }
+                            }
+                            else
+                            {
+                                DataTable fdt = fdb.GetMaxSn();
 
-            //                    if (fdt.Rows.Count > 0)
-            //                    {
-            //                        int maxsn = Convert.ToInt32(fdt.Rows[0]["Sort"].ToString().Trim());
-            //                        if (maxsn > 9)
-            //                            sn = maxsn.ToString();
-            //                        else
-            //                            sn = "0" + maxsn.ToString();
-            //                    }
-            //                    else
-            //                    {
-            //                        sn = "01";
-            //                    }
-            //                }
-            //            }
-            //        }
+                                if (fdt.Rows.Count > 0)
+                                {
+                                    int maxsn = Convert.ToInt32(fdt.Rows[0]["Sort"].ToString().Trim());
+                                    if (maxsn > 9)
+                                        sn = maxsn.ToString();
+                                    else
+                                        sn = "0" + maxsn.ToString();
+                                }
+                                else
+                                {
+                                    sn = "01";
+                                }
+                            }
+                        }
+                    }
 
-            //        //原檔名
-            //        string orgName = Path.GetFileNameWithoutExtension(File.FileName);
+                    //如果上傳路徑中沒有該目錄，則自動新增
+                    if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
+                    {
+                        Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
+                    }
 
-            //        //副檔名
-            //        string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
+                    //原檔名
+                    string orgName = Path.GetFileNameWithoutExtension(File.FileName);
 
-            //        //新檔名
-            //        //string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
-            //        string newName = orgName;
+                    //副檔名
+                    string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
 
-            //        string file_size = File.ContentLength.ToString();
+                    //新檔名
+                    //string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
+                    string newName = orgName;
 
-            //        File.SaveAs(UpLoadPath + newName + extension);
+                    string file_size = File.ContentLength.ToString();
 
-            //        fdb._guid = guid;
-            //        fdb._業者guid = cp;
-            //        fdb._原檔名 = orgName;
-            //        fdb._新檔名 = newName;
-            //        fdb._附檔名 = extension;
-            //        fdb._排序 = sn;
-            //        fdb._檔案大小 = file_size;
-            //        fdb._修改者 = LogInfo.mGuid;
-            //        fdb._修改日期 = DateTime.Now;
-            //        fdb._建立者 = LogInfo.mGuid;
-            //        fdb._建立日期 = DateTime.Now;
+                    File.SaveAs(UpLoadPath + newName + extension);
 
-            //        fdb.UpdateFile_Trans(oConn, myTrans);
-            //    }
-            //}
+                    fdb._原檔名 = orgName;
+                    fdb._新檔名 = newName;
+                    fdb._附檔名 = extension;
+                    fdb._排序 = sn;
+                    fdb._檔案大小 = file_size;
+                    fdb._修改者 = LogInfo.mGuid;
+                    fdb._修改日期 = DateTime.Now;
+                    fdb._建立者 = LogInfo.mGuid;
+                    fdb._建立日期 = DateTime.Now;
+
+                    fdb.UpdateFile_Trans(oConn, myTrans);
+                }
+            }
 
             myTrans.Commit();
 
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>儲存完成</Response><relogin>N</relogin></root>";
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>儲存完成</Response><vguid>" + guid + "</vguid></root>";
 
             xDoc.LoadXml(xmlstr);
         }

@@ -13,6 +13,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 	GasCompanyInfo_DB gdb = new GasCompanyInfo_DB();
 	AviationCompanyInfo adb = new AviationCompanyInfo();
 	VerificationTest_DB vdb = new VerificationTest_DB();
+	FileTable fdb = new FileTable();
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		///-----------------------------------------------------
@@ -143,8 +144,29 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 			else
 			{
                 vdb._guid = guid;
-
                 dt = vdb.GetData();
+
+                if (dt.Rows.Count > 0)
+                {
+					dt.Columns.Add("新檔名", typeof(string));
+					dt.Columns.Add("排序", typeof(string));
+
+					for(int i = 0; i < dt.Rows.Count; i++)
+                    {
+						fdb._guid = guid;
+						fdb._檔案類型 = "10";
+
+						DataTable fdt = fdb.GetData();
+
+						if (fdt.Rows.Count > 0)
+						{
+							dt.Rows[i]["新檔名"] = fdt.Rows[0]["新檔名"].ToString().Trim();
+							dt.Rows[i]["排序"] = fdt.Rows[0]["排序"].ToString().Trim();
+						}
+					}
+                }
+
+
                 string xmlstr = string.Empty;
 
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
