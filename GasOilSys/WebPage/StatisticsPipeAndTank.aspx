@@ -46,10 +46,13 @@
             $(document).on("change", "#txt1", function () {
                 if ($("#txt1 option:selected").val() != '') {
                     getCompanyDDL('01', $("#txt1 option:selected").val(), '', '', '', 'txt2');
+                    getCompanyDDL('05', $("#txt1 option:selected").val(), '', '', '', 'txt6');
                 }
                 else {
                     $("#txt2").empty();
                     $("#txt2").append('<option value="">請選擇</option>');
+                    $("#txt6").empty();
+                    $("#txt6").append('<option value="">請選擇</option>');
                 }                
                 $("#txt3").empty();
                 $("#txt3").append('<option value="">請選擇</option>');
@@ -146,6 +149,7 @@
                     businessOrg: $("#txt3").val(),
                     factory: $("#txt4").val(),
                     workshop: $("#txt5").val(),
+                    address: $("#txt6").val(),
                 },
                 error: function (xhr) {
                     alert("Error: " + xhr.status);
@@ -616,13 +620,8 @@
                             <div id="navmenuV"><!--#include file="StatisticsLeftMenu.html"--></div>
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
-                            <div class="twocol">
-                                <div class="left font-size5 ">查詢:</div>
-                                <div class="right">
-
-                                </div>
-                            </div>
-                            <div class="OchiTrasTable width100 TitleLength09 font-size3">
+                            <div class="BoxBgWa BoxRadiusA BoxBorderSa padding10ALL margin10T">
+                                <div class="OchiTrasTable width100 TitleLength09 font-size3">
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">類別</div>
@@ -667,15 +666,24 @@
                                             </select>
                                         </div>
                                     </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">地址</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt6" class="width100 inputex" >
+                                                <option value="">請選擇</option>
+                                            </select>
+                                        </div>
+                                    </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
-                            <br />
-                            <div class="twocol">
-                                <div class="left">
-                                    <span id="sp_totalText" style="color:red" class="font-size3"></span>
-                                </div>
-                                <div class="right">
-                                    <a id="querybtn" href="javascript:void(0);" title="查詢" class="genbtn" >查詢</a>
+                                <br />
+                                <div class="twocol">
+                                    <div class="left">
+                                        <span id="sp_totalText" style="color:red" class="font-size3"></span>
+                                    </div>
+                                    <div class="right">
+                                        <a id="querybtn" href="javascript:void(0);" title="查詢" class="genbtn" >查詢</a>
+                                    </div>
                                 </div>
                             </div>
                             <br />

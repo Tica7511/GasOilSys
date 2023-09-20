@@ -261,6 +261,24 @@ else
         return ds;
     }
 
+    public DataTable GetCompanyByAddress()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"SELECT distinct convert(nvarchar(3),Left(地址,3)) COLLATE Chinese_Taiwan_Stroke_CS_AS as showName
+FROM 石油_業者基本資料 where (地址 <>'' and 地址 is not null ) ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetCountList()
     {
         SqlCommand oCmd = new SqlCommand();
@@ -275,16 +293,16 @@ else
 
   set @管線數量總合 = (select count(*) from 石油_管線基本資料 a left join 石油_業者基本資料 b on a.業者guid=b.guid 
   where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
-  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址))  
   set @管線長度總合 = (select isnull(sum(convert(float, a.轄管長度)),0) from 石油_管線基本資料 a left join 石油_業者基本資料 b on a.業者guid=b.guid 
   where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
-  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址)) 
   set @儲槽數量總合 = (select count(*) from 石油_儲槽基本資料 a left join 石油_業者基本資料 b on a.業者guid=b.guid 
   where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
-  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址)) 
   set @儲槽容量總合 = (select isnull(sum(convert(float, a.容量)),0) from 石油_儲槽基本資料 a left join 石油_業者基本資料 b on a.業者guid=b.guid 
   where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
-  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' )
+  and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址)) 
 
   select @管線數量總合 as 管線數量總合, @管線長度總合 as 管線長度總合, @儲槽數量總合 as 儲槽數量總合, @儲槽容量總合 as 儲槽容量總合 ");
 
@@ -297,6 +315,7 @@ else
         oCmd.Parameters.AddWithValue("@事業部", 事業部);
         oCmd.Parameters.AddWithValue("@營業處廠", 營業處廠);
         oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", 中心庫區儲運課工場);
+        oCmd.Parameters.AddWithValue("@地址", 地址);
 
         oda.Fill(ds);
         return ds;
@@ -417,6 +436,8 @@ where 資料狀態='A' and 列表是否顯示='Y' ");
             sb.Append(@"and 營業處廠 = @營業處廠 ");
         if (!string.IsNullOrEmpty(中心庫區儲運課工場))
             sb.Append(@"and 中心庫區儲運課工場 = @中心庫區儲運課工場 ");
+        if (!string.IsNullOrEmpty(地址))
+            sb.Append(@"and left(地址,3) = @地址 ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -428,6 +449,7 @@ where 資料狀態='A' and 列表是否顯示='Y' ");
         oCmd.Parameters.AddWithValue("@事業部", 事業部);
         oCmd.Parameters.AddWithValue("@營業處廠", 營業處廠);
         oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", 中心庫區儲運課工場);
+        oCmd.Parameters.AddWithValue("@地址", 地址);
 
         oda.Fill(ds);
         return ds;

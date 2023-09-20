@@ -80,6 +80,39 @@ and (@類別='' or 類別=@類別) and (@報告編號='' or  報告編號 like '
 		return ds;
 	}
 
+	public DataTable GetCountList(string beginTime, string endTime)
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select *, 
+類別_V=(select 項目名稱 from 代碼檔 where 群組代碼='028' and 項目代碼=查核與檢測資料_基本資料表.類別), 
+查核報告總和=(select count(*) as countall from 附件檔 where 檔案類型='10' and guid=查核與檢測資料_基本資料表.guid and 資料狀態='A' ), 
+相關報告總和=(select count(*) as countall from 附件檔 where 檔案類型='11' and guid=查核與檢測資料_基本資料表.guid and 資料狀態='A' ) 
+from 查核與檢測資料_基本資料表 where 資料狀態='A' and (@業者guid='' or 業者guid=@業者guid) 
+and (@類別='' or 類別=@類別) and (@報告編號='' or  報告編號 like '%'+@報告編號+'%')
+");
+		if (!string.IsNullOrEmpty(beginTime) && !string.IsNullOrEmpty(endTime))
+			sb.Append(@" and 查核日期起 between @beginTime and @endTime ");
+
+		sb.Append(@" ORDER BY 查核日期起 desc ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+		oCmd.Parameters.AddWithValue("@類別", 類別);
+		oCmd.Parameters.AddWithValue("@報告編號", 報告編號);
+		oCmd.Parameters.AddWithValue("@beginTime", beginTime);
+		oCmd.Parameters.AddWithValue("@endTime", endTime);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
 	public DataTable GetData()
 	{
 		SqlCommand oCmd = new SqlCommand();

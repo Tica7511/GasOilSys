@@ -33,6 +33,7 @@ public partial class Handler_GetStatisticsPipeAndTank : System.Web.UI.Page
             string factory = (string.IsNullOrEmpty(Request["factory"])) ? "" : Request["factory"].ToString().Trim();
             string workshop = (string.IsNullOrEmpty(Request["workshop"])) ? "" : Request["workshop"].ToString().Trim();
             string dlltype = (string.IsNullOrEmpty(Request["dlltype"])) ? "" : Request["dlltype"].ToString().Trim();
+            string address = (string.IsNullOrEmpty(Request["address"])) ? "" : Request["address"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
             DataTable dt = new DataTable();
             DataTable dt2 = new DataTable();
@@ -95,6 +96,16 @@ public partial class Handler_GetStatisticsPipeAndTank : System.Web.UI.Page
                             dt = gdb.GetDistinctCpName("中心庫區儲運課工場");
                         }
                         break;
+                    case "05":
+                        if (stype == "01")
+                        {
+                            dt = odb.GetCompanyByAddress();
+                        }
+                        else
+                        {
+                            dt = gdb.GetCompanyByAddress();
+                        }
+                        break;
                 }
 
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
@@ -120,6 +131,7 @@ public partial class Handler_GetStatisticsPipeAndTank : System.Web.UI.Page
                         odb._事業部 = businessOrg;
                         odb._營業處廠 = factory;
                         odb._中心庫區儲運課工場 = workshop;
+                        odb._地址 = address;
                         dt = odb.GetCpNameStatistics();
                         dt2 = odb.GetCountList();
                     }
@@ -129,6 +141,7 @@ public partial class Handler_GetStatisticsPipeAndTank : System.Web.UI.Page
                         gdb._事業部 = businessOrg;
                         gdb._營業處廠 = factory;
                         gdb._中心庫區儲運課工場 = workshop;
+                        gdb._地址 = address;
                         dt = gdb.GetCpNameStatistics();
                         dt2 = gdb.GetCountList();
                     }

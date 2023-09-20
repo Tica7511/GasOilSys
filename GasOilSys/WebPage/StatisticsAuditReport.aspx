@@ -1,33 +1,29 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="VerificationTest.aspx.cs" Inherits="WebPage_VerificationTest" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StatisticsAuditReport.aspx.cs" Inherits="WebPage_StatisticsAuditReport" %>
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="關鍵字內容" />
-    <meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
-    <meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
-    <meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
-    <meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
-    <meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
-    <title>查核與檢測資料系統</title>
-    <!--#include file="Head_Include.html"-->
-    <script type="text/javascript">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="關鍵字內容" />
+	<meta name="description" content="描述" /><!--告訴搜尋引擎這篇網頁的內容或摘要。--> 
+	<meta name="generator" content="Notepad" /><!--告訴搜尋引擎這篇網頁是用什麼軟體製作的。--> 
+	<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
+	<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
+	<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
+    <title>石油與天然氣事業輸儲設備查核及檢測資訊系統</title>
+	<!--#include file="Head_Include.html"-->
+	<script type="text/javascript">
         $(document).ready(function () {
+            $("#div_table").hide();
             getDDL('028', 'sel_type');
-            getData();
-
-            $("#CheckFiles").show();
-            $("#subbtnCheckFile").show();
-            $("#RelationFiles").show();
-            $("#subbtnRelationFile").show();
 
             //查詢按鈕
             $(document).on("click", "#querybtn", function () {
                 getData();
+                $("#div_table").show();
             });
 
             //選擇類別
@@ -59,7 +55,6 @@
 
             //查核檢測報告開窗
             $(document).on("click", "a[name='fileCheckBtn']", function () {
-                $("#CheckFiles").val('');
                 $("#CheckReportGuid").val($(this).attr("aid"));
                 $("#CheckReportCPGuid").val($(this).attr("cid"));
                 getDataCheckFile();
@@ -68,214 +63,10 @@
 
             //相關報告開窗
             $(document).on("click", "a[name='fileRelationBtn']", function () {
-                $("#RelationFiles").val('');
                 $("#RelationReportGuid").val($(this).attr("aid"));
                 $("#RelationReportCPGuid").val($(this).attr("cid"));
                 getDataRelationFile();
                 doOpenPopup2();
-            });
-
-            //查核檢測報告儲存
-            $(document).on("click", "#subbtnCheckFile", function () {
-                var msg = '';
-
-                if ($("#CheckFiles").val() == "")
-                    msg += "請先選擇檔案再上傳";
-                if (msg != "") {
-                    alert(msg);
-                    return false;
-                }
-
-                var files = $("#CheckFiles").get(0).files;
-
-                // Get form
-                var form = $('#form1')[0];
-
-                // Create an FormData object 
-                var data = new FormData(form);
-
-                // If you want to add an extra field for the FormData
-                data.append("guid", $("#CheckReportGuid").val());
-                data.append("cpid", $("#CheckReportCPGuid").val());
-                data.append("type", "10");
-                data.append("year", getTaiwanDate());
-                for (var i = 0; i < files.length; i++) {
-                    data.append("files", files[i]);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/AddVerificationTestFile.aspx",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    error: function (xhr) {
-                        alert("Error: " + xhr.status);
-                        console.log(xhr.responseText);
-                    },
-                    success: function (data) {
-                        if ($(data).find("Error").length > 0) {
-                            alert($(data).find("Error").attr("Message"));
-                        }
-                        else {
-                            alert($("Response", data).text());
-                            $("#CheckFiles").val('');
-                            getDataCheckFile();
-                        }
-                    }
-                });
-            });
-
-            //刪除資料
-            $(document).on("click", "a[name='delbtn']", function () {
-                var isDel = confirm("確定刪除資料嗎?");
-                if (isDel) {
-                    $.ajax({
-                        type: "POST",
-                        async: false, //在沒有返回值之前,不會執行下一步動作
-                        url: "../Handler/DelVerificationTest.aspx",
-                        data: {
-                            guid: $(this).attr("aid"),
-                        },
-                        error: function (xhr) {
-                            alert("Error: " + xhr.status);
-                            console.log(xhr.responseText);
-                        },
-                        success: function (data) {
-                            if ($(data).find("Error").length > 0) {
-                                alert($(data).find("Error").attr("Message"));
-                            }
-                            else {
-                                alert($("Response", data).text());
-                                getData();
-                            }
-                        }
-                    });
-                }
-            });
-
-            //相關報告儲存
-            $(document).on("click", "#subbtnRelationFile", function () {
-                var msg = '';
-
-                if ($("#RelationFiles").val() == "")
-                    msg += "請先選擇檔案再上傳";
-                if (msg != "") {
-                    alert(msg);
-                    return false;
-                }
-
-                var files = $("#RelationFiles").get(0).files;
-
-                // Get form
-                var form = $('#form1')[0];
-
-                // Create an FormData object 
-                var data = new FormData(form);
-
-                // If you want to add an extra field for the FormData
-                data.append("guid", $("#RelationReportGuid").val());
-                data.append("cpid", $("#RelationReportCPGuid").val());
-                data.append("type", "11");
-                data.append("year", getTaiwanDate());
-                for (var i = 0; i < files.length; i++) {
-                    data.append("files", files[i]);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/AddVerificationTestFile.aspx",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    error: function (xhr) {
-                        alert("Error: " + xhr.status);
-                        console.log(xhr.responseText);
-                    },
-                    success: function (data) {
-                        if ($(data).find("Error").length > 0) {
-                            alert($(data).find("Error").attr("Message"));
-                        }
-                        else {
-                            alert($("Response", data).text());
-                            $("#RelationFiles").val('');
-                            getDataRelationFile();
-                        }
-                    }
-                });
-            });
-
-            //刪除查核檢測報告
-            $(document).on("click", "a[name='delbtnCheckFile']", function () {
-                var isDel = confirm("確定刪除檔案嗎?");
-                if (isDel) {
-                    $.ajax({
-                        type: "POST",
-                        async: false, //在沒有返回值之前,不會執行下一步動作
-                        url: "../Handler/DelVerificationTestFile.aspx",
-                        data: {
-                            guid: $(this).attr("aid"),
-                            type: $(this).attr("atype"),
-                        },
-                        error: function (xhr) {
-                            alert("Error: " + xhr.status);
-                            console.log(xhr.responseText);
-                        },
-                        success: function (data) {
-                            if ($(data).find("Error").length > 0) {
-                                alert($(data).find("Error").attr("Message"));
-                            }
-                            else {
-                                alert($("Response", data).text());
-                                getDataCheckFile();
-                            }
-                        }
-                    });
-                }
-            });
-
-            //刪除相關報告
-            $(document).on("click", "a[name='delbtnRelationFile']", function () {
-                var isDel = confirm("確定刪除檔案嗎?");
-                if (isDel) {
-                    $.ajax({
-                        type: "POST",
-                        async: false, //在沒有返回值之前,不會執行下一步動作
-                        url: "../Handler/DelVerificationTestFile.aspx",
-                        data: {
-                            guid: $(this).attr("aid"),
-                            sn: $(this).attr("asn"),
-                            type: $(this).attr("atype"),
-                        },
-                        error: function (xhr) {
-                            alert("Error: " + xhr.status);
-                            console.log(xhr.responseText);
-                        },
-                        success: function (data) {
-                            if ($(data).find("Error").length > 0) {
-                                alert($(data).find("Error").attr("Message"));
-                            }
-                            else {
-                                alert($("Response", data).text());
-                                getDataRelationFile();
-                            }
-                        }
-                    });
-                }
-            });
-
-            //對象開窗取消按鈕
-            //$(document).on("click", "#Ocancelbtn", function () {
-            //    $.magnificPopup.close();
-            //});
-
-            //編輯按鈕
-            $(document).on("click", "#editbtn", function () {
-                location.href = 'edit_OilLongPipeline.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $("#nGuid").val();
             });
 
             //清除對象內文字
@@ -291,7 +82,7 @@
                 buttonImage: '../images/calendar.gif',
                 yearRange: 'c-60:c+10'
             }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
-        }); // end js
+        });
 
         //查詢資料
         function getData() {
@@ -305,7 +96,7 @@
                     timeBegin: $("#txt_timeBegin").val(),
                     timeEnd: $("#txt_timeEnd").val(),
                     reportNum: $("#txt_reportNum").val(),
-                    type: "list",
+                    type: "statistics",
                 },
                 error: function (xhr) {
                     alert("Error: " + xhr.status);
@@ -325,12 +116,13 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("類別_V").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("查核日期起").text().trim()) + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("對象").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileCheckBtn" class="grebtn" aid="'
-                                    + $(this).children("guid").text().trim() + '" cid="' + $(this).children("業者guid").text().trim() + '">附件列表</a></td>';
-                                tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileRelationBtn" class="grebtn" aid="'
-                                    + $(this).children("guid").text().trim() + '" cid="' + $(this).children("業者guid").text().trim() + '">附件列表</a></td>';
-                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
-                                tabstr += ' <a href="edit_VerificationTest.aspx?guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileCheckBtn" aid="'
+                                    + $(this).children("guid").text().trim() + '" cid="' + $(this).children("業者guid").text().trim() + '">'
+                                    + $(this).children("查核報告總和").text().trim() + '</a></td>';
+                                tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileRelationBtn" aid="'
+                                    + $(this).children("guid").text().trim() + '" cid="' + $(this).children("業者guid").text().trim() + '">'
+                                    + $(this).children("相關報告總和").text().trim() + '</a></td>';
+                                tabstr += '<td nowrap="nowrap" align="center">' + $(this).children("報告總和").text().trim() + '</td>';
                                 tabstr += '</tr>';
                             });
                         }
@@ -444,8 +236,6 @@
                                 tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=VerificationTest&type=Check&sn=' + $(this).children("排序").text().trim() +
                                     '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
-                                tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnCheckFile" aid="' + $(this).children("guid").text().trim() +
-                                    '" atype="10" >刪除</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
@@ -486,8 +276,6 @@
                                 tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=VerificationTest&type=Relation&sn=' + $(this).children("排序").text().trim() +
                                     '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
-                                tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnRelationFile" aid="' + $(this).children("guid").text().trim() +
-                                    '" asn="' + $(this).children("排序").text().trim() + '"  atype="11" >刪除</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
@@ -499,7 +287,6 @@
             });
         }
 
-        //取得代碼檔列表
         function getDDL(gNo, id) {
             $.ajax({
                 type: "POST",
@@ -523,7 +310,6 @@
                                 ddlstr += '<option value="' + $(this).children("項目代碼").text().trim() + '">' + $(this).children("項目名稱").text().trim() + '</option>';
                             });
                         }
-
                         $("#" + id).empty();
                         $("#" + id).append(ddlstr);
                     }
@@ -531,29 +317,7 @@
             });
         }
 
-        //取得現在時間之民國年
-        function getTaiwanDate() {
-            var nowDate = new Date();
-
-            var nowYear = nowDate.getFullYear();
-            var nowTwYear = (nowYear - 1911);
-
-            return nowTwYear;
-        }
-
-        function getDate(fulldate) {
-            if (fulldate != '') {
-                var year = fulldate.substring("0", "3");
-                var month = fulldate.substring("3", "5");
-                var date = fulldate.substring("5", "7");
-
-                return year + "/" + month + "/" + date;
-            }
-            else {
-                return fulldate;
-            }
-        }
-
+        //對象開窗
         function doOpenMagPopup() {
             $.magnificPopup.open({
                 items: {
@@ -600,9 +364,63 @@
                 tClose: '關閉',//翻譯字串
             });
         }
+
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+
+        function getDate(fulldate) {
+            if (fulldate != '') {
+                var year = fulldate.substring("0", "3");
+                var month = fulldate.substring("3", "5");
+                var date = fulldate.substring("5", "7");
+
+                return year + "/" + month + "/" + date;
+            }
+            else {
+                return fulldate;
+            }
+        }
+
+        //年月日格式=> yyyy/mm/dd
+        function getDate(fulldate) {
+
+            if (fulldate != '') {
+                var twdate = '';
+
+                var farray = new Array();
+                farray = fulldate.split("/");
+
+                if (farray.length > 1) {
+                    twdate = farray[0] + farray[1] + farray[2];
+                }
+                else {
+                    twdate = fulldate;
+                }
+
+                if (twdate.length > 6) {
+                    twdate = twdate.substring(0, 3) + "/" + twdate.substring(3, 5) + "/" + twdate.substring(5, 7);
+                }
+                else {
+                    twdate = twdate.substring(0, 2) + "/" + twdate.substring(2, 4) + "/" + twdate.substring(4, 6);
+                }
+
+                return twdate;
+            }
+            else {
+                return '';
+            }
+
+        }
     </script>
 </head>
-<body class="bgP">
+<body class="bgC">
 <!-- 開頭用div:修正mmenu form bug -->
 <div>
 <form id="form1">
@@ -623,7 +441,7 @@
 </div><!-- preloader -->
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
-        <!--#include file="VerificationHeader.html"-->
+		<!--#include file="CommonHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
         <input type="hidden" id="nGuid" />
         <input type="hidden" id="tType" />
@@ -635,12 +453,15 @@
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
-                    <div class="filetitlewrapper">
-                        <span class="filetitle font-size7">查核與檢測資料系統</span>
-                    </div>
+                    <%--<div class="filetitlewrapper"><!--#include file="GasBreadTitle.html"--></div>--%>
 
-                    <div class="BoxBgWa BoxRadiusA BoxBorderSa padding10ALL margin10T">
-                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
+                    <div class="row margin20T">
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <div id="navmenuV"><!--#include file="StatisticsLeftMenu.html"--></div>
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-sm-7">
+                            <div class="BoxBgWa BoxRadiusA BoxBorderSa padding10ALL margin10T">
+                                <div class="OchiTrasTable width100 font-size3 TitleLength05">
                             <div class="OchiRow">
                                 <div class="OchiHalf">
                                     <div class="OchiCell OchiTitle TitleSetWidth">類別</div>
@@ -648,16 +469,18 @@
                                         <select id="sel_type" class="inputex width100"></select>
                                     </div>
                                 </div><!-- OchiHalf -->
-                                <div class="OchiHalf">
-                                    <div class="OchiCell OchiTitle TitleSetWidth">對象</div>
-                                    <div class="OchiCell width100">
-                                        <input id="txt_object" type="text" class="inputex width70" disabled /> 
-                                        <a id="btn_object" href="javascript:void(0);" title="請選擇" class="grebtn font-size3">請選擇</a> <br />
-                                        <a id="btn_object_delete" href="javascript:void(0);" title="清除" class="grebtn font-size3">清除</a>
-                                    </div>
-                                </div><!-- OchiHalf -->
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
+                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
+                            <div class="OchiRow">
+                                <div class="OchiCell OchiTitle TitleSetWidth">對象</div>
+                                <div class="OchiCell width100">
+                                    <input id="txt_object" type="text" class="inputex width70" disabled /> 
+                                    <a id="btn_object" href="javascript:void(0);" title="請選擇" class="grebtn font-size3">請選擇</a>
+                                    <a id="btn_object_delete" href="javascript:void(0);" title="清除" class="grebtn font-size3">清除</a>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="OchiTrasTable width100 font-size3 TitleLength05">
                             <div class="OchiRow">
@@ -673,55 +496,56 @@
                                 </div><!-- OchiHalf -->
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
+                                <br />
+                                <div class="twocol">
+                                    <div class="left">
+                                        <span id="sp_totalText" style="color:red" class="font-size3"></span>
+                                    </div>
+                                    <div class="right">
+                                        <a id="querybtn" href="javascript:void(0);" title="查詢" class="genbtn" >查詢</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
 
-                        <div class="textright margin10T">
-                            <a id="querybtn" href="javascript:void(0);" class="genbtn">查詢</a>
-                            <a id="newbtn" href="edit_VerificationTest.aspx" class="genbtn">新增</a>
-                        </div>
-                    </div>
-
-                    <div class="twocol margin10T">
-                        <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 查詢結果</div>
-                        <div class="right font-normal font-size3">
-                        </div>
-                    </div>
-
-                    <div id="div_table" class="stripeMeP font-size3 margin10T">
-                        <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <th nowrap="nowrap" width="8%">報告編號</th>
-                                    <th nowrap="nowrap" width="10%">類別</th>
-                                    <th nowrap="nowrap" width="5%">查核日期</th>
-                                    <th nowrap="nowrap">對象</th>
-                                    <th nowrap="nowrap" width="7%">查核/檢測報告</th>
-                                    <th nowrap="nowrap" width="7%">相關報告</th>
-                                    <th nowrap="nowrap" width="100">功能</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div><!-- stripeMe -->
-
+                            <div id="div_table" class="stripeMeB tbover">
+                                <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th nowrap="nowrap" width="8%">報告編號</th>
+                                            <th nowrap="nowrap" width="10%">類別</th>
+                                            <th nowrap="nowrap" width="5%">查核日期</th>
+                                            <th nowrap="nowrap">對象</th>
+                                            <th nowrap="nowrap" width="7%">查核/檢測報告</th>
+                                            <th nowrap="nowrap" width="7%">相關報告</th>
+                                            <th nowrap="nowrap" width="7%">總計</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div><!-- stripeMe -->
+                            <div class="margin10B margin10T textcenter">
+	                            <div id="pageblock"></div>
+	                        </div>
+                        </div><!-- col -->
+                    </div><!-- row -->
                 </div>
             </div><!-- container -->
         </div><!-- ContentWrapper -->
 
 
 
-<div class="container-fluid">
-<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
-</div>        
+	<div class="container-fluid">
+		<div class="backTop"><a href="#" class="backTotop">TOP</a></div>
+	</div>
 </div><!-- WrapperBody -->
-
-        <!--#include file="Footer.html"-->
+	
+		<!--#include file="Footer.html"-->
 
 </div><!-- BoxBgWa -->
 <!-- 側邊選單內容:動態複製主選單內容 -->
-<div id="sidebar-wrapper">
-   
-</div><!-- sidebar-wrapper -->
+<div id="sidebar-wrapper"></div><!-- sidebar-wrapper -->
 
 </form>
 </div>
@@ -739,20 +563,10 @@
 
           </div>
       </div><br />
-      <div id="div_objecttable" class="stripeMeP tbover">
+      <div id="div_objecttable" class="stripeMeB tbover">
 
       </div>
       <br />
-
-      <%--<div class="twocol">
-          <div class="left font-size5 ">
-              
-          </div>
-          <div class="right">
-              <a href="javascript:void(0);" id="Ocancelbtn" class="genbtn">取消</a>
-              <a href="javascript:void(0);" id="Osubbtn" class="genbtn">儲存</a>
-          </div>
-      </div>--%>
 
   </div><!-- padding10ALL -->
 
@@ -764,8 +578,7 @@
         <div class="twocol">
           <div class="left font-size4"></div>
           <div class="right">
-              <input style="display:none" id="CheckFiles" type="file" class="inputex width80"  /> 
-              <a style="display:none" id="subbtnCheckFile" href="javascript:void(0);" class="genbtn">儲存</a>
+
           </div>
         </div>
         </br>
@@ -774,13 +587,12 @@
              <tr>
                <td>
                  <!-- start -->
-                 <div class="stripeMeP">
+                 <div class="stripeMeB">
                    <table id="tablistCheckFile" cellspacing="0" cellpadding="0" width="100%">
                        <thead>
                            <tr>
                              <th align="center" nowrap>文件名稱</th>
                              <th align="center" nowrap>上傳日期</th>
-                             <th align="center" id="th_editCheck" width="120" nowrap="nowrap">功能</th>
                            </tr>
                        </thead>
                        <tbody></tbody>
@@ -801,8 +613,7 @@
         <div class="twocol">
           <div class="left font-size4"></div>
           <div class="right">
-              <input style="display:none" id="RelationFiles" type="file" multiple class="inputex width80"  /> 
-              <a style="display:none" id="subbtnRelationFile" href="javascript:void(0);" class="genbtn">儲存</a>
+
           </div>
         </div>
         </br>
@@ -811,13 +622,12 @@
              <tr>
                <td>
                  <!-- start -->
-                 <div class="stripeMeP">
+                 <div class="stripeMeB">
                    <table id="tablistRelationFile" cellspacing="0" cellpadding="0" width="100%">
                        <thead>
                            <tr>
                              <th align="center" nowrap>文件名稱</th>
                              <th align="center" nowrap>上傳日期</th>
-                             <th align="center" id="th_editRelation" width="120" nowrap="nowrap">功能</th>
                            </tr>
                        </thead>
                        <tbody></tbody>
@@ -832,48 +642,19 @@
     <!-- padding10ALL -->
 </div>
 
-<!-- colorbox -->
-<div style="display:none;">
-    <div id="workitem">
-        <div class="margin35T padding5RL">
-            <div class="OchiTrasTable width100 TitleLength08 font-size3">
-                <div class="OchiRow">
-                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">工作項次</div>
-                    <div class="OchiCell width100">
-                        <input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">﹒<input type="number" class="inputex width10">
-                    </div>
-                </div><!-- OchiRow -->
-                <div class="OchiRow">
-                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定日期</div>
-                    <div class="OchiCell width100"><input type="text" class="inputex Jdatepicker width30"> </div>
-                </div><!-- OchiRow -->
-                <div class="OchiRow">
-                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">預定完成執行內容</div>
-                    <div class="OchiCell width100"><textarea rows="5" cols="" class="inputex width100"></textarea></div>
-                </div><!-- OchiRow -->
-            </div><!-- OchiTrasTable -->
-        </div>
-
-        <div class="twocol margin10T">
-            <div class="right">
-                <a href="#" class="genbtn closecolorbox">取消</a>
-                <a href="#" class="genbtn">儲存</a>
-            </div>
-        </div>
-        <br /><br />
-    </div>
-</div>
-
 <!-- 本頁面使用的JS -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-        
+	<script type="text/javascript">
+        $(document).ready(function () {
+
         });
     </script>
-    <script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
-    <script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
-    <script type="text/javascript" src="../js/MenuOil.js"></script><!-- 系統共用 JS -->
-    <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
+	<script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
+	<script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
+	<script type="text/javascript" src="../js/MenuGas.js"></script><!-- 系統共用 JS -->
+	<script type="text/javascript" src="../js/SubMenuManage.js"></script><!-- 內頁選單 -->
+	<script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
+
+
 

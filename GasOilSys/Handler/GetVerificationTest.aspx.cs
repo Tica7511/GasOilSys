@@ -141,6 +141,30 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
 				xDoc.LoadXml(xmlstr);
 			}
+			else if (type == "statistics")
+            {
+				vdb._類別 = sType;
+				vdb._業者guid = tobject;
+				vdb._報告編號 = reportNum;
+
+				dt = vdb.GetCountList(timeBegin, timeEnd);
+
+                if (dt.Rows.Count > 0)
+                {
+					dt.Columns.Add("報告總和", typeof(string));
+
+					for(int i=0; i < dt.Rows.Count; i++)
+                    {
+						dt.Rows[i]["報告總和"] = (Convert.ToInt32(dt.Rows[i]["查核報告總和"].ToString().Trim()) + Convert.ToInt32(dt.Rows[i]["相關報告總和"].ToString().Trim())).ToString().Trim();
+					}
+				}
+
+				string xmlstr = string.Empty;
+
+				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
+				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+				xDoc.LoadXml(xmlstr);
+			}
 			else
 			{
                 vdb._guid = guid;
