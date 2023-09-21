@@ -652,7 +652,7 @@
                                     <div class="OchiCell OchiTitle TitleSetWidth">對象</div>
                                     <div class="OchiCell width100">
                                         <input id="txt_object" type="text" class="inputex width70" disabled /> 
-                                        <a id="btn_object" href="javascript:void(0);" title="請選擇" class="grebtn font-size3">請選擇</a> <br />
+                                        <a id="btn_object" href="javascript:void(0);" title="請選擇" class="grebtn font-size3">請選擇</a>
                                         <a id="btn_object_delete" href="javascript:void(0);" title="清除" class="grebtn font-size3">清除</a>
                                     </div>
                                 </div><!-- OchiHalf -->
