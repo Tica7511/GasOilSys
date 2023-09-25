@@ -67,6 +67,7 @@
 			<div class="loginblock">
 				<div class="loginheader textcenter">
 					<%--<img src="<%= ResolveUrl("~/images/boe-logo.png") %>" class="imgcenter">--%>
+					<img src="<%= ResolveUrl("~/images/boe-logo-2.png") %>" class="imgcenter">
 					<div class="font-size6 font-shadowA font-bold">石油與天然氣輸儲設備查核及檢測雲端平台</div>
 				</div>
 
