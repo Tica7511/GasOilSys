@@ -13,6 +13,7 @@
 	<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
 	<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
 	<title>石油與天然氣輸儲設備查核及檢測雲端平台</title>
+    <link rel="icon" href="../images/boe-logo-2-icon.ico" type="image/x-icon" />
 	<link href="../css/bootstrap.css" rel="stylesheet" /><!-- normalize & bootstrap's grid system -->
 	<link href="../css/font-awesome.min.css" rel="stylesheet" /><!-- css icon -->
 	<link href="../css/OchiColor.css" rel="stylesheet" type="text/css" />
