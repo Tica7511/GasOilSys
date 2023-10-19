@@ -315,13 +315,13 @@ where 資料狀態='A' and 列表是否顯示='Y' ");
   where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
   and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址))  
   set @管線長度總合 = (select isnull(sum(convert(float, a.轄管長度)),0) from 天然氣_管線基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
-  where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
+  where a.轄管長度 not like '%~%' and (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
   and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址)) 
   set @儲槽數量總合 = (select count(*) from 天然氣_儲槽設施資料_儲槽基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
   where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
   and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址))  
   set @儲槽容量總合 = (select isnull(sum(convert(float, a.容量)),0) from 天然氣_儲槽設施資料_儲槽基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
-  where (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
+  where a.容量 not like '%~%' and (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) and (@營業處廠='' or b.營業處廠=@營業處廠) 
   and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) and a.資料狀態='A' and b.資料狀態='A' and (@地址='' or left(b.地址,3) = @地址))  
 
   select @管線數量總合 as 管線數量總合, @管線長度總合 as 管線長度總合, @儲槽數量總合 as 儲槽數量總合, @儲槽容量總合 as 儲槽容量總合 ");

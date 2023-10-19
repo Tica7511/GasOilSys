@@ -349,11 +349,11 @@ FROM 石油_業者基本資料 where (地址 <>'' and 地址 is not null ) ");
   set @天然氣管線數量總合 = (select count(*) from 天然氣_管線基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
   where a.資料狀態='A' and b.資料狀態='A' )
   set @天然氣管線長度總合 = (select isnull(sum(convert(float, a.轄管長度)),0) from 天然氣_管線基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
-  where a.資料狀態='A' and b.資料狀態='A' )
+  where a.轄管長度 not like '%~%' and  a.資料狀態='A' and b.資料狀態='A' )
   set @天然氣儲槽數量總合 = (select count(*) from 天然氣_儲槽設施資料_儲槽基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
   where a.資料狀態='A' and b.資料狀態='A' )
   set @天然氣儲槽容量總合 = (select isnull(sum(convert(float, a.容量)),0) from 天然氣_儲槽設施資料_儲槽基本資料 a left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
-  where a.資料狀態='A' and b.資料狀態='A' )
+  where a.容量 not like '%~%' and  a.資料狀態='A' and b.資料狀態='A' )
 
   select @石油管線數量總合+@天然氣管線數量總合 as 管線數量總合, 
          @石油管線長度總合+@天然氣管線長度總合 as 管線長度總合, 

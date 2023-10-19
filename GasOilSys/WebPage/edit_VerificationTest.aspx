@@ -17,7 +17,15 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
+            $(".superfishmenu").html("\
+<ul>\
+<li><a href='Entrance.aspx' target='_self'>首頁</a></li>\
+<li><a href='VerificationTest.aspx' target='_self'>查核與檢測資料</a></li>\
+</ul>\
+");
+
             getDDL('028', 'sel_type');
+            getDDL('029', 'sel_situation');
             $("#sellist").val(getTaiwanDate());
             getData();
             getDataFileRelation();
@@ -30,6 +38,7 @@
             else {
                 $("#filediv").empty();
                 $("#filediv").append('<input name="fileNameCheck" type="file" />');
+                $("#txt_session").val('01');
                 $("#sel_type").prop("disabled", false);
                 $("#btn_object").show();
                 $("#btn_object_delete").show();
@@ -169,6 +178,8 @@
                         msg += "【查核日期(起)】不可晚於【查核日期(迄)】，請重新輸入\n";
                 if ($("#txt_session").val() == '')
                     msg += "請輸入【場次】\n";
+                if ($("#sel_situation").val() == '')
+                    msg += "請輸入【改善情形】\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);
@@ -201,6 +212,7 @@
                 data.append("timeBegin", encodeURIComponent($("#txt_timeBegin").val()));
                 data.append("timeEnd", encodeURIComponent($("#txt_timeEnd").val()));
                 data.append("session", encodeURIComponent($("#txt_session").val()));
+                data.append("situation", encodeURIComponent($("#sel_situation").val()));
                 //$.each($("#fileUpload")[0].files, function (i, file) {
                 //    data.append('file', file);
                 //});
@@ -293,6 +305,7 @@
                                 $("#txt_timeBegin").val($(this).children("查核日期起").text().trim());
                                 $("#txt_timeEnd").val($(this).children("查核日期迄").text().trim());
                                 $("#txt_session").val($(this).children("場次").text().trim());
+                                $("#sel_situation").val($(this).children("改善情形").text().trim());
 
                                 if (($(this).children("新檔名").text().trim() == '') || ($(this).children("新檔名").text().trim() == null)) {
                                     $("#filediv").empty();
@@ -562,10 +575,21 @@
                                     </div>
                                 </div><!-- OchiHalf -->
                                 <div class="OchiHalf">
+                                    <div class="OchiCell OchiTitle TitleSetWidth">改善情形</div>
+                                    <div class="OchiCell width100">
+                                        <select id="sel_situation" class="inputex width100"></select>
+                                    </div>                         
+                                </div>
+                                <!-- OchiHalf -->
+                            </div><!-- OchiRow -->
+                        </div><!-- OchiTrasTable -->
+
+                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
+                            <div class="OchiRow">
+                                <div class="OchiHalf">
                                     <div class="OchiCell OchiTitle TitleSetWidth">查核/檢測報告</div>
                                     <div id="filediv" class="OchiCell width100"></div>                         
                                 </div>
-                                <!-- OchiHalf -->
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
 
@@ -661,7 +685,7 @@
     </script>
     <script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
     <script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
-    <script type="text/javascript" src="../js/MenuOil.js"></script><!-- 系統共用 JS -->
+    <%--<script type="text/javascript" src="../js/MenuVerificationTest.js"></script>--%><!-- 系統共用 JS -->
     <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>

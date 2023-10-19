@@ -18,6 +18,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             getDDL('028', 'sel_type');
+            getDDL('029', 'sel_situation');
             getData();
 
             $("#CheckFiles").show();
@@ -305,6 +306,7 @@
                     timeBegin: $("#txt_timeBegin").val(),
                     timeEnd: $("#txt_timeEnd").val(),
                     reportNum: $("#txt_reportNum").val(),
+                    situation: $("#sel_situation").val(),
                     type: "list",
                 },
                 error: function (xhr) {
@@ -325,6 +327,7 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("類別_V").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("查核日期起").text().trim()) + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("對象").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("改善情形_V").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileCheckBtn" class="grebtn" aid="'
                                     + $(this).children("guid").text().trim() + '" cid="' + $(this).children("業者guid").text().trim() + '">附件列表</a></td>';
                                 tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileRelationBtn" class="grebtn" aid="'
@@ -335,7 +338,7 @@
                             });
                         }
                         else
-                            tabstr += '<tr><td colspan="7">查詢無資料</td></tr>';
+                            tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                     }
                 }
@@ -674,6 +677,17 @@
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
 
+                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
+                            <div class="OchiRow">
+                                <div class="OchiHalf">
+                                    <div class="OchiCell OchiTitle TitleSetWidth">改善情形</div>
+                                    <div class="OchiCell width100">
+                                        <select id="sel_situation" class="inputex width100"></select>
+                                    </div>
+                                </div><!-- OchiHalf -->
+                            </div><!-- OchiRow -->
+                        </div><!-- OchiTrasTable -->
+
                         <div class="textright margin10T">
                             <a id="querybtn" href="javascript:void(0);" class="genbtn">查詢</a>
                             <a id="newbtn" href="edit_VerificationTest.aspx" class="genbtn">新增</a>
@@ -694,6 +708,7 @@
                                     <th nowrap="nowrap" width="10%">類別</th>
                                     <th nowrap="nowrap" width="5%">查核日期</th>
                                     <th nowrap="nowrap">對象</th>
+                                    <th nowrap="nowrap" width="7%">改善情形</th>
                                     <th nowrap="nowrap" width="7%">查核/檢測報告</th>
                                     <th nowrap="nowrap" width="7%">相關報告</th>
                                     <th nowrap="nowrap" width="100">功能</th>

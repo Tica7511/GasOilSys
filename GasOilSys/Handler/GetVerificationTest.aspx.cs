@@ -33,6 +33,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 			string timeBegin = (string.IsNullOrEmpty(Request["timeBegin"])) ? "" : Request["timeBegin"].ToString().Trim();
 			string timeEnd = (string.IsNullOrEmpty(Request["timeEnd"])) ? "" : Request["timeEnd"].ToString().Trim();
 			string reportNum = (string.IsNullOrEmpty(Request["reportNum"])) ? "" : Request["reportNum"].ToString().Trim();
+			string situation = (string.IsNullOrEmpty(Request["situation"])) ? "" : Request["situation"].ToString().Trim();
 			string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 			string mGuid = string.Empty;
@@ -44,6 +45,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 				vdb._類別 = sType;
 				vdb._業者guid = tobject;
 				vdb._報告編號 = reportNum;
+				vdb._改善情形 = situation;
 
 				dt = vdb.GetList(timeBegin, timeEnd);
 
@@ -146,6 +148,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 				vdb._類別 = sType;
 				vdb._業者guid = tobject;
 				vdb._報告編號 = reportNum;
+				vdb._改善情形 = situation;
 
 				dt = vdb.GetCountList(timeBegin, timeEnd);
 

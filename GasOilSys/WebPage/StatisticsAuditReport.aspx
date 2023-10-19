@@ -19,6 +19,7 @@
         $(document).ready(function () {
             $("#div_table").hide();
             getDDL('028', 'sel_type');
+            getDDL('029', 'sel_situation');
 
             //查詢按鈕
             $(document).on("click", "#querybtn", function () {
@@ -96,6 +97,7 @@
                     timeBegin: $("#txt_timeBegin").val(),
                     timeEnd: $("#txt_timeEnd").val(),
                     reportNum: $("#txt_reportNum").val(),
+                    situation: $("#sel_situation").val(),
                     type: "statistics",
                 },
                 error: function (xhr) {
@@ -116,6 +118,7 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("類別_V").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("查核日期起").text().trim()) + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("對象").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("改善情形_V").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap" align="center"><a href="javascript:void(0);" name="fileCheckBtn" aid="'
                                     + $(this).children("guid").text().trim() + '" cid="' + $(this).children("業者guid").text().trim() + '">'
                                     + $(this).children("查核報告總和").text().trim() + '</a></td>';
@@ -127,7 +130,7 @@
                             });
                         }
                         else
-                            tabstr += '<tr><td colspan="7">查詢無資料</td></tr>';
+                            tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                     }
                 }
@@ -469,6 +472,12 @@
                                         <select id="sel_type" class="inputex width100"></select>
                                     </div>
                                 </div><!-- OchiHalf -->
+                                <div class="OchiHalf">
+                                    <div class="OchiCell OchiTitle TitleSetWidth">改善情形</div>
+                                    <div class="OchiCell width100"> 
+                                        <select id="sel_situation" class="inputex width100"></select>
+                                    </div>
+                                </div><!-- OchiHalf -->
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
                         <div class="OchiTrasTable width100 font-size3 TitleLength05">
@@ -516,6 +525,7 @@
                                             <th nowrap="nowrap" width="10%">類別</th>
                                             <th nowrap="nowrap" width="5%">查核日期</th>
                                             <th nowrap="nowrap">對象</th>
+                                            <th nowrap="nowrap" width="7%">改善情形</th>
                                             <th nowrap="nowrap" width="7%">查核/檢測報告</th>
                                             <th nowrap="nowrap" width="7%">相關報告</th>
                                             <th nowrap="nowrap" width="7%">總計</th>

@@ -95,6 +95,82 @@ public class Common
     }
 
     /// <summary>
+    /// 目前可通過掃描的項目_轉回半形
+    /// </summary>
+    /// <param name="strOri">參數</param>
+    /// <returns></returns>
+    public static string DoReplaceBack(string strOri)
+    {
+        if (strOri.Length > 0)
+        {
+            strOri = strOri.Replace("︱", "|");
+            strOri = strOri.Replace("＆", "&");
+            //strOri = strOri.Replace(";", "；");
+            strOri = strOri.Replace("＄", "$");
+            strOri = strOri.Replace("％", "%");
+            strOri = strOri.Replace("＠", "@");
+            strOri = strOri.Replace("’", "'");
+            strOri = strOri.Replace("＜", "<");
+            //strOri = strOri.Replace("(", "（");
+            //strOri = strOri.Replace("\"", "＂");
+            strOri = strOri.Replace("＞", ">");
+            //strOri = strOri.Replace(")", "）");
+            strOri = strOri.Replace("＋", "+");
+            strOri = strOri.Replace("＃", "#");
+            //strOri = strOri.Replace(" CR ", "ＣＲ");
+            // strOri = strOri.Replace(" LF ", "ＬＦ");
+            //strOri = strOri.Replace("\\", "＼");
+            //strOri = strOri.Replace("&lt", "＆lt");
+            // strOri = strOri.Replace("&gt", "＆gt");
+
+            //如果有連續兩個以上的"-"，則將所有的"-"變成全型"－"
+            if (strOri.IndexOf("－－") > -1)
+                strOri = strOri.Replace("－", "-");
+
+        }
+
+        return strOri;
+    }
+
+    /// <summary>
+    /// 目前可通過掃描的項目
+    /// </summary>
+    /// <param name="strOri">參數</param>
+    /// <returns></returns>
+    public static string DoReplace(string strOri)
+    {
+        if (strOri.Length > 0)
+        {
+            strOri = strOri.Replace("|", "︱");
+            strOri = strOri.Replace("&", "＆");
+            //strOri = strOri.Replace(";", "；");
+            strOri = strOri.Replace("$", "＄");
+            strOri = strOri.Replace("%", "％");
+            strOri = strOri.Replace("@", "＠");
+            strOri = strOri.Replace("'", "’");
+            strOri = strOri.Replace("<", "＜");
+            //strOri = strOri.Replace("(", "（");
+            //strOri = strOri.Replace("\"", "＂");
+            strOri = strOri.Replace(">", "＞");
+            //strOri = strOri.Replace(")", "）");
+            strOri = strOri.Replace("+", "＋");
+            strOri = strOri.Replace("#", "＃");
+            //strOri = strOri.Replace(" CR ", "ＣＲ");
+            // strOri = strOri.Replace(" LF ", "ＬＦ");
+            //strOri = strOri.Replace("\\", "＼");
+            //strOri = strOri.Replace("&lt", "＆lt");
+            // strOri = strOri.Replace("&gt", "＆gt");
+
+            //如果有連續兩個以上的"-"，則將所有的"-"變成全型"－"
+            if (strOri.IndexOf("--") > -1)
+                strOri = strOri.Replace("-", "－");
+
+        }
+
+        return strOri;
+    }
+
+    /// <summary>
     /// SHA1加密
     /// </summary>
     public static string sha1en(string str)

@@ -55,7 +55,7 @@ public class AviationCompanyInfo
 
 		sb.Append(@"select 
 * from 航空商港_業者基本資料表 
-where 資料狀態='A' order by 排序編號 ");
+where 資料狀態='A' order by 公司名稱 ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;

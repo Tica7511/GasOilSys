@@ -111,7 +111,7 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
                 string ReturnPath = Request.Url.Scheme + "://" + Request.Url.Authority.ToString() + Request.ApplicationPath + "/tinymce/ImageUpload/filedownload.aspx?v=" + newName;
 
 				string xmlstr = string.Empty;
-				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>" + ReturnPath + "</Response><category>" + category + 
+				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>" + Common.DoReplaceBack(Server.HtmlEncode(Common.DoReplace(ReturnPath))) + "</Response><category>" + category + 
 					"</category><type>" + type + "</type><cpName>" + cpName + "</cpName></root>";
 				xDoc.LoadXml(xmlstr);
 			}

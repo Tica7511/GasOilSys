@@ -667,7 +667,7 @@
                                         </div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">地址</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">縣市名稱</div>
                                         <div class="OchiCell width100">
                                             <select id="txt6" class="width100 inputex" >
                                                 <option value="">請選擇</option>
