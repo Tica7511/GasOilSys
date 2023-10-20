@@ -142,6 +142,29 @@ from 查核與檢測資料_基本資料表 where 資料狀態='A' and guid=@guid
 		return ds;
 	}
 
+	public DataTable GetLastYearSession()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select ISNULL(max(convert(int,場次)), 0) + 1 as 最新場次 
+from 查核與檢測資料_基本資料表 where 資料狀態='A' and 類別=@類別 and 年度=@年度 and 業者guid=@業者guid 
+");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@類別", 類別);
+		oCmd.Parameters.AddWithValue("@年度", 年度);
+		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
 	public DataTable GetSession(SqlConnection oConn, SqlTransaction oTran)
 	{
 		StringBuilder sb = new StringBuilder();

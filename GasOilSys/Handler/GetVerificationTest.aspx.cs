@@ -37,6 +37,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 			string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 			string mGuid = string.Empty;
+			string timeBeginYear = string.Empty;
 			DataTable dt = new DataTable();
 			DataTable dt2 = new DataTable();
 
@@ -166,6 +167,28 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 
 				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
 				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+				xDoc.LoadXml(xmlstr);
+			}
+			else if (type == "session")
+            {
+				string MaxSn = string.Empty;
+
+				vdb._類別 = sType;
+				vdb._業者guid = tobject;
+				timeBeginYear = timeBegin.Substring(0, 3);
+				vdb._年度 = timeBeginYear;
+
+				dt = vdb.GetLastYearSession();
+                if (dt.Rows.Count > 0)
+                {
+					MaxSn = dt.Rows[0]["最新場次"].ToString().Trim();
+                    if (MaxSn.Length == 1) {
+						MaxSn = "0" + MaxSn;
+					}
+				}
+
+				string xmlstr = string.Empty;
+				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>" + MaxSn + "</Response></root>";
 				xDoc.LoadXml(xmlstr);
 			}
 			else

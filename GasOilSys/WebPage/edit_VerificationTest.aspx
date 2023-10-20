@@ -38,7 +38,6 @@
             else {
                 $("#filediv").empty();
                 $("#filediv").append('<input name="fileNameCheck" type="file" />');
-                $("#txt_session").val('01');
                 $("#sel_type").prop("disabled", false);
                 $("#btn_object").show();
                 $("#btn_object_delete").show();
@@ -69,6 +68,37 @@
                 $("#tObjectGuid").val($(this).attr('aid'));
                 $("#txt_object").val($(this).attr('cname'));
                 $.magnificPopup.close();
+            });
+
+            //選擇查核日期後更新該公司之該年度之場次(僅限新增時)
+            $(document).on("change", "#txt_timeBegin", function () {
+                if ($.getQueryString("guid") == "") {
+                    if (($("#sel_type option:selected").val() != '') && ($("#txt_object").val() != '')) {
+                        $.ajax({
+                            type: "POST",
+                            async: false, //在沒有返回值之前,不會執行下一步動作
+                            url: "../Handler/GetVerificationTest.aspx",
+                            data: {
+                                type: "session",
+                                sType: $("#sel_type option:selected").val(),
+                                tobject: $("#tObjectGuid").val(),
+                                timeBegin: $("#txt_timeBegin").val()
+                            },
+                            error: function (xhr) {
+                                alert("Error: " + xhr.status);
+                                console.log(xhr.responseText);
+                            },
+                            success: function (data) {
+                                if ($(data).find("Error").length > 0) {
+                                    alert($(data).find("Error").attr("Message"));
+                                }
+                                else {
+                                    $("#txt_session").val($("Response", data).text());
+                                }
+                            }
+                        });
+                    }                    
+                }
             });
 
             //刪除查核檢測報告

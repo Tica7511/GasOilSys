@@ -887,7 +887,7 @@
     </script>
     <script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->
     <script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
-    <script type="text/javascript" src="../js/MenuOil.js"></script><!-- 系統共用 JS -->
+    <script type="text/javascript" src="../js/MenuVerificationTest.js"></script><!-- 系統共用 JS -->
     <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
