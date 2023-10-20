@@ -11,6 +11,7 @@
     <script type="text/javascript">
 		$(document).ready(function () {
 
+
 			$("#Ncategory").val($.getQueryString("category"));
 			$("#Ntype").val($.getQueryString("type"));
             $("#NcpName").val($.getQueryString("cpName"));
@@ -42,12 +43,12 @@
 						console.log(xhr.responseText);
 					},
 					success: function (data) {
+                        data = DOMPurify.sanitize(data);
 						if ($(data).find("Error").length > 0) {
 							alert($(data).find("Error").attr("Message"));
 						}
 						else {
-							var ReturnData = decodeURIComponent(encodeURIComponent($("Response", data).text()));
-                            var ReturnValue = '<img src="' + ReturnData + '&category=' + $("category", data).text() + '&type=' + $("type", data).text() + '&cpName=' + $("cpName", data).text() + '" alt="" />';
+                            var ReturnValue = '<img src="' + $("Response", data).text() + '&category=' + $("category", data).text() + '&type=' + $("type", data).text() + '&cpName=' + $("cpName", data).text() + '" alt="" />';
 							top.tinymce.activeEditor.insertContent(ReturnValue);
 							top.tinymce.activeEditor.windowManager.close();
 						}

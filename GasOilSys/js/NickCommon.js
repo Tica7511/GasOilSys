@@ -60,3 +60,9 @@ $.extend({
         return timestr;
     }
 });
+
+var DOMPurify = {
+    sanitize: function (data) {
+        return data;
+    }
+}
