@@ -46,7 +46,8 @@
 							alert($(data).find("Error").attr("Message"));
 						}
 						else {
-                            var ReturnValue = '<img src="' + $("Response", data).text() + '&category=' + $("category", data).text() + '&type=' + $("type", data).text() + '&cpName=' + $("cpName", data).text() + '" alt="" />';
+							var ReturnData = decodeURIComponent(encodeURIComponent($("Response", data).text()));
+                            var ReturnValue = '<img src="' + ReturnData + '&category=' + $("category", data).text() + '&type=' + $("type", data).text() + '&cpName=' + $("cpName", data).text() + '" alt="" />';
 							top.tinymce.activeEditor.insertContent(ReturnValue);
 							top.tinymce.activeEditor.windowManager.close();
 						}
