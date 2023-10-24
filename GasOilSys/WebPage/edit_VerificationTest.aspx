@@ -419,7 +419,7 @@
                     else {
                         $("#div_objecttable").empty();
                         var tabstr = '';
-                        if ($("#tType").val() != '4') {
+                        if (($("#tType").val() != '4') && ($("#tType").val() != '5')) {
                             tabstr += '<table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr><th align="center" nowrap="nowrap">公司名稱</th><th align="center" nowrap="nowrap">事業部</th>' +
                                 '<th align="center" nowrap="nowrap">營業處廠</th><th align="center" nowrap="nowrap">中心庫區儲運課工場</th><th align="center" nowrap="nowrap" width="100">功能</th>';
                         }
@@ -432,7 +432,7 @@
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
-                                if ($("#tType").val() != '4') {
+                                if (($("#tType").val() != '4') && ($("#tType").val() != '5')) {
                                     tabstr += '<td nowrap="nowrap">' + $(this).children("公司名稱").text().trim() + '</td>';
                                     tabstr += '<td nowrap="nowrap">' + $(this).children("事業部").text().trim() + '</td>';
                                     tabstr += '<td nowrap="nowrap">' + $(this).children("營業處廠").text().trim() + '</td>';

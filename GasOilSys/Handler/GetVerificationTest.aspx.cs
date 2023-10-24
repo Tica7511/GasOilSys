@@ -13,6 +13,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 	GasCompanyInfo_DB gdb = new GasCompanyInfo_DB();
 	AviationCompanyInfo adb = new AviationCompanyInfo();
 	VerificationTest_DB vdb = new VerificationTest_DB();
+	PublicGas_DB pdb = new PublicGas_DB();
 	FileTable fdb = new FileTable();
 	protected void Page_Load(object sender, EventArgs e)
 	{
@@ -120,6 +121,9 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 					case "4":
 						dt = adb.GetCompanyList();
 						break;
+					case "5":
+						dt = pdb.GetCompanyList();
+						break;
 				}
 
                 if (dt.Rows.Count > 0)
@@ -128,7 +132,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 
 					for(int i = 0; i < dt.Rows.Count; i++)
                     {
-						if(dataType != "4")
+						if(dataType != "4" && dataType != "5")
                         {
 							dt.Rows[i]["CompanyFullName"] = dt.Rows[i]["公司名稱"].ToString().Trim() + dt.Rows[i]["事業部"].ToString().Trim() +
 								dt.Rows[i]["事業部"].ToString().Trim() + dt.Rows[i]["中心庫區儲運課工場"].ToString().Trim();
