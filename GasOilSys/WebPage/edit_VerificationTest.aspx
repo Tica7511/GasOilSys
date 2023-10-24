@@ -70,34 +70,36 @@
                 $.magnificPopup.close();
             });
 
-            //選擇查核日期後更新該公司之該年度之場次(僅限新增時)
+            //選擇查核日期後更新該年度之場次(僅限新增時)
             $(document).on("change", "#txt_timeBegin", function () {
                 if ($.getQueryString("guid") == "") {
-                    if (($("#sel_type option:selected").val() != '') && ($("#txt_object").val() != '')) {
-                        $.ajax({
-                            type: "POST",
-                            async: false, //在沒有返回值之前,不會執行下一步動作
-                            url: "../Handler/GetVerificationTest.aspx",
-                            data: {
-                                type: "session",
-                                sType: $("#sel_type option:selected").val(),
-                                tobject: $("#tObjectGuid").val(),
-                                timeBegin: $("#txt_timeBegin").val()
-                            },
-                            error: function (xhr) {
-                                alert("Error: " + xhr.status);
-                                console.log(xhr.responseText);
-                            },
-                            success: function (data) {
-                                if ($(data).find("Error").length > 0) {
-                                    alert($(data).find("Error").attr("Message"));
-                                }
-                                else {
-                                    $("#txt_session").val($("Response", data).text());
-                                }
+                    //if (($("#sel_type option:selected").val() != '') && ($("#txt_object").val() != '')) {
+                        
+                    //}      
+
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/GetVerificationTest.aspx",
+                        data: {
+                            type: "session",
+                            //sType: $("#sel_type option:selected").val(),
+                            //tobject: $("#tObjectGuid").val(),
+                            timeBegin: $("#txt_timeBegin").val()
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
                             }
-                        });
-                    }                    
+                            else {
+                                $("#txt_session").val($("Response", data).text());
+                            }
+                        }
+                    });
                 }
             });
 
@@ -208,8 +210,8 @@
                         msg += "【查核日期(起)】不可晚於【查核日期(迄)】，請重新輸入\n";
                 if ($("#txt_session").val() == '')
                     msg += "請輸入【場次】\n";
-                if ($("#sel_situation").val() == '')
-                    msg += "請輸入【改善情形】\n";
+                //if ($("#sel_situation").val() == '')
+                //    msg += "請輸入【改善情形】\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);

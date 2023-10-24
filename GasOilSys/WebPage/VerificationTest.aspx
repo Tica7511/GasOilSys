@@ -340,6 +340,8 @@
                         else
                             tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
+
+                        $("#sp_Total").text('共' + $("total", data).text() + '筆');
                     }
                 }
             });
@@ -695,7 +697,9 @@
                     </div>
 
                     <div class="twocol margin10T">
-                        <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 查詢結果</div>
+                        <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 查詢結果 
+                            <span id="sp_Total" class="font-red"></span>
+                        </div>
                         <div class="right font-normal font-size3">
                         </div>
                     </div>

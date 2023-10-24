@@ -38,6 +38,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 			string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 			string mGuid = string.Empty;
 			string timeBeginYear = string.Empty;
+			DataSet ds = new DataSet();
 			DataTable dt = new DataTable();
 			DataTable dt2 = new DataTable();
 
@@ -48,12 +49,13 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 				vdb._報告編號 = reportNum;
 				vdb._改善情形 = situation;
 
-				dt = vdb.GetList(timeBegin, timeEnd);
+				ds = vdb.GetList(timeBegin, timeEnd);
 
 				string xmlstr = string.Empty;
+				string totalxml = "<total>" + ds.Tables[0].Rows[0]["total"].ToString() + "</total>";
 
-				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+				xmlstr = DataTableToXml.ConvertDatatableToXML(ds.Tables[1], "dataList", "data_item");
+				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + totalxml + xmlstr + "</root>";
 				xDoc.LoadXml(xmlstr);
 			}
 			else if (type == "object")
@@ -173,8 +175,8 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
             {
 				string MaxSn = string.Empty;
 
-				vdb._類別 = sType;
-				vdb._業者guid = tobject;
+				//vdb._類別 = sType;
+				//vdb._業者guid = tobject;
 				timeBeginYear = timeBegin.Substring(0, 3);
 				vdb._年度 = timeBeginYear;
 

@@ -51,7 +51,7 @@ public class VerificationTest_DB
 	public string _資料狀態 { set { 資料狀態 = value; } }
 	#endregion
 
-	public DataTable GetList(string beginTime, string endTime)
+	public DataSet GetList(string beginTime, string endTime)
 	{
 		SqlCommand oCmd = new SqlCommand();
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
@@ -59,7 +59,8 @@ public class VerificationTest_DB
 
 		sb.Append(@"select *, 
 類別_V=(select 項目名稱 from 代碼檔 where 群組代碼='028' and 項目代碼=查核與檢測資料_基本資料表.類別),  
-改善情形_V=(select 項目名稱 from 代碼檔 where 群組代碼='029' and 項目代碼=查核與檢測資料_基本資料表.改善情形)  
+改善情形_V=(select 項目名稱 from 代碼檔 where 群組代碼='029' and 項目代碼=查核與檢測資料_基本資料表.改善情形) 
+into #tmp 
 from 查核與檢測資料_基本資料表 where 資料狀態='A' and (@業者guid='' or 業者guid=@業者guid) 
 and (@類別='' or 類別=@類別) and (@報告編號='' or  報告編號 like '%'+@報告編號+'%') 
 and (@改善情形='' or 改善情形=@改善情形) 
@@ -69,10 +70,14 @@ and (@改善情形='' or 改善情形=@改善情形)
 
 		sb.Append(@" ORDER BY convert(int, 年度) asc, convert(int, 類別) asc, convert(int, 場次) asc, convert(int, 查核日期起) asc ");
 
+		sb.Append(@"select count(*) as total from #tmp ");
+
+		sb.Append(@" select * from #tmp");
+
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;
 		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
-		DataTable ds = new DataTable();
+		DataSet ds = new DataSet();
 
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@類別", 類別);
