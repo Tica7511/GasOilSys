@@ -132,6 +132,8 @@
                         else
                             tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
+
+                        $("#sp_Total").text('共' + $("total", data).text() + '份報告');
                     }
                 }
             });
@@ -508,7 +510,7 @@
                                 <br />
                                 <div class="twocol">
                                     <div class="left">
-                                        <span id="sp_totalText" style="color:red" class="font-size3"></span>
+                                        <span id="sp_Total" style="color:red" class="font-size5"></span>
                                     </div>
                                     <div class="right">
                                         <a id="querybtn" href="javascript:void(0);" title="查詢" class="genbtn" >查詢</a>

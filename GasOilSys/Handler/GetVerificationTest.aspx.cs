@@ -157,22 +157,23 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 				vdb._報告編號 = reportNum;
 				vdb._改善情形 = situation;
 
-				dt = vdb.GetCountList(timeBegin, timeEnd);
+				ds = vdb.GetCountList(timeBegin, timeEnd);
 
-                if (dt.Rows.Count > 0)
+                if (ds.Tables[1].Rows.Count > 0)
                 {
-					dt.Columns.Add("報告總和", typeof(string));
+					ds.Tables[1].Columns.Add("報告總和", typeof(string));
 
-					for(int i=0; i < dt.Rows.Count; i++)
+					for(int i=0; i < ds.Tables[1].Rows.Count; i++)
                     {
-						dt.Rows[i]["報告總和"] = (Convert.ToInt32(dt.Rows[i]["查核報告總和"].ToString().Trim()) + Convert.ToInt32(dt.Rows[i]["相關報告總和"].ToString().Trim())).ToString().Trim();
+						ds.Tables[1].Rows[i]["報告總和"] = (Convert.ToInt32(ds.Tables[1].Rows[i]["查核報告總和"].ToString().Trim()) + Convert.ToInt32(ds.Tables[1].Rows[i]["相關報告總和"].ToString().Trim())).ToString().Trim();
 					}
 				}
 
 				string xmlstr = string.Empty;
+				string totalxml = "<total>" + ds.Tables[0].Rows[0]["total"].ToString() + "</total>";
 
-				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+				xmlstr = DataTableToXml.ConvertDatatableToXML(ds.Tables[1], "dataList", "data_item");
+				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + totalxml + xmlstr + "</root>";
 				xDoc.LoadXml(xmlstr);
 			}
 			else if (type == "session")
