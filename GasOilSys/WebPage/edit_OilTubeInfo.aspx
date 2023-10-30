@@ -17,7 +17,7 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
-            getDDLLsit('023', 'txt25');
+            getDDLLsit('030', 'txt25');
             getData();
 
             //長途管線識別碼 認證有無重複序號

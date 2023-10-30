@@ -89,18 +89,19 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(9).SetCellValue("包覆材料");
                     sheet.GetRow(0).CreateCell(10).SetCellValue("轄管長度(公里)");
                     sheet.GetRow(0).CreateCell(11).SetCellValue("內容物");
-                    sheet.GetRow(0).CreateCell(12).SetCellValue("緊急遮斷閥(處)");
-                    sheet.GetRow(0).CreateCell(13).SetCellValue("建置年(民國年月)");
-                    sheet.GetRow(0).CreateCell(14).SetCellValue("設計壓力(Kg/cm2)");
-                    sheet.GetRow(0).CreateCell(15).SetCellValue("使用壓力(Kg/cm2)");
-                    sheet.GetRow(0).CreateCell(16).SetCellValue("使用狀態1.使用中2.停用3.備用");
-                    sheet.GetRow(0).CreateCell(17).SetCellValue("附掛橋樑數量");
-                    sheet.GetRow(0).CreateCell(18).SetCellValue("管線穿越箱涵數量");
-                    sheet.GetRow(0).CreateCell(19).SetCellValue("活動斷層敏感區1.有2.無");
-                    sheet.GetRow(0).CreateCell(20).SetCellValue("土壤液化區1.有2.無");
-                    sheet.GetRow(0).CreateCell(21).SetCellValue("土石流潛勢區1.有2.無");
-                    sheet.GetRow(0).CreateCell(22).SetCellValue("淹水潛勢區1.有2.無");
-                    sheet.GetRow(0).CreateCell(23).SetCellValue("備註");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("八大油品_V");
+                    sheet.GetRow(0).CreateCell(13).SetCellValue("緊急遮斷閥(處)");
+                    sheet.GetRow(0).CreateCell(14).SetCellValue("建置年(民國年月)");
+                    sheet.GetRow(0).CreateCell(15).SetCellValue("設計壓力(Kg/cm2)");
+                    sheet.GetRow(0).CreateCell(16).SetCellValue("使用壓力(Kg/cm2)");
+                    sheet.GetRow(0).CreateCell(17).SetCellValue("使用狀態1.使用中2.停用3.備用");
+                    sheet.GetRow(0).CreateCell(18).SetCellValue("附掛橋樑數量");
+                    sheet.GetRow(0).CreateCell(19).SetCellValue("管線穿越箱涵數量");
+                    sheet.GetRow(0).CreateCell(20).SetCellValue("活動斷層敏感區1.有2.無");
+                    sheet.GetRow(0).CreateCell(21).SetCellValue("土壤液化區1.有2.無");
+                    sheet.GetRow(0).CreateCell(22).SetCellValue("土石流潛勢區1.有2.無");
+                    sheet.GetRow(0).CreateCell(23).SetCellValue("淹水潛勢區1.有2.無");
+                    sheet.GetRow(0).CreateCell(24).SetCellValue("備註");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -118,18 +119,19 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["包覆材料"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["轄管長度"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["內容物"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["緊急遮斷閥"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["建置年"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(14).SetCellValue(dt.Rows[i]["設計壓力"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(15).SetCellValue(dt.Rows[i]["使用壓力"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(16).SetCellValue(dt.Rows[i]["使用狀態"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(17).SetCellValue(dt.Rows[i]["附掛橋樑數量"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(18).SetCellValue(dt.Rows[i]["管線穿越箱涵數量"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["活動斷層敏感區"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(20).SetCellValue(dt.Rows[i]["土壤液化區"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(21).SetCellValue(dt.Rows[i]["土石流潛勢區"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(22).SetCellValue(dt.Rows[i]["淹水潛勢區"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(23).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["八大油品_V"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["緊急遮斷閥"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(14).SetCellValue(dt.Rows[i]["建置年"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(15).SetCellValue(dt.Rows[i]["設計壓力"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(16).SetCellValue(dt.Rows[i]["使用壓力"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(17).SetCellValue(dt.Rows[i]["使用狀態"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(18).SetCellValue(dt.Rows[i]["附掛橋樑數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(19).SetCellValue(dt.Rows[i]["管線穿越箱涵數量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(20).SetCellValue(dt.Rows[i]["活動斷層敏感區"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(21).SetCellValue(dt.Rows[i]["土壤液化區"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(22).SetCellValue(dt.Rows[i]["土石流潛勢區"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(23).SetCellValue(dt.Rows[i]["淹水潛勢區"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(24).SetCellValue(dt.Rows[i]["備註"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_管線基本資料.xls";

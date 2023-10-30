@@ -86,7 +86,7 @@ public class OilTubeInfo_DB
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區, 
-  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='023' and 項目代碼=a.八大油品) 
+  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品) 
   into #tmp from 石油_管線基本資料 a  
   left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
   where a.業者guid=@業者guid and a.資料狀態='A' ");
@@ -141,7 +141,9 @@ where 業者guid=@業者guid and 資料狀態='A' ");
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 from 石油_管線基本資料 a  
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區,
+  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品) 
+  from 石油_管線基本資料 a  
   left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
   where a.業者guid=@業者guid and a.資料狀態='A' 
   order by 長途管線識別碼 ");
