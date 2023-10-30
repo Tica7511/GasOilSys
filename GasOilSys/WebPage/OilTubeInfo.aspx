@@ -115,6 +115,7 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("包覆材料").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("轄管長度").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("內容物").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("八大油品_V").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("緊急遮斷閥").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("建置年").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("設計壓力").text().trim() + '</td>';
@@ -133,7 +134,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="25">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="26">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
@@ -334,6 +335,7 @@
                                             <th nowrap>包覆<br>材料 </th>
                                             <th nowrap>轄管長度<br>(公里)</th>
                                             <th nowrap>內容物 </th>
+                                            <th nowrap>八大油品 </th>
                                             <th nowrap>緊急遮斷閥<br>(處)</th>
                                             <th nowrap>建置年</th>
                                             <th nowrap>設計壓力<br>(Kg/cm<sup>2</sup>)</th>

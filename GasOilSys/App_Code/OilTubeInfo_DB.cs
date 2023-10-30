@@ -39,6 +39,7 @@ public class OilTubeInfo_DB
     string 附掛橋樑數量 = string.Empty;
     string 管線穿越箱涵數量 = string.Empty;
     string 備註 = string.Empty;
+    string 八大油品 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
     string 修改者 = string.Empty;
@@ -70,6 +71,7 @@ public class OilTubeInfo_DB
     public string _附掛橋樑數量 { set { 附掛橋樑數量 = value; } }
     public string _管線穿越箱涵數量 { set { 管線穿越箱涵數量 = value; } }
     public string _備註 { set { 備註 = value; } }
+    public string _八大油品 { set { 八大油品 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
     public string _修改者 { set { 修改者 = value; } }
@@ -83,7 +85,9 @@ public class OilTubeInfo_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區 into #tmp from 石油_管線基本資料 a  
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區, 
+  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='023' and 項目代碼=a.八大油品) 
+  into #tmp from 石油_管線基本資料 a  
   left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
   where a.業者guid=@業者guid and a.資料狀態='A' ");
 
@@ -260,6 +264,7 @@ else
 附掛橋樑數量,
 管線穿越箱涵數量,
 備註,
+八大油品,
 修改者, 
 修改日期, 
 建立者, 
@@ -287,6 +292,7 @@ else
 @附掛橋樑數量,
 @管線穿越箱涵數量,
 @備註,
+@八大油品,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -318,6 +324,7 @@ else
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
         oCmd.Parameters.AddWithValue("@管線穿越箱涵數量", 管線穿越箱涵數量);
         oCmd.Parameters.AddWithValue("@備註", 備註);
+        oCmd.Parameters.AddWithValue("@八大油品", 八大油品);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -353,6 +360,7 @@ else
 附掛橋樑數量=@附掛橋樑數量,
 管線穿越箱涵數量=@管線穿越箱涵數量,
 備註=@備註,
+八大油品=@八大油品,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -383,6 +391,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@附掛橋樑數量", 附掛橋樑數量);
         oCmd.Parameters.AddWithValue("@管線穿越箱涵數量", 管線穿越箱涵數量);
         oCmd.Parameters.AddWithValue("@備註", 備註);
+        oCmd.Parameters.AddWithValue("@八大油品", 八大油品);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');

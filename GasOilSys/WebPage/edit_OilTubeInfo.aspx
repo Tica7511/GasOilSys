@@ -17,6 +17,7 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
+            getDDLLsit('023', 'txt25');
             getData();
 
             //長途管線識別碼 認證有無重複序號
@@ -135,6 +136,7 @@
                 data.append("txt22", encodeURIComponent($("#txt22").val()));
                 data.append("txt23", encodeURIComponent($("#txt23").val()));
                 data.append("txt24", encodeURIComponent($("#txt24").val()));
+                data.append("txt25", encodeURIComponent($("#txt25").val()));
 
                 $.ajax({
                     type: "POST",
@@ -247,6 +249,7 @@
                                 $("#txt22").val($(this).children("淹水潛勢區").text().trim());
                                 $("#txt23").val($(this).children("管線穿越箱涵數量").text().trim());
                                 $("#txt24").val($(this).children("備註").text().trim());
+                                $("#txt25").val($(this).children("八大油品").text().trim());
 							});
 						}
 					}
@@ -282,6 +285,38 @@
 
                         $("#txt1").empty();
                         $("#txt1").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        //取得代碼檔列表
+        function getDDLLsit(gNo, id) {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetDDLlist.aspx",
+                data: {
+                    gNo: gNo,
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        var ddlstr = '<option value="">請選擇</option>';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("項目代碼").text().trim() + '">' + $(this).children("項目名稱").text().trim() + '</option>';
+                            });
+                        }
+
+                        $("#" + id).empty();
+                        $("#" + id).append(ddlstr);
                     }
                 }
             });
@@ -539,6 +574,12 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">管線穿越箱涵數量</div>
                                         <div class="OchiCell width100"><input type="number" min="0" id="txt23" class="inputex width40" ></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">八大油品</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt25" class="inputex width100"></select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
