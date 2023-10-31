@@ -197,6 +197,82 @@ else
         return ds;
     }
 
+    public DataSet GetStatisticsList(string pStart, string pEnd, string cpname, string businessOrg,
+        string factory, string workshop)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區, 
+  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品), c.公司名稱, 
+  業者簡稱=(isnull(c.處,'')+isnull(c.事業部,'')+isnull(c.營業處廠,'')+isnull(c.組,'')+isnull(c.中心庫區儲運課工場,'')) 
+  into #tmp from 石油_管線基本資料 a  
+  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
+  left join 石油_業者基本資料 c on a.業者guid=c.guid 
+  where a.資料狀態='A' and (@公司名稱='' or c.公司名稱=@公司名稱) and (@事業部='' or c.事業部=@事業部)
+  and (@營業處廠='' or c.營業處廠=@營業處廠) and (@中心庫區儲運課工場='' or c.中心庫區儲運課工場=@中心庫區儲運課工場) 
+  and (@長途管線識別碼='' or a.長途管線識別碼=@長途管線識別碼) and (@建置年='' or  建置年 like '%'+@建置年+'%') 
+  and (@管徑吋='' or  管徑吋 like '%'+@管徑吋+'%') and (@八大油品='' or a.八大油品=@八大油品) ");
+
+        sb.Append(@"
+select count(*) as total from #tmp
+
+select * from (
+           select ROW_NUMBER() over (order by 長途管線識別碼) itemNo,* from #tmp
+)#tmp where itemNo between @pStart and @pEnd ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+        oCmd.Parameters.AddWithValue("@公司名稱", cpname);
+        oCmd.Parameters.AddWithValue("@事業部", businessOrg);
+        oCmd.Parameters.AddWithValue("@營業處廠", factory);
+        oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", workshop);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@建置年", 建置年);
+        oCmd.Parameters.AddWithValue("@管徑吋", 管徑吋);
+        oCmd.Parameters.AddWithValue("@八大油品", 八大油品);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetStatisticsPipeSnList(string cpname, string businessOrg, string factory, string workshop)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區, 
+  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品), c.公司名稱,  
+  業者簡稱=(isnull(c.處,'')+isnull(c.事業部,'')+isnull(c.營業處廠,'')+isnull(c.組,'')+isnull(c.中心庫區儲運課工場,'')) 
+  from 石油_管線基本資料 a  
+  left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
+  left join 石油_業者基本資料 c on a.業者guid=c.guid 
+  where a.資料狀態='A' and (@公司名稱='' or c.公司名稱=@公司名稱) and (@事業部='' or c.事業部=@事業部)
+  and (@營業處廠='' or c.營業處廠=@營業處廠) and (@中心庫區儲運課工場='' or c.中心庫區儲運課工場=@中心庫區儲運課工場)  
+  order by 長途管線識別碼 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@公司名稱", cpname);
+        oCmd.Parameters.AddWithValue("@事業部", businessOrg);
+        oCmd.Parameters.AddWithValue("@營業處廠", factory);
+        oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", workshop);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataTable GetData()
     {
         SqlCommand oCmd = new SqlCommand();
