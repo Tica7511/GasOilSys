@@ -67,11 +67,11 @@ and (@類別='' or 類別=@類別) and (@報告編號='' or  報告編號 like '
 		if (!string.IsNullOrEmpty(beginTime) && !string.IsNullOrEmpty(endTime))
 			sb.Append(@" and 查核日期起 between @beginTime and @endTime ");
 
-		sb.Append(@" ORDER BY convert(int, 年度) asc, convert(int, 類別) asc, convert(int, 場次) asc, convert(int, 查核日期起) asc ");
-
 		sb.Append(@"select count(*) as total from #tmp ");
 
 		sb.Append(@" select * from #tmp");
+
+		sb.Append(@" ORDER BY convert(int, 年度) desc, convert(int, 類別) desc, convert(int, 場次) desc, convert(int, 查核日期起) desc ");
 
 		oCmd.CommandText = sb.ToString();
 		oCmd.CommandType = CommandType.Text;

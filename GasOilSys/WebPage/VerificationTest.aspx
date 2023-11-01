@@ -19,8 +19,8 @@
         $(document).ready(function () {
             getDDL('028', 'sel_type');
             getDDL('029', 'sel_situation');
-            getData();
 
+            $("#div_table").hide();
             $("#CheckFiles").show();
             $("#subbtnCheckFile").show();
             $("#RelationFiles").show();
@@ -29,6 +29,7 @@
             //查詢按鈕
             $(document).on("click", "#querybtn", function () {
                 getData();
+                $("#div_table").show();
             });
 
             //選擇類別
