@@ -25,7 +25,7 @@
 ");
 
             getDDL('028', 'sel_type');
-            getDDL('029', 'sel_situation');
+            //getDDL('029', 'sel_situation');
             $("#sellist").val(getTaiwanDate());
             getData();
             getDataFileRelation();
@@ -244,7 +244,7 @@
                 data.append("timeBegin", encodeURIComponent($("#txt_timeBegin").val()));
                 data.append("timeEnd", encodeURIComponent($("#txt_timeEnd").val()));
                 data.append("session", encodeURIComponent($("#txt_session").val()));
-                data.append("situation", encodeURIComponent($("#sel_situation").val()));
+                //data.append("situation", encodeURIComponent($("#sel_situation").val()));
                 //$.each($("#fileUpload")[0].files, function (i, file) {
                 //    data.append('file', file);
                 //});
@@ -337,7 +337,7 @@
                                 $("#txt_timeBegin").val($(this).children("查核日期起").text().trim());
                                 $("#txt_timeEnd").val($(this).children("查核日期迄").text().trim());
                                 $("#txt_session").val($(this).children("場次").text().trim());
-                                $("#sel_situation").val($(this).children("改善情形").text().trim());
+                                //$("#sel_situation").val($(this).children("改善情形").text().trim());
 
                                 if (($(this).children("新檔名").text().trim() == '') || ($(this).children("新檔名").text().trim() == null)) {
                                     $("#filediv").empty();
@@ -607,23 +607,27 @@
                                     </div>
                                 </div><!-- OchiHalf -->
                                 <div class="OchiHalf">
+                                    <div class="OchiCell OchiTitle TitleSetWidth">查核/檢測報告</div>
+                                    <div id="filediv" class="OchiCell width100"></div>                         
+                                </div>
+                                <%--<div class="OchiHalf">
                                     <div class="OchiCell OchiTitle TitleSetWidth">改善情形</div>
                                     <div class="OchiCell width100">
                                         <select id="sel_situation" class="inputex width100"></select>
                                     </div>                         
-                                </div>
+                                </div>--%>
                                 <!-- OchiHalf -->
                             </div><!-- OchiRow -->
                         </div><!-- OchiTrasTable -->
 
-                        <div class="OchiTrasTable width100 font-size3 TitleLength05">
+                        <%--<div class="OchiTrasTable width100 font-size3 TitleLength05">
                             <div class="OchiRow">
                                 <div class="OchiHalf">
                                     <div class="OchiCell OchiTitle TitleSetWidth">查核/檢測報告</div>
                                     <div id="filediv" class="OchiCell width100"></div>                         
                                 </div>
                             </div><!-- OchiRow -->
-                        </div><!-- OchiTrasTable -->
+                        </div><!-- OchiTrasTable -->--%>
 
                         <div class="OchiTrasTable width100 font-size3 TitleLength05">
                             <div class="OchiRow">

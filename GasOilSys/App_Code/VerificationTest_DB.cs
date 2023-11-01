@@ -63,7 +63,6 @@ public class VerificationTest_DB
 into #tmp 
 from 查核與檢測資料_基本資料表 where 資料狀態='A' and (@業者guid='' or 業者guid=@業者guid) 
 and (@類別='' or 類別=@類別) and (@報告編號='' or  報告編號 like '%'+@報告編號+'%') 
-and (@改善情形='' or 改善情形=@改善情形) 
 ");
 		if (!string.IsNullOrEmpty(beginTime) && !string.IsNullOrEmpty(endTime))
 			sb.Append(@" and 查核日期起 between @beginTime and @endTime ");
@@ -82,7 +81,7 @@ and (@改善情形='' or 改善情形=@改善情形)
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@類別", 類別);
 		oCmd.Parameters.AddWithValue("@報告編號", 報告編號);
-		oCmd.Parameters.AddWithValue("@改善情形", 改善情形);
+		//oCmd.Parameters.AddWithValue("@改善情形", 改善情形);
 		oCmd.Parameters.AddWithValue("@beginTime", beginTime);
 		oCmd.Parameters.AddWithValue("@endTime", endTime);
 
@@ -229,7 +228,6 @@ guid,
 業者guid,
 類別,
 場次,
-改善情形,
 報告編號,
 查核日期起,
 查核日期迄,
@@ -244,7 +242,6 @@ guid,
 @業者guid,
 @類別,
 @場次,
-@改善情形,
 @報告編號,
 @查核日期起,
 @查核日期迄,
@@ -263,7 +260,7 @@ guid,
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@類別", 類別);
 		oCmd.Parameters.AddWithValue("@場次", 場次);
-		oCmd.Parameters.AddWithValue("@改善情形", 改善情形);
+		//oCmd.Parameters.AddWithValue("@改善情形", 改善情形);
 		oCmd.Parameters.AddWithValue("@報告編號", 報告編號);
 		oCmd.Parameters.AddWithValue("@查核日期起", 查核日期起);
 		oCmd.Parameters.AddWithValue("@查核日期迄", 查核日期迄);
@@ -283,7 +280,6 @@ guid,
 		StringBuilder sb = new StringBuilder();
 		sb.Append(@"update 查核與檢測資料_基本資料表 set  
 場次=@場次,
-改善情形=@改善情形,
 查核日期起=@查核日期起,
 查核日期迄=@查核日期迄,
 修改者=@修改者, 
@@ -298,7 +294,7 @@ where 資料狀態=@資料狀態 and guid=@guid
 		oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 		oCmd.Parameters.AddWithValue("@類別", 類別);
 		oCmd.Parameters.AddWithValue("@場次", 場次);
-		oCmd.Parameters.AddWithValue("@改善情形", 改善情形);
+		//oCmd.Parameters.AddWithValue("@改善情形", 改善情形);
 		oCmd.Parameters.AddWithValue("@報告編號", 報告編號);
 		oCmd.Parameters.AddWithValue("@查核日期起", 查核日期起);
 		oCmd.Parameters.AddWithValue("@查核日期迄", 查核日期迄);

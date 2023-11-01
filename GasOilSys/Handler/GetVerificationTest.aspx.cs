@@ -48,7 +48,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 				vdb._類別 = sType;
 				vdb._業者guid = tobject;
 				vdb._報告編號 = reportNum;
-				vdb._改善情形 = situation;
+				//vdb._改善情形 = situation;
 
 				ds = vdb.GetList(timeBegin, timeEnd);
 

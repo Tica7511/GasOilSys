@@ -57,7 +57,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
             string timeBegin = (string.IsNullOrEmpty(Request["timeBegin"])) ? "" : Request["timeBegin"].ToString().Trim();
             string timeEnd = (string.IsNullOrEmpty(Request["timeEnd"])) ? "" : Request["timeEnd"].ToString().Trim();
             string session = (string.IsNullOrEmpty(Request["session"])) ? "" : Request["session"].ToString().Trim();
-            string situation = (string.IsNullOrEmpty(Request["situation"])) ? "" : Request["situation"].ToString().Trim();
+            //string situation = (string.IsNullOrEmpty(Request["situation"])) ? "" : Request["situation"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string sn = string.Empty;
             string xmlstr = string.Empty;
@@ -67,7 +67,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
             db._年度 = Server.UrlDecode(year);
             db._類別 = Server.UrlDecode(type);
             db._場次 = Server.UrlDecode(session);
-            db._改善情形 = Server.UrlDecode(situation);
+            //db._改善情形 = Server.UrlDecode(situation);
             db._報告編號 = Server.UrlDecode(year) + "-" + Server.UrlDecode(type) + "-" + Server.UrlDecode(session);
             db._對象 = Server.UrlDecode(objectName);
             db._查核日期起 = Server.UrlDecode(timeBegin);
