@@ -184,6 +184,128 @@ else
         return ds;
     }
 
+    public DataSet GetStatisticsList(string pStart, string pEnd, string cpname, string businessOrg,
+        string factory, string workshop, string openDateBegin, string openDateEnd)
+    {
+        string startday_V = string.Empty;
+        string endday_V = string.Empty;
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select a.*, b.公司名稱,  
+業者簡稱=(isnull(b.處,'')+isnull(b.事業部,'')+isnull(b.營業處廠,'')+isnull(b.組,'')+isnull(b.中心庫區儲運課工場,''))
+into #tmp 
+from 石油_儲槽基本資料 a 
+left join 石油_業者基本資料 b on a.業者guid=b.guid 
+where a.資料狀態='A'  and (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部)
+  and (@營業處廠='' or b.營業處廠=@營業處廠) and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) 
+  and (@轄區儲槽編號='' or a.轄區儲槽編號=@轄區儲槽編號) and (@能源局編號='' or  能源局編號 like '%'+@能源局編號+'%') 
+  and (@油品種類='' or a.油品種類=@油品種類) ");
+
+        if (!string.IsNullOrEmpty(openDateBegin) && string.IsNullOrEmpty(openDateEnd))
+        {
+            if (openDateBegin.Length > 6)
+                startday_V = openDateBegin.Substring(0, 5);
+            else
+                startday_V = openDateBegin.Substring(0, 4);
+
+            sb.Append(@"and (case when LEN(啟用日期) > 5 then SUBSTRING(啟用日期, 1, 3) + SUBSTRING(啟用日期, 5, 2)
+	   when LEN(啟用日期) = 5 then SUBSTRING(啟用日期, 1, 2) + SUBSTRING(啟用日期, 4, 2)
+	   when LEN(啟用日期) < 5 then SUBSTRING(啟用日期, 1, 1) + SUBSTRING(啟用日期, 3, 2)
+	   when 啟用日期 is null then 0 
+	   when 啟用日期='' then 0 end) between " + startday_V + " and '99999' ");
+        }
+
+        if (string.IsNullOrEmpty(openDateBegin) && !string.IsNullOrEmpty(openDateEnd))
+        {
+            if (openDateEnd.Length > 6)
+                endday_V = openDateEnd.Substring(0, 5);
+            else
+                endday_V = openDateEnd.Substring(0, 4);
+
+            sb.Append(@"and (case when LEN(啟用日期) > 5 then SUBSTRING(啟用日期, 1, 3) + SUBSTRING(啟用日期, 5, 2)
+	   when LEN(啟用日期) = 5 then SUBSTRING(啟用日期, 1, 2) + SUBSTRING(啟用日期, 4, 2)
+	   when LEN(啟用日期) < 5 then SUBSTRING(啟用日期, 1, 1) + SUBSTRING(啟用日期, 3, 2)
+	   when 啟用日期 is null then 0 
+	   when 啟用日期='' then 0 end) between '0' and " + endday_V);
+        }
+
+        if (!string.IsNullOrEmpty(openDateBegin) && !string.IsNullOrEmpty(openDateEnd))
+        {
+            if (openDateBegin.Length > 6)
+                startday_V = openDateBegin.Substring(0, 5);
+            else
+                startday_V = openDateBegin.Substring(0, 4);
+            if (openDateEnd.Length > 5)
+                endday_V = openDateEnd.Substring(0, 5);
+            else
+                endday_V = openDateEnd.Substring(0, 4);
+
+            sb.Append(@"and (case when LEN(啟用日期) > 5 then SUBSTRING(啟用日期, 1, 3) + SUBSTRING(啟用日期, 5, 2)
+	   when LEN(啟用日期) = 5 then SUBSTRING(啟用日期, 1, 2) + SUBSTRING(啟用日期, 4, 2)
+	   when LEN(啟用日期) < 5 then SUBSTRING(啟用日期, 1, 1) + SUBSTRING(啟用日期, 3, 2)
+	   when 啟用日期 is null then 0 
+	   when 啟用日期='' then 0 end) between " + startday_V + " and " + endday_V);
+        }
+
+        sb.Append(@" 
+select count(*) as total from #tmp
+
+select * from (
+           select ROW_NUMBER() over (order by 業者簡稱, 轄區儲槽編號) itemNo,* from #tmp
+)#tmp where itemNo between @pStart and @pEnd ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataSet ds = new DataSet();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@pStart", pStart);
+        oCmd.Parameters.AddWithValue("@pEnd", pEnd);
+        oCmd.Parameters.AddWithValue("@公司名稱", cpname);
+        oCmd.Parameters.AddWithValue("@事業部", businessOrg);
+        oCmd.Parameters.AddWithValue("@營業處廠", factory);
+        oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", workshop);
+        oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
+        oCmd.Parameters.AddWithValue("@能源局編號", 能源局編號);
+        oCmd.Parameters.AddWithValue("@油品種類", 油品種類);
+        oCmd.Parameters.AddWithValue("@啟用日期起", openDateBegin);
+        oCmd.Parameters.AddWithValue("@啟用日期迄", openDateEnd);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetStatisticsStorageTankSnList(string cpname, string businessOrg, string factory, string workshop)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select a.*, b.公司名稱, 
+業者簡稱=(isnull(b.處,'')+isnull(b.事業部,'')+isnull(b.營業處廠,'')+isnull(b.組,'')+isnull(b.中心庫區儲運課工場,'')) 
+into #tmp 
+from 石油_儲槽基本資料 a 
+left join 石油_業者基本資料 b on a.業者guid=b.guid 
+where a.資料狀態='A'  and (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部) 
+  and (@營業處廠='' or b.營業處廠=@營業處廠) and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@公司名稱", cpname);
+        oCmd.Parameters.AddWithValue("@事業部", businessOrg);
+        oCmd.Parameters.AddWithValue("@營業處廠", factory);
+        oCmd.Parameters.AddWithValue("@中心庫區儲運課工場", workshop);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void InsertData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
