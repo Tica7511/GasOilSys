@@ -41,7 +41,10 @@
             $(document).on("click", "#querybtn", function () {
                 var msg = '';
                 if ($("#txt1 option:selected").val() == '')
-                    msg += '請選擇【類別】\n'
+                    msg += '請選擇【類別】\n';
+                if (($("#txt9").val() != '') && ($("#txt10").val() != ''))
+                    if ($("#txt9").val() > $("#txt10").val())
+                        msg += '【啟用日期(起)】不能大於【啟用日期(迄)】';
                 if (msg != '') {
                     alert("Error message: \n" + msg);
                     return false;
@@ -242,14 +245,9 @@
                                 '(填表說明) </th><th >內部 <br>年/月/日 </th>';
                         }
                         else {
-                            tabstr += '<table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr><th align="center" nowrap="nowrap">長途管線識別碼</th><th align="center" nowrap="nowrap">業者簡稱</th><th align="center" nowrap="nowrap">轄區長途管線名稱<br>(公司)</th>' +
-                                '<th align="center" nowrap="nowrap">銜接管線識別碼<br>(上游)</th><th align="center" nowrap="nowrap">銜接管線識別碼<br>(下游)</th><th align="center" nowrap="nowrap">起點</th>' +
-                                '<th align="center" nowrap="nowrap">迄點</th><th align="center" nowrap="nowrap">管徑<br>吋</th><th align="center" nowrap="nowrap">厚度<br>(mm)</th><th align="center" nowrap="nowrap">管材<br>(詳細規格)</th>' +
-                                '<th align="center" nowrap="nowrap">包覆<br>材料</th><th align="center" nowrap="nowrap">轄管長度<br>(公里)</th><th align="center" nowrap="nowrap">內容物</th>' +
-                                '<th align="center" nowrap="nowrap">緊急遮斷閥<br>(處)</th><th align="center" nowrap="nowrap">建置年<br>(民國年月)</th><th align="center" nowrap="nowrap">設計壓力<br>(Kg/cm<sup>2</sup>)</th>' +
-                                '<th align="center" nowrap="nowrap">使用壓力<br>(Kg/cm<sup>2</sup>)</th><th align="center" nowrap="nowrap">使用狀態<br>1.使用中<br>2.停用<br>3.備用</th><th align="center" nowrap="nowrap">附掛<br>橋樑<br>數量</th>' +
-                                '<th align="center" nowrap="nowrap">管線穿越<br>箱涵數量</th><th align="center" nowrap="nowrap">活動<br>斷層<br>敏感區</th><th align="center" nowrap="nowrap">土壤<br>液化區</th>' +
-                                '<th align="center" nowrap="nowrap">土石流<br>潛勢區</th><th align="center" nowrap="nowrap">淹水<br>潛勢區</th><th align="center" nowrap="nowrap">備註</th>';
+                            tabstr += '<table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr><th nowrap>液化天然氣廠 </th><th nowrap>儲槽編號 </th><th nowrap>容量 <br>（萬公秉） </th>' +
+                                '<th nowrap>外徑 <br>(公尺） </th><th nowrap>高度 <br>(公尺)</th><th nowrap>形式 </th><th nowrap>啟用日期 </th><th nowrap>狀態 <br>(使用中/ 開放中/ 停用)</th>' +
+                                '<th nowrap>勞動部檢查<br>合格證及有效期限 </th><th nowrap>代行/檢查機構 </th>';
                         }
                         tabstr += '</tr></thead><tbody>';
 
@@ -274,31 +272,16 @@
                                     tabstr += '<td nowrap="nowrap">' + $(this).children("延長開放年限").text().trim() + '</td>';
                                 }
                                 else {
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("業者簡稱").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("轄區長途管線名稱_公司").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("銜接管線識別碼_上游").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("銜接管線識別碼_下游").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("起點").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("迄點").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("管徑").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("厚度").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("管材").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("包覆材料").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("轄管長度").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("內容物").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("緊急遮斷閥").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("建置年").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("設計壓力").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("使用壓力").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("使用狀態").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("附掛橋樑數量").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("管線穿越箱涵數量").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("活動斷層敏感區").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("土壤液化區").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("土石流潛勢區").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("淹水潛勢區").text().trim() + '</td>';
-                                    tabstr += '<td nowrap="nowrap"><pre>' + $(this).children("備註").text().trim() + '</pre></td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("液化天然氣廠").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("儲槽編號").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("容量").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("外徑").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("高度").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("形式").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + getDate($(this).children("啟用日期").text().trim()) + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("狀態").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("勞動部檢查").text().trim() + '</td>';
+                                    tabstr += '<td nowrap="nowrap">' + $(this).children("代行檢查機構").text().trim() + '</td>';
                                 }
                                 tabstr += '</tr>';
                             });
@@ -307,7 +290,7 @@
                             if ($("#txt1").val() == '01')
                                 tabstr += '<tr><td colspan="15">查詢無資料</td></tr>';
                             else
-                                tabstr += '<tr><td colspan="25">查詢無資料</td></tr>';
+                                tabstr += '<tr><td colspan="11">查詢無資料</td></tr>';
                         }
                             
                         $("#tablist tbody").append(tabstr);
@@ -549,7 +532,7 @@
                                 <div id="div_content" class="OchiRow">
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">啟用年月</div>
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">啟用日期</div>
                                     <div class="OchiCell width100">
                                         <input id="txt9" type="text" class="width20 inputex pickDate " disabled /> ~ <input id="txt10" type="text" class="width20 inputex pickDate " disabled />
                                     </div>

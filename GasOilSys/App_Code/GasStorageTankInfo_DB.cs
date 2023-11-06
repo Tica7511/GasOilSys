@@ -196,7 +196,7 @@ else
         sb.Append(@"select a.*, b.公司名稱, 
   業者簡稱=(isnull(b.事業部,'')+isnull(b.營業處廠,'')+isnull(b.中心庫區儲運課工場,'')) 
   into #tmp from 天然氣_儲槽設施資料_儲槽基本資料 a  
-  left join 石油_業者基本資料 b on a.業者guid=b.guid 
+  left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 
   where a.資料狀態='A' and (@公司名稱='' or b.公司名稱=@公司名稱) and (@事業部='' or b.事業部=@事業部)
   and (@營業處廠='' or b.營業處廠=@營業處廠) and (@中心庫區儲運課工場='' or b.中心庫區儲運課工場=@中心庫區儲運課工場) 
   and (@儲槽編號='' or a.儲槽編號=@儲槽編號) and (@液化天然氣廠='' or  液化天然氣廠 like '%'+@液化天然氣廠+'%') 
