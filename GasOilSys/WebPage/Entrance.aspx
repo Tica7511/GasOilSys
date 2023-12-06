@@ -28,6 +28,7 @@
                 case "01":
                     $("#tdWeekReport").hide();                    
                     $("#tdStatistics").hide();
+                    $("#tdPublicGas").hide();
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
                             $("#tdGas").hide();
@@ -54,12 +55,14 @@
                 case "04":
                     $("#tdStatistics").hide();
                     $("#tdWeekReport").hide();
+                    $("#tdPublicGas").hide();
                     break;
                 //中油長官
                 case "05":
                     $("#tdCheckCounseling").hide();
                     $("#tdStatistics").hide();
                     $("#tdWeekReport").hide();
+                    $("#tdPublicGas").hide();
                     break;
                 //台塑長官
                 case "06":
@@ -67,6 +70,7 @@
                     $("#tdCheckCounseling").hide();
                     $("#tdGas").hide();
                     $("#tdWeekReport").hide();
+                    $("#tdPublicGas").hide();
                     break;
             }			
 		});
@@ -99,11 +103,11 @@
                             <div class="font-size3">現場查核</div>
                         </a>
                     </td>
-                   <td width="33%" id="tdWeekReport">
-                        <a href="WeekIndex.aspx" target="_blank" class="enerbtn">
-                            <i class="fa fa-calendar font-sizeIcon" aria-hidden="true"></i>
-                            <div class="font-size5 font-bold">週報、季報、月報</div>
-                            <div class="font-size3">管理系統</div>
+                   <td width="33%" id="tdPublicGas">
+                        <a href="javascript:void(0);" target="_self" class="enerbtn">
+                            <i class="fa fa-cloud font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">公用天然氣事業輸儲設備</div>
+                            <div class="font-size3">查詢系統</div>
                         </a>
                     </td>
                 </tr>
@@ -112,12 +116,21 @@
                         <a href="VerificationTest.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-check-square-o font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">查核與檢測資料</div>
+                            <div class="font-size3">查詢系統</div>
                         </a>
                     </td>
                     <td width="33%" id="tdStatistics">
                         <a href="StatisticsPipeAndTank.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-pie-chart font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">統計查詢</div>
+                            <div class="font-size3">查詢系統</div>
+                        </a>
+                    </td>
+                    <td width="33%" id="tdWeekReport">
+                        <a href="WeekIndex.aspx" target="_blank" class="enerbtn">
+                            <i class="fa fa-calendar font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">週報、季報、月報</div>
+                            <div class="font-size3">管理系統</div>
                         </a>
                     </td>
                     <td width="33%" id="tdProjectManagement">
