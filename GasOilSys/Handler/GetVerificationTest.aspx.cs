@@ -124,6 +124,9 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 					case "5":
 						dt = pdb.GetCompanyList();
 						break;
+					case "6":
+						dt = pdb.GetCompanyList();
+						break;
 				}
 
                 if (dt.Rows.Count > 0)
@@ -132,7 +135,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 
 					for(int i = 0; i < dt.Rows.Count; i++)
                     {
-						if(dataType != "4" && dataType != "5")
+						if(dataType != "4" && dataType != "5" && dataType != "6")
                         {
 							dt.Rows[i]["CompanyFullName"] = dt.Rows[i]["公司名稱"].ToString().Trim() + dt.Rows[i]["事業部"].ToString().Trim() +
 								dt.Rows[i]["事業部"].ToString().Trim() + dt.Rows[i]["中心庫區儲運課工場"].ToString().Trim();
