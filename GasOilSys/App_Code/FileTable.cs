@@ -84,6 +84,8 @@ public class FileTable
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 附件檔 where 資料狀態='A' and guid=@guid ");
+        if (!string.IsNullOrEmpty(檔案類型))
+            sb.Append(@"and 檔案類型=@檔案類型 ");
         if (!string.IsNullOrEmpty(排序))
             sb.Append(@"and 排序=@排序 ");
 
@@ -94,6 +96,7 @@ public class FileTable
 
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
 
         oda.Fill(ds);
         return ds;

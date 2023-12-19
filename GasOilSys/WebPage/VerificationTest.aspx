@@ -444,11 +444,11 @@
                         var tabstr = '';
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                var filename = $(this).children("新檔名").text().trim();
+                                var filename = $(this).children("原檔名").text().trim();
                                 var fileextension = $(this).children("附檔名").text().trim();
                                 tabstr += '<tr>'
                                 tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=VerificationTest&type=Check&sn=' + $(this).children("排序").text().trim() +
-                                    '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
+                                    '&v=' + $(this).children("guid").text().trim() + '&details=' + $(this).children("檔案類型").text().trim() +'">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnCheckFile" aid="' + $(this).children("guid").text().trim() +
                                     '" atype="10" >刪除</a></td>';
@@ -463,7 +463,7 @@
             });
         }
 
-        //取得查核檢測報告列表
+        //取得相關報告列表
         function getDataRelationFile() {
             $.ajax({
                 type: "POST",
@@ -486,11 +486,11 @@
                         var tabstr = '';
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                var filename = $(this).children("新檔名").text().trim();
+                                var filename = $(this).children("原檔名").text().trim();
                                 var fileextension = $(this).children("附檔名").text().trim();
                                 tabstr += '<tr>'
                                 tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=VerificationTest&type=Relation&sn=' + $(this).children("排序").text().trim() +
-                                    '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
+                                    '&v=' + $(this).children("guid").text().trim() + '&details=' + $(this).children("檔案類型").text().trim() +'">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnRelationFile" aid="' + $(this).children("guid").text().trim() +
                                     '" asn="' + $(this).children("排序").text().trim() + '"  atype="11" >刪除</a></td>';

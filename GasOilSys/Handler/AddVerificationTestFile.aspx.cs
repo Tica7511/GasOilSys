@@ -55,6 +55,7 @@ public partial class Handler_AddVerificationTestFile : System.Web.UI.Page
                 HttpPostedFile File = uploadFiles[i];
                 if (File.FileName.Trim() != "")
                 {
+                    string tmpGuid = Guid.NewGuid().ToString("N");
                     string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"] + "VerificationTest\\";
 
                     if (type == "10")
@@ -129,7 +130,7 @@ public partial class Handler_AddVerificationTestFile : System.Web.UI.Page
 
                         //新檔名
                         //string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
-                        string newName = orgName;
+                        string newName = orgName + "_" + tmpGuid;
 
                         string file_size = File.ContentLength.ToString();
 

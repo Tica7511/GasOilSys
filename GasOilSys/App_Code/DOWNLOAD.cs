@@ -210,6 +210,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dirPath += "Check\\";
                                     Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
                                     Fdb._排序 = sn;
+                                    Fdb._檔案類型 = details;
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
@@ -220,6 +221,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dirPath += "Relation\\";
                                     Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
                                     Fdb._排序 = sn;
+                                    Fdb._檔案類型 = details;
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {

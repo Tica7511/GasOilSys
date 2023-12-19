@@ -51,6 +51,30 @@
                 }
             });
 
+            $(document).on("click", "#exportbtn", function () {
+
+                $.ajax({
+                    type: "POST",
+                    async: false, //在沒有返回值之前,不會執行下一步動作
+                    url: "../Handler/AddWord.aspx",
+                    data: {
+
+                    },
+                    error: function (xhr) {
+                        alert("Error: " + xhr.status);
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            alert($("Response", data).text());
+                        }
+                    }
+                });
+            });
+
             //儲存按鈕
             $(document).on("click", "#subbtn", function () {
                 $.ajax({
@@ -329,6 +353,7 @@
                                     </select> 年
                                 </div>
                                 <div id="fileall" class="right">
+                                    <%--<a id="exportbtn" href="javascript:void(0);" class="genbtn">匯入</a>--%>
                                     <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                     <a id="backbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
                                     <a id="subbtn" href="javascript:void(0);" class="genbtn" style="display:none">儲存</a>
