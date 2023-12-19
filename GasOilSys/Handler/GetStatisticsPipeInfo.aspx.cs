@@ -67,7 +67,7 @@ public partial class Handler_GetStatisticsPipeInfo : System.Web.UI.Page
                     {
                         for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
                         {
-                            if (ds.Tables[1].Rows[i]["業者guid"].ToString().Trim() == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+                            if (ds.Tables[1].Rows[i]["單獨公司名稱"].ToString().Trim() == "Y")
                                 ds.Tables[1].Rows[i]["業者簡稱"] = ds.Tables[1].Rows[i]["公司名稱"].ToString().Trim();
                         }
                     }
@@ -87,7 +87,7 @@ public partial class Handler_GetStatisticsPipeInfo : System.Web.UI.Page
                     {
                         for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
                         {
-                            if (ds.Tables[1].Rows[i]["業者guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+                            if (ds.Tables[1].Rows[i]["業者guid"].ToString().Trim() == "單獨公司名稱")
                                 ds.Tables[1].Rows[i]["業者簡稱"] = ds.Tables[1].Rows[i]["公司名稱"].ToString().Trim();
                         }
                     }

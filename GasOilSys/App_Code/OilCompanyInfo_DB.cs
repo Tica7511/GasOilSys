@@ -197,7 +197,7 @@ else
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select 公司名稱, isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 單位屬性, 資料是否確認 from 石油_業者基本資料
+        sb.Append(@"select 公司名稱, isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 單位屬性, 資料是否確認, 單獨公司名稱 from 石油_業者基本資料
   where 資料狀態='A' and 列表是否顯示='Y' ");
         if (!string.IsNullOrEmpty(guid))
             sb.Append(@"and guid = @guid ");
@@ -400,7 +400,7 @@ FROM 石油_業者基本資料 where (地址 <>'' and 地址 is not null ) ");
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select guid,公司名稱, isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
+        sb.Append(@"select guid,公司名稱, isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, 單獨公司名稱 from 石油_業者基本資料
   where 資料狀態='A' and guid=@guid ");
 
         oCmd.CommandText = sb.ToString();
@@ -749,5 +749,50 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 
         oCmd.Transaction = oTran;
         oCmd.ExecuteNonQuery();
+    }
+
+    public DataTable GetExporttable()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from exportTable ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable AddWord(string address, string company, string name, string signatral)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"insert into word匯入列表(地址, 公司部門, 姓名, 簽名)
+        values(
+        @地址, 
+        @公司部門,
+        @姓名,
+        @簽名) 
+        ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@地址", address);
+        oCmd.Parameters.AddWithValue("@公司部門", company);
+        oCmd.Parameters.AddWithValue("@姓名", name);
+        oCmd.Parameters.AddWithValue("@簽名", signatral);
+
+        oda.Fill(ds);
+        return ds;
     }
 }

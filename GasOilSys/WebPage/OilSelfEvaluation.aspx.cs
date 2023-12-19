@@ -33,7 +33,7 @@ public partial class WebPage_OilSelfEvaluation : System.Web.UI.Page
                 string cpNameTmp = string.Empty;
                 if (string.IsNullOrEmpty(dt.Rows[0]["組"].ToString()))
                 {
-                    if (dt.Rows[0]["guid"].ToString() == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+                    if (dt.Rows[0]["單獨公司名稱"].ToString() == "Y")
                         cpNameTmp = dt.Rows[0]["公司名稱"].ToString();
                     else
                         cpNameTmp = dt.Rows[0]["事業部"].ToString() + dt.Rows[0]["營業處廠"].ToString() + dt.Rows[0]["中心庫區儲運課工場"].ToString();

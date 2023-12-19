@@ -205,7 +205,7 @@ else
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select a.*, b.活動斷層敏感區, b.土壤液化區, b.土石流潛勢區, b.淹水潛勢區, 
-  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品), c.公司名稱, 
+  八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品), c.公司名稱, c.單獨公司名稱,  
   業者簡稱=(isnull(c.處,'')+isnull(c.事業部,'')+isnull(c.營業處廠,'')+isnull(c.組,'')+isnull(c.中心庫區儲運課工場,'')) 
   into #tmp from 石油_管線基本資料 a  
   left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  

@@ -193,7 +193,7 @@ else
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select a.*, b.公司名稱, 
+        sb.Append(@"select a.*, b.公司名稱, b.單獨公司名稱,  
   業者簡稱=(isnull(b.事業部,'')+isnull(b.營業處廠,'')+isnull(b.中心庫區儲運課工場,'')) 
   into #tmp from 天然氣_儲槽設施資料_儲槽基本資料 a  
   left join 天然氣_業者基本資料表 b on a.業者guid=b.guid 

@@ -63,7 +63,7 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                                     ocdb._guid = dt.Rows[i]["業者guid"].ToString();
                                     DataTable odt = ocdb.GetCpName3();
                                     if (odt.Rows.Count > 0)
-                                        if (odt.Rows[0]["guid"].ToString().Trim() == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+                                        if (odt.Rows[0]["單獨公司名稱"].ToString().Trim() == "Y")
                                             dt.Rows[i]["cName"] = odt.Rows[0]["公司名稱"].ToString().Trim();
                                         else
                                             dt.Rows[i]["cName"] = odt.Rows[0]["cpname"].ToString();
@@ -76,7 +76,9 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                                     {
                                         for (int j = 0; j < dt.Rows.Count; j++)
                                         {
-                                            if (gdt.Rows[0]["guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+                                            if ((gdt.Rows[0]["guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53") ||
+                                                (gdt.Rows[0]["guid"].ToString().Trim() == "017A85E5-476E-44EC-AF05-F07886A340FD") ||
+                                                (gdt.Rows[0]["guid"].ToString().Trim() == "78BBF11D-449E-4F80-AB4E-5C34E2C5832D"))
                                                 dt.Rows[i]["cName"] = gdt.Rows[0]["公司名稱"].ToString().Trim();
                                             else
                                                 dt.Rows[i]["cName"] = gdt.Rows[0]["cpname"].ToString();

@@ -36,7 +36,7 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 
 					if (dt.Rows.Count > 0)
 					{
-						if (cpguid == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+						if (dt.Rows[0]["單獨公司名稱"].ToString().Trim() == "Y")
 							cpName = dt.Rows[0]["公司名稱"].ToString().Trim();
 						else
 							cpName = dt.Rows[0]["cpname"].ToString().Trim();
@@ -49,7 +49,7 @@ public partial class tinymce_ImageUpload_imgUpload : System.Web.UI.Page
 
 					if (dt.Rows.Count > 0)
 					{
-						if (cpguid == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+						if (dt.Rows[0]["單獨公司名稱"].ToString().Trim() == "Y")
 							cpName = dt.Rows[0]["公司名稱"].ToString().Trim();
 						else
 							cpName = dt.Rows[0]["cpname"].ToString().Trim();

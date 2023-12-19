@@ -55,7 +55,7 @@ namespace ED.HR.Gas_EXPORTEXCEL.WebForm
             dt = gdb.GetCpName();
             if (dt.Rows.Count > 0)
             {
-                if (dt.Rows[0]["guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+                if (dt.Rows[0]["單獨公司名稱"].ToString().Trim() == "Y")
                     dt.Rows[0]["cpname"] = dt.Rows[0]["公司名稱"].ToString().Trim();
 
                 cpName = dt.Rows[0]["cpname"].ToString().Trim();

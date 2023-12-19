@@ -34,7 +34,7 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                 {
 					for(int i = 0; i < dt.Rows.Count; i++)
                     {
-						if (dt.Rows[i]["guid"].ToString().Trim() == "9E779E2B-C36D-44BF-BED2-11C29D989D53")
+						if (dt.Rows[i]["單獨公司名稱"].ToString().Trim() == "Y")
 							dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
 					}					
 
@@ -50,7 +50,7 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                 {
 					for (int i = 0; i < dt.Rows.Count; i++)
 					{
-						if (dt.Rows[i]["guid"].ToString().Trim() == "FA8387C6-5860-40DB-A260-3B6C08413C59")
+						if (dt.Rows[i]["單獨公司名稱"].ToString().Trim() == "Y")
 							dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
 					}
 

@@ -25,6 +25,7 @@ public class GasCompanyInfo_DB
 	string 電話 = string.Empty;
 	string fun2 = string.Empty;
 	string 資料是否確認 = string.Empty;
+	string 單獨公司名稱 = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -42,6 +43,7 @@ public class GasCompanyInfo_DB
 	public string _電話 { set { 電話 = value; } }
 	public string _fun2 { set { fun2 = value; } }
 	public string _資料是否確認 { set { 資料是否確認 = value; } }
+	public string _單獨公司名稱 { set { 單獨公司名稱 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -135,7 +137,7 @@ FROM 天然氣_業者基本資料表 where (地址 <>'' and 地址 is not null )
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(@"select guid, 公司名稱, isnull(事業部,'')+isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 單位屬性, 資料是否確認 from 天然氣_業者基本資料表
+		sb.Append(@"select guid, 公司名稱, isnull(事業部,'')+isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 單位屬性, 資料是否確認, 單獨公司名稱 from 天然氣_業者基本資料表
   where 資料狀態='A' and 列表是否顯示='Y' ");
 		if (!string.IsNullOrEmpty(guid))
 			sb.Append(@"and guid = @guid ");
@@ -169,7 +171,7 @@ FROM 天然氣_業者基本資料表 where (地址 <>'' and 地址 is not null )
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(@"select 公司名稱, isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname, 代碼 from 天然氣_業者基本資料表
+		sb.Append(@"select 公司名稱, isnull(營業處廠,'')+isnull(中心庫區儲運課工場,'') as cpname, 代碼, 單獨公司名稱 from 天然氣_業者基本資料表
   where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
 
 		oCmd.CommandText = sb.ToString();
