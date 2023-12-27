@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilStorageTankInfo.aspx.cs" Inherits="WebPage_edit_OilStorageTankInfo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilStorageTankInfoLiquefaction.aspx.cs" Inherits="WebPage_edit_OilStorageTankInfoLiquefaction" %>
 
 <!DOCTYPE html>
 
@@ -17,10 +17,9 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
-            getDDL('014');
             getDDL('015');
-            getDDL('016');
             getDDL('023');
+            getDDL('031');
             getData();
 
             //轄區儲槽編號 認證有無重複序號
@@ -103,19 +102,14 @@
                 data.append("txt5", encodeURIComponent($("#txt5").val()));
                 data.append("txt6", encodeURIComponent($("#txt6").val()));
                 data.append("txt7", encodeURIComponent($("#txt7").val()));
-                data.append("txt8", encodeURIComponent($("#txt8").val()));
                 data.append("txt9_1", encodeURIComponent($("#txt9_1").val()));
                 data.append("txt9_2", encodeURIComponent($("#txt9_2").val()));
-                data.append("txt10", encodeURIComponent($("#txt10").val()));
-                data.append("txt11", encodeURIComponent($("#txt11").val()));
-                data.append("txt12", encodeURIComponent($("#txt12").val()));
-                data.append("txt13", encodeURIComponent($("#txt13").val()));
                 data.append("txt14", encodeURIComponent($("#txt14").val()));
 
                 $.ajax({
                     type: "POST",
                     async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/AddOilStorageTankInfo.aspx",
+                    url: "../handler/AddOilStorageTankInfoLiquefaction.aspx",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -150,7 +144,7 @@
             $.ajax({
                 type: "POST",
                 async: false, //在沒有返回值之前,不會執行下一步動作
-                url: "../Handler/GetOilStorageTankInfo.aspx",
+                url: "../Handler/GetOilStorageTankInfoLiquefaction.aspx",
                 data: {
                     cpid: $.getQueryString("cp"),
                     year: "110",
@@ -182,7 +176,7 @@
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
-				url: "../Handler/GetOilStorageTankInfo.aspx",
+                url: "../Handler/GetOilStorageTankInfoLiquefaction.aspx",
 				data: {
                     guid: $.getQueryString("guid"),
                     type: "data"
@@ -206,13 +200,8 @@
                                 $("#txt5").val($(this).children("內容物").text().trim());
                                 $("#txt6").val($(this).children("形式").text().trim());
                                 $("#txt7").val($(this).children("狀態").text().trim());
-                                $("#txt8").val($(this).children("延長開放年限").text().trim());
                                 $("#txt9_1").val(splitYearMonth(0, $(this).children("啟用日期").text().trim()));
                                 $("#txt9_2").val(splitYearMonth(1, $(this).children("啟用日期").text().trim()));
-                                $("#txt10").val($(this).children("代行檢查_代檢機構1").text().trim());
-                                $("#txt11").val(getDate($(this).children("代行檢查_外部日期1").text().trim()));
-                                $("#txt12").val($(this).children("代行檢查_代檢機構2").text().trim());
-                                $("#txt13").val(getDate($(this).children("代行檢查_外部日期2").text().trim()));
                                 $("#txt14").val(getDate($(this).children("油品種類").text().trim()));
 							});
 						}
@@ -245,19 +234,13 @@
                             });
                         }
                         switch (gNo) {
-                            case '014':
+                            case '031':
                                 $("#txt6").empty();
                                 $("#txt6").append(ddlstr);
                                 break;
                             case '015':
                                 $("#txt7").empty();
                                 $("#txt7").append(ddlstr);
-                                break;
-                            case '016':
-                                $("#txt10").empty();
-                                $("#txt12").empty();
-                                $("#txt10").append(ddlstr);
-                                $("#txt12").append(ddlstr);
                                 break;
                             case '023':
                                 $("#txt14").empty();
@@ -420,10 +403,6 @@
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">延長開放年限</div>
-                                        <div class="OchiCell width100"><input type="number" min="0" id="txt8" class="inputex width30" value="0"> 年</div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">啟用日期</div>
                                         <div class="OchiCell width100">
                                             民國 <input type="number" min="1" id="txt9_1" placeholder="請填寫民國年" class="inputex width40"> 年 
@@ -445,35 +424,7 @@
                                         </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
-                                </br>
-                                <div class="OchiRow">
-                                    <div class="margin5TB font-size4 font-bold" style="text-align:center">代行檢查有效期限</div>
-                                </div><!-- OchiRow -->
-                                
-                                <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外部代檢機構</div>
-                                        <div class="OchiCell width100"><select id="txt10" class="width100 inputex" ></select></div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">外部檢查有效期限</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt11" class="inputex width40 pickDate" disabled></div>
-                                    </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">內部代檢機構</div>
-                                        <div class="OchiCell width100"><select id="txt12" class="width100 inputex" ></select></div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">內部檢查有效期限</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt13" class="inputex width40 pickDate" disabled></div>
-                                    </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
-                            <div class="margin5TB font-size2">
-                                延長開放年限：若儲槽有申請延長開放，請填入核可延長之年限，無則填寫0。
-                            </div>
                         </div><!-- col -->
                     </div><!-- row -->
 
@@ -546,5 +497,6 @@
     <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
+
 
 

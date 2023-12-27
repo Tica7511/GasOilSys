@@ -10,13 +10,13 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 
-public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
+public partial class Handler_AddOilStorageTankInfoLiquefaction : System.Web.UI.Page
 {
-    OilStorageTankInfo_DB odb = new OilStorageTankInfo_DB();
+    OilStorageTankInfoLiquefaction_DB odb = new OilStorageTankInfoLiquefaction_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
-        ///功    能: 新增/修改 儲槽基本資料
+        ///功    能: 新增/修改 儲槽基本資料液化石油氣
         ///說    明:
         /// * Request["cp"]:  業者guid
         /// * Request["guid"]: guid
@@ -29,13 +29,8 @@ public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
         /// * Request["txt5"]:  內容物
         /// * Request["txt6"]:  形式
         /// * Request["txt7"]:  狀態
-        /// * Request["txt8"]:  延長開放年限
         /// * Request["txt9_1"]:  啟用日期(民國年份)
         /// * Request["txt9_2"]:  啟用日期(月份)
-        /// * Request["txt10"]: 外部代檢機構
-        /// * Request["txt11"]: 外部檢查有效期限
-        /// * Request["txt12"]: 內部代檢機構
-        /// * Request["txt13"]: 內部檢查有效期限
         /// * Request["txt14"]: 油品種類
         /// * Request["mode"]:  new=新增 edit=編輯
         ///-----------------------------------------------------
@@ -68,13 +63,8 @@ public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
             string txt5 = (string.IsNullOrEmpty(Request["txt5"])) ? "" : Request["txt5"].ToString().Trim();
             string txt6 = (string.IsNullOrEmpty(Request["txt6"])) ? "" : Request["txt6"].ToString().Trim();
             string txt7 = (string.IsNullOrEmpty(Request["txt7"])) ? "" : Request["txt7"].ToString().Trim();
-            string txt8 = (string.IsNullOrEmpty(Request["txt8"])) ? "" : Request["txt8"].ToString().Trim();
             string txt9_1 = (string.IsNullOrEmpty(Request["txt9_1"])) ? "" : Request["txt9_1"].ToString().Trim();
             string txt9_2 = (string.IsNullOrEmpty(Request["txt9_2"])) ? "" : Request["txt9_2"].ToString().Trim();
-            string txt10 = (string.IsNullOrEmpty(Request["txt10"])) ? "" : Request["txt10"].ToString().Trim();
-            string txt11 = (string.IsNullOrEmpty(Request["txt11"])) ? "" : Request["txt11"].ToString().Trim();
-            string txt12 = (string.IsNullOrEmpty(Request["txt12"])) ? "" : Request["txt12"].ToString().Trim();
-            string txt13 = (string.IsNullOrEmpty(Request["txt13"])) ? "" : Request["txt13"].ToString().Trim();
             string txt14 = (string.IsNullOrEmpty(Request["txt14"])) ? "" : Request["txt14"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
@@ -90,15 +80,10 @@ public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
             odb._油品種類 = Server.UrlDecode(txt14);
             odb._形式 = Server.UrlDecode(txt6);
             odb._狀態 = Server.UrlDecode(txt7);
-            odb._延長開放年限 = Server.UrlDecode(txt8);
-            if (!string.IsNullOrEmpty(Server.UrlDecode(txt9_1)) && !string.IsNullOrEmpty(Server.UrlDecode(txt9_2)))
+            if(!string.IsNullOrEmpty(Server.UrlDecode(txt9_1)) && !string.IsNullOrEmpty(Server.UrlDecode(txt9_2)))
                 odb._啟用日期 = Server.UrlDecode(txt9_1) + "/" + Server.UrlDecode(txt9_2);
             else
                 odb._啟用日期 = Server.UrlDecode(txt9_1) + Server.UrlDecode(txt9_2);
-            odb._代行檢查_代檢機構1 = Server.UrlDecode(txt10);
-            odb._代行檢查_外部日期1 = Server.UrlDecode(txt11);
-            odb._代行檢查_代檢機構2 = Server.UrlDecode(txt12);
-            odb._代行檢查_外部日期2 = Server.UrlDecode(txt13);
             odb._修改者 = LogInfo.mGuid;
             odb._修改日期 = DateTime.Now;
 

@@ -36,7 +36,9 @@
             //getYearList();
             //$("#sellist").val(getTaiwanDate());
             getData(0);
+            getData2(0);
             $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=storagetankinfo");
+            $("#exportbtn2").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=storagetankinfoliquefaction");
 
             //選擇年份
             //$(document).on("change", "#sellist", function () {
@@ -46,6 +48,11 @@
             //新增按鈕
             $(document).on("click", "#newbtn", function () {
                 location.href = "edit_OilStorageTankInfo.aspx?cp=" + $.getQueryString("cp");
+            });
+
+            //新增按鈕-液化石油氣儲槽
+            $(document).on("click", "#newbtn2", function () {
+                location.href = "edit_OilStorageTankInfoLiquefaction.aspx?cp=" + $.getQueryString("cp");
             });
 
             //刪除按鈕
@@ -68,7 +75,34 @@
                             }
                             else {
                                 alert($("Response", data).text());
-                                getData($("#sellist").val());
+                                getData($("#pageint").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //刪除按鈕-液化石油氣儲槽
+            $(document).on("click", "a[name='delbtn2']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelOilStorageTankInfoLiquefaction.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData2($("#pageint2").val());
                             }
                         }
                     });
@@ -126,6 +160,7 @@
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
                         Page.CreatePage(p, $("total", data).text());
+                        $("#pageint").val(p);
 
                         //確認權限&按鈕顯示或隱藏
                         if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
@@ -143,6 +178,71 @@
 					}
 				}
 			});
+        }
+
+        function getData2(p) {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetOilStorageTankInfoLiquefaction.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    type: "list",
+                    PageNo: p,
+                    PageSize: Page.Option.PageSize,
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#tablist2 tbody").empty();
+                        var tabstr = '';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                tabstr += '<tr>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("轄區儲槽編號").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("能源局編號").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("容量").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("內徑").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("內容物").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("油品種類").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("形式").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("啟用日期").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("狀態").text().trim() + '</td>';
+                                tabstr += '<td name="td_edit2" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_OilStorageTankInfoLiquefaction.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                tabstr += '</tr>';
+                            });
+                        }
+                        else
+                            tabstr += '<tr><td colspan="10">查詢無資料</td></tr>';
+                        $("#tablist2 tbody").append(tabstr);
+                        Page.Option.Selector = "#pageblock2";
+                        Page.Option.FunctionName = "getData2";
+                        Page.CreatePage(p, $("total", data).text());
+                        $("#pageint2").val(p);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                            $("#newbtn2").hide();
+                            $("#th_edit2").hide();
+                            $("td[name='td_edit2']").hide();
+                        }
+                        else {
+                            $("#newbtn2").show();
+                            $("#th_edit2").show();
+                            $("td[name='td_edit2']").show();
+                        }
+
+                        getConfirmedStatus();
+                    }
+                }
+            });
         }
 
         //確認資料是否完成
@@ -174,6 +274,10 @@
                                         $("#editbtn").hide();
                                         $("#th_edit").hide();
                                         $("td[name='td_edit']").hide();
+                                        $("#newbtn2").hide();
+                                        $("#editbtn2").hide();
+                                        $("#th_edit2").hide();
+                                        $("td[name='td_edit2']").hide();
                                     }
                                 }                                
                             });
@@ -284,6 +388,8 @@
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
+        <input type="hidden" id="pageint" />
+        <input type="hidden" id="pageint2" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -304,18 +410,24 @@
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
+                            <div class="font-size4 font-bold">常壓地上式儲槽</div>
                             <div class="stripeMeB tbover">
                                 <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <thead>
                                         <tr>
                                             <th nowrap  rowspan="2">轄區儲槽編號 </th>
                                             <th nowrap rowspan="2">能源局編號 </th>
-                                            <th nowrap rowspan="2">容量 <br>
+                                            <th nowrap rowspan="2">設計容量 <br>
                                                 （公秉） </th>
-                                            <th nowrap rowspan="2">內徑 <br>
+                                            <th nowrap rowspan="2">儲槽內徑 <br>
                                                 (公尺） </th>
-                                            <th nowrap rowspan="2">內容物 </th>
-                                            <th nowrap rowspan="2">油品種類 </th>
+                                            <th nowrap rowspan="2">內容物 <br>
+                                                (中文)<br>
+                                                (1)
+                                            </th>
+                                            <th nowrap rowspan="2">油品種類 <br>
+                                                (2)
+                                            </th>
                                             <th nowrap rowspan="2">形式 <br>
                                                 1.錐頂 <br>
                                                 2.內浮頂 <br>
@@ -323,15 +435,21 @@
                                                 4.掩體式 </th>
                                             <th nowrap rowspan="2">啟用日期 <br>
                                                 年/月 </th>
-                                            <th nowrap colspan="4">代行檢查有效期限 </th>
+                                            <th nowrap colspan="4">代行檢查有效期限 <br>
+                                                (3)
+                                            </th>
                                             <th nowrap rowspan="2" valign="top">狀態 <br>
                                                 1.使用中 <br>
                                                 2.開放中 <br>
                                                 3.停用 <br>
-                                                4.其他 </th>
+                                                4.其他 <br>
+                                                (4)
+                                            </th>
                                             <th nowrap rowspan="2">延長開 <br>
                                                 放年限 <br>
-                                                多?年 </th>
+                                                多?年 <br>
+                                                (5)
+                                            </th>
                                             <th id="th_edit" rowspan="2">功能</th>
                                         </tr>
                                         <tr>
@@ -352,8 +470,69 @@
 	                            <div id="pageblock"></div>
 	                        </div>
                             <div class="margin5TB font-size2">
-                                (1) 代檢機構：1：中國石油學會；2.中華壓力容器協會；3.中華勞動學會；4.中華機械產業設備發展協會，請直接點選。<br>
-                                (2) 延長開放年限：若儲槽有申請延長開放，請填入核可延長之年限，無則填寫0。
+                                (1) 內容物：請填寫中文名稱，請勿填寫英文或縮寫。<br>
+                                (2) 油品種類：1.原油，2.汽油，3.柴油，4.煤油，5.輕油，6.液化石油氣，7.航空燃油，8.燃料油，9.其他(水、空槽、潤滑油等)，<br>
+                                請直接點選，油品定義請依照「石油製品認定基準」附表一。<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/石油製品認定基準-附表一-1080117.pdf" target="_blank">下載</a><br>
+                                (3)	代檢機構：1：中國石油學會；2.中華壓力容器協會；3.中華勞動學會；4.中華機械產業設備發展協會，請直接點選。<br>
+                                (4)	狀態：「停用」意指有正式行文主管機關停用之儲槽。<br>
+                                (5)	延長開放年限：若儲槽有申請延長開放，請填入核可延長之年限，無則填寫0。<br>
+                                (6)	年度儲槽確認：儲槽狀態以113.1.1之狀態填寫，資料皆確認後，請按「年度儲槽確認」，資料即會鎖住無法編修。代行檢查有效期限欄位先不須更新，查核時再更新即可。
+                            </div>
+                            <br />
+                            <br />
+                            <div class="twocol">
+                                <%--<div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    <select id="sellist" class="inputex">
+                                    </select> 年
+                                </div>--%>
+                                <div class="right">
+                                    <a id="exportbtn2" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
+                            <div class="font-size4 font-bold">液化石油氣儲槽</div>
+                            <div class="stripeMeB tbover">
+                                <table id="tablist2" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th nowrap  >轄區儲槽編號 </th>
+                                            <th nowrap >能源局編號 </th>
+                                            <th nowrap >設計容量 <br>
+                                                （公秉） </th>
+                                            <th nowrap >儲槽內徑 <br>
+                                                (公尺） </th>
+                                            <th nowrap >內容物 </th>
+                                            <th nowrap >油品種類 <br>
+                                                (1)
+                                            </th>
+                                            <th nowrap >形式 <br>
+                                                1.ECT <br>
+                                                2.低溫儲槽 <br>
+                                                3.球型槽 <br>
+                                                4.其他 </th>
+                                            <th nowrap >啟用日期 <br>
+                                                年/月 </th>
+                                            <th nowrap valign="top">狀態 <br>
+                                                1.使用中 <br>
+                                                2.開放中 <br>
+                                                3.停用 <br>
+                                                4.其他 <br>
+                                                (4)
+                                            </th>
+                                            <th id="th_edit2" >功能</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div><!-- stripeMe -->
+                            <div class="margin10B margin10T textcenter">
+	                            <div id="pageblock2"></div>
+	                        </div>
+                            <div class="margin5TB font-size2">
+                                (1)	油品種類：1.原油，2.汽油，3.柴油，4.煤油，5.輕油，6.液化石油氣，7.航空燃油，8.燃料油，9.其他(水、空槽、潤滑油等)，<br>
+                                請直接點選，油品定義除原油外請依照「石油製品認定基準」附表一。<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/石油製品認定基準-附表一-1080117.pdf" target="_blank">下載</a><br>
+                                (2) 狀態：「停用」意指有正式行文主管機關停用之儲槽<br>
+                                (3)	年度儲槽確認：儲槽狀態以113.1.1之狀態填寫，資料皆確認後，請按「年度儲槽確認」，資料即會鎖住無法編修。
                             </div>
                         </div><!-- col -->
                     </div><!-- row -->

@@ -33,6 +33,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
         OilTankPipeline_DB db14 = new OilTankPipeline_DB();
         OilControl_DB db15 = new OilControl_DB();
         OilAccidentLearning_DB db16 = new OilAccidentLearning_DB();
+        OilStorageTankInfoLiquefaction_DB db17 = new OilStorageTankInfoLiquefaction_DB();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -478,10 +479,10 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("能源局編號");
-                    sheet.GetRow(0).CreateCell(2).SetCellValue("容量（公秉）");
-                    sheet.GetRow(0).CreateCell(3).SetCellValue("內徑 (公尺）");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("設計容量（公秉）");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("儲槽內徑 (公尺）");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");
-                    sheet.GetRow(0).CreateCell(5).SetCellValue("油品種類 1.原油 2.汽油 3.柴油 4.煤油 5.輕油 6.液化石油氣 7.航空燃油 8.燃料油");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("油品種類 1.原油 2.汽油 3.柴油 4.煤油 5.輕油 6.液化石油氣 7.航空燃油 8.燃料油 9.其他");
                     sheet.GetRow(0).CreateCell(6).SetCellValue("形式 1.錐頂 2.內浮頂 3.外浮頂 4.掩體式");
                     sheet.GetRow(0).CreateCell(7).SetCellValue("啟用日期 年/月");
                     sheet.GetRow(0).CreateCell(8).SetCellValue("代行檢查有效期限 代檢機構(填表說明)");
@@ -512,6 +513,43 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                         }
                     }
                     fileName = cpName + "_儲槽基本資料.xls";
+
+                    #endregion
+                    break;
+                case "storagetankinfoliquefaction":
+                    #region 儲槽基本資料液化石油氣儲槽
+
+                    db17._業者guid = cpid;
+                    dt = db17.GetList();
+
+                    hssfworkbook.SetSheetName(0, "儲槽基本資料");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("能源局編號");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("設計容量（公秉）");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("儲槽內徑 (公尺）");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("油品種類 1.原油 2.汽油 3.柴油 4.煤油 5.輕油 6.液化石油氣 7.航空燃油 8.燃料油 9.其他");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("形式 1.ECT 2.低溫儲槽 3.球型槽 4.其他");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("啟用日期 年/月");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("狀態 1.使用中 2.開放中 3.停用 4.其他");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["轄區儲槽編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["能源局編號"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["容量"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["內徑"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["內容物"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品種類"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_液化石油氣儲槽基本資料.xls";
 
                     #endregion
                     break;
