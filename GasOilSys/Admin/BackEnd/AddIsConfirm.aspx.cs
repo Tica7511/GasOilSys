@@ -22,6 +22,7 @@ public partial class Admin_BackEnd_AddIsConfirm : System.Web.UI.Page
         /// * Request["guid"]: 業者guid 
         /// * Request["type"]: Gas=天然氣 Oil=石油 
         /// * Request["txt1"]: 資料是否確認 
+        /// * Request["confirmType"]: 石油確認類別 01=資料確認 02=年度儲槽確認 03=年度液化石油氣確認
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -43,6 +44,7 @@ public partial class Admin_BackEnd_AddIsConfirm : System.Web.UI.Page
 
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
+            string confirmType = (string.IsNullOrEmpty(Request["confirmType"])) ? "" : Request["confirmType"].ToString().Trim();
             string txt1 = (string.IsNullOrEmpty(Request["txt1"])) ? "" : Request["txt1"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -58,7 +60,18 @@ public partial class Admin_BackEnd_AddIsConfirm : System.Web.UI.Page
             else
             {
                 odb._guid = guid;
-                odb._資料是否確認 = Server.UrlDecode(txt1);
+                switch (Server.UrlDecode(confirmType))
+                {
+                    case "01":
+                        odb._資料是否確認 = Server.UrlDecode(txt1);
+                        break;
+                    case "02":
+                        odb._年度儲槽確認 = Server.UrlDecode(txt1);
+                        break;
+                    case "03":
+                        odb._年度液化石油氣儲槽確認 = Server.UrlDecode(txt1);
+                        break;
+                }
                 odb._修改者 = LogInfo.mGuid;
                 odb._修改日期 = DateTime.Now;
 

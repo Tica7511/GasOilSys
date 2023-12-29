@@ -37,6 +37,8 @@
             //$("#sellist").val(getTaiwanDate());
             getData(0);
             getData2(0);
+            $("#confirmbtn").attr("aid", "1");
+            $("#confirmbtn2").attr("aid", "2");
             $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=storagetankinfo");
             $("#exportbtn2").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=storagetankinfoliquefaction");
 
@@ -103,6 +105,39 @@
                             else {
                                 alert($("Response", data).text());
                                 getData2($("#pageint2").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //年度儲槽確認按鈕
+            $(document).on("click", "a[name='confirmbtnName']", function () {
+                var storageType = $(this).attr("aid");
+                if (confirm("確認更新?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/AddOilStorageTankInfoLiquefaction.aspx",
+                        data: {
+                            cp: $.getQueryString("cp"),
+                            storageType: storageType,
+                            year: getTaiwanDate()
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                if (storageType == '1')
+                                    $("#confirmbtn").hide();
+                                else
+                                    $("#confirmbtn2").hide();
                             }
                         }
                     });
@@ -266,7 +301,19 @@
                     else {
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
+                                var yearStorageConfirm = $(this).children("年度儲槽確認").text().trim();
+                                var yearStorageLiquefactionConfirm = $(this).children("年度液化石油氣儲槽確認").text().trim();
                                 var dataConfirm = $(this).children("資料是否確認").text().trim();
+
+                                if ((yearStorageConfirm == '') || (yearStorageConfirm != getTaiwanDate()))
+                                    $("#confirmbtn").show();
+                                else
+                                    $("#confirmbtn").hide();
+
+                                if ((yearStorageLiquefactionConfirm == '') || (yearStorageLiquefactionConfirm != getTaiwanDate()))
+                                    $("#confirmbtn2").show();
+                                else
+                                    $("#confirmbtn2").hide();
 
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
@@ -401,10 +448,9 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
-                                <%--<div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
-                                    <select id="sellist" class="inputex">
-                                    </select> 年
-                                </div>--%>
+                                <div class="left font-size5 ">
+                                    <a id="confirmbtn" name="confirmbtnName" href="javascript:void(0);" title="年度儲槽確認" class="genbtn">年度儲槽確認</a>
+                                </div>
                                 <div class="right">
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
@@ -481,10 +527,9 @@
                             <br />
                             <br />
                             <div class="twocol">
-                                <%--<div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
-                                    <select id="sellist" class="inputex">
-                                    </select> 年
-                                </div>--%>
+                                <div class="left font-size5 ">
+                                    <a id="confirmbtn2" name="confirmbtnName" href="javascript:void(0);" title="年度儲槽確認" class="genbtn">年度儲槽確認</a>
+                                </div>
                                 <div class="right">
                                     <a id="exportbtn2" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
                                     <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>

@@ -75,6 +75,82 @@
                     }
                 });
             });
+
+            $(document).ajaxStart(function () {
+                //$("input[name='rds_539DBDA9-4163-4475-952A-C2D8F99C5B6B']").attr("disabled", true);
+            });
+
+            $(document).on("click", "input[type='radio']", function () {
+                if (confirm('確認更新資料?')) {
+                    var confirmType = $(this).attr("tid");
+                    var guid = $(this).attr("aid");
+                    var Cvalue = $(this).val();
+
+                    switch (confirmType) {
+                        case "01":
+                            Cvalue = $(this).val();
+                            break;
+                        case "02":
+                            if (Cvalue == "是")
+                                Cvalue = getTaiwanDate();
+                            else
+                                Cvalue = 'N';
+                            break;
+                        case "03":
+                            if (Cvalue == "是")
+                                Cvalue = getTaiwanDate();
+                            else
+                                Cvalue = 'N';
+                            break;
+                    }
+
+                    // Get form
+                    var form = $('#form1')[0];
+
+                    // Create an FormData object 
+                    var data = new FormData(form);
+
+
+                    // If you want to add an extra field for the FormData
+                    data.append("guid", guid);
+                    data.append("type", encodeURIComponent('Oil'));
+                    data.append("confirmType", encodeURIComponent(confirmType));
+                    data.append("txt1", encodeURIComponent(Cvalue));
+
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "BackEnd/AddIsConfirm.aspx",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        beforeSend: function () {
+                            //$("input[name='rds_539DBDA9-4163-4475-952A-C2D8F99C5B6B']").prop("disabled", true);
+                        },
+                        complete: function () {
+                            //$("input[name='rds_539DBDA9-4163-4475-952A-C2D8F99C5B6B']").attr("disabled", false);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                getData();
+                                alert($("Response", data).text());
+                            }
+                        }
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+
         }); // end js
 
         function getData() {
@@ -92,7 +168,13 @@
 					}
 					else {
 						$("#tablist tbody").empty();
-						var tabstr = '';
+                        var tabstr = '';
+                        isConfirm01 = '';
+                        isConfirm02 = '';
+                        isStorageConfirm01 = '';
+                        isStorageConfirm02 = '';
+                        isStorageLiqConfirm01 = '';
+                        isStorageLiqConfirm02 = '';
 						if ($(data).find("data_item").length > 0) {
 							$(data).find("data_item").each(function (i) {
 								tabstr += '<tr>';
@@ -102,27 +184,59 @@
 								tabstr += '<td nowrap="nowrap"><span name="sp4_' + $(this).children("guid").text().trim() + '">' + $(this).children("營業處廠").text().trim() + '</span></td>';
 								tabstr += '<td nowrap="nowrap"><span name="sp5_' + $(this).children("guid").text().trim() + '">' + $(this).children("組").text().trim() + '</span></td>';
                                 tabstr += '<td nowrap="nowrap"><span name="sp6_' + $(this).children("guid").text().trim() + '">' + $(this).children("中心庫區儲運課工場").text().trim() + '</span></td>';
-                                var isConfirm01, isConfirm02;
-                                isConfirm01 = ($(this).children("資料是否確認").text().trim() == "是") ? '<input name="rd_' + $(this).children("guid").text().trim() + '" type="radio" disabled="disabled" value="是" checked="checked" />' : '<input name="rd_' + $(this).children("guid").text().trim() + '" type="radio" disabled="disabled" value="是" />';
-                                isConfirm02 = ($(this).children("資料是否確認").text().trim() == "否") ? '<input name="rd_' + $(this).children("guid").text().trim() + '" type="radio" disabled="disabled" value="否" checked="checked" />' : '<input name="rd_' + $(this).children("guid").text().trim() + '" type="radio" disabled="disabled" value="否" />';
+                                isConfirm01 = ($(this).children("資料是否確認").text().trim() == "是") ? '<input name="rd_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="01" type="radio" value="是" checked="checked" />' : '<input name="rd_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="01" type="radio" value="是" />';
+                                isConfirm02 = ($(this).children("資料是否確認").text().trim() == "否") ? '<input name="rd_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="01" type="radio" value="否" checked="checked" />' : '<input name="rd_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="01" type="radio" value="否" />';
 								tabstr += '<td>' + isConfirm01 + '是</td>';
-								tabstr += '<td>' + isConfirm02 + '否</td>';
-								tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a name="editbtn" href="javascript:void(0);" aid="' + $(this).children("guid").text().trim() + '">編輯</a>';
+                                tabstr += '<td>' + isConfirm02 + '否</td>';
+                                isStorageConfirm01 = ($(this).children("年度儲槽確認").text().trim() == getTaiwanDate()) ? '<input name="rds_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="02" type="radio" value="是" checked="checked" />' : '<input name="rds_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="02" type="radio" value="是" />';
+                                isStorageConfirm02 = ($(this).children("年度儲槽確認").text().trim() != getTaiwanDate()) ? '<input name="rds_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="02" type="radio" value="否" checked="checked" />' : '<input name="rds_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="02" type="radio" value="否" />';
+                                tabstr += '<td>' + isStorageConfirm01 + '是</td>';
+                                tabstr += '<td>' + isStorageConfirm02 + '否</td>';
+                                isStorageLiqConfirm01 = ($(this).children("年度液化石油氣儲槽確認").text().trim() == getTaiwanDate()) ? '<input name="rdsl_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="03" type="radio" value="是" checked="checked" />' : '<input name="rdsl_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="03" type="radio" value="是" />';
+                                isStorageLiqConfirm02 = ($(this).children("年度液化石油氣儲槽確認").text().trim() != getTaiwanDate()) ? '<input name="rdsl_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="03" type="radio" value="否" checked="checked" />' : '<input name="rdsl_' + $(this).children("guid").text().trim() + '" aid="' + $(this).children("guid").text().trim() + '" tid="03" type="radio" value="否" />';
+                                tabstr += '<td>' + isStorageLiqConfirm01 + '是</td>';
+                                tabstr += '<td>' + isStorageLiqConfirm02 + '否</td>';
+								//tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a name="editbtn" href="javascript:void(0);" aid="' + $(this).children("guid").text().trim() + '">編輯</a>';
 								tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="9">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="12">查詢無資料</td></tr>';
 						$("#tablist tbody").append(tabstr);
 					}
 				}
 			});
         }
 
+        //取得現在時間之民國年
+        function getTaiwanDate() {
+            var nowDate = new Date();
+
+            var nowYear = nowDate.getFullYear();
+            var nowTwYear = (nowYear - 1911);
+
+            return nowTwYear;
+        }
+
         function doOpenMagPopup() {
             $.magnificPopup.open({
                 items: {
                     src: '#messageblock'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
+
+        function doOpenMagPopupImg() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblockLoading'
                 },
                 type: 'inline',
                 midClick: false, // 是否使用滑鼠中鍵
@@ -185,7 +299,9 @@
 								        	<th nowrap="nowrap">組</th>
 								        	<th nowrap="nowrap">中心庫區儲運課工場</th>
 								        	<th colspan="2" width="130">資料是否確認</th>
-								        	<th nowrap="nowrap" width="100">功能</th>
+								        	<th colspan="2" width="130">年度儲槽確認</th>
+								        	<th colspan="2" width="130">年度液化石油氣儲槽確認</th>
+								        	<%--<th nowrap="nowrap" width="100">功能</th>--%>
 								        </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -236,6 +352,19 @@
                 <a id="cSubbtn" href="javascript:void(0);" class="genbtn">儲存</a>
             </div>
         </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
+
+<!-- Magnific Popup -->
+<div id="messageblockLoading" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle"></div>
+  <div class="padding10ALL">
+
+      <div class="margin35T padding5RL">
+          <img src="../images/loading.gif" />  
+      </div>
 
   </div><!-- padding10ALL -->
 

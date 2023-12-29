@@ -40,6 +40,8 @@ public class OilCompanyInfo_DB
 	string 年度查核分機 = string.Empty;
 	string 年度查核email = string.Empty;
 	string 資料是否確認 = string.Empty;
+	string 年度儲槽確認 = string.Empty;
+	string 年度液化石油氣儲槽確認 = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -72,6 +74,8 @@ public class OilCompanyInfo_DB
 	public string _年度查核分機 { set { 年度查核分機 = value; } }
 	public string _年度查核email { set { 年度查核email = value; } }
 	public string _資料是否確認 { set { 資料是否確認 = value; } }
+	public string _年度儲槽確認 { set { 年度儲槽確認 = value; } }
+	public string _年度液化石油氣儲槽確認 { set { 年度液化石油氣儲槽確認 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -197,7 +201,7 @@ else
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select 公司名稱, isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 單位屬性, 資料是否確認, 單獨公司名稱 from 石油_業者基本資料
+        sb.Append(@"select 公司名稱, isnull(處,'')+isnull(事業部,'')+isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname, guid, 管線管理不顯示, 儲槽設施不顯示, 單位屬性, 資料是否確認, 單獨公司名稱, 年度儲槽確認, 年度液化石油氣儲槽確認 from 石油_業者基本資料
   where 資料狀態='A' and 列表是否顯示='Y' ");
         if (!string.IsNullOrEmpty(guid))
             sb.Append(@"and guid = @guid ");
@@ -732,8 +736,23 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
-        update 石油_業者基本資料 set 
-        資料是否確認=@資料是否確認, 
+        update 石油_業者基本資料 set ");
+        if (!string.IsNullOrEmpty(資料是否確認))
+            if(資料是否確認 == "N")
+                sb.Append(@" 資料是否確認='',");
+            else
+                sb.Append(@" 資料是否確認=@資料是否確認,");
+        if (!string.IsNullOrEmpty(年度儲槽確認))
+            if (年度儲槽確認 == "N")
+                sb.Append(@" 年度儲槽確認='',");
+            else
+                sb.Append(@" 年度儲槽確認=@年度儲槽確認,");
+        if (!string.IsNullOrEmpty(年度液化石油氣儲槽確認))
+            if (年度液化石油氣儲槽確認 == "N")
+                sb.Append(@" 年度液化石油氣儲槽確認='',");
+            else
+                sb.Append(@" 年度液化石油氣儲槽確認=@年度液化石油氣儲槽確認,");
+        sb.Append(@" 
         修改者=@修改者, 
         修改日期=@修改日期 
         where guid=@guid and 資料狀態=@資料狀態 
@@ -743,6 +762,36 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@資料是否確認", 資料是否確認);
+        oCmd.Parameters.AddWithValue("@年度儲槽確認", 年度儲槽確認);
+        oCmd.Parameters.AddWithValue("@年度液化石油氣儲槽確認", 年度液化石油氣儲槽確認);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateConfirmData(SqlConnection oConn, SqlTransaction oTran, string type)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"
+        update 石油_業者基本資料 set ");
+        if (type == "1")
+            sb.Append(@" 年度儲槽確認=@年度儲槽確認,");
+        else
+            sb.Append(@" 年度液化石油氣儲槽確認=@年度液化石油氣儲槽確認,");
+        sb.Append(@" 
+        修改者=@修改者, 
+        修改日期=@修改日期 
+        where guid=@guid and 資料狀態=@資料狀態 ");
+
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度儲槽確認", 年度儲槽確認);
+        oCmd.Parameters.AddWithValue("@年度液化石油氣儲槽確認", 年度液化石油氣儲槽確認);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", "A");
