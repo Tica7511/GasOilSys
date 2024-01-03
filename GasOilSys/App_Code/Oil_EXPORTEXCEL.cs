@@ -483,7 +483,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(3).SetCellValue("儲槽內徑 (公尺）");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");
                     sheet.GetRow(0).CreateCell(5).SetCellValue("油品種類 1.原油 2.汽油 3.柴油 4.煤油 5.輕油 6.液化石油氣 7.航空燃油 8.燃料油 9.其他");
-                    sheet.GetRow(0).CreateCell(6).SetCellValue("形式 1.錐頂 2.內浮頂 3.外浮頂 4.掩體式");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("形式 1.錐頂 2.內浮頂 3.外浮頂 4.掩體式 8.其他");
                     sheet.GetRow(0).CreateCell(7).SetCellValue("啟用日期 年/月");
                     sheet.GetRow(0).CreateCell(8).SetCellValue("代行檢查有效期限 代檢機構(填表說明)");
                     sheet.GetRow(0).CreateCell(9).SetCellValue("代行檢查有效期限 外部 年/月/日");
@@ -501,8 +501,14 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["容量"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["內徑"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["內容物"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品種類"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
+                            if(!string.IsNullOrEmpty(dt.Rows[i]["油品代碼"].ToString().Trim()))
+                                sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品代碼"].ToString().Trim() + "." + dt.Rows[i]["油品種類"].ToString().Trim());
+                            else
+                                sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品種類"].ToString().Trim());
+                            if (!string.IsNullOrEmpty(dt.Rows[i]["形式代碼"].ToString().Trim()))
+                                sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式代碼"].ToString().Trim() + "." + dt.Rows[i]["形式"].ToString().Trim());
+                            else
+                                sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["代行檢查_代檢機構1"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["代行檢查_外部日期1"].ToString().Trim());
@@ -530,7 +536,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(3).SetCellValue("儲槽內徑 (公尺）");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");
                     sheet.GetRow(0).CreateCell(5).SetCellValue("油品種類 1.原油 2.汽油 3.柴油 4.煤油 5.輕油 6.液化石油氣 7.航空燃油 8.燃料油 9.其他");
-                    sheet.GetRow(0).CreateCell(6).SetCellValue("形式 1.ECT 2.低溫儲槽 3.球型槽 4.其他");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("形式 5.ECT 6.球型壓力容器 7.低溫儲槽 8.其他");
                     sheet.GetRow(0).CreateCell(7).SetCellValue("啟用日期 年/月");
                     sheet.GetRow(0).CreateCell(8).SetCellValue("狀態 1.使用中 2.開放中 3.停用 4.其他");
                     if (dt.Rows.Count > 0)
@@ -543,8 +549,14 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["容量"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["內徑"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["內容物"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品種類"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
+                            if (!string.IsNullOrEmpty(dt.Rows[i]["油品代碼"].ToString().Trim()))
+                                sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品代碼"].ToString().Trim() + "." + dt.Rows[i]["油品種類"].ToString().Trim());
+                            else
+                                sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["油品種類"].ToString().Trim());
+                            if (!string.IsNullOrEmpty(dt.Rows[i]["形式代碼"].ToString().Trim()))
+                                sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式代碼"].ToString().Trim() + "." + dt.Rows[i]["形式"].ToString().Trim());
+                            else
+                                sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
                         }

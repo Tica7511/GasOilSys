@@ -478,7 +478,8 @@
                                                 1.錐頂 <br>
                                                 2.內浮頂 <br>
                                                 3.外浮頂 <br>
-                                                4.掩體式 </th>
+                                                4.掩體式 <br>
+                                                8.其他 </th>
                                             <th nowrap rowspan="2">啟用日期 <br>
                                                 年/月 </th>
                                             <th nowrap colspan="4">代行檢查有效期限 <br>
@@ -551,10 +552,10 @@
                                                 (1)
                                             </th>
                                             <th nowrap >形式 <br>
-                                                1.ECT <br>
-                                                2.低溫儲槽 <br>
-                                                3.球型槽 <br>
-                                                4.其他 </th>
+                                                5.ECT <br>
+                                                6.球型壓力容器 <br>
+                                                7.低溫儲槽 <br>
+                                                8.其他 </th>
                                             <th nowrap >啟用日期 <br>
                                                 年/月 </th>
                                             <th nowrap valign="top">狀態 <br>

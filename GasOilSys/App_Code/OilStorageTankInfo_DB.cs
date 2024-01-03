@@ -108,7 +108,10 @@ select * from (
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * from 石油_儲槽基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
+        sb.Append(@"select * ,
+        油品代碼=(select 項目代碼 from 代碼檔 where 群組代碼='023' and 代碼檔.項目名稱=石油_儲槽基本資料.油品種類), 
+        形式代碼=(select 項目代碼 from 代碼檔 where 群組代碼='014' and 代碼檔.項目名稱=石油_儲槽基本資料.形式) 
+        from 石油_儲槽基本資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
             sb.Append(@" and 年度=@年度");
         if (!string.IsNullOrEmpty(轄區儲槽編號))
