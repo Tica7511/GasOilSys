@@ -95,7 +95,11 @@
                         txt1: encodeURIComponent($("#txt1").val()),
                         txt2: encodeURIComponent($("#txt2").val()),
                         txt3: encodeURIComponent($("#txt3").val()),
-                            txt4: encodeURIComponent($("#txt4").val())
+                        txt4: encodeURIComponent($("#txt4").val()),
+                        txt5: encodeURIComponent($("#txt5").val()),
+                        txt6: encodeURIComponent($("#txt6").val()),
+                        txt7: encodeURIComponent($("#txt7").val()),
+                        txt8: encodeURIComponent($("#txt8").val()),
 			    	},
 			    	error: function (xhr) {
 			    		alert("Error: " + xhr.status);
@@ -138,6 +142,10 @@
             $("#txt2").attr('disabled', status);
             $("#txt3").attr('disabled', status);
             $("#txt4").attr('disabled', status);
+            $("#txt5").attr('disabled', status);
+            $("#txt6").attr('disabled', status);
+            $("#txt7").attr('disabled', status);
+            $("#txt8").attr('disabled', status);
         }
 
         function getCompanyNameTitile() {
@@ -200,6 +208,10 @@
                                 $("#txt2").val($(this).children("年度查核職稱").text().trim());
                                 $("#txt3").val($(this).children("年度查核分機").text().trim());
                                 $("#txt4").val($(this).children("年度查核email").text().trim());
+                                $("#txt5").val($(this).children("年度檢測姓名").text().trim());
+                                $("#txt6").val($(this).children("年度檢測職稱").text().trim());
+                                $("#txt7").val($(this).children("年度檢測分機").text().trim());
+                                $("#txt8").val($(this).children("年度檢測email").text().trim());
                             });
                         }
                         else {
@@ -214,6 +226,10 @@
                             $("#txt2").val($(this).children("").text().trim());
                             $("#txt3").val($(this).children("").text().trim());
                             $("#txt4").val($(this).children("").text().trim());
+                            $("#txt5").val($(this).children("").text().trim());
+                            $("#txt6").val($(this).children("").text().trim());
+                            $("#txt7").val($(this).children("").text().trim());
+                            $("#txt8").val($(this).children("").text().trim());
                         }
 
                         //確認權限&按鈕顯示或隱藏
@@ -422,6 +438,32 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
                                         <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+
+                                </br>
+                                <div class="OchiRow">
+                                    <div class="margin5TB font-size4" style="text-align:center">本年度檢測聯絡窗口</div>
+                                </div><!-- OchiRow -->
+
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">姓名</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">職稱</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt6" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">分機</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt8" class="inputex width100" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
 

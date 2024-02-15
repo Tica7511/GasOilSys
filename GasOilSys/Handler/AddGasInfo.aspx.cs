@@ -49,6 +49,10 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
         /// * Request["txt26"]: 年度查核分機
         /// * Request["txt27"]: 年度查核email
         /// * Request["txt28"]: 營業線
+        /// * Request["txt29"]: 年度檢測姓名
+        /// * Request["txt30"]: 年度檢測職稱
+        /// * Request["txt31"]: 年度檢測分機
+        /// * Request["txt32"]: 年度檢測email
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
 
@@ -99,6 +103,10 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             string txt26 = (string.IsNullOrEmpty(Request["txt26"])) ? "" : Request["txt26"].ToString().Trim();
             string txt27 = (string.IsNullOrEmpty(Request["txt27"])) ? "" : Request["txt27"].ToString().Trim();
             string txt28 = (string.IsNullOrEmpty(Request["txt28"])) ? "" : Request["txt28"].ToString().Trim();
+            string txt29 = (string.IsNullOrEmpty(Request["txt29"])) ? "" : Request["txt29"].ToString().Trim();
+            string txt30 = (string.IsNullOrEmpty(Request["txt30"])) ? "" : Request["txt30"].ToString().Trim();
+            string txt31 = (string.IsNullOrEmpty(Request["txt31"])) ? "" : Request["txt31"].ToString().Trim();
+            string txt32 = (string.IsNullOrEmpty(Request["txt32"])) ? "" : Request["txt32"].ToString().Trim();
 
             db._業者guid = cid;
             db._年度 = year;
@@ -131,6 +139,10 @@ public partial class Handler_AddGasInfo : System.Web.UI.Page
             db._年度查核職稱 = Server.UrlDecode(txt25);
             db._年度查核分機 = Server.UrlDecode(txt26);
             db._年度查核email = Server.UrlDecode(txt27);
+            db._年度檢測姓名  = Server.UrlDecode(txt29);
+            db._年度檢測職稱  = Server.UrlDecode(txt30);
+            db._年度檢測分機  = Server.UrlDecode(txt31);
+            db._年度檢測email = Server.UrlDecode(txt32);
             db._修改者 = LogInfo.mGuid;
             db._修改日期 = DateTime.Now;
 

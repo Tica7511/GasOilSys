@@ -63,6 +63,10 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
             string txt2 = (string.IsNullOrEmpty(Request["txt2"])) ? "" : Request["txt2"].ToString().Trim();
             string txt3 = (string.IsNullOrEmpty(Request["txt3"])) ? "" : Request["txt3"].ToString().Trim();
             string txt4 = (string.IsNullOrEmpty(Request["txt4"])) ? "" : Request["txt4"].ToString().Trim();
+            string txt5 = (string.IsNullOrEmpty(Request["txt5"])) ? "" : Request["txt5"].ToString().Trim();
+            string txt6 = (string.IsNullOrEmpty(Request["txt6"])) ? "" : Request["txt6"].ToString().Trim();
+            string txt7 = (string.IsNullOrEmpty(Request["txt7"])) ? "" : Request["txt7"].ToString().Trim();
+            string txt8 = (string.IsNullOrEmpty(Request["txt8"])) ? "" : Request["txt8"].ToString().Trim();
 
             db._guid = cid;
             db._年度 = year;
@@ -78,6 +82,10 @@ public partial class Handler_AddOilInfo : System.Web.UI.Page
             db._年度查核職稱 = Server.UrlDecode(txt2);
             db._年度查核分機 = Server.UrlDecode(txt3);
             db._年度查核email = Server.UrlDecode(txt4);
+            db._年度檢測姓名  = Server.UrlDecode(txt5);
+            db._年度檢測職稱  = Server.UrlDecode(txt6);
+            db._年度檢測分機  = Server.UrlDecode(txt7);
+            db._年度檢測email = Server.UrlDecode(txt8);
             db._修改者 = LogInfo.mGuid;
 
             DataTable dt = db.GetInfoDetail2();

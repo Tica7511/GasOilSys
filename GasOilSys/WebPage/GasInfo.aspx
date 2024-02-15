@@ -146,6 +146,10 @@
                 data.append("txt25", encodeURIComponent($("#txt2").val()));
                 data.append("txt26", encodeURIComponent($("#txt3").val()));
                 data.append("txt27", encodeURIComponent($("#txt4").val()));
+                data.append("txt29", encodeURIComponent($("#txt28").val()));
+                data.append("txt30", encodeURIComponent($("#txt29").val()));
+                data.append("txt31", encodeURIComponent($("#txt30").val()));
+                data.append("txt32", encodeURIComponent($("#txt31").val()));
 
                 $.ajax({
                     type: "POST",
@@ -287,6 +291,10 @@
             $("#txt2").attr("disabled", status);
             $("#txt3").attr("disabled", status);
             $("#txt4").attr("disabled", status);
+            $("#txt28").attr("disabled", status);
+            $("#txt29").attr("disabled", status);
+            $("#txt30").attr("disabled", status);
+            $("#txt31").attr("disabled", status);
         }
 
 		function getData(year) {
@@ -343,6 +351,10 @@
                                 $("#txt2").val($(this).children("年度查核職稱").text().trim());
                                 $("#txt3").val($(this).children("年度查核分機").text().trim());
                                 $("#txt4").val($(this).children("年度查核email").text().trim());
+                                $("#txt28").val($(this).children("年度檢測姓名").text().trim());
+                                $("#txt29").val($(this).children("年度檢測職稱").text().trim());
+                                $("#txt30").val($(this).children("年度檢測分機").text().trim());
+                                $("#txt31").val($(this).children("年度檢測email").text().trim());
                             });
                         }
                         else {
@@ -375,6 +387,10 @@
                             $("#txt2").val('');
                             $("#txt3").val('');
                             $("#txt4").val('');
+                            $("#txt28").val('');
+                            $("#txt29").val('');
+                            $("#txt30").val('');
+                            $("#txt31").val('');
                         }
 
 						$("#tablist tbody").empty();
@@ -666,6 +682,32 @@
                                                 <div class="OchiHalf">
                                                     <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
                                                     <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                            </div><!-- OchiRow -->
+
+                                            </br>
+                                            <div class="OchiRow">
+                                                <div class="margin5TB font-size4" style="text-align:center">本年度檢測聯絡窗口</div>
+                                            </div><!-- OchiRow -->
+
+                                            <div class="OchiRow">
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">姓名</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt28" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">職稱</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt29" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                            </div><!-- OchiRow -->
+                                            <div class="OchiRow">
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">分機</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt30" class="inputex width100" disabled></div>
+                                                </div><!-- OchiHalf -->
+                                                <div class="OchiHalf">
+                                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
+                                                    <div class="OchiCell width100"><input type="text" id="txt31" class="inputex width100" disabled></div>
                                                 </div><!-- OchiHalf -->
                                             </div><!-- OchiRow -->
 

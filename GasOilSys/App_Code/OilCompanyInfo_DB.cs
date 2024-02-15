@@ -39,7 +39,11 @@ public class OilCompanyInfo_DB
 	string 年度查核職稱 = string.Empty;
 	string 年度查核分機 = string.Empty;
 	string 年度查核email = string.Empty;
-	string 資料是否確認 = string.Empty;
+    string 年度檢測姓名 = string.Empty;
+    string 年度檢測職稱 = string.Empty;
+    string 年度檢測分機 = string.Empty;
+    string 年度檢測email = string.Empty;
+    string 資料是否確認 = string.Empty;
 	string 年度儲槽確認 = string.Empty;
 	string 年度液化石油氣儲槽確認 = string.Empty;
 	string 建立者 = string.Empty;
@@ -73,7 +77,11 @@ public class OilCompanyInfo_DB
 	public string _年度查核職稱 { set { 年度查核職稱 = value; } }
 	public string _年度查核分機 { set { 年度查核分機 = value; } }
 	public string _年度查核email { set { 年度查核email = value; } }
-	public string _資料是否確認 { set { 資料是否確認 = value; } }
+    public string _年度檢測姓名 { set { 年度檢測姓名 = value; } }
+    public string _年度檢測職稱 { set { 年度檢測職稱 = value; } }
+    public string _年度檢測分機 { set { 年度檢測分機 = value; } }
+    public string _年度檢測email { set { 年度檢測email = value; } }
+    public string _資料是否確認 { set { 資料是否確認 = value; } }
 	public string _年度儲槽確認 { set { 年度儲槽確認 = value; } }
 	public string _年度液化石油氣儲槽確認 { set { 年度液化石油氣儲槽確認 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
@@ -634,6 +642,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 年度查核職稱,
 年度查核分機,
 年度查核email,
+年度檢測姓名,
+年度檢測職稱,
+年度檢測分機,
+年度檢測email,
 建立者,
 建立日期,
 修改者,
@@ -653,6 +665,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
 @年度查核職稱,
 @年度查核分機,
 @年度查核email,
+@年度檢測姓名,
+@年度檢測職稱,
+@年度檢測分機,
+@年度檢測email,
 @建立者,
 @建立日期,
 @修改者,
@@ -676,6 +692,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
         oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
         oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
+        oCmd.Parameters.AddWithValue("@年度檢測姓名", 年度檢測姓名);
+        oCmd.Parameters.AddWithValue("@年度檢測職稱", 年度檢測職稱);
+        oCmd.Parameters.AddWithValue("@年度檢測分機", 年度檢測分機);
+        oCmd.Parameters.AddWithValue("@年度檢測email", 年度檢測email);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
@@ -703,6 +723,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         年度查核職稱=@年度查核職稱,
         年度查核分機=@年度查核分機,
         年度查核email=@年度查核email,
+        年度檢測姓名=@年度檢測姓名,
+        年度檢測職稱=@年度檢測職稱,
+        年度檢測分機=@年度檢測分機,
+        年度檢測email=@年度檢測email,
         修改者 =@修改者,
         修改日期=@修改日期 
         where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
@@ -724,6 +748,10 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
         oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
         oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
+        oCmd.Parameters.AddWithValue("@年度檢測姓名", 年度檢測姓名);
+        oCmd.Parameters.AddWithValue("@年度檢測職稱", 年度檢測職稱);
+        oCmd.Parameters.AddWithValue("@年度檢測分機", 年度檢測分機);
+        oCmd.Parameters.AddWithValue("@年度檢測email", 年度檢測email);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", "A");

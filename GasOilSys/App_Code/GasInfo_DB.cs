@@ -48,6 +48,10 @@ public class GasInfo_DB
 	string 年度查核職稱 = string.Empty;
 	string 年度查核分機 = string.Empty;
 	string 年度查核email = string.Empty;
+	string 年度檢測姓名 = string.Empty;
+	string 年度檢測職稱 = string.Empty;
+	string 年度檢測分機 = string.Empty;
+	string 年度檢測email = string.Empty;
 	string 建立者 = string.Empty;
 	DateTime 建立日期;
 	string 修改者 = string.Empty;
@@ -93,6 +97,10 @@ public class GasInfo_DB
 	public string _年度查核職稱 { set { 年度查核職稱 = value; } }
 	public string _年度查核分機 { set { 年度查核分機 = value; } }
 	public string _年度查核email { set { 年度查核email = value; } }
+	public string _年度檢測姓名 { set { 年度檢測姓名 = value; } }
+	public string _年度檢測職稱 { set { 年度檢測職稱 = value; } }
+	public string _年度檢測分機 { set { 年度檢測分機 = value; } }
+	public string _年度檢測email { set { 年度檢測email = value; } }
 	public string _建立者 { set { 建立者 = value; } }
 	public DateTime _建立日期 { set { 建立日期 = value; } }
 	public string _修改者 { set { 修改者 = value; } }
@@ -280,6 +288,10 @@ NG2摻配站,
 年度查核職稱,
 年度查核分機,
 年度查核email,
+年度檢測姓名,
+年度檢測職稱,
+年度檢測分機,
+年度檢測email,
 修改者, 
 修改日期, 
 建立者, 
@@ -316,6 +328,10 @@ NG2摻配站,
 @年度查核職稱,
 @年度查核分機,
 @年度查核email,
+@年度檢測姓名,
+@年度檢測職稱,
+@年度檢測分機,
+@年度檢測email,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -356,6 +372,10 @@ NG2摻配站,
 		oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
 		oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
 		oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
+		oCmd.Parameters.AddWithValue("@年度檢測姓名", 年度檢測姓名);
+		oCmd.Parameters.AddWithValue("@年度檢測職稱", 年度檢測職稱);
+		oCmd.Parameters.AddWithValue("@年度檢測分機", 年度檢測分機);
+		oCmd.Parameters.AddWithValue("@年度檢測email", 年度檢測email);
 		oCmd.Parameters.AddWithValue("@修改者", 修改者);
 		oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
 		oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -415,9 +435,6 @@ NG2摻配站,
 
 		sb.Append(@"
 
-
-
-
 update 天然氣_事業單位基本資料表 set  
 事業名稱=@事業名稱,
 電話=@電話,
@@ -448,6 +465,10 @@ NG2摻配站=@NG2摻配站,
 年度查核職稱=@年度查核職稱,
 年度查核分機=@年度查核分機,
 年度查核email=@年度查核email,
+年度檢測姓名=@年度檢測姓名,
+年度檢測職稱=@年度檢測職稱,
+年度檢測分機=@年度檢測分機,
+年度檢測email=@年度檢測email,
 修改者=@修改者, 
 修改日期=@修改日期 
 where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
@@ -486,6 +507,10 @@ where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態
 		oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
 		oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
 		oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
+		oCmd.Parameters.AddWithValue("@年度檢測姓名", 年度檢測姓名);
+		oCmd.Parameters.AddWithValue("@年度檢測職稱", 年度檢測職稱);
+		oCmd.Parameters.AddWithValue("@年度檢測分機", 年度檢測分機);
+		oCmd.Parameters.AddWithValue("@年度檢測email", 年度檢測email);
 		oCmd.Parameters.AddWithValue("@修改者", 修改者);
 		oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
 		oCmd.Parameters.AddWithValue("@資料狀態", 'A');
