@@ -13,6 +13,7 @@ namespace ED.HR.DOWNLOAD.WebForm
 	public partial class DownloadImage : System.Web.UI.Page
     {
         string OrgName = string.Empty;
+        string NewName = string.Empty;
         string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
         FileTable Fdb = new FileTable();
         GasCompanyInfo_DB GCdb = new GasCompanyInfo_DB();
@@ -52,20 +53,27 @@ namespace ED.HR.DOWNLOAD.WebForm
                                 case "image":
                                     dirPath += "image\\";
                                     OrgName = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    NewName = Common.FilterCheckMarxString(Request.QueryString["v"]);
                                     break;
                                 case "report":
                                     dirPath += "report\\";
                                     CRGdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["rid"].ToString().Trim()))) ? "" : Common.FilterCheckMarxString(Request["rid"].ToString().Trim());
                                     dt = CRGdb.GetFileName();
                                     if (dt.Rows.Count > 0)
+                                    {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                    }                                        
                                     break;
                                 case "pipeinspect":
                                     dirPath += "pipeinspect\\";
                                     IIGdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["v"].ToString().Trim()))) ? "" : Common.FilterCheckMarxString(Request["v"].ToString().Trim());
                                     dt = IIGdb.GetFileName();
                                     if (dt.Rows.Count > 0)
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                    {
+                                       OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                       NewName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                    }                                       
                                     break;
                                 case "online":
                                     dirPath += "online\\";
@@ -90,7 +98,10 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     OEGdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["rid"].ToString().Trim()))) ? LogInfo.companyGuid : Common.FilterCheckMarxString(Request["rid"].ToString().Trim());
                                     dt = OEGdb.GetFileName();
                                     if (dt.Rows.Count > 0)
+                                    {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                    }                                        
                                     break;
                                 case "selfEvaluation":
                                     dirPath += "selfEvaluation\\";
@@ -99,7 +110,8 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                                 case "CIPS":
@@ -109,7 +121,19 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                    }
+                                    break;
+                                case "ILI":
+                                    dirPath += "ILI\\";
+                                    Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    Fdb._排序 = sn;
+                                    dt = Fdb.GetFileData();
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                             }
@@ -121,6 +145,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                 case "image":
                                     dirPath += "image\\";
                                     OrgName = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    NewName = Common.FilterCheckMarxString(Request.QueryString["v"]);
                                     break;
                                 case "reservoir":
                                     dirPath += "reservoir\\";
@@ -129,6 +154,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                                 case "report":
@@ -136,21 +162,30 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     CROdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["rid"].ToString().Trim()))) ? LogInfo.companyGuid : Common.FilterCheckMarxString(Request["rid"].ToString().Trim());
                                     dt = CROdb.GetFileName();
                                     if (dt.Rows.Count > 0)
+                                    {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                    }                                        
                                     break;
                                 case "pipeinspect":
                                     dirPath += "pipeinspect\\";
                                     IIOdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["v"].ToString().Trim()))) ? "" : Common.FilterCheckMarxString(Request["v"].ToString().Trim());
                                     dt = IIOdb.GetFileName();
                                     if (dt.Rows.Count > 0)
+                                    {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                    }                                        
                                     break;
                                 case "storageinspect":
                                     dirPath += "storageinspect\\";
                                     IAOdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["v"].ToString().Trim()))) ? "" : Common.FilterCheckMarxString(Request["v"].ToString().Trim());
                                     dt = IAOdb.GetFileName();
                                     if (dt.Rows.Count > 0)
+                                    {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                    }                                        
                                     break;
                                 case "online":
                                     dirPath += "online\\";
@@ -175,7 +210,10 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     OEOdb._guid = (string.IsNullOrEmpty(Common.FilterCheckMarxString(Request["rid"].ToString().Trim()))) ? LogInfo.companyGuid : Common.FilterCheckMarxString(Request["rid"].ToString().Trim());
                                     dt = OEOdb.GetFileName();
                                     if (dt.Rows.Count > 0)
+                                    {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                    }                                        
                                     break;
                                 case "selfEvaluation":
                                     dirPath += "selfEvaluation\\";
@@ -184,7 +222,8 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                                 case "CIPS":
@@ -194,7 +233,8 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                             }
@@ -214,7 +254,8 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                                 case "Relation":
@@ -225,7 +266,8 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)
                                     {
-                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["原檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
                                     }
                                     break;
                             }
@@ -239,7 +281,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                     DirectoryInfo dir = new DirectoryInfo(UpLoadPath + dirPath);
 
                     //列舉全部檔案再比對檔名
-                    string FileName = OrgName;
+                    string FileName = NewName;
 
                     FileInfo file = dir.EnumerateFiles().FirstOrDefault(m => m.Name == FileName);
 

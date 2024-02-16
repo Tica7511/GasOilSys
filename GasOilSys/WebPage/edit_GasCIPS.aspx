@@ -79,7 +79,7 @@
                 // Create an FormData object 
                 var data = new FormData(form);
 
-                var mode = ($.getQueryString("guid") == "") ? "new" : "edit";
+                var mode = ($("#Gguid").val() == "") ? "new" : "edit";
 
                 // If you want to add an extra field for the FormData
                 data.append("cp", $.getQueryString("cp"));

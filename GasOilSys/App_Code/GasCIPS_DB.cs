@@ -148,6 +148,7 @@ else
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"insert into 天然氣_緊密電位檢測CIPS(  
+guid,
 年度,
 業者guid,
 長途管線識別碼,
@@ -169,6 +170,7 @@ y座標,
 建立者, 
 建立日期, 
 資料狀態 ) values ( 
+@guid,
 @年度,
 @業者guid,
 @長途管線識別碼,
@@ -194,6 +196,7 @@ y座標,
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
+        oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);

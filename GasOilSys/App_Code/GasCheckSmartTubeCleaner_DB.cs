@@ -163,6 +163,7 @@ else
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"insert into 天然氣_智慧型通管器檢查ILI(  
+guid,
 年度,
 業者guid,
 長途管線識別碼,
@@ -191,6 +192,7 @@ Dent_開挖確認,
 建立者, 
 建立日期, 
 資料狀態 ) values ( 
+@guid,
 @年度,
 @業者guid,
 @長途管線識別碼,
@@ -223,6 +225,7 @@ Dent_開挖確認,
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
+        oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);

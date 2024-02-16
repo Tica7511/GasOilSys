@@ -59,7 +59,7 @@ public partial class Handler_AddGasCIPS : System.Web.UI.Page
             #endregion
 
             string cp = (string.IsNullOrEmpty(Request["cp"])) ? "" : Request["cp"].ToString().Trim();
-            string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+            string guid = (string.IsNullOrEmpty(Request["guid"])) ? Guid.NewGuid().ToString("N") : Request["guid"].ToString().Trim();
             string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string txt1 = (string.IsNullOrEmpty(Request["txt1"])) ? "" : Request["txt1"].ToString().Trim();
             string txt2 = (string.IsNullOrEmpty(Request["txt2"])) ? "" : Request["txt2"].ToString().Trim();
@@ -185,7 +185,7 @@ public partial class Handler_AddGasCIPS : System.Web.UI.Page
 
                         //新檔名
                         //string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
-                        string newName = orgName;
+                        string newName = orgName + "_" + guid + "_" + sn;
 
                         string file_size = File.ContentLength.ToString();
 
