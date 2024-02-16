@@ -25,6 +25,7 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
+            GetDivFilelist();
             $("#exportBtn").attr("href", "../Handler/OilEvaluationReport.aspx?cp=" + $.getQueryString("cp"));
             $("#taiwanYear").html(getTaiwanDate());
 
@@ -974,6 +975,69 @@
             });
         }
 
+        function GetDivFilelist() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var str = '';
+                                str += '<a id="exportBtn" href="#" class="genbtn">產生報告</a>&nbsp;';
+                                $("#div_OilFilesDownload").empty();
+                                switch ($(this).children("單位屬性").text().trim()) {
+                                    case "01":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線+儲槽(有委員)/113年石油業者查核填寫內容下載(管線+儲槽有委員).docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線+儲槽(有委員)/113年石油業者簡報大綱下載(管線+儲槽有委員).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線+儲槽(有委員)/113年石油業者應準備資料下載(管線+儲槽有委員).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "02":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線+儲槽(無委員)/113年石油業者查核填寫內容下載(管線+儲槽無委員).docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線+儲槽(無委員)/113年石油業者簡報大綱下載(管線+儲槽無委員).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線+儲槽(無委員)/113年石油業者應準備資料下載(管線+儲槽無委員).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "03":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/儲槽(有委員8100區)/113年石油業者查核填寫內容下載(儲槽有委員8100區).docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/儲槽(有委員8100區)/113年石油業者簡報大綱下載(儲槽有委員8100區).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/儲槽(有委員8100區)/113年石油業者應準備資料下載(儲槽有委員8100區).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "04":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/儲槽(無委員)/113年石油業者查核填寫內容下載(儲槽無委員).docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者簡報大綱下載(儲槽無委員).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者應準備資料下載(儲槽無委員).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "05":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線/113年石油業者查核填寫內容下載(管線).docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/113年石油業者查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線/113年石油業者簡報大綱下載(管線).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Oil/管線/113年石油業者應準備資料下載(管線).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                }
+                                $("#div_OilFilesDownload").append(str);
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
         //查核建議內的附件列表
         function GetAllFileList() {
 			$.ajax({
@@ -1474,12 +1538,12 @@
                                         <label id="lbl_CompanyName"></label>
                                     </span>
                                     <span class="btnright">
-                                        <div class="font-size4 font-normal">
-                                            <a id="exportBtn" href="#" class="genbtn">產生報告</a>
+                                        <div id="div_OilFilesDownload" class="font-size4 font-normal">
+                                            <%--<a id="exportBtn" href="#" class="genbtn">產生報告</a>
                                             <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核填寫內容下載-石油.docx" target="_blank">查核填寫內容下載</a> 
                                             <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核配事項下載-石油.pdf" target="_blank">查核配合事項下載</a> 
                                             <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/111年度簡報大綱下載-石油.pptx" target="_blank">簡報大綱下載</a>
-                                            <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度應準備資料下載-石油.pdf" target="_blank">應準備資料下載</a>
+                                            <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度應準備資料下載-石油.pdf" target="_blank">應準備資料下載</a>--%>
                                         </div>
                                     </span>
                                 </div>

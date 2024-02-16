@@ -25,6 +25,7 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
+            GetDivFilelist();
             $("#exportBtn").attr("href", "../Handler/GasEvaluationReport.aspx?cp=" + $.getQueryString("cp"));
             $("#taiwanYear").html(getTaiwanDate());
 
@@ -973,6 +974,70 @@
             });
         }
 
+        //取得頁面上方下載檔案列表
+        function GetDivFilelist() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var str = '';
+                                str += '<a id="exportBtn" href="#" class="genbtn">產生報告</a>&nbsp;';
+                                $("#div_OilFilesDownload").empty();
+                                switch ($(this).children("單位屬性").text().trim()) {
+                                    case "01":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/管線/113年天然氣查核填寫內容下載.docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/113年天然氣查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/管線/113年天然氣簡報大綱下載(管線).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/管線/113年天然氣應準備資料下載(管線).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "02":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/站場/113年天然氣查核填寫內容下載.docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/113年天然氣查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/站場/113年天然氣簡報大綱下載(站場).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/站場/113年天然氣應準備資料下載(站場).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "03":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/液化天然氣廠/113年天然氣查核填寫內容下載.docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/113年天然氣查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/液化天然氣廠/113年天然氣簡報大綱下載(液化天然氣廠).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/液化天然氣廠/113年天然氣應準備資料下載(液化天然氣廠).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "04":
+                                        str += '<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/海管室/113年天然氣查核填寫內容下載.docx" target="_blank">查核填寫內容下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/113年天然氣查核配合事項下載.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/海管室/113年天然氣簡報大綱下載(海管室).pptx" target="_blank">簡報大綱下載</a> ' +
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/海管室/113年天然氣應準備資料下載(海管室).docx" target="_blank">應準備資料下載</a> ';
+                                        break;
+                                    case "05":
+                                        str += /*'<i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/112年天然氣查核填寫內容下載.docx" target="_blank">查核填寫內容下載</a> ' +*/
+                                            '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/113年天然氣查核配合事項下載.pdf.pdf" target="_blank">查核配合事項下載</a> ' +
+                                            '<i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/113_Bread/Gas/欣鑫/113年天然氣簡報大綱下載(欣鑫).pptx" target="_blank">簡報大綱下載</a> ';
+                                        /*+ '<i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/112年天然氣應準備資料下載(站場).docx" target="_blank">應準備資料下載</a> ';*/
+                                        break;
+                                }
+                                $("#div_GasFilesDownload").append(str);
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
         //查核建議內的附件列表
         function GetAllFileList() {
 			$.ajax({
@@ -1474,12 +1539,12 @@
                                         <label id="lbl_CompanyName"></label>
                                     </span>
                                     <span class="btnright">
-                                        <div class="font-size4 font-normal">
-                                            <a id="exportBtn" href="#" class="genbtn">產生報告</a>
+                                        <div id="div_GasFilesDownload" class="font-size4 font-normal">
+                                            <%--<a id="exportBtn" href="#" class="genbtn">產生報告</a>
                                             <i class="fa fa-file-word-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核填寫內容下載-天然氣.docx" target="_blank">查核填寫內容下載</a>
                                             <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度查核配合事項-天然氣.pdf" target="_blank">查核配合事項下載</a>
                                             <i class="fa fa-file-powerpoint-o IconCc" aria-hidden="true"></i><a href="../doc/111年度簡報大綱下載-天然氣.pptx" target="_blank">簡報大綱下載</a>
-                                            <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度應準備資料下載-天然氣.pdf" target="_blank">應準備資料下載</a>
+                                            <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/111年度應準備資料下載-天然氣.pdf" target="_blank">應準備資料下載</a>--%>
                                         </div>
                                     </span>
                                 </div>
