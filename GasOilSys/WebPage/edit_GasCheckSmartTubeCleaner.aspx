@@ -836,10 +836,8 @@
               </div><!-- OchiHalf -->
           </div><!-- OchiRow -->
           <div class="OchiRow">
-              <div class="OchiHalf">
-                  <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
-                  <div class="OchiCell width100"><textarea id="xy5" cols="5" rows="3" class="inputex width100"></textarea></div>
-              </div><!-- OchiHalf -->
+              <div class="OchiCell OchiTitle IconCe TitleSetWidth">備註</div>
+              <div class="OchiCell width100"><textarea id="xy5" cols="5" rows="3" class="inputex width100"></textarea></div>
           </div><!-- OchiRow -->
       </div><!-- OchiTrasTable -->
 

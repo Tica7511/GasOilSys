@@ -723,7 +723,7 @@
                                         <th nowrap rowspan="2">外部腐蝕保護<br>
                                                 電位不符合標準<br>
                                                 要求數量 </th>
-                                        <th nowrap rowspan="2">備註</th>
+                                        <th nowrap rowspan="2">附件</th>
                                         <th nowrap rowspan="2">40%以上(含)<br>
                                                 異常點尚未改善<br>
                                                 完成之座標</th>
