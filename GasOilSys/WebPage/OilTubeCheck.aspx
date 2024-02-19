@@ -78,7 +78,9 @@
                 if (!$("input[name='checkCount']").is(":checked"))
                     msg += "請選擇【每日巡檢次數】\n";
                 if ($("#checkPerson").val() == '')
-                    msg += "請輸入【巡管人數】\n";
+                    msg += "請輸入【巡管員工人數】\n";
+                if ($("#checkPersonOutSider").val() == '')
+                    msg += "請輸入【巡管外包人數】\n";
                 if (!$("input[name='checkTool']").is(":checked"))
                     msg += "請輸入【巡管工具】\n";
                 if (!$("input[name='managerCheck']").is(":checked"))
@@ -104,6 +106,7 @@
                 data.append("docNo", encodeURIComponent($("#docNo").val()));
                 data.append("docDate", encodeURIComponent($("#docDate").val()));
                 data.append("checkPerson", encodeURIComponent($("#checkPerson").val()));
+                data.append("checkPersonOutSider", encodeURIComponent($("#checkPersonOutSider").val()));
                 data.append("checkToolOther", encodeURIComponent($("#checkToolOther").val()));
                 data.append("ManagerCount", encodeURIComponent($("#ManagerCount").val()));
                 data.append("StrengthenTxt", encodeURIComponent($("#StrengthenTxt").val()));
@@ -206,6 +209,7 @@
             $("input[name='checkCount']").attr("disabled", status);            
             $("input[name='checkTool']").attr("disabled", status);
             $("#checkPerson").attr("disabled", status);
+            $("#checkPersonOutSider").attr("disabled", status);
             if ($("input[name='checkTool'][value='03']").is(":checked"))
                 $("#checkToolOther").attr("disabled", status);
             else
@@ -249,6 +253,7 @@
                                 $("#docDate").val($(this).children("文件日期").text().trim());
                                 $("input[name='checkCount'][value='" + $(this).children("每日巡檢次數").text().trim() + "']").prop("checked", true);
                                 $("#checkPerson").val($(this).children("巡管人數").text().trim());
+                                $("#checkPersonOutSider").val($(this).children("巡管外包人數").text().trim());
                                 // 巡管工具
                                 var othertool = false;
                                 var arychecktool = $(this).children("巡管工具").text().trim().split(',');
@@ -273,6 +278,7 @@
                             $("#docDate").val('');
                             $("input[name='checkCount']").prop("checked", false);
                             $("#checkPerson").val('');
+                            $("#checkPersonOutSider").val('');
                             $("input[name='checkTool']").prop("checked", false);
                             $("#checkToolOther").val('');
                             $("input[name='managerCheck']").prop("checked", false);
@@ -518,7 +524,8 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">巡管人數</div>
                                         <div class="OchiCell width100">
-                                            <input type="text" id="checkPerson" class="inputex width80" disabled> 人
+                                            員工 <input type="text" id="checkPerson" class="inputex width20" disabled> 人;
+                                            外包 <input type="text" id="checkPersonOutSider" class="inputex width20" disabled> 人
                                         </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->

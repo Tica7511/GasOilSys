@@ -25,6 +25,7 @@ public partial class Handler_AddGasTubeCheck : System.Web.UI.Page
         /// * Request["docDate"]: 文件日期
         /// * Request["checkCount"]: 每日巡檢次數
         /// * Request["checkPerson"]: 巡管人數
+        /// * Request["checkPersonOutSider"]: 巡管外包人數
         /// * Request["checkTool"]: 巡管工具
         /// * Request["checkToolOther"]: 巡管工具其他
         /// * Request["managerCheck"]: 主管監督查核
@@ -53,6 +54,7 @@ public partial class Handler_AddGasTubeCheck : System.Web.UI.Page
             string cp = (string.IsNullOrEmpty(Request["cp"])) ? "" : Request["cp"].ToString().Trim();
             string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string checkPerson = (string.IsNullOrEmpty(Request["checkPerson"])) ? "" : Request["checkPerson"].ToString().Trim();
+            string checkPersonOutSider = (string.IsNullOrEmpty(Request["checkPersonOutSider"])) ? "" : Request["checkPersonOutSider"].ToString().Trim();
             string checkToolOther = (string.IsNullOrEmpty(Request["checkToolOther"])) ? "" : Request["checkToolOther"].ToString().Trim();
             string ManagerCount = (string.IsNullOrEmpty(Request["ManagerCount"])) ? "" : Request["ManagerCount"].ToString().Trim();
             string StrengthenTxt = (string.IsNullOrEmpty(Request["StrengthenTxt"])) ? "" : Request["StrengthenTxt"].ToString().Trim();
@@ -62,6 +64,7 @@ public partial class Handler_AddGasTubeCheck : System.Web.UI.Page
             gdb._年度 = Server.UrlDecode(year);
             gdb._每日巡檢次數 = string.IsNullOrEmpty(Request["checkCount"]) ? "" : Request["checkCount"].ToString().Trim();
             gdb._巡管人數 = Server.UrlDecode(checkPerson);
+            gdb._巡管外包人數 = Server.UrlDecode(checkPersonOutSider);
             gdb._巡管工具 = string.IsNullOrEmpty(Request["checkTool"]) ? "" : Request["checkTool"].ToString().Trim();
             gdb._巡管工具其他 = Server.UrlDecode(checkToolOther);
             gdb._主管監督查核 = string.IsNullOrEmpty(Request["managerCheck"]) ? "" : Request["managerCheck"].ToString().Trim();

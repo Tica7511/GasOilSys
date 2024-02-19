@@ -21,6 +21,7 @@ public class GasTubeCheck_DB
 	string 年度 = string.Empty;
 	string 依據文件名稱 = string.Empty;
 	string 巡管人數 = string.Empty;
+	string 巡管外包人數 = string.Empty;
 	string 巡管工具 = string.Empty;
 	string 巡管工具其他 = string.Empty;
 	string 主管監督查核 = string.Empty;
@@ -50,6 +51,7 @@ public class GasTubeCheck_DB
 	public string _年度 { set { 年度 = value; } }
 	public string _每日巡檢次數 { set { 每日巡檢次數 = value; } }
 	public string _巡管人數 { set { 巡管人數 = value; } }
+	public string _巡管外包人數 { set { 巡管外包人數 = value; } }
 	public string _巡管工具 { set { 巡管工具 = value; } }
 	public string _巡管工具其他 { set { 巡管工具其他 = value; } }
 	public string _主管監督查核 { set { 主管監督查核 = value; } }
@@ -242,6 +244,7 @@ else
 業者guid,
 每日巡檢次數,
 巡管人數,
+巡管外包人數,
 巡管工具,
 巡管工具其他,
 主管監督查核,
@@ -257,6 +260,7 @@ else
 @業者guid,
 @每日巡檢次數,
 @巡管人數,
+@巡管外包人數,
 @巡管工具,
 @巡管工具其他,
 @主管監督查核,
@@ -276,6 +280,7 @@ else
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@每日巡檢次數", 每日巡檢次數);
         oCmd.Parameters.AddWithValue("@巡管人數", 巡管人數);
+        oCmd.Parameters.AddWithValue("@巡管外包人數", 巡管外包人數);
         oCmd.Parameters.AddWithValue("@巡管工具", 巡管工具);
         oCmd.Parameters.AddWithValue("@巡管工具其他", 巡管工具其他);
         oCmd.Parameters.AddWithValue("@主管監督查核", 主管監督查核);
@@ -385,6 +390,7 @@ else
 年度=@年度,
 每日巡檢次數=@每日巡檢次數,
 巡管人數=@巡管人數,
+巡管外包人數=@巡管外包人數,
 巡管工具=@巡管工具,
 巡管工具其他=@巡管工具其他,
 主管監督查核=@主管監督查核,
@@ -403,6 +409,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@每日巡檢次數", 每日巡檢次數);
         oCmd.Parameters.AddWithValue("@巡管人數", 巡管人數);
+        oCmd.Parameters.AddWithValue("@巡管外包人數", 巡管外包人數);
         oCmd.Parameters.AddWithValue("@巡管工具", 巡管工具);
         oCmd.Parameters.AddWithValue("@巡管工具其他", 巡管工具其他);
         oCmd.Parameters.AddWithValue("@主管監督查核", 主管監督查核);
