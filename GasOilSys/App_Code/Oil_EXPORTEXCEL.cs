@@ -340,13 +340,14 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(1).SetCellValue("文件編號");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("文件日期");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("每日巡檢次數 01:1次 02:2次 03:3次(含)以上");
-                    sheet.GetRow(0).CreateCell(4).SetCellValue("巡管人數");
-                    sheet.GetRow(0).CreateCell(5).SetCellValue("巡管工具 01:PDA 02:手機 03:其他");
-                    sheet.GetRow(0).CreateCell(6).SetCellValue("巡管工具其他");
-                    sheet.GetRow(0).CreateCell(7).SetCellValue("主管監督查核 Y:有 N:無");
-                    sheet.GetRow(0).CreateCell(8).SetCellValue("主管監督查核次");
-                    sheet.GetRow(0).CreateCell(9).SetCellValue("是否有加強巡檢點 Y:有 N:無");
-                    sheet.GetRow(0).CreateCell(10).SetCellValue("是否有加強巡檢點敘述");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("巡管員工人數");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("巡管外包員工人數");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("巡管工具 01:PDA 02:手機 03:其他");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("巡管工具其他");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("主管監督查核 Y:有 N:無");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("主管監督查核次");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("是否有加強巡檢點 Y:有 N:無");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("是否有加強巡檢點敘述");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -357,12 +358,13 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["文件日期"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["每日巡檢次數"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["巡管人數"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["巡管工具"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["巡管工具其他"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["主管監督查核"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["主管監督查核次"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["是否有加強巡檢點"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["是否有加強巡檢點敘述"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["巡管外包人數"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["巡管工具"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["巡管工具其他"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["主管監督查核"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["主管監督查核次"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["是否有加強巡檢點"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["是否有加強巡檢點敘述"].ToString().Trim());
                         }
                     }
 
