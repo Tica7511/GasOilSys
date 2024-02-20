@@ -37,6 +37,7 @@ public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
         /// * Request["txt12"]: 內部代檢機構
         /// * Request["txt13"]: 內部檢查有效期限
         /// * Request["txt14"]: 油品種類
+        /// * Request["txt15"]: 差異說明
         /// * Request["mode"]:  new=新增 edit=編輯
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
@@ -76,6 +77,7 @@ public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
             string txt12 = (string.IsNullOrEmpty(Request["txt12"])) ? "" : Request["txt12"].ToString().Trim();
             string txt13 = (string.IsNullOrEmpty(Request["txt13"])) ? "" : Request["txt13"].ToString().Trim();
             string txt14 = (string.IsNullOrEmpty(Request["txt14"])) ? "" : Request["txt14"].ToString().Trim();
+            string txt15 = (string.IsNullOrEmpty(Request["txt15"])) ? "" : Request["txt15"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
 
@@ -99,6 +101,7 @@ public partial class Handler_AddOilStorageTankInfo : System.Web.UI.Page
             odb._代行檢查_外部日期1 = Server.UrlDecode(txt11);
             odb._代行檢查_代檢機構2 = Server.UrlDecode(txt12);
             odb._代行檢查_外部日期2 = Server.UrlDecode(txt13);
+            odb._差異說明 = Server.UrlDecode(txt15);
             odb._修改者 = LogInfo.mGuid;
             odb._修改日期 = DateTime.Now;
 

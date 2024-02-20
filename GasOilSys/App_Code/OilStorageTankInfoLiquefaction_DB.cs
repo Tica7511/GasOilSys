@@ -30,6 +30,7 @@ public class OilStorageTankInfoLiquefaction_DB
     string 形式 = string.Empty;
     string 啟用日期 = string.Empty;
     string 狀態 = string.Empty;
+    string 差異說明 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
     string 修改者 = string.Empty;
@@ -52,6 +53,7 @@ public class OilStorageTankInfoLiquefaction_DB
     public string _形式 { set { 形式 = value; } }
     public string _啟用日期 { set { 啟用日期 = value; } }
     public string _狀態 { set { 狀態 = value; } }
+    public string _差異說明 { set { 差異說明 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
     public string _修改者 { set { 修改者 = value; } }
@@ -193,6 +195,7 @@ else
 形式,
 啟用日期,
 狀態,
+差異說明,
 修改者, 
 修改日期, 
 建立者, 
@@ -210,6 +213,7 @@ else
 @形式,
 @啟用日期,
 @狀態,
+@差異說明,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -231,6 +235,7 @@ else
         oCmd.Parameters.AddWithValue("@形式", 形式);
         oCmd.Parameters.AddWithValue("@啟用日期", 啟用日期);
         oCmd.Parameters.AddWithValue("@狀態", 狀態);
+        oCmd.Parameters.AddWithValue("@差異說明", 差異說明);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -255,6 +260,7 @@ else
 形式=@形式,
 啟用日期=@啟用日期,
 狀態=@狀態,
+差異說明=@差異說明,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -273,6 +279,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@形式", 形式);
         oCmd.Parameters.AddWithValue("@啟用日期", 啟用日期);
         oCmd.Parameters.AddWithValue("@狀態", 狀態);
+        oCmd.Parameters.AddWithValue("@差異說明", 差異說明);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');

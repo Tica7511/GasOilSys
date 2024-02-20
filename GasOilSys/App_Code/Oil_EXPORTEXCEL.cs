@@ -493,6 +493,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(11).SetCellValue("代行檢查有效期限 內部 年/月/日");
                     sheet.GetRow(0).CreateCell(12).SetCellValue("狀態 1.使用中 2.開放中 3.停用 4.其他");
                     sheet.GetRow(0).CreateCell(13).SetCellValue("延長開放年限多?年");
+                    sheet.GetRow(0).CreateCell(14).SetCellValue("差異說明(內容物名稱/油品種類...)");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -518,6 +519,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["代行檢查_外部日期2"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(12).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(13).SetCellValue(dt.Rows[i]["延長開放年限"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(14).SetCellValue(dt.Rows[i]["差異說明"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_儲槽基本資料.xls";
@@ -541,6 +543,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(6).SetCellValue("形式 5.ECT 6.球型壓力容器 7.低溫儲槽 8.其他");
                     sheet.GetRow(0).CreateCell(7).SetCellValue("啟用日期 年/月");
                     sheet.GetRow(0).CreateCell(8).SetCellValue("狀態 1.使用中 2.開放中 3.停用 4.其他");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("差異說明(內容物名稱/油品種類...)");
                     if (dt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -561,6 +564,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                                 sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["形式"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["啟用日期"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["狀態"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["差異說明"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_液化石油氣儲槽基本資料.xls";

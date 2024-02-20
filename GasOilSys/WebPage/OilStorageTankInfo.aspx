@@ -134,10 +134,15 @@
                             }
                             else {
                                 alert($("Response", data).text());
-                                if (storageType == '1')
+                                if (storageType == '1') {
                                     $("#confirmbtn").hide();
-                                else
+                                    $("#sp_confirmbtn").show();
+                                }
+                                else {
                                     $("#confirmbtn2").hide();
+                                    $("#sp_confirmbtn2").show();
+                                }
+                                    
                             }
                         }
                     });
@@ -184,13 +189,14 @@
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("代行檢查_外部日期2").text().trim()) + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("狀態").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("延長開放年限").text().trim() + '</td>';
+								tabstr += '<td nowrap="nowrap">' + $(this).children("差異說明").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilStorageTankInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
 								tabstr += '</tr>';
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="15">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="16">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock";
                         Page.Option.FunctionName = "getData";
@@ -249,13 +255,14 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("形式").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("啟用日期").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("狀態").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("差異說明").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit2" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_OilStorageTankInfoLiquefaction.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
                         else
-                            tabstr += '<tr><td colspan="10">查詢無資料</td></tr>';
+                            tabstr += '<tr><td colspan="11">查詢無資料</td></tr>';
                         $("#tablist2 tbody").append(tabstr);
                         Page.Option.Selector = "#pageblock2";
                         Page.Option.FunctionName = "getData2";
@@ -305,15 +312,23 @@
                                 var yearStorageLiquefactionConfirm = $(this).children("年度液化石油氣儲槽確認").text().trim();
                                 var dataConfirm = $(this).children("資料是否確認").text().trim();
 
-                                if ((yearStorageConfirm == '') || (yearStorageConfirm != getTaiwanDate()))
+                                if ((yearStorageConfirm == '') || (yearStorageConfirm != getTaiwanDate())) {
                                     $("#confirmbtn").show();
-                                else
+                                    $("#sp_confirmbtn").hide();
+                                }
+                                else {
                                     $("#confirmbtn").hide();
+                                    $("#sp_confirmbtn").show();
+                                }                                    
 
-                                if ((yearStorageLiquefactionConfirm == '') || (yearStorageLiquefactionConfirm != getTaiwanDate()))
+                                if ((yearStorageLiquefactionConfirm == '') || (yearStorageLiquefactionConfirm != getTaiwanDate())) {
                                     $("#confirmbtn2").show();
-                                else
+                                    $("#sp_confirmbtn2").hide();
+                                }
+                                else {
                                     $("#confirmbtn2").hide();
+                                    $("#sp_confirmbtn2").show();
+                                }
 
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
@@ -450,6 +465,7 @@
                             <div class="twocol">
                                 <div class="left font-size5 ">
                                     <a id="confirmbtn" name="confirmbtnName" href="javascript:void(0);" title="年度儲槽確認" class="genbtn">年度儲槽確認</a>
+                                    <span id="sp_confirmbtn" class="IconCb font-size2"><i class="fa fa-check-square-o" aria-hidden="true"></i>今年度已確認</span>
                                 </div>
                                 <div class="right">
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
@@ -497,6 +513,11 @@
                                                 多?年 <br>
                                                 (5)
                                             </th>
+                                            <th nowrap rowspan="2">差異說明<br>
+                                                (內容物名<br>
+                                                稱/油品種<br>
+                                                類...)
+                                            </th>
                                             <th id="th_edit" rowspan="2">功能</th>
                                         </tr>
                                         <tr>
@@ -531,6 +552,7 @@
                             <div class="twocol">
                                 <div class="left font-size5 ">
                                     <a id="confirmbtn2" name="confirmbtnName" href="javascript:void(0);" title="年度儲槽確認" class="genbtn">年度儲槽確認</a>
+                                    <span id="sp_confirmbtn2" class="IconCb font-size2"><i class="fa fa-check-square-o" aria-hidden="true"></i>今年度已確認</span>
                                 </div>
                                 <div class="right">
                                     <a id="exportbtn2" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
@@ -565,6 +587,11 @@
                                                 3.停用 <br>
                                                 4.其他 <br>
                                                 (4)
+                                            </th>
+                                            <th nowrap rowspan="2">差異說明<br>
+                                                (內容物名<br>
+                                                稱/油品種<br>
+                                                類...)
                                             </th>
                                             <th id="th_edit2" >功能</th>
                                         </tr>

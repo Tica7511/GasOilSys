@@ -33,6 +33,7 @@ public partial class Handler_AddOilStorageTankInfoLiquefaction : System.Web.UI.P
         /// * Request["txt9_1"]:  啟用日期(民國年份)
         /// * Request["txt9_2"]:  啟用日期(月份)
         /// * Request["txt14"]: 油品種類
+        /// * Request["txt15"]: 差異說明
         /// * Request["storageType"]: 年度儲槽確認類別: 1=常壓地上式儲槽 2=液化石油氣儲槽
         /// * Request["mode"]:  new=新增 edit=編輯 confirm=年度儲槽確認
         ///-----------------------------------------------------
@@ -68,6 +69,7 @@ public partial class Handler_AddOilStorageTankInfoLiquefaction : System.Web.UI.P
             string txt9_1 = (string.IsNullOrEmpty(Request["txt9_1"])) ? "" : Request["txt9_1"].ToString().Trim();
             string txt9_2 = (string.IsNullOrEmpty(Request["txt9_2"])) ? "" : Request["txt9_2"].ToString().Trim();
             string txt14 = (string.IsNullOrEmpty(Request["txt14"])) ? "" : Request["txt14"].ToString().Trim();
+            string txt15 = (string.IsNullOrEmpty(Request["txt15"])) ? "" : Request["txt15"].ToString().Trim();
             string storageType = (string.IsNullOrEmpty(Request["storageType"])) ? "" : Request["storageType"].ToString().Trim();
             string mode = (string.IsNullOrEmpty(Request["mode"])) ? "" : Request["mode"].ToString().Trim();
             string xmlstr = string.Empty;
@@ -87,6 +89,7 @@ public partial class Handler_AddOilStorageTankInfoLiquefaction : System.Web.UI.P
                 odb._啟用日期 = Server.UrlDecode(txt9_1) + "/" + Server.UrlDecode(txt9_2);
             else
                 odb._啟用日期 = Server.UrlDecode(txt9_1) + Server.UrlDecode(txt9_2);
+            odb._差異說明 = Server.UrlDecode(txt15);
             odb._修改者 = LogInfo.mGuid;
             odb._修改日期 = DateTime.Now;
 

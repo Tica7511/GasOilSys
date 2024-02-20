@@ -35,6 +35,7 @@ public class OilStorageTankInfo_DB
     string 代行檢查_外部日期2 = string.Empty;
     string 狀態 = string.Empty;
     string 延長開放年限 = string.Empty;
+    string 差異說明 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
     string 修改者 = string.Empty;
@@ -62,6 +63,7 @@ public class OilStorageTankInfo_DB
     public string _代行檢查_外部日期2 { set { 代行檢查_外部日期2 = value; } }
     public string _狀態 { set { 狀態 = value; } }
     public string _延長開放年限 { set { 延長開放年限 = value; } }
+    public string _差異說明 { set { 差異說明 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
     public string _修改者 { set { 修改者 = value; } }
@@ -330,6 +332,7 @@ where a.資料狀態='A'  and (@公司名稱='' or b.公司名稱=@公司名稱)
 代行檢查_外部日期2,
 狀態,
 延長開放年限,
+差異說明,
 修改者, 
 修改日期, 
 建立者, 
@@ -352,6 +355,7 @@ where a.資料狀態='A'  and (@公司名稱='' or b.公司名稱=@公司名稱)
 @代行檢查_外部日期2,
 @狀態,
 @延長開放年限,
+@差異說明,
 @修改者, 
 @修改日期, 
 @建立者, 
@@ -378,6 +382,7 @@ where a.資料狀態='A'  and (@公司名稱='' or b.公司名稱=@公司名稱)
         oCmd.Parameters.AddWithValue("@代行檢查_外部日期2", 代行檢查_外部日期2);
         oCmd.Parameters.AddWithValue("@狀態", 狀態);
         oCmd.Parameters.AddWithValue("@延長開放年限", 延長開放年限);
+        oCmd.Parameters.AddWithValue("@差異說明", 差異說明);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
@@ -407,6 +412,7 @@ where a.資料狀態='A'  and (@公司名稱='' or b.公司名稱=@公司名稱)
 代行檢查_外部日期2=@代行檢查_外部日期2,
 狀態=@狀態,
 延長開放年限=@延長開放年限,
+差異說明=@差異說明,
 修改者=@修改者, 
 修改日期=@修改日期 
 where guid=@guid and 資料狀態=@資料狀態 
@@ -430,6 +436,7 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@代行檢查_外部日期2", 代行檢查_外部日期2);
         oCmd.Parameters.AddWithValue("@狀態", 狀態);
         oCmd.Parameters.AddWithValue("@延長開放年限", 延長開放年限);
+        oCmd.Parameters.AddWithValue("@差異說明", 差異說明);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@資料狀態", 'A');

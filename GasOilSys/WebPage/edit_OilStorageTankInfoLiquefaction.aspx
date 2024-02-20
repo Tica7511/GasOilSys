@@ -21,6 +21,16 @@
             getDDL('023');
             getDDL('031');
             getData();
+            getCheck();
+
+            if ($.getQueryString("guid") != '') {
+                if ($("#Competence").val() != "03") {
+                    getDisabled(true);
+                }
+                else {
+                    getDisabled(false);
+                }
+            }
 
             //轄區儲槽編號 認證有無重複序號
             $(document).on("blur", "#txt1", function () {
@@ -105,6 +115,7 @@
                 data.append("txt9_1", encodeURIComponent($("#txt9_1").val()));
                 data.append("txt9_2", encodeURIComponent($("#txt9_2").val()));
                 data.append("txt14", encodeURIComponent($("#txt14").val()));
+                data.append("txt15", encodeURIComponent($("#txt15").val()));
 
                 $.ajax({
                     type: "POST",
@@ -203,6 +214,7 @@
                                 $("#txt9_1").val(splitYearMonth(0, $(this).children("啟用日期").text().trim()));
                                 $("#txt9_2").val(splitYearMonth(1, $(this).children("啟用日期").text().trim()));
                                 $("#txt14").val(getDate($(this).children("油品種類").text().trim()));
+                                $("#txt15").val(getDate($(this).children("差異說明").text().trim()));
 							});
 						}
 					}
@@ -246,6 +258,55 @@
                                 $("#txt14").empty();
                                 $("#txt14").append(ddlstr);
                                 break;
+                        }
+                    }
+                }
+            });
+        }
+
+        function getDisabled(status) {
+            $("#txt1").attr("disabled", status);
+            $("#txt2").attr("disabled", status);
+            $("#txt3").attr("disabled", status);
+            $("#txt4").attr("disabled", status);
+            $("#txt5").attr("disabled", status);
+            $("#txt5").attr("disabled", status);
+            $("#txt14").attr("disabled", status);
+            $("#txt6").attr("disabled", status);
+            $("#txt9_1").attr("disabled", status);
+            $("#txt9_2").attr("disabled", status);
+        }
+
+        //取得年度儲槽確認
+        function getCheck() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var yearStorageLiquefactionConfirm = $(this).children("年度液化石油氣儲槽確認").text().trim();
+
+                                if ((yearStorageLiquefactionConfirm == '') || (yearStorageLiquefactionConfirm != getTaiwanDate())) {
+                                    $("#txt15").attr("disabled", false);
+                                }
+                                else {
+                                    $("#txt15").attr("disabled", true);
+                                }
+                            });
                         }
                     }
                 }
@@ -422,6 +483,12 @@
                                                 <option value="12">12</option>
                                             </select> 月
                                         </div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">差異說明(內容物名稱/油品種類...)</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt15" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
