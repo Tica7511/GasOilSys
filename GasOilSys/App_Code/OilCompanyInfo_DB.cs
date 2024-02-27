@@ -623,6 +623,59 @@ where 公司名稱='台塑石化' and 資料狀態='A' and 列表是否顯示='Y
         return ds;
     }
 
+    public DataTable GetCpNameToNcree()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select case when 事業部 is not null and 營業處廠 is null and 中心庫區儲運課工場 is null then 事業部
+  when 事業部 is not null and 營業處廠 is not null and 中心庫區儲運課工場 is null then 營業處廠
+  when 事業部 is not null and 營業處廠 is not null and 中心庫區儲運課工場 is not null then 中心庫區儲運課工場 end as cpname
+  from 石油_業者基本資料
+  where 管線管理不顯示 is null and 列表是否顯示='Y' ");
+        if (!string.IsNullOrEmpty(guid))
+            sb.Append(@"and guid = @guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetCpNameToNcreeList(string cpname)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        if (cpname == "桃園儲運站")
+        {
+            sb.Append(@"select distinct 場站 from ncree..vw_fpg_oil
+where 場站 like '%' + @場站 + '%'");
+        }
+        else
+        {
+            sb.Append(@"select distinct 場站 from ncree..vw_cpc_oil
+where 場站 like '%' + @場站 + '%'");
+        }
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@場站", cpname);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void InsertCompanyInfo(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();

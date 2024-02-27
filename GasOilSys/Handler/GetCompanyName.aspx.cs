@@ -25,6 +25,8 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
 			string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
             DataTable dt = new DataTable();
+			DataTable dt2 = new DataTable();
+			DataTable dt3 = new DataTable();
 
             if(type == "Gas")
             {
@@ -57,11 +59,27 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
 					dt.Columns.Add("competence", typeof(string));
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }
-            }                
+
+				dt2 = odb.GetCpNameToNcree();
+                if (dt2.Rows.Count > 0)
+                {
+					for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+						if (dt2.Rows[i]["cpname"].ToString().Trim() == "深澳港供輸中心")
+							dt2.Rows[i]["cpname"] = "深澳港輸中心";
+
+						dt3 = odb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+					}
+
+				}
+
+			}                
 
             string xmlstr = string.Empty;
+			string xmlstr2 = string.Empty;
 			xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-			xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+			xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt3, "dataList2", "data_item2");
+			xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + "</root>";
 			xDoc.LoadXml(xmlstr);
 		}
 		catch (Exception ex)

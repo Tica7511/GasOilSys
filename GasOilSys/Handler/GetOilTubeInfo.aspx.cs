@@ -10,6 +10,7 @@ using System.Data;
 public partial class Handler_GetOilTubeInfo : System.Web.UI.Page
 {
     OilTubeInfo_DB db = new OilTubeInfo_DB();
+    OilCompanyInfo_DB odb = new OilCompanyInfo_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -39,7 +40,30 @@ public partial class Handler_GetOilTubeInfo : System.Web.UI.Page
                 db._業者guid = cpid;
                 db._長途管線識別碼 = Sno;
 
+                DataTable cdt = new DataTable();
+                DataTable ndt = new DataTable();
                 DataSet ds = db.GetList(pageStart.ToString(), pageEnd.ToString());
+                DataTable dt = ds.Tables[1];
+                if (dt.Rows.Count > 0)
+                {
+                    dt.Columns.Add("HavePipe", typeof(string));
+                    for(int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        odb._guid = dt.Rows[i]["業者guid"].ToString().Trim();
+                        cdt = odb.GetCpNameToNcree();
+                        if (cdt.Rows.Count > 0)
+                        {
+                            if (cdt.Rows[0]["cpname"].ToString().Trim() == "深澳港供輸中心")
+                                cdt.Rows[0]["cpname"] = "深澳港輸中心";
+
+                            ndt = db.GetNcreeData(cdt.Rows[0]["cpname"].ToString().Trim(), dt.Rows[i]["長途管線識別碼"].ToString().Trim());
+                            if (ndt.Rows.Count > 0)
+                            {
+                                dt.Rows[i]["HavePipe"] = "Y";
+                            }
+                        }
+                    }
+                }
                 DataTable dt2 = db.GetYearList();
                 DataTable dt3 = db.GetList();
                 string xmlstr = string.Empty;
