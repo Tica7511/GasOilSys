@@ -43,7 +43,20 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                     dt.Columns.Add("competence", typeof(string));
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }
-            }
+
+				dt2 = gdb.GetCpNameToNcree();
+				if (dt2.Rows.Count > 0)
+				{
+					for (int i = 0; i < dt.Rows.Count; i++)
+					{
+						if (dt2.Rows[i]["cpname"].ToString().Trim() == "天然氣處理廠(原天然氣處理廠-錦水區)")
+							dt2.Rows[i]["cpname"] = "天然氣處理廠";
+
+						dt3 = gdb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+					}
+
+				}
+			}
             else
             {
                 odb._guid = cpid;

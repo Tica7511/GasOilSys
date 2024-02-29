@@ -10,6 +10,7 @@ using System.Data;
 public partial class Handler_GetGasTubeInfo : System.Web.UI.Page
 {
 	GasTubeInfo_DB db = new GasTubeInfo_DB();
+	GasCompanyInfo_DB gdb = new GasCompanyInfo_DB();
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		///-----------------------------------------------------
@@ -42,7 +43,30 @@ public partial class Handler_GetGasTubeInfo : System.Web.UI.Page
 				db._年度 = year;
 				db._長途管線識別碼 = Sno;
 
+				DataTable cdt = new DataTable();
+				DataTable ndt = new DataTable();
 				DataSet ds = db.GetList(pageStart.ToString(), pageEnd.ToString());
+				DataTable dt = ds.Tables[1];
+				if (dt.Rows.Count > 0)
+				{
+					dt.Columns.Add("HavePipe", typeof(string));
+					for (int i = 0; i < dt.Rows.Count; i++)
+					{
+						gdb._guid = dt.Rows[i]["業者guid"].ToString().Trim();
+						cdt = gdb.GetCpNameToNcree();
+						if (cdt.Rows.Count > 0)
+						{
+							if (cdt.Rows[0]["cpname"].ToString().Trim() == "天然氣處理廠(原天然氣處理廠-錦水區)")
+								cdt.Rows[0]["cpname"] = "天然氣處理廠";
+
+							ndt = db.GetNcreeData(cdt.Rows[0]["cpname"].ToString().Trim(), dt.Rows[i]["長途管線識別碼"].ToString().Trim());
+							if (ndt.Rows.Count > 0)
+							{
+								dt.Rows[i]["HavePipe"] = "Y";
+							}
+						}
+					}
+				}
 				DataTable dt2 = db.GetYearList();
 				DataTable dt3 = db.GetList();
 				string xmlstr = string.Empty;

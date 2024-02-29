@@ -311,6 +311,26 @@ select * from (
         return ds;
     }
 
+    public DataTable GetNcreeData(string cpname, string psn)
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select distinct 場站 from ncree..vw_cpc_gas
+where 識別碼 like '%' + @識別碼 + '%'");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@識別碼", psn);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void InsertData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();

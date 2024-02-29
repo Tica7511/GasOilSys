@@ -205,7 +205,51 @@ FROM 天然氣_業者基本資料表 where (地址 <>'' and 地址 is not null )
         return ds;
     }
 
-    public DataTable GetInfo()
+	public DataTable GetCpNameToNcree()
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select case when 營業處廠 is not null and 中心庫區儲運課工場 is null then 營業處廠
+  when 營業處廠 is not null and 中心庫區儲運課工場 is not null then 中心庫區儲運課工場 end as cpname
+  from 天然氣_業者基本資料表
+  where 管線管理不顯示 is null and 列表是否顯示='Y' ");
+		if (!string.IsNullOrEmpty(guid))
+			sb.Append(@"and guid = @guid ");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@guid", guid);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public DataTable GetCpNameToNcreeList(string cpname)
+	{
+		SqlCommand oCmd = new SqlCommand();
+		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+		StringBuilder sb = new StringBuilder();
+
+		sb.Append(@"select distinct 場站 from ncree..vw_cpc_gas
+where 場站 like '%' + @場站 + '%'");
+
+		oCmd.CommandText = sb.ToString();
+		oCmd.CommandType = CommandType.Text;
+		SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+		DataTable ds = new DataTable();
+
+		oCmd.Parameters.AddWithValue("@場站", cpname);
+
+		oda.Fill(ds);
+		return ds;
+	}
+
+	public DataTable GetInfo()
 	{
 		SqlCommand oCmd = new SqlCommand();
 		oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);

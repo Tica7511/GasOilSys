@@ -32,6 +32,7 @@
     <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+    <li id="PipeManagementlist"><a name="PipeManagementbtn" href="javascript:void(0);" target="_blank">圖資查詢</a></li>
     <li class="Gconfirmlist"><a name="Gconfirmbtn" href="javascript:void(0);">資料確認</a></li>
 </ul>
 
@@ -65,6 +66,7 @@
     <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+    <li id="PipeManagementlist"><a name="PipeManagementbtn" href="javascript:void(0);" target="_blank">圖資查詢</a></li>
     <li class="Gconfirmlist"><a name="Gconfirmbtn" href="javascript:void(0);">資料確認</a></li>
 </ul>
 
@@ -87,6 +89,7 @@
     <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+    <li id="PipeManagementlist"><a name="PipeManagementbtn" href="javascript:void(0);" target="_blank">圖資查詢</a></li>
     <li class="Gconfirmlist"><a name="Gconfirmbtn" href="javascript:void(0);">資料確認</a></li>
 </ul>
 
@@ -106,6 +109,7 @@
     <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+    <li id="PipeManagementlist"><a name="PipeManagementbtn" href="javascript:void(0);" target="_blank">圖資查詢</a></li>
     <li class="Gconfirmlist"><a name="Gconfirmbtn" href="javascript:void(0);">資料確認</a></li>
 </ul>
 
@@ -137,6 +141,7 @@
     <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+    <li id="PipeManagementlist"><a name="PipeManagementbtn" href="javascript:void(0);" target="_blank">圖資查詢</a></li>
     <li class="Gconfirmlist"><a name="Gconfirmbtn" href="javascript:void(0);">資料確認</a></li>
 </ul>
 
@@ -169,6 +174,7 @@
     <li><a name="menubtn" href="javascript:void(0);" link="GasSelfEvaluation.aspx" target='_self'>查核項目自評</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasReportUpload.aspx" target='_self'>查核簡報上傳</a></li>
     <li><a name="menubtn" href="javascript:void(0);" link="GasOnlineEvaluation.aspx" target='_self'>查核佐證資料上傳</a></li>
+    <li id="PipeManagementlist"><a name="PipeManagementbtn" href="javascript:void(0);" target="_blank">圖資查詢</a></li>
     <li class="Gconfirmlist"><a name="Gconfirmbtn" href="javascript:void(0);">資料確認</a></li>
 </ul>
 
@@ -290,6 +296,37 @@
                             if (dataConfirm == '是' || competence == '01')
                                 $(".Gconfirmlist").empty();
                         });
+                    }
+                }
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            async: false, //在沒有返回值之前,不會執行下一步動作
+            url: "../Handler/GetCompanyName.aspx",
+            data: {
+                type: "Gas",
+                cpid: $.getQueryString("cp"),
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.status);
+                console.log(xhr.responseText);
+            },
+            success: function (data) {
+                if ($(data).find("Error").length > 0) {
+                    alert($(data).find("Error").attr("Message"));
+                }
+                else {
+                    if ($(data).find("data_item2").length > 0) {
+
+                        $(data).find("data_item2").each(function (i) {
+                            $("#PipeManagementlist").show();
+                            $("a[name='PipeManagementbtn']").attr("href", "http://23.99.109.107/ncree2/home/map.aspx?sta=" + $(this).children("場站").text().trim());
+                        });
+                    }
+                    else {
+                        $("#PipeManagementlist").hide();
                     }
                 }
             }
