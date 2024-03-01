@@ -182,12 +182,16 @@ insert into  石油_線上查核(
 
         sb.Append(@"select * from 石油_線上查核 where 資料狀態='A' and 業者guid=@業者guid and 檔案類型=@檔案類型 ");
 
+        if (!string.IsNullOrEmpty(年度))
+            sb.Append(@" and 年度=@年度 ");
+
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         DataTable ds = new DataTable();
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
 
         oda.Fill(ds);

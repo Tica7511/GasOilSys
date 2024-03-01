@@ -344,6 +344,7 @@ namespace ED.HR.DOWNLOAD.WebForm
         public void saveZip()
         {
             string cid = Common.FilterCheckMarxString(Request.QueryString["cid"]);
+            string year = Common.FilterCheckMarxString(Request.QueryString["year"]);
             string category = Common.FilterCheckMarxString(Request.QueryString["category"]);
             string details = Common.FilterCheckMarxString(Request.QueryString["details"]);
             string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
@@ -437,12 +438,14 @@ namespace ED.HR.DOWNLOAD.WebForm
             if (category == "Gas")
             {
                 OEGdb._檔案類型 = details;
+                OEGdb._年度 = year;
                 OEGdb._業者guid = cid;
                 dt = OEGdb.GetThisTypeFile();
             }
             else
             {
                 OEOdb._檔案類型 = details;
+                OEOdb._年度 = year;
                 OEOdb._業者guid = cid;
                 dt = OEOdb.GetThisTypeFile();
             }

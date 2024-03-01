@@ -16,17 +16,23 @@ public partial class Handler_GetGasReportUpload : System.Web.UI.Page
 		///功    能: 查詢查核簡報上傳
 		///說    明:
 		/// * Request["cpid"]: 業者Guid 
+		/// * Request["year"]: 年度 
 		///-----------------------------------------------------
 		XmlDocument xDoc = new XmlDocument();
         try
         {
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
 
             db._業者guid = cpid;
+            db._年度 = year;
             DataTable dt = db.GetList();
+            DataTable dt2 = db.GetYearList();
             string xmlstr = string.Empty;
+            string xmlstr2 = string.Empty;
             xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + "</root>";
+            xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt2, "dataList2", "data_item2");
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + "</root>";
             xDoc.LoadXml(xmlstr);
         }
         catch (Exception ex)

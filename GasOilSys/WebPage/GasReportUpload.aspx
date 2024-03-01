@@ -21,9 +21,16 @@
 	<title>天然氣事業輸儲設備查核及檢測資訊系統</title>
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
-		$(document).ready(function () {
-            getData();
+        $(document).ready(function () {
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
             $("#filediv").hide();
+
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+            });
 
             $(document).on("click", "#filebtn", function () {
                 $("#filebtn").hide();
@@ -31,7 +38,7 @@
             });
 
             $(document).on("click", "#cancelbtn", function () {
-				getData();
+                getData(getTaiwanDate());
                 $("#fileUpload").val("");
                 $("#filediv").hide();
                 $("#filebtn").show();
@@ -57,7 +64,7 @@
 				        	}
                             else {
                                 alert($("Response", data).text());
-                                getData();
+                                getData(getTaiwanDate());
 				        	}
 				        }
 			        });
@@ -104,7 +111,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-							getData();
+                            getData(getTaiwanDate());
                             $("#fileUpload").val("");
                             $("#filediv").hide();
                             $("#filebtn").show();
@@ -114,12 +121,13 @@
             });
 		}); // end js
 
-		function getData() {
+        function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasReportUpload.aspx",
 				data: {
+                    year: year,
 					cpid: $.getQueryString("cp")
 				},
 				error: function (xhr) {
@@ -140,7 +148,6 @@
                                 tabstr += '<a href="../DOWNLOAD.aspx?category=Gas&type=report&rid=' + $(this).children("guid").text().trim() + '"';
                                 tabstr += '>'+ $(this).children("檔案名稱").text().trim() + '</a>';
                                 tabstr += '</td>';
-                                tabstr += '<td nowrap="nowrap" align="center">' + $(this).children("年度").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap" align="center">' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr += '<td name="ftd" nowrap="nowrap" align="center">';
                                 tabstr += '<input type="button" value="刪除" class="genbtn" name="delbtn" aid="' + $(this).children("guid").text().trim() + '" />';
@@ -149,18 +156,69 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="4">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="3">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
-                        if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
                             $("#fileall").hide();
                             $("#thFunc").hide();
                             $("td[name='ftd']").hide();
                         }
+                        else {
+                            if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
+                                $("#fileall").hide();
+                                $("#thFunc").hide();
+                                $("td[name='ftd']").hide();
+                            }
+                            else {
+                                $("#fileall").show();
+                                $("#thFunc").show();
+                                $("td[name='ftd']").show();
+                            }
+                        }
+
+                        
 
                         getConfirmedStatus();
 					}
 				}
 			});
+		}
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasReportUpload.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item2").length > 0) {
+                            $(data).find("data_item2").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
         }
 
         //確認資料是否完成
@@ -243,21 +301,29 @@
 									<div class="col-lg-3 col-md-4 col-sm-5">
 										<div id="navmenuV"><!--#include file="GasLeftMenu.html"--></div>
 									</div>
-									<div class="col-lg-9 col-md-8 col-sm-7">                                        
-                                        <div id="fileall" align="right">
-                                        <input type="button" id="filebtn" name="filebtn" value="上傳檔案" class="genbtn" />
-                                        <div id="filediv">
-                                            <input type="file" id="fileUpload" name="fileUpload" />
-                                            <input type="button" id="savebtn" value="上傳" class="genbtn" />
-                                            <input type="button" id="cancelbtn" value="取消" class="genbtn" />
-                                        </div>                                
-                                        </div><br />
+									<div class="col-lg-9 col-md-8 col-sm-7">  
+                                        <div class="twocol">
+                                            <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                                <select id="sellist" class="inputex">
+                                                </select> 年
+                                            </div>
+                                            <div class="right">
+                                                <div id="fileall" >
+                                                    <input type="button" id="filebtn" name="filebtn" value="上傳檔案" class="genbtn" />
+                                                <div id="filediv">
+                                                    <input type="file" id="fileUpload" name="fileUpload" />
+                                                    <input type="button" id="savebtn" value="上傳" class="genbtn" />
+                                                    <input type="button" id="cancelbtn" value="取消" class="genbtn" />
+                                                </div>                                
+                                                </div>
+                                            </div>
+                                        </div><br>
+
                                         <div class="stripeMeG tbover">
                                             <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <thead>
                                                     <tr>
                                                         <th nowrap width="50%">檔案名稱 </th>
-                                                        <th nowrap width="10%">年度 </th>
                                                         <th nowrap width="30%">上傳日期 </th>
                                                         <th id="thFunc" nowrap width="10%">功能 </th>
                                                     </tr>

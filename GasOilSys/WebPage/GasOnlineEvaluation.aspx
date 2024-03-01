@@ -22,7 +22,9 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
         $(document).ready(function () {
-            getData();
+            getYearList();
+            $("#sellist").val(getTaiwanDate());
+            getData(getTaiwanDate());
             getZipbtn();
             $("#alertText").hide();
             $("#alertText2").hide();
@@ -35,13 +37,23 @@
             $("#filediv4").hide();
             $("#filediv5").hide();
 
+            //選擇年份
+            $(document).on("change", "#sellist", function () {
+                getData($("#sellist option:selected").val());
+                $("a[name='zipbtn']").attr('href', '../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=1&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp"));
+                $("a[name='zipbtn2']").attr('href', '../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=2&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp"));
+                $("a[name='zipbtn3']").attr('href', '../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=3&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp"));
+                $("a[name='zipbtn4']").attr('href', '../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=4&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp"));
+                $("a[name='zipbtn5']").attr('href', '../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=5&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp"));
+            });
+
             $(document).on("click", "#filebtn", function () {
                 $("#filebtn").hide();
                 $("#filediv").show();
             });
 
             $(document).on("click", "#cancelbtn", function () {
-                getData();
+                getData(getTaiwanDate());
                 $("#filediv").hide();
                 $("#filebtn").show();
             });
@@ -52,7 +64,7 @@
             });
 
             $(document).on("click", "#cancelbtn2", function () {
-                getData();
+                getData(getTaiwanDate());
                 $("#filediv2").hide();
                 $("#filebtn2").show();
             });
@@ -63,7 +75,7 @@
             });
 
             $(document).on("click", "#cancelbtn3", function () {
-                getData();
+                getData(getTaiwanDate());
                 $("#filediv3").hide();
                 $("#filebtn3").show();
             });
@@ -74,7 +86,7 @@
             });
 
             $(document).on("click", "#cancelbtn4", function () {
-                getData();
+                getData(getTaiwanDate());
                 $("#filediv4").hide();
                 $("#filebtn4").show();
             });
@@ -85,7 +97,7 @@
             });
 
             $(document).on("click", "#cancelbtn5", function () {
-                getData();
+                getData(getTaiwanDate());
                 $("#filediv5").hide();
                 $("#filebtn5").show();
             });
@@ -110,7 +122,7 @@
 				        	}
                             else {
                                 alert($("Response", data).text());
-                                getData();
+                                getData(getTaiwanDate());
 				        	}
 				        }
 			        });
@@ -174,7 +186,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-                            getData();
+                            getData(getTaiwanDate());
                             $("#filediv").hide();
                             $("#filebtn").show();
                             $("#fileUpload").val("");
@@ -240,7 +252,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-                            getData();
+                            getData(getTaiwanDate());
                             $("#filediv2").hide();
                             $("#filebtn2").show();
                             $("#fileUpload2").val("");
@@ -306,7 +318,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-                            getData();
+                            getData(getTaiwanDate());
                             $("#filediv3").hide();
                             $("#filebtn3").show();
                             $("#fileUpload3").val("");
@@ -372,7 +384,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-                            getData();
+                            getData(getTaiwanDate());
                             $("#filediv5").hide();
                             $("#filebtn5").show();
                             $("#fileUpload5").val("");
@@ -438,7 +450,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-                            getData();
+                            getData(getTaiwanDate());
                             $("#filediv4").hide();
                             $("#filebtn4").show();
                             $("#fileUpload4").val("");
@@ -456,19 +468,20 @@
             $("#zip4").empty();
             $("#zip5").empty();
 
-            $("#zip1").append('&ensp;<a name="zipbtn" class="genbtn" title="儲槽管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=1&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip2").append('&ensp;<a name="zipbtn" class="genbtn" title="儲槽管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=2&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip3").append('&ensp;<a name="zipbtn" class="genbtn" title="災害防救壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=3&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip4").append('&ensp;<a name="zipbtn" class="genbtn" title="關鍵基礎設施壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=4&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip5").append('&ensp;<a name="zipbtn" class="genbtn" title="法規壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=5&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip1").append('&ensp;<a name="zipbtn" class="genbtn" title="儲槽管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=1&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip2").append('&ensp;<a name="zipbtn" class="genbtn" title="儲槽管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=2&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip3").append('&ensp;<a name="zipbtn" class="genbtn" title="災害防救壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=3&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip4").append('&ensp;<a name="zipbtn" class="genbtn" title="關鍵基礎設施壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=4&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip5").append('&ensp;<a name="zipbtn" class="genbtn" title="法規壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Gas&type=online&details=5&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
         }
 
-		function getData() {
+		function getData(year) {
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
 				url: "../Handler/GetGasOnlineEvaluation.aspx",
 				data: {
+                    year: year,
 					cpid: $.getQueryString("cp")
 				},
 				error: function (xhr) {
@@ -489,7 +502,6 @@
                                 tabstr += '<a href="../DOWNLOAD.aspx?category=Gas&type=online&details=1&rid=' + $(this).children("guid").text().trim() + '"';
                                 tabstr += '>'+ $(this).children("檔案名稱").text().trim() + '</a>';
                                 tabstr += '</td>';
-                                tabstr += '<td nowrap="nowrap" align="center">' + $(this).children("年度").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap" align="center">' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr += '<td name="ftd" nowrap="nowrap" align="center">';
                                 tabstr += '<input type="button" value="刪除" class="genbtn" name="delbtn" aid="' + $(this).children("guid").text().trim() + '" />';
@@ -498,13 +510,8 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="4">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="3">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr); 
-                        if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
-                            $("#fileall").hide();
-                            $("#thFunc").hide();
-                            $("td[name='ftd']").hide();
-                        }
 
                         $("#tablist2 tbody").empty();
 						var tabstr2 = '';
@@ -515,7 +522,6 @@
                                 tabstr2 += '<a href="../DOWNLOAD.aspx?category=Gas&type=online&details=2&rid=' + $(this).children("guid").text().trim() + '"';
                                 tabstr2 += '>'+ $(this).children("檔案名稱").text().trim() + '</a>';
                                 tabstr2 += '</td>';
-                                tabstr2 += '<td nowrap="nowrap" align="center">' + $(this).children("年度").text().trim() + '</td>';
                                 tabstr2 += '<td nowrap="nowrap" align="center">' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr2 += '<td name="ftd" nowrap="nowrap" align="center">';
                                 tabstr2 += '<input type="button" value="刪除" class="genbtn" name="delbtn" aid="' + $(this).children("guid").text().trim() + '" />';
@@ -524,13 +530,8 @@
 							});
 						}
 						else
-							tabstr2 += '<tr><td colspan="4">查詢無資料</td></tr>';
+							tabstr2 += '<tr><td colspan="3">查詢無資料</td></tr>';
                         $("#tablist2 tbody").append(tabstr2); 
-                        if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
-                            $("#fileall2").hide();
-                            $("#thFunc2").hide();
-                            $("td[name='ftd']").hide();
-                        }
 
                         $("#tablist3 tbody").empty();
 						var tabstr3 = '';
@@ -541,7 +542,6 @@
                                 tabstr3 += '<a href="../DOWNLOAD.aspx?category=Gas&type=online&details=3&rid=' + $(this).children("guid").text().trim() + '"';
                                 tabstr3 += '>'+ $(this).children("檔案名稱").text().trim() + '</a>';
                                 tabstr3 += '</td>';
-                                tabstr3 += '<td nowrap="nowrap" align="center">' + $(this).children("年度").text().trim() + '</td>';
                                 tabstr3 += '<td nowrap="nowrap" align="center">' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr3 += '<td name="ftd" nowrap="nowrap" align="center">';
                                 tabstr3 += '<input type="button" value="刪除" class="genbtn" name="delbtn" aid="' + $(this).children("guid").text().trim() + '" />';
@@ -550,13 +550,8 @@
 							});
 						}
 						else
-							tabstr3 += '<tr><td colspan="4">查詢無資料</td></tr>';
-                        $("#tablist3 tbody").append(tabstr3); 
-                        if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
-                            $("#fileall3").hide();
-                            $("#thFunc3").hide();
-                            $("td[name='ftd']").hide();
-                        }
+							tabstr3 += '<tr><td colspan="3">查詢無資料</td></tr>';
+                        $("#tablist3 tbody").append(tabstr3);
 
                         $("#tablist5 tbody").empty();
 						var tabstr5 = '';
@@ -567,7 +562,6 @@
                                 tabstr5 += '<a href="../DOWNLOAD.aspx?category=Gas&type=online&details=5&rid=' + $(this).children("guid").text().trim() + '"';
                                 tabstr5 += '>'+ $(this).children("檔案名稱").text().trim() + '</a>';
                                 tabstr5 += '</td>';
-                                tabstr5 += '<td nowrap="nowrap" align="center">' + $(this).children("年度").text().trim() + '</td>';
                                 tabstr5 += '<td nowrap="nowrap" align="center">' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr5 += '<td name="ftd" nowrap="nowrap" align="center">';
                                 tabstr5 += '<input type="button" value="刪除" class="genbtn" name="delbtn" aid="' + $(this).children("guid").text().trim() + '" />';
@@ -576,13 +570,8 @@
 							});
 						}
 						else
-							tabstr5 += '<tr><td colspan="4">查詢無資料</td></tr>';
-                        $("#tablist5 tbody").append(tabstr5); 
-                        if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
-                            $("#fileall5").hide();
-                            $("#thFunc5").hide();
-                            $("td[name='ftd']").hide();
-                        }
+							tabstr5 += '<tr><td colspan="3">查詢無資料</td></tr>';
+                        $("#tablist5 tbody").append(tabstr5);
 
                         $("#tablist4 tbody").empty();
 						var tabstr4 = '';
@@ -593,7 +582,6 @@
                                 tabstr4 += '<a href="../DOWNLOAD.aspx?category=Gas&type=online&details=4&rid=' + $(this).children("guid").text().trim() + '"';
                                 tabstr4 += '>'+ $(this).children("檔案名稱").text().trim() + '</a>';
                                 tabstr4 += '</td>';
-                                tabstr4 += '<td nowrap="nowrap" align="center">' + $(this).children("年度").text().trim() + '</td>';
                                 tabstr4 += '<td nowrap="nowrap" align="center">' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr4 += '<td name="ftd" nowrap="nowrap" align="center">';
                                 tabstr4 += '<input type="button" value="刪除" class="genbtn" name="delbtn" aid="' + $(this).children("guid").text().trim() + '" />';
@@ -602,18 +590,91 @@
 							});
 						}
 						else
-							tabstr4 += '<tr><td colspan="4">查詢無資料</td></tr>';
-                        $("#tablist4 tbody").append(tabstr4); 
-                        if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
+							tabstr4 += '<tr><td colspan="3">查詢無資料</td></tr>';
+                        $("#tablist4 tbody").append(tabstr4);
+
+                        //確認權限&按鈕顯示或隱藏
+                        if ($("#sellist").val() != getTaiwanDate()) {
+                            $("#fileall").hide();
+                            $("#thFunc").hide();
+                            $("#fileall2").hide();
+                            $("#thFunc2").hide();
+                            $("#fileall3").hide();
+                            $("#thFunc3").hide();
                             $("#fileall4").hide();
                             $("#thFunc4").hide();
+                            $("#fileall5").hide();
+                            $("#thFunc5").hide();
                             $("td[name='ftd']").hide();
+                        }
+                        else {
+                            if ($("#Competence").val() == "01" || $("#Competence").val() == "04" || $("#Competence").val() == "05") {
+                                $("#fileall").hide();
+                                $("#thFunc").hide();
+                                $("#fileall2").hide();
+                                $("#thFunc2").hide();
+                                $("#fileall3").hide();
+                                $("#thFunc3").hide();
+                                $("#fileall4").hide();
+                                $("#thFunc4").hide();
+                                $("#fileall5").hide();
+                                $("#thFunc5").hide();
+                                $("td[name='ftd']").hide();
+                            }
+                            else {
+                                $("#fileall").show();
+                                $("#thFunc").show();
+                                $("#fileall2").show();
+                                $("#thFunc2").show();
+                                $("#fileall3").show();
+                                $("#thFunc3").show();
+                                $("#fileall4").show();
+                                $("#thFunc4").show();
+                                $("#fileall5").show();
+                                $("#thFunc5").show();
+                                $("td[name='ftd']").show();
+                            }
                         }
 
                         getConfirmedStatus();
 					}
 				}
 			});
+        }
+
+        //取得民國年份之下拉選單
+        function getYearList() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetGasOnlineEvaluation.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    year: getTaiwanDate(),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#sellist").empty();
+                        var ddlstr = '';
+                        if ($(data).find("data_item6").length > 0) {
+                            $(data).find("data_item6").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("年度").text().trim() + '">' + $(this).children("年度").text().trim() + '</option>'
+                            });
+                        }
+                        else {
+                            ddlstr += '<option>請選擇</option>'
+                        }
+                        $("#sellist").append(ddlstr);
+                    }
+                }
+            });
         }
 
         //確認資料是否完成
@@ -646,16 +707,12 @@
                                         $("td[name='ftd']").hide();
                                         $("#fileall2").hide();
                                         $("#thFunc2").hide();
-                                        $("td[name='ftd']").hide();
                                         $("#fileall3").hide();
                                         $("#thFunc3").hide();
-                                        $("td[name='ftd']").hide();
                                         $("#fileall5").hide();
                                         $("#thFunc5").hide();
-                                        $("td[name='ftd']").hide();
                                         $("#fileall4").hide();
                                         $("#thFunc4").hide();
-                                        $("td[name='ftd']").hide();
                                     }
                                 }                                
                             });
@@ -710,6 +767,10 @@
 									</div>
 									<div class="col-lg-9 col-md-8 col-sm-7">
                                         <div class="twocol">
+                                            <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                                <select id="sellist" class="inputex">
+                                                </select> 年
+                                            </div>
                                             <div id="zip1" class="right"></div>
                                             <div id="fileall" class="right">
                                                 <input type="button" title="管線管理檔案上傳" id="filebtn" name="filebtn" value="上傳檔案" class="genbtn" />
@@ -731,7 +792,6 @@
                                                     </tr>
                                                     <tr>
                                                         <th nowrap width="50%">檔案名稱 </th>
-                                                        <th nowrap width="10%">年度 </th>
                                                         <th nowrap width="30%">上傳日期 </th>
                                                         <th id="thFunc" nowrap width="10%">功能 </th>
                                                     </tr>
@@ -763,7 +823,6 @@
                                                     </tr>
                                                     <tr>
                                                         <th nowrap width="50%">檔案名稱 </th>
-                                                        <th nowrap width="10%">年度 </th>
                                                         <th nowrap width="30%">上傳日期 </th>
                                                         <th id="thFunc2" nowrap width="10%">功能 </th>
                                                     </tr>
@@ -795,7 +854,6 @@
                                                     </tr>
                                                     <tr>
                                                         <th nowrap width="50%">檔案名稱 </th>
-                                                        <th nowrap width="10%">年度 </th>
                                                         <th nowrap width="30%">上傳日期 </th>
                                                         <th id="thFunc3" nowrap width="10%">功能 </th>
                                                     </tr>
@@ -827,7 +885,6 @@
                                                     </tr>
                                                     <tr>
                                                         <th nowrap width="50%">檔案名稱 </th>
-                                                        <th nowrap width="10%">年度 </th>
                                                         <th nowrap width="30%">上傳日期 </th>
                                                         <th id="thFunc5" nowrap width="10%">功能 </th>
                                                     </tr>
@@ -858,7 +915,6 @@
                                                     </tr>
                                                     <tr>
                                                         <th nowrap width="50%">檔案名稱 </th>
-                                                        <th nowrap width="10%">年度 </th>
                                                         <th nowrap width="30%">上傳日期 </th>
                                                         <th id="thFunc4" nowrap width="10%">功能 </th>
                                                     </tr>
