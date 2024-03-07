@@ -24,6 +24,7 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
 		{
 			string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
+			string cpname = string.Empty;
             DataTable dt = new DataTable();
 			DataTable dt2 = new DataTable();
 			DataTable dt3 = new DataTable();
@@ -44,18 +45,22 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }
 
-				dt2 = gdb.GetCpNameToNcree();
-				if (dt2.Rows.Count > 0)
-				{
-					for (int i = 0; i < dt.Rows.Count; i++)
+                if (!string.IsNullOrEmpty(cpid))
+                {
+					dt2 = gdb.GetCpNameToNcree();
+					if (dt2.Rows.Count > 0)
 					{
-						if (dt2.Rows[i]["cpname"].ToString().Trim() == "天然氣處理廠(原天然氣處理廠-錦水區)")
-							dt2.Rows[i]["cpname"] = "天然氣處理廠";
+						for (int i = 0; i < dt.Rows.Count; i++)
+						{
+							cpname = dt2.Rows[i]["cpname"].ToString().Trim();
+							if (dt2.Rows[i]["cpname"].ToString().Trim() == "天然氣處理廠(原天然氣處理廠-錦水區)")
+								cpname = "天然氣處理廠";
 
-						dt3 = gdb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+							dt3 = gdb.GetCpNameToNcreeList(cpname);
+						}
+
 					}
-
-				}
+				}				
 			}
             else
             {
@@ -73,19 +78,21 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }
 
-				dt2 = odb.GetCpNameToNcree();
-                if (dt2.Rows.Count > 0)
+                if (!string.IsNullOrEmpty(cpid))
                 {
-					for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-						if (dt2.Rows[i]["cpname"].ToString().Trim() == "深澳港供輸中心")
-							dt2.Rows[i]["cpname"] = "深澳港輸中心";
+					dt2 = odb.GetCpNameToNcree();
+					if (dt2.Rows.Count > 0)
+					{
+						for (int i = 0; i < dt.Rows.Count; i++)
+						{
+							if (dt2.Rows[i]["cpname"].ToString().Trim() == "深澳港供輸中心")
+								dt2.Rows[i]["cpname"] = "深澳港輸中心";
 
-						dt3 = odb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+							dt3 = odb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+						}
+
 					}
-
 				}
-
 			}                
 
             string xmlstr = string.Empty;
