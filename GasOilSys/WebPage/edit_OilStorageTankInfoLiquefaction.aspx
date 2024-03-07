@@ -402,6 +402,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
+        <input type="hidden" id="Competence" value="<%= competence %>" />
         <input type="hidden" id="Sno" />
         <div id="ContentWrapper">
             <div class="container margin15T">

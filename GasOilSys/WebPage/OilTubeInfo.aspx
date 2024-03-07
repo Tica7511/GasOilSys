@@ -103,13 +103,14 @@
 						if ($(data).find("data_item").length > 0) {
 							$(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
-                                if ($(this).children("HavePipe").text().trim() == 'Y') {
-                                    tabstr += '<td nowrap="nowrap"><a href="http://23.99.109.107/ncree2/home/map.aspx?id=' + $(this).children("長途管線識別碼").text().trim() +
-                                        '" target="_blank">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
-                                }
-                                else {
-                                    tabstr += '<td nowrap="nowrap">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
-                                }
+                                //if ($(this).children("HavePipe").text().trim() == 'Y') {
+                                //    tabstr += '<td nowrap="nowrap"><a href="http://23.99.109.107/ncree2/home/map.aspx?id=' + $(this).children("長途管線識別碼").text().trim() +
+                                //        '" target="_blank">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
+                                //}
+                                //else {
+                                //    tabstr += '<td nowrap="nowrap">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
+                                //}
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("長途管線識別碼").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("轄區長途管線名稱").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("銜接管線識別碼_上游").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("銜接管線識別碼_下游").text().trim() + '</td>';
