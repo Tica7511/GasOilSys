@@ -88,7 +88,7 @@
 				if ($("#txt_company").val() == "")
 					msg += "請輸入【公用天然氣事業】 ";
 				if ($("#txt_time1").val() == "")
-                    msg += "請輸入【能源局發文日期】 ";
+                    msg += "請輸入【能源署發文日期】 ";
                 if ($("#txt_time2").val() == "")
                     msg += "請輸入【業者繳交日期】 ";
                 if ($("#txt_time3").val() == "")
@@ -472,7 +472,7 @@
                             <tr>
                                 <th nowrap="nowrap" width="100">項次</th>
                                 <th nowrap="nowrap">公用天然氣事業</th>
-                                <th nowrap="nowrap" width="130">能源局發文日期</th>
+                                <th nowrap="nowrap" width="130">能源署發文日期</th>
                                 <th nowrap="nowrap" width="120">業者繳交日期</th>
                                 <th nowrap="nowrap" width="130">工研院審閱日期</th>
                                 <th nowrap="nowrap" width="100">補正情形</th>
@@ -538,7 +538,7 @@
                     </div>
                 </div><!-- OchiRow -->
                 <div class="OchiRow">
-                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">能源局發文日期</div>
+                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">能源署發文日期</div>
                     <div class="OchiCell width100">
                         <input id="txt_time1" type="text" class="inputex pickDate width30" disabled>
                     </div>

@@ -238,7 +238,7 @@
                         $("#div_table").empty();
                         var tabstr = '';
                         if ($("#txt1").val() == '01') {
-                            tabstr += '<table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr><th align="center" nowrap="nowrap" rowspan="2">轄區儲槽編號</th><th align="center" nowrap="nowrap" rowspan="2">業者簡稱</th><th align="center" nowrap="nowrap" rowspan="2">能源局編號</th>' +
+                            tabstr += '<table width="100%" border="0" cellspacing="0" cellpadding="0"><thead><tr><th align="center" nowrap="nowrap" rowspan="2">轄區儲槽編號</th><th align="center" nowrap="nowrap" rowspan="2">業者簡稱</th><th align="center" nowrap="nowrap" rowspan="2">能源署編號</th>' +
                                 '<th align="center" nowrap="nowrap" rowspan="2">容量<br>（公秉）</th><th align="center" nowrap="nowrap" rowspan="2">內徑<br>(公尺）</th><th align="center" nowrap="nowrap" rowspan="2">內容物</th>' +
                                 '<th align="center" nowrap="nowrap" rowspan="2">油品種類</th><th align="center" nowrap="nowrap" rowspan="2">形式<br>1.錐頂 <br>2.內浮頂 <br>3.外浮頂 <br>4.掩體式 </th><th align="center" nowrap="nowrap" rowspan="2">啟用日期<br>年/月</th><th align="center" nowrap="nowrap" colspan="4">代行檢查有效期限</th>' +
                                 '<th align="center" nowrap="nowrap" rowspan="2" valign="top">狀態<br>1.使用中 <br>2.開放中 <br>3.停用 <br>4.其他 </th><th align="center" nowrap="nowrap" rowspan="2">延長開 <br>放年限 <br>多?年 </th></tr><tr><th >代檢機構 <br>(填表說明) </th><th >外部 <br>年/月/日 </th><th >代檢機構 <br>' +

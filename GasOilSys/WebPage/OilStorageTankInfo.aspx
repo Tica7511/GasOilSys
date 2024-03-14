@@ -478,7 +478,7 @@
                                     <thead>
                                         <tr>
                                             <th nowrap  rowspan="2">轄區儲槽編號 </th>
-                                            <th nowrap rowspan="2">能源局編號 </th>
+                                            <th nowrap rowspan="2">能源署編號 </th>
                                             <th nowrap rowspan="2">設計容量 <br>
                                                 （公秉） </th>
                                             <th nowrap rowspan="2">儲槽內徑 <br>
@@ -565,7 +565,7 @@
                                     <thead>
                                         <tr>
                                             <th nowrap  >轄區儲槽編號 </th>
-                                            <th nowrap >能源局編號 </th>
+                                            <th nowrap >能源署編號 </th>
                                             <th nowrap >設計容量 <br>
                                                 （公秉） </th>
                                             <th nowrap >儲槽內徑 <br>

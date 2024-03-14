@@ -270,7 +270,7 @@
                                 <th nowrap="nowrap">管線</th>
                                 <th nowrap="nowrap">儲槽</th>
                                 <th nowrap="nowrap">災害救防</th>
-                                <th nowrap="nowrap">能源局</th>
+                                <th nowrap="nowrap">能源署</th>
                                 <th nowrap="nowrap">中油儲運處</th>
                                 <th nowrap="nowrap" width="100">備註</th>
                                 <th nowrap="nowrap">功能</th>
@@ -329,7 +329,7 @@
                 </div><!-- OchiRow -->                 
                 <div class="OchiRow">
                     <div class="OchiHalf">
-                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">能源局</div>
+                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">能源署</div>
                         <div class="OchiCell width100">
                             <input id="txt_energy" type="text" class="inputex width100" />
                         </div>
