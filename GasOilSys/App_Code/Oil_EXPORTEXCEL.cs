@@ -66,7 +66,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
 
             dt.Clear();
 
-            Sheet sheet = hssfworkbook.GetSheetAt(0);
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
 
             switch (category)
             {
