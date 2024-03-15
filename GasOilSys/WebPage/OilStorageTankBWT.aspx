@@ -68,44 +68,45 @@
 
             //匯入按鈕
             $(document).on("click", "#importSubbtn", function () {
+                if (confirm('請確認上傳的檔案內資料格式是否與範例檔案相同?')) {
+                    // Get form
+                    var form = $('#form1')[0];
 
-                // Get form
-                var form = $('#form1')[0];
+                    // Create an FormData object 
+                    var data = new FormData(form);
 
-                // Create an FormData object 
-                var data = new FormData(form);
+                    // If you want to add an extra field for the FormData
+                    data.append("cpid", $.getQueryString("cp"));
+                    data.append("year", getTaiwanDate());
+                    data.append("category", "storagetankBWT");
+                    $.each($("#importFile")[0].files, function (i, file) {
+                        data.append('file', file);
+                    });
 
-                // If you want to add an extra field for the FormData
-                data.append("cpid", $.getQueryString("cp"));
-                data.append("year", getTaiwanDate());
-                data.append("category", "storagetankBWT");
-                $.each($("#importFile")[0].files, function (i, file) {
-                    data.append('file', file);
-                });
-
-                $.ajax({
-                    type: "POST",
-                    async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/OilImport.aspx",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    error: function (xhr) {
-                        alert("Error: " + xhr.status);
-                        console.log(xhr.responseText);
-                    },
-                    success: function (data) {
-                        if ($(data).find("Error").length > 0) {
-                            alert($(data).find("Error").attr("Message"));
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/OilImport.aspx",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData(getTaiwanDate());
+                                $.magnificPopup.close();
+                            }
                         }
-                        else {
-                            alert($("Response", data).text());
-                            $.magnificPopup.close();
-                            getData(getTaiwanDate());
-                        }
-                    }
-                });
+                    });
+                }
             });
 		}); // end js
 

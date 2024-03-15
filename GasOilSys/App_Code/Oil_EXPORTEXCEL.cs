@@ -480,7 +480,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     hssfworkbook.SetSheetName(0, "儲槽基本資料");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
-                    sheet.GetRow(0).CreateCell(1).SetCellValue("能源局編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("能源署編號");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("設計容量（公秉）");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("儲槽內徑 (公尺）");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");
@@ -535,7 +535,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     hssfworkbook.SetSheetName(0, "儲槽基本資料");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
-                    sheet.GetRow(0).CreateCell(1).SetCellValue("能源局編號");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("能源署編號");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("設計容量（公秉）");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("儲槽內徑 (公尺）");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("內容物");

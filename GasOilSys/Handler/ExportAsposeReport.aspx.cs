@@ -857,7 +857,7 @@ public partial class Handler_ExportAsposeReport : System.Web.UI.Page
         tmpstr += "<td align='center'><font face='標楷體'>管線</font></td>";
         tmpstr += "<td align='center'><font face='標楷體'>儲槽</font></td>";
         tmpstr += "<td align='center'><font face='標楷體'>災害救防</font></td>";
-        tmpstr += "<td align='center'><font face='標楷體'>能源局</font></td>";
+        tmpstr += "<td align='center'><font face='標楷體'>能源署</font></td>";
         tmpstr += "<td align='center'><font face='標楷體'>中油</font></br><font face='標楷體'>儲運處</font></td>";
         tmpstr += "<td align='center'><font face='標楷體'>備註</font></td>";
         tmpstr += "</tr>";
@@ -2327,7 +2327,7 @@ public partial class Handler_ExportAsposeReport : System.Web.UI.Page
         tmpstr += "<tr style='background-color:#C4E1FF'>";
         tmpstr += "<td align='center' width='50'><font face='標楷體'>項次</font></td>";
         tmpstr += "<td align='center'><font face='標楷體'>公用天然氣事業</font></td>";
-        tmpstr += "<td align='center' width='100'><font face='標楷體'>能源局發文日期</font></td>";
+        tmpstr += "<td align='center' width='100'><font face='標楷體'>能源署發文日期</font></td>";
         tmpstr += "<td align='center' width='100'><font face='標楷體'>業者繳交日期</font></td>";
         tmpstr += "<td align='center' width='100'><font face='標楷體'>工研院審閱日期</font></td>";
         tmpstr += "<td align='center' width='100'><font face='標楷體'>補正情形</font></td>";

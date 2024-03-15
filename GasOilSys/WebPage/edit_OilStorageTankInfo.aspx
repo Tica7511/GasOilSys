@@ -63,7 +63,7 @@
                 if ($("#txt1").val() == '')
                     msg += "請輸入【轄區儲槽編號】\n";
                 if ($("#txt2").val() == '')
-                    msg += "請輸入【能源局編號】\n";
+                    msg += "請輸入【能源署編號】\n";
                 //if ($("#txt3").val() == '')
                 //    msg += "請輸入【容量(公秉)】\n";
                 //if ($("#txt4").val() == '')
@@ -446,7 +446,7 @@
                                         <div class="OchiCell width100"><input type="text" id="txt1" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">能源局編號</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">能源署編號</div>
                                         <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->

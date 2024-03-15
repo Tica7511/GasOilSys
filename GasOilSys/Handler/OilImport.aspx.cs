@@ -16,7 +16,8 @@ using NPOI.SS.UserModel;//-- v.1.2.4起 新增的。
 public partial class Handler_OilImport : System.Web.UI.Page
 {
     OilTubeCheck_DB odb = new OilTubeCheck_DB();
-    OilStorageTankBWT_DB db1 = new OilStorageTankBWT_DB();
+    OilStorageTankInfo_DB db1 = new OilStorageTankInfo_DB();
+    OilStorageTankBWT_DB db2 = new OilStorageTankBWT_DB();
     public string filePath = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -65,6 +66,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
                     }
                     filePath = UpLoadPath + fileName;
+                    //將上傳的匯入檔案暫存到暫存用的資料夾
                     File.SaveAs(filePath);
 
                     using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -79,9 +81,9 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         ISheet sheet = workbook.GetSheetAt(0); // Assuming you want to read the first sheet
 
-                        if(!string.IsNullOrEmpty(checkValid(sheet, category)))
+                        if(!string.IsNullOrEmpty(checkValid(sheet, category, cpid, year)))
                         {
-                            throw new Exception("匯入格式不正確，請修改以下問題後再重新上傳:\r\n" + checkValid(sheet, category));
+                            throw new Exception("匯入格式不正確，請修改以下問題後再重新上傳:\r\n" + checkValid(sheet, category, cpid, year));
                         }
                         else
                         {
@@ -107,7 +109,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
             FileInfo fi = new FileInfo(filePath);
             if (fi.Exists)
             {
-                fi.Delete(); //刪除主機路徑內的檔案
+                fi.Delete(); //刪除暫存的匯入檔案
             }
             oCmmd.Connection.Close();
             oConn.Close();
@@ -118,7 +120,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
     #region 確認匯入資料格式
 
-    public string checkValid(ISheet sheet, string category)
+    public string checkValid(ISheet sheet, string category, string cpid, string year)
     {
         string msg = string.Empty;
 
@@ -133,8 +135,24 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         #region 儲槽基礎、壁板、頂板
 
                         if (sheet.GetRow(i).GetCell(0) != null)
+                        {
                             if (sheet.GetRow(i).GetCell(0).ToString().Trim().Length > 50)
+                            {
                                 msg += "【轄區儲槽編號】字數不可大於50\r\n";
+                            }                            
+                            else
+                            {
+                                db1._轄區儲槽編號 = sheet.GetRow(i).GetCell(0).ToString().Trim();
+                                db1._業者guid = cpid;
+                                DataTable dt = db1.GetList();
+
+                                if (dt.Rows.Count < 1)
+                                {
+                                    msg += "儲槽基本資料內並沒有此編號【" + sheet.GetRow(i).GetCell(0).ToString().Trim() + "】，請至儲槽基本資料頁面新增後再重新匯入\r\n";
+                                }
+                            }
+                        }                            
+                                
                         if (sheet.GetRow(i).GetCell(1) != null)
                             if (sheet.GetRow(i).GetCell(1).ToString().Trim().Length > 10)
                                 msg += "【基礎與底板間是否具防水包覆層設計】字數不可大於10\r\n";
@@ -188,23 +206,23 @@ public partial class Handler_OilImport : System.Web.UI.Page
                     case "storagetankBWT":
                         #region 儲槽基礎、壁板、頂板
 
-                        db1._業者guid = cpid;
-                        db1._年度 = year;
-                        db1._轄區儲槽編號 = (sheet.GetRow(i).GetCell(0) == null) ? "" : sheet.GetRow(i).GetCell(0).ToString().Trim();
-                        db1._防水包覆層設計 = (sheet.GetRow(i).GetCell(1) == null) ? "" : sheet.GetRow(i).GetCell(1).ToString().Trim();
-                        db1._沈陷量測點數 = (sheet.GetRow(i).GetCell(2) == null) ? "" : sheet.GetRow(i).GetCell(2).ToString().Trim();
-                        db1._沈陷量測日期 = (sheet.GetRow(i).GetCell(3) == null) ? "" : (sheet.GetRow(i).GetCell(3).ToString().Trim().Contains("/") ? sheet.GetRow(i).GetCell(3).ToString().Trim().Replace("/", "") : sheet.GetRow(i).GetCell(3).ToString().Trim());
-                        db1._儲槽接地電阻 = (sheet.GetRow(i).GetCell(4) == null) ? "" : sheet.GetRow(i).GetCell(4).ToString().Trim();
-                        db1._壁板是否具包覆層 = (sheet.GetRow(i).GetCell(5) == null) ? "" : sheet.GetRow(i).GetCell(5).ToString().Trim();
-                        db1._壁板外部嚴重腐蝕或點蝕 = (sheet.GetRow(i).GetCell(6) == null) ? "" : sheet.GetRow(i).GetCell(6).ToString().Trim();
-                        db1._第一層壁板內部下方腐蝕 = (sheet.GetRow(i).GetCell(7) == null) ? "" : sheet.GetRow(i).GetCell(7).ToString().Trim();
-                        db1._壁板維修方式是否有符合API653 = (sheet.GetRow(i).GetCell(8) == null) ? "" : sheet.GetRow(i).GetCell(8).ToString().Trim();
-                        db1._設置等導電良好度 = (sheet.GetRow(i).GetCell(9) == null) ? "" : sheet.GetRow(i).GetCell(9).ToString().Trim();
-                        db1._建立者 = LogInfo.mGuid;
-                        db1._修改者 = LogInfo.mGuid;
-                        db1._資料狀態 = "A";
+                        db2._業者guid = cpid;
+                        db2._年度 = year;
+                        db2._轄區儲槽編號 = (sheet.GetRow(i).GetCell(0) == null) ? "" : sheet.GetRow(i).GetCell(0).ToString().Trim();
+                        db2._防水包覆層設計 = (sheet.GetRow(i).GetCell(1) == null) ? "" : sheet.GetRow(i).GetCell(1).ToString().Trim();
+                        db2._沈陷量測點數 = (sheet.GetRow(i).GetCell(2) == null) ? "" : sheet.GetRow(i).GetCell(2).ToString().Trim();
+                        db2._沈陷量測日期 = (sheet.GetRow(i).GetCell(3) == null) ? "" : (sheet.GetRow(i).GetCell(3).ToString().Trim().Contains("/") ? sheet.GetRow(i).GetCell(3).ToString().Trim().Replace("/", "") : sheet.GetRow(i).GetCell(3).ToString().Trim());
+                        db2._儲槽接地電阻 = (sheet.GetRow(i).GetCell(4) == null) ? "" : sheet.GetRow(i).GetCell(4).ToString().Trim();
+                        db2._壁板是否具包覆層 = (sheet.GetRow(i).GetCell(5) == null) ? "" : sheet.GetRow(i).GetCell(5).ToString().Trim();
+                        db2._壁板外部嚴重腐蝕或點蝕 = (sheet.GetRow(i).GetCell(6) == null) ? "" : sheet.GetRow(i).GetCell(6).ToString().Trim();
+                        db2._第一層壁板內部下方腐蝕 = (sheet.GetRow(i).GetCell(7) == null) ? "" : sheet.GetRow(i).GetCell(7).ToString().Trim();
+                        db2._壁板維修方式是否有符合API653 = (sheet.GetRow(i).GetCell(8) == null) ? "" : sheet.GetRow(i).GetCell(8).ToString().Trim();
+                        db2._設置等導電良好度 = (sheet.GetRow(i).GetCell(9) == null) ? "" : sheet.GetRow(i).GetCell(9).ToString().Trim();
+                        db2._建立者 = LogInfo.mGuid;
+                        db2._修改者 = LogInfo.mGuid;
+                        db2._資料狀態 = "A";
 
-                        db1.InsertData(oConn, oTran);
+                        db2.InsertData(oConn, oTran);
 
                         #endregion
                         break;
