@@ -161,7 +161,7 @@
                             $("td[name='td_edit']").hide();
                         }
                         else {
-                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '02') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                                 $("#newbtn").hide();
                                 $("#importbtn").hide();
                                 $("#th_edit").hide();
