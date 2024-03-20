@@ -161,7 +161,7 @@
                             $("td[name='td_edit']").hide();
                         }
                         else {
-                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '02') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
+                            if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                                 $("#newbtn").hide();
                                 $("#importbtn").hide();
                                 $("#th_edit").hide();
@@ -456,7 +456,7 @@
 
       <div class="twocol margin10T">
             <div class="right">
-                <a id="importCancelbtn" href="javascript:void(0);" class="genbtn closecolorbox">取消</a>
+                <a id="importCancelbtn" href="javascript:void(0);" class="genbtn closemagnificPopup">取消</a>
                 <a id="importSubbtn" href="javascript:void(0);" class="genbtn">上傳</a>
             </div>
         </div>

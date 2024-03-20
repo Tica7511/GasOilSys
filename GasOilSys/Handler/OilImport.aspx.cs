@@ -9,6 +9,7 @@ using System.Configuration;
 using System.IO;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using NPOI.XSSF.UserModel; // For Excel 2007 and newer (.xlsx) files
 using NPOI.HSSF.UserModel; // For Excel 2003 and older (.xls) files
 using NPOI.SS.UserModel;//-- v.1.2.4起 新增的。
@@ -172,32 +173,67 @@ public partial class Handler_OilImport : System.Web.UI.Page
                             if (sheetRow(sheet, i, 6).Length > 50)
                                 msg += "【形式】字數不可大於50\r\n";
                         if (sheetRow(sheet, i, 7) != null)
+                        {
+                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 7)))
+                            {
+                                msg += "【啟用日期】字串內不可包含特殊符號\r\n";
+                            }
                             if (sheetRow(sheet, i, 7).Length > 10)
+                            {
                                 msg += "【啟用日期】字數不可大於10\r\n";
+                            }
                             else
-                                if (!sheetRow(sheet, i, 7).Contains("/"))
-                                    msg += "【啟用日期】字串內需要包含【/】\r\n";
-                                else
-                                    if ((sheetRow(sheet, i, 7).Length < 5) || (sheetRow(sheet, i, 7).Length > 6))
-                                        msg += "【啟用日期】字數需5或6個字\r\n";
+                            {
+                                if ((sheetRow(sheet, i, 7).Length < 4) || (sheetRow(sheet, i, 7).Length > 5))
+                                {
+                                    msg += "【啟用日期】字數需4或5個字\r\n";
+                                }
+                            }        
+                        }
+                            
                         if (sheetRow(sheet, i, 8) != null)
                             if (sheetRow(sheet, i, 8).Length > 50)
                                 msg += "【代行檢查有效期限 代檢機構(填表說明)】字數不可大於50\r\n";
                         if (sheetRow(sheet, i, 9) != null)
+                        {
+                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 9)))
+                            {
+                                msg += "【代行檢查有效期限 外部 年/月/日】字串內不可包含特殊符號\r\n";
+                            }
                             if (sheetRow(sheet, i, 9).Length > 10)
+                            {
                                 msg += "【代行檢查有效期限 外部 年/月/日】字數不可大於10\r\n";
+                            }
                             else
+                            {
                                 if ((sheetRow(sheet, i, 9).Length < 6) || (sheetRow(sheet, i, 9).Length > 7))
+                                {
                                     msg += "【代行檢查有效期限 外部 年/月/日】字數需6或7個字\r\n";
+                                }                                    
+                            }
+                                
+                        }                            
                         if (sheetRow(sheet, i, 10) != null)
                             if (sheetRow(sheet, i, 10).Length > 50)
                                 msg += "【代行檢查有效期限(填表說明)】字數不可大於50\r\n";
                         if (sheetRow(sheet, i, 11) != null)
+                        {
+                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 11)))
+                            {
+                                msg += "【代行檢查有效期限 內部 年/月/日】字串內不可包含特殊符號\r\n";
+                            }
                             if (sheetRow(sheet, i, 11).Length > 10)
+                            {
                                 msg += "【代行檢查有效期限 內部 年/月/日】字數不可大於10\r\n";
+                            }
                             else
+                            {
                                 if ((sheetRow(sheet, i, 11).Length < 6) || (sheetRow(sheet, i, 11).Length > 7))
+                                {
                                     msg += "【代行檢查有效期限 內部 年/月/日】字數需6或7個字\r\n";
+                                }                                    
+                            }                                
+                        }   
                         if (sheetRow(sheet, i, 12) != null)
                             if (sheetRow(sheet, i, 12).Length > 20)
                                 msg += "【狀態】字數不可大於20\r\n";
@@ -237,8 +273,23 @@ public partial class Handler_OilImport : System.Web.UI.Page
                             if (sheetRow(sheet, i, 2).Length > 10)
                                 msg += "【沈陷量測點數】字數不可大於10\r\n";
                         if (sheetRow(sheet, i, 3) != null)
+                        {
+                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 3)))
+                            {
+                                msg += "【沈陷量測日期】字串內不可包含特殊符號\r\n";
+                            }
                             if (sheetRow(sheet, i, 3).Length > 10)
-                                msg += "【沈陷量測點數】字數不可大於10\r\n";
+                            {
+                                msg += "【沈陷量測日期】字數不可大於10\r\n";
+                            }                                
+                            else
+                            {
+                                if ((sheetRow(sheet, i, 3).Length < 6) || (sheetRow(sheet, i, 3).Length > 7))
+                                {
+                                    msg += "【沈陷量測日期】字數需6或7個字\r\n";
+                                }                                
+                            }
+                        }     
                         if (sheetRow(sheet, i, 4) != null)
                             if (sheetRow(sheet, i, 4).Length > 10)
                                 msg += "【接地電阻<10Ω】字數不可大於10\r\n";
@@ -292,11 +343,11 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db1._內容物 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
                         db1._油品種類 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
                         db1._形式 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
-                        db1._啟用日期 = (sheetRow(sheet, i, 7) == null) ? "" : sheetRow(sheet, i, 7);
+                        db1._啟用日期 = (sheetRow(sheet, i, 7) == null) ? "" : OnlyMonthDay(sheetRow(sheet, i, 7));
                         db1._代行檢查_代檢機構1 = (sheetRow(sheet, i, 8) == null) ? "" : sheetRow(sheet, i, 8);
-                        db1._代行檢查_外部日期1 = (sheetRow(sheet, i, 9) == null) ? "" : (sheetRow(sheet, i, 9).Contains("/") ? sheetRow(sheet, i, 9).Replace("/", "") : sheetRow(sheet, i, 9));
+                        db1._代行檢查_外部日期1 = (sheetRow(sheet, i, 9) == null) ? "" : sheetRow(sheet, i, 9);
                         db1._代行檢查_代檢機構2 = (sheetRow(sheet, i, 10) == null) ? "" : sheetRow(sheet, i, 10);
-                        db1._代行檢查_外部日期2 = (sheetRow(sheet, i, 11) == null) ? "" : (sheetRow(sheet, i, 11).Contains("/") ? sheetRow(sheet, i, 11).Replace("/", "") : sheetRow(sheet, i, 11));
+                        db1._代行檢查_外部日期2 = (sheetRow(sheet, i, 11) == null) ? "" : sheetRow(sheet, i, 11);
                         db1._狀態 = (sheetRow(sheet, i, 12) == null) ? "" : sheetRow(sheet, i, 12);
                         db1._延長開放年限 = (sheetRow(sheet, i, 13) == null) ? "" : sheetRow(sheet, i, 13);
                         db1._差異說明 = (sheetRow(sheet, i, 14) == null) ? "" : sheetRow(sheet, i, 14);
@@ -317,7 +368,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db2._轄區儲槽編號 = (sheetRow(sheet, i, 0) == null) ? "" : sheetRow(sheet, i, 0);
                         db2._防水包覆層設計 = (sheetRow(sheet, i, 1) == null) ? "" : sheetRow(sheet, i, 1);
                         db2._沈陷量測點數 = (sheetRow(sheet, i, 2) == null) ? "" : sheetRow(sheet, i, 2);
-                        db2._沈陷量測日期 = (sheetRow(sheet, i, 3) == null) ? "" : (sheetRow(sheet, i, 3).Contains("/") ? sheetRow(sheet, i, 3).Replace("/", "") : sheetRow(sheet, i, 3));
+                        db2._沈陷量測日期 = (sheetRow(sheet, i, 3) == null) ? "" : sheetRow(sheet, i, 3);
                         db2._儲槽接地電阻 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
                         db2._壁板是否具包覆層 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
                         db2._壁板外部嚴重腐蝕或點蝕 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
@@ -344,6 +395,33 @@ public partial class Handler_OilImport : System.Web.UI.Page
     /// </summary>
     public string sheetRow(ISheet sheet, int rowNum, int cellNum)
     {
+        string aaa = sheet.GetRow(rowNum).GetCell(cellNum).ToString().Trim();
         return sheet.GetRow(rowNum).GetCell(cellNum).ToString().Trim();
+    }
+
+    /// <summary>
+    /// 確認字串是否有特殊符號
+    /// </summary>
+    public bool ContainsOnlyAlphanumeric(string str)
+    {
+        // 使用正規表達式檢查字串是否只包含字母和數字
+        return Regex.IsMatch(str, @"^[a-zA-Z0-9]+$");
+    }
+
+    /// <summary>
+    /// 字串是只有月份+日期回傳 月份/日期
+    /// </summary>
+    public string OnlyMonthDay(string str)
+    {
+        if(str.Length == 4)
+        {
+            str = str.Substring(0, 2) + "/" + str.Substring(2, 2);
+        }
+        else
+        {
+            str = str.Substring(0, 3) + "/" + str.Substring(3, 2);
+        }
+
+        return str;
     }
 }

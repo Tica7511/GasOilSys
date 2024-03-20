@@ -392,7 +392,7 @@ FROM 石油_業者基本資料 where (地址 <>'' and 地址 is not null ) ");
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select 公司名稱, isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
+        sb.Append(@"select 公司名稱,單獨公司名稱, isnull(營業處廠,'')+isnull(組,'')+isnull(中心庫區儲運課工場,'') as cpname from 石油_業者基本資料
   where 資料狀態='A' and 列表是否顯示='Y' and guid=@guid ");
 
         oCmd.CommandText = sb.ToString();
