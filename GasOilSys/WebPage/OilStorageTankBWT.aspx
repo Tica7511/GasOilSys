@@ -41,6 +41,36 @@
                         async: false, //在沒有返回值之前,不會執行下一步動作
                         url: "../handler/DelOilStorageTankBWT.aspx",
                         data: {
+                            type: "data",
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //今年度全部資料刪除按鈕
+            $(document).on("click", "#delallbtn", function () {
+                if (confirm("將會刪除本年度【" + getTaiwanDate() + "】年度之資料，確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelOilStorageTankBWT.aspx",
+                        data: {
+                            type: "all",
+                            year: getTaiwanDate(),
                             guid: $(this).attr("aid"),
                         },
                         error: function (xhr) {
@@ -156,6 +186,7 @@
                         //確認權限&按鈕顯示或隱藏
                         if ($("#sellist").val() != getTaiwanDate()) {
                             $("#newbtn").hide();
+                            $("#delallbtn").hide();
                             $("#importbtn").hide();
                             $("#th_edit").hide();
                             $("td[name='td_edit']").hide();
@@ -163,12 +194,14 @@
                         else {
                             if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                                 $("#newbtn").hide();
+                                $("#delallbtn").hide();
                                 $("#importbtn").hide();
                                 $("#th_edit").hide();
                                 $("td[name='td_edit']").hide();
                             }
                             else {
                                 $("#newbtn").show();
+                                $("#delallbtn").show();
                                 $("#importbtn").show();
                                 $("#th_edit").show();
                                 $("td[name='td_edit']").show();
@@ -352,6 +385,7 @@
                                 <div class="right">
                                     <a id="importbtn" href="javascript:void(0);" title="匯入" class="genbtn">匯入</a>
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="delallbtn" href="javascript:void(0);" title="刪除" class="genbtn">刪除</a>
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />

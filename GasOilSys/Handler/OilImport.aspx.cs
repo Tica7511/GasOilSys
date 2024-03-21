@@ -19,6 +19,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
     OilTubeCheck_DB odb = new OilTubeCheck_DB();
     OilStorageTankInfo_DB db1 = new OilStorageTankInfo_DB();
     OilStorageTankBWT_DB db2 = new OilStorageTankBWT_DB();
+    OilStorageTankInfoLiquefaction_DB db3 = new OilStorageTankInfoLiquefaction_DB();
     public string filePath = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -311,6 +312,71 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         #endregion
                         break;
+                    case "storagetankinfoliquefaction":
+                        #region 儲槽基本資料_液化石油氣儲槽
+
+                        if (sheet.GetRow(i).GetCell(0) != null)
+                        {
+                            if (sheetRow(sheet, i, 0).Length > 50)
+                            {
+                                msg += "【轄區儲槽編號】字數不可大於50\r\n";
+                            }
+                            else
+                            {
+                                db3._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                                db3._業者guid = cpid;
+                                DataTable dt = db3.GetList();
+
+                                if (dt.Rows.Count > 0)
+                                {
+                                    msg += "已有此轄區儲槽編號【" + sheetRow(sheet, i, 0) + "】，請修正後再重新匯入\r\n";
+                                }
+                            }
+                        }
+
+                        if (sheetRow(sheet, i, 1) != null)
+                            if (sheetRow(sheet, i, 1).Length > 20)
+                                msg += "【能源署編號】字數不可大於20\r\n";
+                        if (sheetRow(sheet, i, 2) != null)
+                            if (sheetRow(sheet, i, 2).Length > 8)
+                                msg += "【設計容量(公秉)】字數不可大於8\r\n";
+                        if (sheetRow(sheet, i, 3) != null)
+                            if (sheetRow(sheet, i, 3).Length > 8)
+                                msg += "【儲槽內徑(公尺)】字數不可大於8\r\n";
+                        if (sheetRow(sheet, i, 4) != null)
+                            if (sheetRow(sheet, i, 4).Length > 50)
+                                msg += "【內容物】字數不可大於50\r\n";
+                        if (sheetRow(sheet, i, 5) != null)
+                            if (sheetRow(sheet, i, 5).Length > 50)
+                                msg += "【油品種類】字數不可大於50\r\n";
+                        if (sheetRow(sheet, i, 6) != null)
+                            if (sheetRow(sheet, i, 6).Length > 50)
+                                msg += "【形式】字數不可大於50\r\n";
+                        if (sheetRow(sheet, i, 7) != null)
+                        {
+                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 7)))
+                            {
+                                msg += "【啟用日期】字串內不可包含特殊符號\r\n";
+                            }
+                            if (sheetRow(sheet, i, 7).Length > 10)
+                            {
+                                msg += "【啟用日期】字數不可大於10\r\n";
+                            }
+                            else
+                            {
+                                if ((sheetRow(sheet, i, 7).Length < 4) || (sheetRow(sheet, i, 7).Length > 5))
+                                {
+                                    msg += "【啟用日期】字數需4或5個字\r\n";
+                                }
+                            }
+                        }
+
+                        if (sheetRow(sheet, i, 8) != null)
+                            if (sheetRow(sheet, i, 8).Length > 50)
+                                msg += "【狀態】字數不可大於50\r\n";
+
+                        #endregion
+                        break;
                 }
             }
         }
@@ -359,7 +425,6 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         #endregion
                         break;
-
                     case "storagetankBWT":
                         #region 儲槽基礎、壁板、頂板
 
@@ -380,6 +445,29 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db2._資料狀態 = "A";
 
                         db2.InsertData(oConn, oTran);
+
+                        #endregion
+                        break;
+                    case "storagetankinfoliquefaction":
+                        #region 儲槽基本資料_液化石油氣儲槽
+
+                        db3._業者guid = cpid;
+                        db3._年度 = year;
+                        db3._轄區儲槽編號 = (sheetRow(sheet, i, 0) == null) ? "" : sheetRow(sheet, i, 0);
+                        db3._能源局編號 = (sheetRow(sheet, i, 1) == null) ? "" : sheetRow(sheet, i, 1);
+                        db3._容量 = (sheetRow(sheet, i, 2) == null) ? "" : sheetRow(sheet, i, 2);
+                        db3._內徑 = (sheetRow(sheet, i, 3) == null) ? "" : sheetRow(sheet, i, 3);
+                        db3._內容物 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
+                        db3._油品種類 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
+                        db3._形式 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
+                        db3._啟用日期 = (sheetRow(sheet, i, 7) == null) ? "" : OnlyMonthDay(sheetRow(sheet, i, 7));
+                        db3._狀態 = (sheetRow(sheet, i, 8) == null) ? "" : sheetRow(sheet, i, 8);
+                        db3._差異說明 = (sheetRow(sheet, i, 9) == null) ? "" : sheetRow(sheet, i, 9);
+                        db3._建立者 = LogInfo.mGuid;
+                        db3._修改者 = LogInfo.mGuid;
+                        db3._資料狀態 = "A";
+
+                        db3.InsertData(oConn, oTran);
 
                         #endregion
                         break;

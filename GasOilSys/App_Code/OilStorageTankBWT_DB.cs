@@ -266,4 +266,25 @@ where guid=@guid ";
         oCmd.ExecuteNonQuery();
         oCmd.Connection.Close();
     }
+
+    public void DeleteDataAll()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 石油_儲槽基礎壁板頂板 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where 年度=@年度 and 資料狀態='A' ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
 }
