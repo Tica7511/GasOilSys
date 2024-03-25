@@ -208,6 +208,9 @@
                             }
                         }
 
+                        if (($("#Competence").val() == '02'))
+                            $("#delallbtn").hide();
+
                         getConfirmedStatus();
 					}
 				}

@@ -345,9 +345,14 @@
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("代行檢查_外部日期2").text().trim()) + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("狀態").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("延長開放年限").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("差異說明").text().trim() + '</td>';
-                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
-                                tabstr += ' <a href="edit_OilStorageTankInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("差異說明").text().trim() + '</td>';
+                                if ($("#Competence").val() == '02') {
+                                    tabstr += '<td name="td_edit" nowrap="" align="center"><a href="edit_OilStorageTankInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                }
+                                else {
+                                    tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                    tabstr += ' <a href="edit_OilStorageTankInfo.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
+                                }                                
 								tabstr += '</tr>';
 							});
 						}
@@ -372,6 +377,9 @@
                             $("#th_edit").show();
                             $("td[name='td_edit']").show();
                         }
+
+                        if (($("#Competence").val() == '02'))
+                            $("#delallbtn").hide();
 
                         getConfirmedStatus();
 					}
@@ -414,8 +422,13 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("啟用日期").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("狀態").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("差異說明").text().trim() + '</td>';
-                                tabstr += '<td name="td_edit2" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
-                                tabstr += ' <a href="edit_OilStorageTankInfoLiquefaction.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                if ($("#Competence").val() == '02') {
+                                    tabstr += '<td name="td_edit2" nowrap="" align="center"><a href="edit_OilStorageTankInfoLiquefaction.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                }
+                                else {
+                                    tabstr += '<td name="td_edit2" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                    tabstr += ' <a href="edit_OilStorageTankInfoLiquefaction.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                }                                
                                 tabstr += '</tr>';
                             });
                         }
@@ -440,6 +453,9 @@
                             $("#th_edit2").show();
                             $("td[name='td_edit2']").show();
                         }
+
+                        if (($("#Competence").val() == '02'))
+                            $("#delallbtn2").hide();
 
                         getConfirmedStatus();
                     }
@@ -660,7 +676,7 @@
                                 <div class="right">
                                     <a id="importbtn" href="javascript:void(0);" title="匯入" class="genbtn">匯入</a>
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
-                                    <a id="delallbtn" href="javascript:void(0);" title="刪除" class="genbtn">刪除</a>
+                                    <a id="delallbtn" href="javascript:void(0);" title="全部刪除" class="genbtn">全部刪除</a>
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
@@ -749,7 +765,7 @@
                                 <div class="right">
                                     <a id="importbtn2" href="javascript:void(0);" title="匯入" class="genbtn">匯入</a>
                                     <a id="exportbtn2" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
-                                    <a id="delallbtn2" href="javascript:void(0);" title="刪除" class="genbtn">刪除</a>
+                                    <a id="delallbtn2" href="javascript:void(0);" title="全部刪除" class="genbtn">全部刪除</a>
                                     <a id="newbtn2" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
