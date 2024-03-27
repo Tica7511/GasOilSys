@@ -231,12 +231,18 @@ insert into  天然氣_查核簡報上傳(
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
-        delete 天然氣_查核簡報上傳 
+        update 天然氣_查核簡報上傳 set 
+        資料狀態=@資料狀態, 
+        修改者=@修改者, 
+        修改日期=@修改日期 
         where guid=@guid 
 ");
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
 
+        oCmd.Parameters.AddWithValue("@資料狀態", "D");
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@guid", guid);
 
         oCmd.Transaction = oTran;

@@ -43,6 +43,7 @@ public partial class Handler_DelGasOnlineEvaluation : System.Web.UI.Page
             string xmlstr = string.Empty;
             string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
 
+            db._修改者 = LogInfo.mGuid;
             db._guid = rid;
 
             DataTable dt = db.GetData();

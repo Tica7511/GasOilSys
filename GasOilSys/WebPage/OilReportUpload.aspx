@@ -33,7 +33,7 @@
             });
 
             $(document).on("click", "#cancelbtn", function () {
-                getData();
+                getData(getTaiwanDate());
                 $("#fileUpload").val("");
                 $("#filediv").hide();
                 $("#filebtn").show();
@@ -59,7 +59,7 @@
 				        	}
                             else {
                                 alert($("Response", data).text());
-                                getData();
+                                getData(getTaiwanDate());
 				        	}
 				        }
 			        });
@@ -106,7 +106,7 @@
 				    	}
                         else {
                             alert($("Response", data).text());
-                            getData();
+                            getData(getTaiwanDate());
                             $("#fileUpload").val("");
                             $("#filediv").hide();
                             $("#filebtn").show();

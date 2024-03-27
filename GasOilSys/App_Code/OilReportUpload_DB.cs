@@ -58,11 +58,15 @@ guid
 ,資料狀態 
 from 石油_查核簡報上傳 where 資料狀態='A' and 業者guid=@業者guid ");
 
+        if (!string.IsNullOrEmpty(年度))
+            sb.Append(@" and 年度=@年度 ");
+
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         DataTable ds = new DataTable();
 
+        oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
 
         oda.Fill(ds);
@@ -229,12 +233,18 @@ insert into  石油_查核簡報上傳(
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
-        delete 石油_查核簡報上傳 
+        update 石油_查核簡報上傳 set 
+        資料狀態=@資料狀態, 
+        修改者=@修改者, 
+        修改日期=@修改日期 
         where guid=@guid 
 ");
         SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
         
+        oCmd.Parameters.AddWithValue("@資料狀態", "D");
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@guid", guid);
 
         oCmd.Transaction = oTran;

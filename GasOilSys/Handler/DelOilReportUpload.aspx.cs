@@ -44,6 +44,7 @@ public partial class Handler_DelOilReportUpload : System.Web.UI.Page
             string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
 
             db._guid = rid;
+            db._修改者 = LogInfo.mGuid;
 
             DataTable dt = db.GetData();
             if (dt.Rows.Count > 0)

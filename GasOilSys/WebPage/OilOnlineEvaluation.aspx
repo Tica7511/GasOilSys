@@ -467,11 +467,11 @@
             $("#zip4").empty();
             $("#zip5").empty();
 
-            $("#zip1").append('&ensp;<a name="zipbtn" class="genbtn" title="管線管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=1&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip2").append('&ensp;<a name="zipbtn" class="genbtn" title="儲槽管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=2&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip3").append('&ensp;<a name="zipbtn" class="genbtn" title="災害防救壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=3&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip4").append('&ensp;<a name="zipbtn" class="genbtn" title="關鍵基礎設施壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=4&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
-            $("#zip5").append('&ensp;<a name="zipbtn" class="genbtn" title="法規壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=5&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip1").append('&ensp;<a name="zipbtn" class="genbtn" title="管線管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=1&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip2").append('&ensp;<a name="zipbtn" class="genbtn" title="儲槽管理壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=2&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip3").append('&ensp;<a name="zipbtn" class="genbtn" title="災害防救壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=3&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip4").append('&ensp;<a name="zipbtn" class="genbtn" title="關鍵基礎設施壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=4&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
+            $("#zip5").append('&ensp;<a name="zipbtn" class="genbtn" title="法規壓縮檔" style="padding:3px 15px;*padding:5px;_padding:5px;" href="../DOWNLOAD.aspx?isZip=Y&category=Oil&type=online&details=5&year=' + $("#sellist option:selected").val() + '&cid=' + $.getQueryString("cp") + '">全部壓縮下載</a>');
         }
 
 		function getData(year) {
