@@ -25,6 +25,7 @@ public class GasInsideInspect_DB
 	string 缺失改善執行狀況 = string.Empty;
 	string 佐證資料 = string.Empty;
 	string 佐證資料檔名 = string.Empty;
+	string 新檔名 = string.Empty;
 	string 佐證資料副檔名 = string.Empty;
 	string 佐證資料路徑 = string.Empty;
 	string 建立者 = string.Empty;
@@ -44,6 +45,7 @@ public class GasInsideInspect_DB
 	public string _缺失改善執行狀況 { set { 缺失改善執行狀況 = value; } }
 	public string _佐證資料 { set { 佐證資料 = value; } }
 	public string _佐證資料檔名 { set { 佐證資料檔名 = value; } }
+	public string _新檔名 { set { 新檔名 = value; } }
 	public string _佐證資料副檔名 { set { 佐證資料副檔名 = value; } }
 	public string _佐證資料路徑 { set { 佐證資料路徑 = value; } }
 	public string _建立者 { set { 建立者 = value; } }
@@ -138,6 +140,7 @@ else
         sb.Append(@"
         update 天然氣_內部稽核 set
         佐證資料檔名=@佐證資料檔名,
+        新檔名=@新檔名,
         佐證資料副檔名=@佐證資料副檔名,
         佐證資料路徑=@佐證資料路徑,
         修改者=@修改者,
@@ -149,6 +152,7 @@ else
 
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@佐證資料檔名", 佐證資料檔名);
+        oCmd.Parameters.AddWithValue("@新檔名", 新檔名);
         oCmd.Parameters.AddWithValue("@佐證資料副檔名", 佐證資料副檔名);
         oCmd.Parameters.AddWithValue("@佐證資料路徑", 佐證資料路徑);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
@@ -267,7 +271,7 @@ where guid=@guid and 資料狀態=@資料狀態
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
         update 天然氣_內部稽核 
-        set 佐證資料檔名='', 佐證資料副檔名='', 佐證資料路徑=''
+        set 佐證資料檔名='', 新檔名='', 佐證資料副檔名='', 佐證資料路徑=''
         where guid=@guid 
 ");
         SqlCommand oCmd = oConn.CreateCommand();

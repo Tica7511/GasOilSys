@@ -52,7 +52,7 @@ public partial class Handler_DelGasInsideInspect : System.Web.UI.Page
             DataTable dt = db.GetData();
             if (dt.Rows.Count > 0)
             {
-                FileInfo fi = new FileInfo(UpLoadPath + "Gas_Upload\\pipeinspect\\" + dt.Rows[0]["佐證資料檔名"].ToString().Trim() + dt.Rows[0]["佐證資料副檔名"].ToString().Trim());
+                FileInfo fi = new FileInfo(UpLoadPath + "Gas_Upload\\pipeinspect\\" + dt.Rows[0]["新檔名"].ToString().Trim() + dt.Rows[0]["佐證資料副檔名"].ToString().Trim());
                 if (fi.Exists)
                 {
                     fi.Delete(); //刪除主機路徑內的檔案

@@ -21,6 +21,7 @@ public class GasOnlineEvaluation_DB
     string 年度 = string.Empty;
     string 檔案類型 = string.Empty;
     string 檔案名稱 = string.Empty;
+    string 新檔名 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
     string 修改者 = string.Empty;
@@ -34,6 +35,7 @@ public class GasOnlineEvaluation_DB
     public string _年度 { set { 年度 = value; } }
     public string _檔案類型 { set { 檔案類型 = value; } }
     public string _檔案名稱 { set { 檔案名稱 = value; } }
+    public string _新檔名 { set { 新檔名 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
     public string _修改者 { set { 修改者 = value; } }
@@ -53,6 +55,7 @@ guid
 ,年度
 ,檔案類型
 ,檔案名稱
+,新檔名
 ,建立者
 ,建立日期
 ,修改者
@@ -142,6 +145,7 @@ insert into  天然氣_線上查核(
         年度,
         檔案類型,
         檔案名稱,
+        新檔名,
         建立者,
         建立日期,
         修改者,
@@ -153,6 +157,7 @@ insert into  天然氣_線上查核(
         @年度,
         @檔案類型,
         @檔案名稱,
+        @新檔名,
         @建立者,
         @建立日期,
         @修改者,
@@ -168,6 +173,7 @@ insert into  天然氣_線上查核(
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
         oCmd.Parameters.AddWithValue("@檔案名稱", 檔案名稱);
+        oCmd.Parameters.AddWithValue("@新檔名", 新檔名);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);

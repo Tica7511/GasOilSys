@@ -171,8 +171,9 @@ public partial class Handler_AddGasInsideInspect : System.Web.UI.Page
 
                         #region 儲存檔案進管線內部稽核表
 
-                        gdb._佐證資料檔名 = newName;
+                        gdb._佐證資料檔名 = orgName;
                         gdb._佐證資料副檔名 = extension;
+                        gdb._新檔名 = newName;
                         gdb._佐證資料路徑 = UpLoadPath;
                         gdb._建立者 = LogInfo.mGuid;
                         gdb._修改者 = LogInfo.mGuid;

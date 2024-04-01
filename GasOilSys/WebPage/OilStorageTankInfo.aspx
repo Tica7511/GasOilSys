@@ -367,19 +367,20 @@
                         //確認權限&按鈕顯示或隱藏
                         if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                             $("#importbtn").hide();
+                            $("#delallbtn").hide();
                             $("#newbtn").hide();
                             $("#th_edit").hide();
                             $("td[name='td_edit']").hide();
                         }
                         else {
+                            if (($("#Competence").val() == '02'))
+                                $("#delallbtn").hide();
+
                             $("#importbtn").show();
                             $("#newbtn").show();
                             $("#th_edit").show();
                             $("td[name='td_edit']").show();
                         }
-
-                        if (($("#Competence").val() == '02'))
-                            $("#delallbtn").hide();
 
                         getConfirmedStatus();
 					}
@@ -443,19 +444,20 @@
                         //確認權限&按鈕顯示或隱藏
                         if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                             $("#newbtn2").hide();
+                            $("#delallbtn2").hide();
                             $("#importbtn2").hide();
                             $("#th_edit2").hide();
                             $("td[name='td_edit2']").hide();
                         }
                         else {
+                            if (($("#Competence").val() == '02'))
+                                $("#delallbtn2").hide();
+
                             $("#newbtn2").show();
                             $("#importbtn2").show();
                             $("#th_edit2").show();
                             $("td[name='td_edit2']").show();
                         }
-
-                        if (($("#Competence").val() == '02'))
-                            $("#delallbtn2").hide();
 
                         getConfirmedStatus();
                     }
@@ -508,6 +510,8 @@
 
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
+                                        $("#delallbtn").hide();
+                                        $("#delallbtn2").hide();
                                         $("#newbtn").hide();
                                         $("#editbtn").hide();
                                         $("#th_edit").hide();

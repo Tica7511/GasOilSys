@@ -171,8 +171,9 @@ public partial class Handler_AddOilInsideInspect : System.Web.UI.Page
 
                         #region 儲存檔案進管線內部稽核表
 
-                        odb._佐證資料檔名 = newName;
+                        odb._佐證資料檔名 = orgName;
                         odb._佐證資料副檔名 = extension;
+                        odb._新檔名 = newName;
                         odb._佐證資料路徑 = UpLoadPath;
                         odb._建立者 = LogInfo.mGuid;
                         odb._修改者 = LogInfo.mGuid;

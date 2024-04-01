@@ -20,6 +20,7 @@ public class GasReportUpload_DB
     string 業者guid = string.Empty;
     string 年度 = string.Empty;
     string 檔案名稱 = string.Empty;
+    string 新檔名 = string.Empty;
     string 建立者 = string.Empty;
     DateTime 建立日期;
     string 修改者 = string.Empty;
@@ -32,6 +33,7 @@ public class GasReportUpload_DB
     public string _業者guid { set { 業者guid = value; } }
     public string _年度 { set { 年度 = value; } }
     public string _檔案名稱 { set { 檔案名稱 = value; } }
+    public string _新檔名 { set { 新檔名 = value; } }
     public string _建立者 { set { 建立者 = value; } }
     public DateTime _建立日期 { set { 建立日期 = value; } }
     public string _修改者 { set { 修改者 = value; } }
@@ -50,6 +52,7 @@ guid
 ,業者guid
 ,年度
 ,檔案名稱
+,新檔名
 ,建立者
 ,建立日期
 ,修改者
@@ -158,6 +161,7 @@ else
 --    begin
 --        update 天然氣_查核簡報上傳 set
 --        檔案名稱=@檔案名稱,
+--        新檔名=@新檔名,
 --        修改者=@修改者,
 --        修改日期=@修改日期
 --        where 年度=@年度 and 業者guid=@業者guid and 資料狀態=@資料狀態
@@ -169,6 +173,7 @@ else
 --        業者guid,
 --        年度,
 --        檔案名稱,
+--        新檔名,
 --        建立者,
 --        建立日期,
 --        修改者,
@@ -179,6 +184,7 @@ else
 --        @業者guid,
 --        @年度,
 --        @檔案名稱,
+--        @新檔名,
 --        @建立者,
 --        @建立日期,
 --        @修改者,
@@ -193,6 +199,7 @@ insert into  天然氣_查核簡報上傳(
         業者guid,
         年度,
         檔案名稱,
+        新檔名,
         建立者,
         建立日期,
         修改者,
@@ -203,6 +210,7 @@ insert into  天然氣_查核簡報上傳(
         @業者guid,
         @年度,
         @檔案名稱,
+        @新檔名,
         @建立者,
         @建立日期,
         @修改者,
@@ -217,6 +225,7 @@ insert into  天然氣_查核簡報上傳(
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@檔案名稱", 檔案名稱);
+        oCmd.Parameters.AddWithValue("@新檔名", 新檔名);
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);

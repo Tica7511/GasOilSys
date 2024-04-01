@@ -62,7 +62,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
-                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString());
                                     }                                        
                                     break;
                                 case "pipeinspect":
@@ -72,7 +72,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                        OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
-                                       NewName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                       NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
                                     }                                       
                                     break;
                                 case "online":
@@ -100,7 +100,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
-                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString());
                                     }                                        
                                     break;
                                 case "selfEvaluation":
@@ -164,7 +164,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
-                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString());
                                     }                                        
                                     break;
                                 case "pipeinspect":
@@ -174,7 +174,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
-                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
                                     }                                        
                                     break;
                                 case "storageinspect":
@@ -184,7 +184,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
-                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["佐證資料檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
                                     }                                        
                                     break;
                                 case "online":
@@ -212,7 +212,7 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     if (dt.Rows.Count > 0)
                                     {
                                         OrgName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
-                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["檔案名稱"].ToString());
+                                        NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString());
                                     }                                        
                                     break;
                                 case "selfEvaluation":
@@ -457,8 +457,9 @@ namespace ED.HR.DOWNLOAD.WebForm
                 for(int i=0; i < dt.Rows.Count; i++)
                 {
                     DirectoryInfo dir = new DirectoryInfo(UpLoadPath + dirPath);
-                    string FileName = dt.Rows[i]["檔案名稱"].ToString().Trim();
+                    string FileName = dt.Rows[i]["新檔名"].ToString().Trim();
                     FileInfo file = dir.EnumerateFiles().FirstOrDefault(m => m.Name == FileName);
+                    file.MoveTo(UpLoadPath + dirPath + dt.Rows[i]["檔案名稱"].ToString().Trim());
 
                     lstFileInfo.Add(file);
                 }

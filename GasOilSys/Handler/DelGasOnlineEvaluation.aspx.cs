@@ -53,19 +53,19 @@ public partial class Handler_DelGasOnlineEvaluation : System.Web.UI.Page
                 switch (details)
                 {
                     case "1":
-                        UpLoadPath += "Gas_Upload\\online\\pipeline\\" + dt.Rows[0]["檔案名稱"].ToString().Trim();
+                        UpLoadPath += "Gas_Upload\\online\\pipeline\\" + dt.Rows[0]["新檔名"].ToString().Trim();
                         break;
                     case "2":
-                        UpLoadPath += "Gas_Upload\\online\\storage\\" + dt.Rows[0]["檔案名稱"].ToString().Trim();
+                        UpLoadPath += "Gas_Upload\\online\\storage\\" + dt.Rows[0]["新檔名"].ToString().Trim();
                         break;
                     case "3":
-                        UpLoadPath += "Gas_Upload\\online\\disaster\\" + dt.Rows[0]["檔案名稱"].ToString().Trim();
+                        UpLoadPath += "Gas_Upload\\online\\disaster\\" + dt.Rows[0]["新檔名"].ToString().Trim();
                         break;
                     case "4":
-                        UpLoadPath += "Gas_Upload\\online\\installation\\" + dt.Rows[0]["檔案名稱"].ToString().Trim();
+                        UpLoadPath += "Gas_Upload\\online\\installation\\" + dt.Rows[0]["新檔名"].ToString().Trim();
                         break;
                     case "5":
-                        UpLoadPath += "Gas_Upload\\online\\law\\" + dt.Rows[0]["檔案名稱"].ToString().Trim();
+                        UpLoadPath += "Gas_Upload\\online\\law\\" + dt.Rows[0]["新檔名"].ToString().Trim();
                         break;
                 }
                 FileInfo fi = new FileInfo(UpLoadPath);

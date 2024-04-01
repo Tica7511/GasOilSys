@@ -49,7 +49,7 @@ public partial class Handler_DelOilReportUpload : System.Web.UI.Page
             DataTable dt = db.GetData();
             if (dt.Rows.Count > 0)
             {
-                FileInfo fi = new FileInfo(UpLoadPath + "Oil_Upload\\report\\" + dt.Rows[0]["檔案名稱"].ToString().Trim());
+                FileInfo fi = new FileInfo(UpLoadPath + "Oil_Upload\\report\\" + dt.Rows[0]["新檔名"].ToString().Trim());
                 if (fi.Exists)
                 {
                     fi.Delete(); //刪除主機路徑內的檔案

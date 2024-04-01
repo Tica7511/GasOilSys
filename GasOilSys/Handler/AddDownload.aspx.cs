@@ -116,6 +116,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                 HttpPostedFile File = uploadFiles[i];
                 if (File.FileName.Trim() != "")
                 {
+                    string tmpGuid = (string.IsNullOrEmpty(guid)) ? Guid.NewGuid().ToString("N") : guid;
                     string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
                     switch (category)
                     {
@@ -192,8 +193,25 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                     //副檔名
                     string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
 
+                    //原檔名完整名稱
+                    string orgFullName = orgName + extension;
+
                     //新檔名
-                    string newName = orgName + extension;
+                    string newName = string.Empty;
+
+                    //新檔名完整名稱
+                    string newFullName = string.Empty;
+
+                    if (type == "pipeinspect" || type == "storageinspect")
+                    {
+                        newName = orgName + "_" + guid;
+                        newFullName = orgName + "_" + guid + extension;
+                    }
+                    else
+                    {
+                        newName = orgName + "_" + tmpGuid;
+                        newFullName = orgName + "_" + tmpGuid + extension;
+                    }
 
                     //如果上傳路徑中沒有該目錄，則自動新增
                     if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
@@ -201,7 +219,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                         Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
                     }
 
-                    File.SaveAs(UpLoadPath + newName);                    
+                    File.SaveAs(UpLoadPath + newFullName);                    
 
                     switch (category)
                     {
@@ -209,10 +227,11 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                             switch (type)
                             {
                                 case "report":
-                                    grdb._guid = Guid.NewGuid().ToString("N");
+                                    grdb._guid = tmpGuid;
                                     grdb._業者guid = cpid;
                                     grdb._年度 = year;
-                                    grdb._檔案名稱 = newName;
+                                    grdb._檔案名稱 = orgFullName;
+                                    grdb._新檔名 = newFullName;
                                     grdb._建立者 = LogInfo.mGuid;
                                     grdb._修改者 = LogInfo.mGuid;
 
@@ -227,6 +246,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     gidb._guid = guid;
                                     gidb._佐證資料檔名 = orgName;
                                     gidb._佐證資料副檔名 = extension;
+                                    gidb._新檔名 = newName;
                                     gidb._佐證資料路徑 = UpLoadPath;
                                     gidb._建立者 = LogInfo.mGuid;
                                     gidb._修改者 = LogInfo.mGuid;
@@ -234,11 +254,12 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     gidb.SaveFile(oConn, myTrans);
                                     break;
                                 case "online":
-                                    goedb._guid = Guid.NewGuid().ToString("N");
+                                    goedb._guid = tmpGuid;
                                     goedb._業者guid = cpid;
                                     goedb._年度 = year;
                                     goedb._檔案類型 = details;
-                                    goedb._檔案名稱 = newName;
+                                    goedb._檔案名稱 = orgFullName;
+                                    goedb._新檔名 = newFullName;
                                     goedb._建立者 = LogInfo.mGuid;
                                     goedb._修改者 = LogInfo.mGuid;
 
@@ -250,10 +271,11 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                             switch (type)
                             {
                                 case "report":
-                                    ordb._guid = Guid.NewGuid().ToString("N");
+                                    ordb._guid = tmpGuid;
                                     ordb._業者guid = cpid;
                                     ordb._年度 = year;
-                                    ordb._檔案名稱 = newName;
+                                    ordb._檔案名稱 = orgFullName;
+                                    ordb._新檔名 = newFullName;
                                     ordb._建立者 = LogInfo.mGuid;
                                     ordb._修改者 = LogInfo.mGuid;
 
@@ -268,6 +290,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     oidb._guid = guid;
                                     oidb._佐證資料檔名 = orgName;
                                     oidb._佐證資料副檔名 = extension;
+                                    oidb._新檔名 = newName;
                                     oidb._佐證資料路徑 = UpLoadPath;
                                     oidb._建立者 = LogInfo.mGuid;
                                     oidb._修改者 = LogInfo.mGuid;
@@ -277,6 +300,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                 case "storageinspect":
                                     oiadb._guid = guid;
                                     oiadb._佐證資料檔名 = orgName;
+                                    oiadb._新檔名 = newName;
                                     oiadb._佐證資料副檔名 = extension;
                                     oiadb._佐證資料路徑 = UpLoadPath;
                                     oiadb._建立者 = LogInfo.mGuid;
@@ -285,11 +309,12 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     oiadb.SaveFile(oConn, myTrans);
                                     break;
                                 case "online":
-                                    ooedb._guid = Guid.NewGuid().ToString("N");
+                                    ooedb._guid = tmpGuid;
                                     ooedb._業者guid = cpid;
                                     ooedb._年度 = year;
                                     ooedb._檔案類型 = details;
-                                    ooedb._檔案名稱 = newName;
+                                    ooedb._檔案名稱 = orgFullName;
+                                    ooedb._新檔名 = newFullName;
                                     ooedb._建立者 = LogInfo.mGuid;
                                     ooedb._修改者 = LogInfo.mGuid;
 

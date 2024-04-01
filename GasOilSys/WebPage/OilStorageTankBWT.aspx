@@ -200,6 +200,9 @@
                                 $("td[name='td_edit']").hide();
                             }
                             else {
+                                if (($("#Competence").val() == '02'))
+                                    $("#delallbtn").hide();
+
                                 $("#newbtn").show();
                                 $("#delallbtn").show();
                                 $("#importbtn").show();
@@ -207,10 +210,6 @@
                                 $("td[name='td_edit']").show();
                             }
                         }
-
-                        if (($("#Competence").val() == '02'))
-                            $("#delallbtn").hide();
-
                         getConfirmedStatus();
 					}
 				}
@@ -242,6 +241,7 @@
 
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
+                                        $("#delallbtn").hide();
                                         $("#newbtn").hide();
                                         $("#editbtn").hide();
                                         $("#th_edit").hide();
