@@ -70,6 +70,7 @@
                         url: "../handler/DelOilStorageTankBWT.aspx",
                         data: {
                             type: "all",
+                            cpid: $.getQueryString("cp"),
                             year: getTaiwanDate(),
                             guid: $(this).attr("aid"),
                         },
