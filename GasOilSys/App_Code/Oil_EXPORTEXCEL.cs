@@ -95,13 +95,13 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(14).SetCellValue("建置年(民國年月)");
                     sheet.GetRow(0).CreateCell(15).SetCellValue("設計壓力(Kg/cm2)");
                     sheet.GetRow(0).CreateCell(16).SetCellValue("使用壓力(Kg/cm2)");
-                    sheet.GetRow(0).CreateCell(17).SetCellValue("使用狀態1.使用中2.停用3.備用");
+                    sheet.GetRow(0).CreateCell(17).SetCellValue("使用狀態 (使用中、停用、備用)");
                     sheet.GetRow(0).CreateCell(18).SetCellValue("附掛橋樑數量");
                     sheet.GetRow(0).CreateCell(19).SetCellValue("管線穿越箱涵數量");
-                    sheet.GetRow(0).CreateCell(20).SetCellValue("活動斷層敏感區1.有2.無");
-                    sheet.GetRow(0).CreateCell(21).SetCellValue("土壤液化區1.有2.無");
-                    sheet.GetRow(0).CreateCell(22).SetCellValue("土石流潛勢區1.有2.無");
-                    sheet.GetRow(0).CreateCell(23).SetCellValue("淹水潛勢區1.有2.無");
+                    sheet.GetRow(0).CreateCell(20).SetCellValue("活動斷層敏感區 (有、無)");
+                    sheet.GetRow(0).CreateCell(21).SetCellValue("土壤液化區 (有、無)");
+                    sheet.GetRow(0).CreateCell(22).SetCellValue("土石流潛勢區 (有、無)");
+                    sheet.GetRow(0).CreateCell(23).SetCellValue("淹水潛勢區 (有、無)");
                     sheet.GetRow(0).CreateCell(24).SetCellValue("備註");
                     if (dt.Rows.Count > 0)
                     {
@@ -305,7 +305,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(0).SetCellValue("異常整流站名稱");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("異常起始日期 (年/月)");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("異常狀況");
-                    sheet.GetRow(0).CreateCell(3).SetCellValue("整流站修復進度 1.公司報修2.設計中3.向地方主管機關提出申請中4.修復中");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("整流站修復進度 (公司報修、設計中、向地方主管機關提出申請中、修復中)");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("影響長途管線識別碼");
                     sheet.GetRow(0).CreateCell(5).SetCellValue("預計完成日期");
                     sheet.GetRow(0).CreateCell(6).SetCellValue("備註");
@@ -403,7 +403,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     hssfworkbook.SetSheetName(0, "管線維修或開挖");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
-                    sheet.GetRow(0).CreateCell(1).SetCellValue("前一年度 1.維修2.換管3.遷管4.開挖");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("前一年度 (維修、換管、遷管、開挖)");
                     sheet.GetRow(0).CreateCell(2).SetCellValue("長度(公尺)");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("管段位置");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("備註");
@@ -434,7 +434,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("長途管線識別碼");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("最近一次執行日期 (年/月)");
-                    sheet.GetRow(0).CreateCell(2).SetCellValue("再評估時機 1.定期(5年) 2.風險因子異動");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("再評估時機 (定期(5年)、風險因子異動)");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("管線長度 (公里)");
                     sheet.GetRow(0).CreateCell(4).SetCellValue("分段數量");
                     sheet.GetRow(0).CreateCell(5).SetCellValue("已納入ILI結果");

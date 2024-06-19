@@ -70,4 +70,38 @@ public class CodeTable_DB
         oda.Fill(ds);
         return ds;
     }
+
+    public bool GetDataOnlyChineseIfExist(string codeGroup, string codeItemName)
+    {
+        bool status;
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"SELECT 項目名稱,項目代碼 from 代碼檔 where 群組代碼=@群組代碼 ");
+
+        if (codeItemName != "")
+            sb.Append(@"and 項目名稱=@項目名稱 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@群組代碼", codeGroup);
+        oCmd.Parameters.AddWithValue("@項目名稱", codeItemName);
+
+        oda.Fill(ds);
+
+        if (ds.Rows.Count > 0)
+        {
+            status = true;
+        }
+        else
+        {
+            status = false;
+        }
+
+        return status;
+    }
 }
