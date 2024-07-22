@@ -30,6 +30,9 @@
         th:first-child{
          z-index:2;
         }
+        .onlyGasTube{
+            width:500px
+        }
     </style>
 	<script type="text/javascript">
         $(document).ready(function () {
@@ -39,6 +42,11 @@
             //$("#taiwanYear").val(getTaiwanDate());
             $("#exportbtn").attr("href", "../Gas_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=tubeinfo");
 			getData(0);
+
+            //用關鍵字查詢長途管線識別碼
+            $(document).on("click", "#searchbtn", function () {
+                getData(0);
+            });
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
@@ -87,6 +95,7 @@
 				data: {
                     cpid: $.getQueryString("cp"),
                     type: "list",
+                    KeyWord: $("#snoKeyWord").val(),
                     PageNo: p,
                     PageSize: Page.Option.PageSize,
 				},
@@ -321,6 +330,10 @@
                                     <select id="sellist" class="inputex">
                                     </select> 年
                                 </div>--%>
+                                <div class="left onlyGasTube">
+                                    <span class="font-size3">長途管線識別碼: </span><input id="snoKeyWord" type="text" placeholder="請輸入關鍵字" class="inputex width60" /> 
+                                    <a id="searchbtn" href="javascript:void(0);" title="查詢" class="genbtnS">查詢</a>
+                                </div>
                                 <div class="right">
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a> 
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>

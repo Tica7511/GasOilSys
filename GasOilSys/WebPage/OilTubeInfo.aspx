@@ -30,14 +30,23 @@
         th:first-child{
          z-index:2;
         }
+        .onlyOilTube{
+            width:500px
+        }
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
+            $(".container").css("max-width", "1800px");
             //getYearList();
             //$("#sellist").val(getTaiwanDate());
             //$("#taiwanYear").val(getTaiwanDate());
             getData(0);
             $("#exportbtn").attr("href", "../Oil_EXPORTEXCEL.aspx?cpid=" + $.getQueryString("cp") + "&category=tubeinfo");
+
+            //用關鍵字查詢長途管線識別碼
+            $(document).on("click", "#searchbtn", function () {
+                getData(0);
+            });
 
             //選擇年份
             $(document).on("change", "#sellist", function () {
@@ -86,6 +95,7 @@
 				data: {
                     cpid: $.getQueryString("cp"),
                     type: "list",
+                    KeyWord: $("#snoKeyWord").val(),
                     PageNo: p,
                     PageSize: Page.Option.PageSize,
 				},
@@ -317,10 +327,10 @@
                         </div>
                         <div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
-                               <%-- <div class="left font-size5 "><i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
-                                    <select id="sellist" class="inputex">
-                                    </select> 年
-                                </div>--%>
+                               <div class="left onlyOilTube">
+                                    <span class="font-size3">長途管線識別碼: </span><input id="snoKeyWord" type="text" placeholder="請輸入關鍵字" class="inputex width60" /> 
+                                    <a id="searchbtn" href="javascript:void(0);" title="查詢" class="genbtnS">查詢</a>
+                                </div>
                                 <div class="right">
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>

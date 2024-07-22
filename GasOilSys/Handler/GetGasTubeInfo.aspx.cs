@@ -30,6 +30,7 @@ public partial class Handler_GetGasTubeInfo : System.Web.UI.Page
 			string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 			string Sno = (string.IsNullOrEmpty(Request["Sno"])) ? "" : Request["Sno"].ToString().Trim();
+			string KeyWord = (string.IsNullOrEmpty(Request["KeyWord"])) ? "" : Request["KeyWord"].ToString().Trim();
 			string PageNo = (Request["PageNo"] != null) ? Request["PageNo"].ToString().Trim() : "0";
 			int PageSize = (Request["PageSize"] != null) ? int.Parse(Request["PageSize"].ToString().Trim()) : 10;
 
@@ -42,6 +43,7 @@ public partial class Handler_GetGasTubeInfo : System.Web.UI.Page
 				db._業者guid = cpid;
 				db._年度 = year;
 				db._長途管線識別碼 = Sno;
+				db._KeyWord = KeyWord;
 
 				DataTable cdt = new DataTable();
 				DataTable ndt = new DataTable();

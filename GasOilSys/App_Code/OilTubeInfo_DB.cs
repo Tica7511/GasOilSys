@@ -93,6 +93,8 @@ public class OilTubeInfo_DB
 
         if(!string.IsNullOrEmpty(長途管線識別碼))
             sb.Append(@" and a.長途管線識別碼=@長途管線識別碼");
+        if (!string.IsNullOrEmpty(KeyWord))
+            sb.Append(@" and a.長途管線識別碼 like '%'+@KeyWord+'%'");
 
         sb.Append(@"
 select count(*) as total from #tmp
@@ -110,6 +112,7 @@ select * from (
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@KeyWord", KeyWord);
 
         oda.Fill(ds);
         return ds;
