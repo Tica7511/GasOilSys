@@ -89,7 +89,7 @@ public class OilTubeInfo_DB
   八大油品_V=(select 項目名稱 from 代碼檔 where 群組代碼='030' and 項目代碼=a.八大油品) 
   into #tmp from 石油_管線基本資料 a  
   left join 石油_管線路徑環境特質表 b on a.長途管線識別碼=b.長途管線識別碼 and a.業者guid=b.業者guid and a.年度=b.年度  
-  where a.業者guid=@業者guid and a.資料狀態='A' ");
+  where a.業者guid=@業者guid and a.年度=@年度 and a.資料狀態='A' and b.資料狀態='A' ");
 
         if(!string.IsNullOrEmpty(長途管線識別碼))
             sb.Append(@" and a.長途管線識別碼=@長途管線識別碼");
@@ -112,6 +112,7 @@ select * from (
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
         oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@年度", "110");
         oCmd.Parameters.AddWithValue("@KeyWord", KeyWord);
 
         oda.Fill(ds);

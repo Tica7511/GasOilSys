@@ -17,6 +17,8 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
+            doOpenMagPopup();
+
             getYearList();
             getCompanyNameTitile();
             $("#sellist").val(getTaiwanDate());
@@ -328,6 +330,21 @@
 
             return nowTwYear;
         }
+
+        function doOpenMagPopup() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#importantDialog'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
     </script>
 </head>
 <body class="bgB">
@@ -498,6 +515,27 @@
 </form>
 </div>
 <!-- 結尾用div:修正mmenu form bug -->
+
+<!-- Magnific Popup -->
+<div id="importantDialog" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle" style="color:red"><b>重要公告</b></div>
+<div class="padding10ALL">
+      <div class="center ">
+          <div class="font-size5" ><b>以下附件為行政院公告之重要資訊，請各位人員都確保有遵守以下內容之行為工作，謝謝</b></div><br />
+          <div class="font-size3">
+              附件: <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/高氣溫戶外作業勞工熱危害預防指引-112-6-1修正.pdf" target="_blank">高氣溫戶外作業勞工熱危害預防</a>
+          </div>
+      </div>
+
+      <%--<div class="twocol margin10T">
+            <div class="right">
+                <a id="importCancelbtn" href="javascript:void(0);" class="genbtn closemagnificPopup">取消</a>
+            </div>
+        </div>--%>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
 
 <!-- colorbox -->
 <div style="display:none;">

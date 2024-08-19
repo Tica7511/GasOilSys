@@ -37,6 +37,30 @@ public class LoginLog_DB
     public string _資料狀態 { set { 資料狀態 = value; } }
     #endregion
 
+    public DataTable GetData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+select top 1 * from 會員登入Log 
+where 帳號=@帳號 and 登入結果=@登入結果 and 
+資料狀態=@資料狀態 
+order by 建立日期 desc ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@帳號", 帳號);
+        oCmd.Parameters.AddWithValue("@登入結果", "Success");
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void addLog()
     {
         SqlCommand oCmd = new SqlCommand();
@@ -66,6 +90,30 @@ public class LoginLog_DB
         oCmd.Parameters.AddWithValue("@建立者", 建立者);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
         oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public void updateLog()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 
+會員登入Log set 
+資料狀態=@資料狀態,
+修改日期=@修改日期 
+where 帳號=@帳號 
+) ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+
+        oCmd.Parameters.AddWithValue("@帳號", 帳號);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "D");
+
 
         oCmd.Connection.Open();
         oCmd.ExecuteNonQuery();

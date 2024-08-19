@@ -23,6 +23,59 @@
 	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript">
         $(document).ready(function () {
+
+            let idleTime = 0;
+            const idleLimit = 3600; // 閒置時間限制（秒）
+
+            function resetTimer() {
+                idleTime = 0; // 重置閒置時間
+            }
+
+            function checkIdleTime() {
+                idleTime++;
+                if (idleTime >= idleLimit) {
+                    window.location.href = 'TimeOutPage.aspx'; // 跳轉到靜態頁面
+                }
+            }
+
+            // 監控用戶的各種操作
+            $(this).mousemove(resetTimer);
+            $(this).keypress(resetTimer);
+            $(this).click(resetTimer);
+            $(this).scroll(resetTimer);
+            $(document).on('mousemove keypress click scroll touchstart', resetTimer);
+
+            function checkLoginStatus() {
+                $.ajax({
+                    type: "POST",
+                    async: true, //在沒有返回值之前,不會執行下一步動作
+                    url: "../Handler/CheckLoginStatus.aspx",
+                    data: {
+                        pw: encodeURIComponent($("#pStr").val()),
+                    },
+                    error: function (xhr) {
+                        $("#errMsg").html("Error: " + xhr.status);
+                        console.log(xhr.responseText)
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            $("#errMsg").html($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            if ($("Response", data).text() == 'Y') {
+                                alert("已有相同的帳號登入或登入時間逾期，請重新登入");
+                                location.href = "../Handler/SignOut.aspx";
+                            }                                                           
+                        }
+                    }
+                });
+            }
+
+            setInterval(checkIdleTime, 1000); // 每秒檢查一次閒置時間
+            //2024.08.16 暫時註解來防止登入時驗證碼錯誤的問題
+            //setInterval(checkLoginStatus, 5000) // 每5秒檢查一次是否有相同帳號登入
+
+
             $("#tdProjectManagement").hide();
             switch ($("#Competence").val()) {
                 case "01":
@@ -73,7 +126,7 @@
                     $("#tdPublicGas").hide();
                     break;
             }			
-		});
+        });
     </script>
 </head>
 <body>
