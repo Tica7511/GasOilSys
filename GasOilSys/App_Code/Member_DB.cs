@@ -94,8 +94,7 @@ public class Member_DB
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * into #tmp from 會員檔 
-  where 資料狀態='A' ");
-
+  where (@資料狀態='' or 資料狀態=@資料狀態) ");
         if (!string.IsNullOrEmpty(帳號類別))
             sb.Append(@"and 帳號類別=@帳號類別 ");
         if (!string.IsNullOrEmpty(網站類別))
@@ -109,7 +108,7 @@ public class Member_DB
 select count(*) as total from #tmp
 
 select * from (
-           select ROW_NUMBER() over (order by 帳號類別, 網站類別, 姓名) itemNo,* from #tmp
+           select ROW_NUMBER() over (order by 帳號類別, 網站類別, 資料狀態, 姓名) itemNo,* from #tmp
 )#tmp where itemNo between @pStart and @pEnd ");
 
         oCmd.CommandText = sb.ToString();
@@ -120,6 +119,7 @@ select * from (
         oCmd.Parameters.AddWithValue("@pStart", pStart);
         oCmd.Parameters.AddWithValue("@pEnd", pEnd);
         oCmd.Parameters.AddWithValue("@帳號類別", 帳號類別);
+        oCmd.Parameters.AddWithValue("@資料狀態", 資料狀態);
         oCmd.Parameters.AddWithValue("@網站類別", 網站類別);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@KeyWord", KeyWord);
@@ -316,21 +316,37 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.ExecuteNonQuery();
     }
 
-    public void DeleteData()
+    public void UpdateData()
     {
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         oCmd.CommandText = @"update 會員檔 set 
 修改日期=@修改日期, 
 修改者=@修改者, 
-資料狀態='D' 
+資料狀態=@資料狀態 
 where guid=@guid ";
 
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@資料狀態", 資料狀態);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public void DeleteData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"delete 會員檔 where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
 
         oCmd.Connection.Open();
         oCmd.ExecuteNonQuery();

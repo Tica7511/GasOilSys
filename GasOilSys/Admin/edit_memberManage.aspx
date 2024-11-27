@@ -16,12 +16,44 @@
 	<!--#include file="Head_Include_Manage.html"-->
 	<script type="text/javascript">
         $(document).ready(function () {
+            if ($.getQueryString("guid") == "") {
+                $("#div_mode_1").empty();
+                $("#div_mode_1").append('<div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">帳號</div><div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf --><div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">密碼</div><div class="OchiCell width100"><input type="password" id="txt6" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf -->');
+                $("#div_mode_2").empty();
+                $("#div_mode_2").append('<div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div><div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf --><div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">電話</div><div class="OchiCell width100"><input type="text" id="txt8" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf -->');
+                $("#div_mode_3").empty();
+                $("#div_mode_3").append('<div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">單位名稱</div><div class="OchiCell width100"><input type="text" id="txt9" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf -->');
+
+                $("#div_password").show();
+            }
+            else {
+                $("#div_mode_1").empty();
+                $("#div_mode_1").append('<div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">帳號</div><div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf --><div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div><div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf -->');
+                $("#div_mode_2").empty();
+                $("#div_mode_2").append('<div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">電話</div><div class="OchiCell width100"><input type="text" id="txt8" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf --><div class="OchiHalf"><div class="OchiCell OchiTitle IconCe TitleSetWidth">單位名稱</div><div class="OchiCell width100"><input type="text" id="txt9" class="inputex width100 "></div>' +
+                    '</div><!-- OchiHalf -->');
+                $("#div_mode_3").empty();
+
+                $("#div_password").hide();
+            }                
+
             getDDL('001');
             getDDL('002');
             getData();
 
             $(document).on("click", "#subbtn", function () {
+                var mode = ($.getQueryString("guid") == "") ? "new" : "mod";
+
                 var msg = '';
+                var emailPattern = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
                 if ($("#txt1").val() == "")
                     msg += "請輸入【姓名】\n";
                 if ($("#txt2").val() == "")
@@ -35,15 +67,17 @@
                     }                        
                 if ($("#txt5").val() == "")
                     msg += "請輸入【帳號】\n";
-                if ($("#txt6").val() == "")
-                    msg += "請輸入【密碼】\n";
+                if (mode == "new")
+                    if ($("#txt6").val() == "")
+                        msg += "請輸入【密碼】\n";                
+                if ($("#txt7").val() != "")
+                    if (!emailPattern.test($("#txt7").val()))
+                        msg += "【email】請輸入有效的電子郵件地址\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);
                     return false;
                 }
-
-                var mode = ($.getQueryString("guid") == "") ? "new" : "mod";
 
                 // Get form
                 var form = $('#form1')[0];
@@ -361,17 +395,17 @@
                                         </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
-                                <div class="OchiRow">
+                                <div id="div_mode_1" class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">帳號</div>
                                         <div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100 "></div>
                                     </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
+                                    <div id="div_password" class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">密碼</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt6" class="inputex width100 "></div>
+                                        <div class="OchiCell width100"><input type="password" id="txt6" class="inputex width100 "></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
-                                <div class="OchiRow">
+                                <div id="div_mode_2" class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">email</div>
                                         <div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100 "></div>
@@ -379,9 +413,9 @@
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">電話</div>
                                         <div class="OchiCell width100"><input type="text" id="txt8" class="inputex width100 "></div>
-                                    </div><!-- OchiHalf -->
+                                    </div><!-- OchiHalf -->                                    
                                 </div><!-- OchiRow -->
-                                <div class="OchiRow">
+                                <div id="div_mode_3" class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">單位名稱</div>
                                         <div class="OchiCell width100"><input type="text" id="txt9" class="inputex width100 "></div>

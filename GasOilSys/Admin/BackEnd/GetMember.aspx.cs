@@ -23,6 +23,7 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
         /// * Request["txt1"]:帳號類別
         /// * Request["txt2"]:網站類別
         /// * Request["txt3"]:業者名稱
+        /// * Request["txt5"]:資料狀態
         ///-----------------------------------------------------
         XmlDocument xDoc = new XmlDocument();
         try
@@ -34,6 +35,7 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
             string txt1 = (Request["txt1"] != null) ? Request["txt1"].ToString().Trim() : "";
             string txt2 = (Request["txt2"] != null) ? Request["txt2"].ToString().Trim() : "";
             string txt3 = (Request["txt3"] != null) ? Request["txt3"].ToString().Trim() : "";
+            string txt5 = (Request["txt5"] != null) ? Request["txt5"].ToString().Trim() : "";
             string SearchStr = (Request["SearchStr"] != null) ? Request["SearchStr"].ToString().Trim() : "";
 
             if (type == "list")
@@ -45,6 +47,7 @@ public partial class Admin_BackEnd_GetMember : System.Web.UI.Page
                 mdb._帳號類別 = txt1;
                 mdb._網站類別 = txt2;
                 mdb._業者guid = txt3;
+                mdb._資料狀態 = txt5;
                 mdb._KeyWord = SearchStr;
                 DataSet ds = mdb.GetList(pageStart.ToString(), pageEnd.ToString());
 

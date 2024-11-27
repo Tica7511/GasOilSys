@@ -15,14 +15,19 @@
 	<title>石油與天然氣輸儲設備查核及檢測雲端平台</title>
     <link rel="icon" href="../images/boe-logo-2-icon.ico" type="image/x-icon" />
 	<link href="../css/bootstrap.css" rel="stylesheet" /><!-- normalize & bootstrap's grid system -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css" /><!-- popup dialog -->
 	<link href="../css/font-awesome.min.css" rel="stylesheet" /><!-- css icon -->
 	<link href="../css/OchiColor.css" rel="stylesheet" type="text/css" />
 	<link href="../css/OchiLayout.css" rel="stylesheet" type="text/css" />
 	<link href="../css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
 	<link href="../css/login.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+    <link href="../css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+<script type="text/javascript" src="../js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
 	<script type="text/javascript">
         $(document).ready(function () {
+            //doOpenMagPopup();
 
             let idleTime = 0;
             const idleLimit = 3600; // 閒置時間限制（秒）
@@ -125,7 +130,22 @@
                     $("#tdWeekReport").hide();
                     $("#tdPublicGas").hide();
                     break;
-            }			
+            }
+
+            function doOpenMagPopup() {
+                $.magnificPopup.open({
+                    items: {
+                        src: '#importantDialog'
+                    },
+                    type: 'inline',
+                    midClick: false, // 是否使用滑鼠中鍵
+                    closeOnBgClick: true,//點擊背景關閉視窗
+                    showCloseBtn: true,//隱藏關閉按鈕
+                    fixedContentPos: true,//彈出視窗是否固定在畫面上
+                    mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                    tClose: '關閉',//翻譯字串
+                });
+            }
         });
     </script>
 </head>
@@ -200,6 +220,27 @@
         </div>
     </div>
 	</div>
-<script type="text/javascript" src="js/GenCommon.js"></script><!-- UIcolor JS -->    
+    <!-- Magnific Popup -->
+<div id="importantDialog" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle" style="color:red"><b>重要公告</b></div>
+<div class="padding10ALL">
+      <div class="center ">
+          <div class="font-size5" ><b>行政院關心大家,請大家務必參考以下資訊:</b></div><br />
+          <div class="font-size5">
+              <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i> <a href="../doc/高氣溫戶外作業勞工熱危害預防指引-112-6-1修正.pdf" target="_blank">高氣溫戶外作業勞工熱危害預防</a>
+          </div>
+      </div>
+
+      <%--<div class="twocol margin10T">
+            <div class="right">
+                <a id="importCancelbtn" href="javascript:void(0);" class="genbtn closemagnificPopup">取消</a>
+            </div>
+        </div>--%>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
+<script type="text/javascript" src="../js/GenCommon.js"></script><!-- UIcolor JS -->   
+    <script type="text/javascript" src="../js/PageCommon.js"></script><!-- 系統共用 JS -->
 </body>
 </html>

@@ -37,6 +37,50 @@
             getDDL('002');
             getData(0);
 
+            //停用帳號
+            $(document).on("click", "a[name='stopBtn']", function () {
+                SaveAccountStatus($(this).attr("aid"), 'D');
+            });
+
+            //啟用帳號
+            $(document).on("click", "a[name='openBtn']", function () {
+                SaveAccountStatus($(this).attr("aid"), 'A');
+            });
+
+            function SaveAccountStatus(guid, status) {
+                var confirmType = status;
+
+                if (status == 'A')
+                    confirmType = '確定啟用嗎?';
+                else
+                    confirmType = '確定停用嗎?';
+
+                if (confirm(confirmType)) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "BackEnd/AddMemberStatus.aspx",
+                        data: {
+                            status: status,
+                            guid: guid,
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#pageNumber").val());
+                            }
+                        }
+                    });
+                }
+            }
+
             //選擇帳號類別
             $(document).on("change", "#txt1", function () {
                 if ($("#txt1 option:selected").val() == '02') {
@@ -129,7 +173,7 @@
 
             //刪除按鈕
             $(document).on("click", "a[name='delbtn']", function () {
-                if (confirm("確定刪除?")) {
+                if (confirm("刪除後將無法復原，確定刪除此人員資料?")) {
                     $.ajax({
                         type: "POST",
                         async: false, //在沒有返回值之前,不會執行下一步動作
@@ -174,6 +218,7 @@
                     txt1: $("#txt1").val(),
                     txt2: $("#txt2").val(),
                     txt3: $("#txt3").val(),
+                    txt5: $("#txt5").val(),
                     SearchStr: $("#txt4").val(),
 				},
 				error: function (xhr) {
@@ -191,6 +236,18 @@
 							$(data).find("data_item").each(function (i) {
 								tabstr += '<tr>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("姓名").text().trim() + '</td>';
+                                var dataStatus = $(this).children("資料狀態").text().trim();
+                                if (dataStatus == 'A') {
+                                    dataStatus = '啟用中';
+                                    tabstr += '<td align="center" nowrap="nowrap">' + dataStatus + ' <a href="javascript:void(0);" name="stopBtn" class="genbtnS" aid="' +
+                                        $(this).children("guid").text().trim() + '">停用</a>' + '</td>';
+                                }
+                                else {
+                                    dataStatus = '停用中';
+                                    tabstr += '<td align="center" nowrap="nowrap"><span style="color:red">' + dataStatus + '</span> <a href="javascript:void(0);" class="grebtn font-size2" name="openBtn" aid="' +
+                                        $(this).children("guid").text().trim() + '">啟用</a>' + '</td>';
+                                }
+                                    
                                 var accountType = $(this).children("帳號類別").text().trim();
                                 switch (accountType) {
                                     case "01":
@@ -221,7 +278,7 @@
                                 tabstr += '<td nowrap="nowrap">' + webType + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("cName").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用者帳號").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("使用者密碼").text().trim() + '</td>';
+								//tabstr += '<td nowrap="nowrap">' + $(this).children("使用者密碼").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("mail").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("電話").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("單位名稱").text().trim() + '</td>';
@@ -272,6 +329,10 @@
                             case '002':
                                 $("#txt2").empty();
                                 $("#txt2").append(ddlstr);
+                                break;
+                            case '034':
+                                $("#txt5").empty();
+                                $("#txt5").append(ddlstr);
                                 break;
                         }
                     }
@@ -338,11 +399,21 @@
                                         <div class="OchiCell width100"><select id="txt1" class="width100 inputex" ></select></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">網站類別</div>
-                                        <div class="OchiCell width100"><select id="txt2" class="width100 inputex" ></select></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">帳號狀態</div>
+                                        <div class="OchiCell width100">
+                                            <select id="txt5" class="width100 inputex" >
+                                                <option value="">請選擇</option>
+                                                <option value="A">啟用</option>
+                                                <option value="D">停用</option>
+                                            </select>
+                                        </div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">網站類別</div>
+                                        <div class="OchiCell width100"><select id="txt2" class="width100 inputex" ></select></div>
+                                    </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">業者名稱</div>
                                         <div class="OchiCell width100">
@@ -351,11 +422,13 @@
                                             </select>
                                         </div>
                                     </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">姓名</div>
                                         <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100 "></div>
                                     </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
+                                </div><!-- OchiHalf -->
                             </div><!-- OchiTrasTable -->
                             <br />
                             <div class="twocol">
@@ -373,10 +446,11 @@
 							        	<tr>
 							        		<th nowrap="nowrap">姓名</th>
 							        		<th nowrap="nowrap">帳號類別</th>
+							        		<th nowrap="nowrap">帳號狀態</th>
 							        		<th nowrap="nowrap">網站類別</th>
                                             <th nowrap="nowrap">業者名稱</th>
 							        		<th nowrap="nowrap">帳號</th>
-							        		<th nowrap="nowrap">密碼</th>
+							        		<%--<th nowrap="nowrap">密碼</th>--%>
 							        		<th nowrap="nowrap">email</th>
 							        		<th nowrap="nowrap">電話</th>
 							        		<th nowrap="nowrap">單位名稱</th>

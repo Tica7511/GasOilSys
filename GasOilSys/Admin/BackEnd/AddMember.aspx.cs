@@ -142,7 +142,8 @@ public partial class Admin_BackEnd_AddMember : System.Web.UI.Page
 
                 // Member PassWord Log
                 mpl_db._會員guid = tmpGuid;
-                mpl_db._修改後密碼 = Server.UrlDecode(txt6);
+                //暫時註解不准更改密碼
+                //mpl_db._修改後密碼 = Server.UrlDecode(txt6);
                 mpl_db._IP = Common.GetIP4Address();
                 mpl_db._建立者 = LogInfo.mGuid;
                 mpl_db._修改者 = LogInfo.mGuid;

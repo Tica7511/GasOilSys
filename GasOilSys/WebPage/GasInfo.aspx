@@ -17,7 +17,7 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
         $(document).ready(function () {
-            doOpenMagPopup2();
+            //doOpenMagPopup2();
 
             getYearList();
             $("#sellist").val(getTaiwanDate());
@@ -938,9 +938,9 @@
   <div class="magpopupTitle" style="color:red"><b>重要公告</b></div>
 <div class="padding10ALL">
       <div class="center ">
-          <div class="font-size5" ><b>以下附件為行政院公告之重要資訊，請各位人員都確保有遵守以下內容之行為工作，謝謝</b></div><br />
-          <div class="font-size3">
-              附件: <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i><a href="../doc/高氣溫戶外作業勞工熱危害預防指引-112-6-1修正.pdf" target="_blank">高氣溫戶外作業勞工熱危害預防</a>
+          <div class="font-size5" ><b>行政院關心大家,請大家務必參考以下資訊:</b></div><br />
+          <div class="font-size5">
+              <i class="fa fa-file-pdf-o IconCc" aria-hidden="true"></i> <a href="../doc/高氣溫戶外作業勞工熱危害預防指引-112-6-1修正.pdf" target="_blank">高氣溫戶外作業勞工熱危害預防</a>
           </div>
       </div>
 
