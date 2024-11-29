@@ -21,6 +21,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
     OilStorageTankInfo_DB db1 = new OilStorageTankInfo_DB();
     OilStorageTankBWT_DB db2 = new OilStorageTankBWT_DB();
     OilStorageTankInfoLiquefaction_DB db3 = new OilStorageTankInfoLiquefaction_DB();
+    OilStorageTankButton_DB db4 = new OilStorageTankButton_DB();
     public string filePath = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -134,8 +135,8 @@ public partial class Handler_OilImport : System.Web.UI.Page
             {
                 switch (category)
                 {
-                    case "storagetankinfo":
-                        #region 儲槽基本資料_常壓地上式儲槽
+                    #region 儲槽基本資料_常壓地上式儲槽
+                    case "storagetankinfo":                        
 
                         if (sheet.GetRow(i).GetCell(0) != null)
                         {
@@ -257,11 +258,13 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         if (sheetRow(sheet, i, 13) != null)
                             if (sheetRow(sheet, i, 13).Length > 10)
                                 msg += "【延長開放年限多?年】字數不可大於10\r\n";
-
-                        #endregion
+                                                
                         break;
-                    case "storagetankinfoliquefaction":
-                        #region 儲槽基本資料_液化石油氣儲槽
+                    #endregion
+
+                    #region 儲槽基本資料_液化石油氣儲槽
+
+                    case "storagetankinfoliquefaction":                        
 
                         if (sheet.GetRow(i).GetCell(0) != null)
                         {
@@ -332,10 +335,12 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                 if (cdb.GetDataOnlyChineseIfExist("015", sheetRow(sheet, i, 8)) == false)
                                     msg += "【狀態】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
 
-                        #endregion
                         break;
-                    case "storagetankBWT":
-                        #region 儲槽基礎、壁板、頂板
+                    #endregion
+
+                    #region 儲槽基礎、壁板、頂板
+
+                    case "storagetankBWT":                        
 
                         if (sheetRow(sheet, i, 0) != null)
                         {
@@ -418,9 +423,92 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                 msg += "【外浮頂之等電位裝置性能】字數不可大於10\r\n";
                             else
                                 if (cdb.GetDataOnlyChineseIfExist("033", sheetRow(sheet, i, 9)) == false)
-                                    msg += "【外浮頂之等電位裝置性能】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
-                        #endregion
+                                    msg += "【外浮頂之等電位裝置性能】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";                        
                         break;
+                    #endregion
+
+                    #region 儲槽底板
+
+                    case "storagetankbutton":
+
+                        if (sheetRow(sheet, i, 0) != null)
+                        {
+                            if (sheetRow(sheet, i, 0).Length > 50)
+                            {
+                                msg += "【轄區儲槽編號】字數不可大於50\r\n";
+                            }
+                            else
+                            {
+                                db1._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                                db1._業者guid = cpid;
+                                DataTable dt = db1.GetList();
+
+                                if (dt.Rows.Count < 1)
+                                {
+                                    msg += "儲槽基本資料內並沒有此編號【" + sheetRow(sheet, i, 0) + "】，請至儲槽基本資料頁面新增後再重新匯入\r\n";
+                                }
+                            }
+                        }
+
+                        if (sheetRow(sheet, i, 1) != null)
+                            if (sheetRow(sheet, i, 1).Length > 20)
+                                msg += "【執行MFL檢測 1.全部 2.部分 3.無】字數不可大於20\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("035", sheetRow(sheet, i, 1)) == false)
+                                    msg += "【執行MFL檢測 1.全部 2.部分 3.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 2) != null)
+                            if (sheetRow(sheet, i, 2).Length > 20)
+                                msg += "【防蝕塗層 1.無 2.FRP 3.EPOXY 4.其他】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("036", sheetRow(sheet, i, 2)) == false)
+                                    msg += "【防蝕塗層 1.無 2.FRP 3.EPOXY 4.其他】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 3) != null)
+                        {
+                            if (sheetRow(sheet, i, 3).Length > 10)
+                            {
+                                msg += "【沈陷量測日期】字數不可大於10\r\n";
+                            }
+                            else
+                            {
+                                if ((sheetRow(sheet, i, 3).Length < 5) || (sheetRow(sheet, i, 3).Length > 6))
+                                {
+                                    msg += "【沈陷量測日期】字數需5或6個字\r\n";
+                                }
+                            }
+                        }
+                        if (sheetRow(sheet, i, 4) != null)
+                            if (sheetRow(sheet, i, 4).Length > 10)
+                                msg += "【最近一次開放塗層維修情形 1.全部 2.部分 3.無】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("035", sheetRow(sheet, i, 4)) == false)
+                                    msg += "【最近一次開放塗層維修情形 1.全部 2.部分 3.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 5) != null)
+                            if (sheetRow(sheet, i, 5).Length > 10)
+                                msg += "【銲道腐蝕 1.有 2.無】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 5)) == false)
+                                msg += "【銲道腐蝕 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 6) != null)
+                            if (sheetRow(sheet, i, 6).Length > 10)
+                                msg += "【銲道腐蝕 1.有 2.無】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 6)) == false)
+                                msg += "【銲道腐蝕 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 7) != null)
+                            if (sheetRow(sheet, i, 7).Length > 10)
+                                msg += "【最近一次開放是否有維修 1.有 2.無】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 7)) == false)
+                                msg += "【最近一次開放是否有維修 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 8) != null)
+                            if (sheetRow(sheet, i, 8).Length > 10)
+                                msg += "【內容物側最小剩餘厚度(mm)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 9) != null)
+                            if (sheetRow(sheet, i, 9).Length > 20)
+                                msg += "【內容物側最大腐蝕速率(mm/yr)】字數不可大於20\r\n";
+                        break;
+
+                        #endregion
                 }
             }
         }
@@ -441,8 +529,9 @@ public partial class Handler_OilImport : System.Web.UI.Page
             {
                 switch (category)
                 {
-                    case "storagetankinfo":
-                        #region 儲槽基本資料_常壓地上式儲槽
+                    #region 儲槽基本資料_常壓地上式儲槽
+
+                    case "storagetankinfo":                       
 
                         db1._業者guid = cpid;
                         db1._年度 = year;
@@ -466,11 +555,13 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db1._資料狀態 = "A";
 
                         db1.InsertData(oConn, oTran);
-
-                        #endregion
                         break;
-                    case "storagetankinfoliquefaction":
-                        #region 儲槽基本資料_液化石油氣儲槽
+
+                    #endregion
+
+                    #region 儲槽基本資料_液化石油氣儲槽
+
+                    case "storagetankinfoliquefaction":                       
 
                         db3._業者guid = cpid;
                         db3._年度 = year;
@@ -489,11 +580,13 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db3._資料狀態 = "A";
 
                         db3.InsertData(oConn, oTran);
-
-                        #endregion
                         break;
-                    case "storagetankBWT":
-                        #region 儲槽基礎、壁板、頂板
+
+                    #endregion
+
+                    #region 儲槽基礎、壁板、頂板
+
+                    case "storagetankBWT":                        
 
                         db2._業者guid = cpid;
                         db2._年度 = year;
@@ -512,9 +605,37 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db2._資料狀態 = "A";
 
                         db2.InsertData(oConn, oTran);
-
-                        #endregion
                         break;
+
+                    #endregion
+
+                    #region 儲槽底板
+
+                    case "storagetankbutton":                        
+
+                        db4._業者guid = cpid;
+                        db4._年度 = year;
+                        db4._轄區儲槽編號 = (sheetRow(sheet, i, 0) == null) ? "" : sheetRow(sheet, i, 0);
+                        db4._執行MFL檢測 = (sheetRow(sheet, i, 1) == null) ? "" : sheetRow(sheet, i, 1);
+                        db4._防蝕塗層 = (sheetRow(sheet, i, 2) == null) ? "" : sheetRow(sheet, i, 2);
+                        db4._塗層全面重新施加日期 = (sheetRow(sheet, i, 3) == null) ? "" : sheetRow(sheet, i, 3);
+                        db4._最近一次開放塗層維修情形 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
+                        db4._銲道腐蝕 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
+                        db4._局部變形 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
+                        db4._最近一次開放是否有維修 = (sheetRow(sheet, i, 7) == null) ? "" : sheetRow(sheet, i, 7);
+                        db4._內容物側最小剩餘厚度 = (sheetRow(sheet, i, 8) == null) ? "" : sheetRow(sheet, i, 8);
+                        db4._內容物側最大腐蝕速率 = (sheetRow(sheet, i, 9) == null) ? "" : sheetRow(sheet, i, 9);
+                        db4._土壤側最小剩餘厚度 = (sheetRow(sheet, i, 10) == null) ? "" : sheetRow(sheet, i, 10);
+                        db4._土壤側最大腐蝕速率 = (sheetRow(sheet, i, 11) == null) ? "" : sheetRow(sheet, i, 11);
+                        db4._是否有更換過底板 = (sheetRow(sheet, i, 12) == null) ? "" : sheetRow(sheet, i, 12);
+                        db4._綜合判定 = (sheetRow(sheet, i, 13) == null) ? "" : sheetRow(sheet, i, 13);
+                        db4._建立者 = LogInfo.mGuid;
+                        db4._修改者 = LogInfo.mGuid;
+                        db4._資料狀態 = "A";
+
+                        db4.InsertData(oConn, oTran);
+                        break;
+                    #endregion
                 }
             }
         }
