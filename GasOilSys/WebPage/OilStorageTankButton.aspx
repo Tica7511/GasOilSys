@@ -41,6 +41,37 @@
                         async: false, //在沒有返回值之前,不會執行下一步動作
                         url: "../handler/DelOilStorageTankButton.aspx",
                         data: {
+                            type: "data",
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //今年度全部資料刪除按鈕
+            $(document).on("click", "#delallbtn", function () {
+                if (confirm("將會刪除本年度【" + getTaiwanDate() + "】年度之資料，確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelOilStorageTankButton.aspx",
+                        data: {
+                            type: "all",
+                            cpid: $.getQueryString("cp"),
+                            year: getTaiwanDate(),
                             guid: $(this).attr("aid"),
                         },
                         error: function (xhr) {
@@ -217,6 +248,7 @@
 
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
+                                        $("#delallbtn").hide();
                                         $("#newbtn").hide();
                                         $("#editbtn").hide();
                                         $("#th_edit").hide();

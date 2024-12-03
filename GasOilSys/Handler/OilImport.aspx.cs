@@ -574,7 +574,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db1._修改者 = LogInfo.mGuid;
                         db1._資料狀態 = "A";
 
-                        dt = db1.GetData();
+                        dt = db1.GetDataBySPNO(oConn, oTran);
 
                         if (dt.Rows.Count > 0)
                         {
@@ -612,7 +612,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db3._修改者 = LogInfo.mGuid;
                         db3._資料狀態 = "A";
 
-                        dt = db3.GetDataBySPNO();
+                        dt = db3.GetDataBySPNO(oConn, oTran);
 
                         if (dt.Rows.Count > 0)
                         {
@@ -650,7 +650,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db2._修改者 = LogInfo.mGuid;
                         db2._資料狀態 = "A";
 
-                        dt = db2.GetDataBySPNO();
+                        dt = db2.GetDataBySPNO(oConn, oTran);
 
                         if (dt.Rows.Count > 0)
                         {
@@ -692,7 +692,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db4._修改者 = LogInfo.mGuid;
                         db4._資料狀態 = "A";
 
-                        dt = db4.GetDataBySPNO();
+                        dt = db4.GetDataBySPNO(oConn, oTran);
 
                         if (dt.Rows.Count > 0)
                         {

@@ -189,16 +189,14 @@ else
         return ds;
     }
 
-    public DataTable GetDataBySPNO()
+    public DataTable GetDataBySPNO(SqlConnection oConn, SqlTransaction oTran)
     {
-        SqlCommand oCmd = new SqlCommand();
-        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 石油_儲槽基本資料 where 年度=@年度 and 業者guid=@業者guid and 轄區儲槽編號=@轄區儲槽編號 and 資料狀態='A' ");
 
+        SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
-        oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         DataTable ds = new DataTable();
 
@@ -206,7 +204,9 @@ else
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
 
+        oCmd.Transaction = oTran;
         oda.Fill(ds);
+        oCmd.ExecuteNonQuery();
         return ds;
     }
 

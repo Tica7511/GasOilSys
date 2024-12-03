@@ -146,16 +146,14 @@ else
         return ds;
     }
 
-    public DataTable GetDataBySPNO()
+    public DataTable GetDataBySPNO(SqlConnection oConn, SqlTransaction oTran)
     {
-        SqlCommand oCmd = new SqlCommand();
-        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 石油_儲槽底板 where 年度=@年度 and 業者guid=@業者guid and 轄區儲槽編號=@轄區儲槽編號 and 資料狀態='A' ");
 
+        SqlCommand oCmd = oConn.CreateCommand();
         oCmd.CommandText = sb.ToString();
-        oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         DataTable ds = new DataTable();
 
@@ -163,7 +161,9 @@ else
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
 
+        oCmd.Transaction = oTran;
         oda.Fill(ds);
+        oCmd.ExecuteNonQuery();
         return ds;
     }
 
@@ -306,6 +306,28 @@ where guid=@guid ";
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
         oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public void DeleteDataAll()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 石油_儲槽底板 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where 年度=@年度 and 業者guid=@業者guid and 資料狀態='A' ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
 

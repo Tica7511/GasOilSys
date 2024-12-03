@@ -27,11 +27,24 @@ public partial class Handler_DelOilStorageTankButton : System.Web.UI.Page
             #endregion
 
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+            string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
+            string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 
             string xmlstr = string.Empty;
             db._guid = guid;
             db._修改者 = LogInfo.mGuid;
-            db.DeleteData();
+
+            if (type == "all")
+            {
+                db._年度 = year;
+                db._業者guid = cpid;
+                db.DeleteDataAll();
+            }
+            else
+            {
+                db.DeleteData();
+            }
 
             xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>刪除成功</Response></root>";
             xDoc.LoadXml(xmlstr);
