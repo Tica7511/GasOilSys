@@ -189,6 +189,27 @@ else
         return ds;
     }
 
+    public DataTable GetDataBySPNO()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_儲槽基本資料 where 年度=@年度 and 業者guid=@業者guid and 轄區儲槽編號=@轄區儲槽編號 and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@轄區儲槽編號", 轄區儲槽編號);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public DataSet GetStatisticsList(string pStart, string pEnd, string cpname, string businessOrg,
         string factory, string workshop, string openDateBegin, string openDateEnd)
     {

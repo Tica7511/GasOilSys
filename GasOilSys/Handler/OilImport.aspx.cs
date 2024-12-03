@@ -574,7 +574,20 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db1._修改者 = LogInfo.mGuid;
                         db1._資料狀態 = "A";
 
-                        db1.InsertData(oConn, oTran);
+                        dt = db1.GetData();
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db1._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db1.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db1.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
                         break;
 
                     #endregion
@@ -599,7 +612,20 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db3._修改者 = LogInfo.mGuid;
                         db3._資料狀態 = "A";
 
-                        db3.InsertData(oConn, oTran);
+                        dt = db3.GetDataBySPNO();
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db3._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db3.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db3.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
                         break;
 
                     #endregion
@@ -624,7 +650,20 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db2._修改者 = LogInfo.mGuid;
                         db2._資料狀態 = "A";
 
-                        db2.InsertData(oConn, oTran);
+                        dt = db2.GetDataBySPNO();
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db2._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db2.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db2.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
                         break;
 
                     #endregion
@@ -657,6 +696,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         if (dt.Rows.Count > 0)
                         {
+                            db4._guid = dt.Rows[0]["guid"].ToString().Trim();
                             db4.UpdateData(oConn, oTran);
                         }
                         else
