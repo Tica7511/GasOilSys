@@ -452,10 +452,10 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         if (sheetRow(sheet, i, 1) != null)
                             if (sheetRow(sheet, i, 1).Length > 20)
-                                msg += "【執行MFL檢測 1.全部 2.部分 3.無】字數不可大於20\r\n";
+                                msg += "【執行土壤側檢測 1.全部 2.部分 3.無】字數不可大於20\r\n";
                             else
                                 if (cdb.GetDataOnlyChineseIfExist("035", sheetRow(sheet, i, 1)) == false)
-                                    msg += "【執行MFL檢測 1.全部 2.部分 3.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                                    msg += "【執行土壤側檢測 1.全部 2.部分 3.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 2) != null)
                             if (sheetRow(sheet, i, 2).Length > 20)
                                 msg += "【防蝕塗層 1.無 2.FRP 3.EPOXY 4.其他】字數不可大於10\r\n";
@@ -466,13 +466,13 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         {
                             if (sheetRow(sheet, i, 3).Length > 10)
                             {
-                                msg += "【沈陷量測日期】字數不可大於10\r\n";
+                                msg += "【塗層全面重新施加日期 年/月】字數不可大於10\r\n";
                             }
                             else
                             {
                                 if ((sheetRow(sheet, i, 3).Length < 5) || (sheetRow(sheet, i, 3).Length > 6))
                                 {
-                                    msg += "【沈陷量測日期】字數需5或6個字\r\n";
+                                    msg += "【塗層全面重新施加日期 年/月】字數需5或6個字\r\n";
                                 }
                             }
                         }
@@ -490,22 +490,40 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                 msg += "【銲道腐蝕 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 6) != null)
                             if (sheetRow(sheet, i, 6).Length > 10)
-                                msg += "【銲道腐蝕 1.有 2.無】字數不可大於10\r\n";
+                                msg += "【局部變形 1.有 2.無】字數不可大於10\r\n";
                             else
                                 if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 6)) == false)
-                                msg += "【銲道腐蝕 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                                msg += "【局部變形 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 7) != null)
                             if (sheetRow(sheet, i, 7).Length > 10)
                                 msg += "【最近一次開放是否有維修 1.有 2.無】字數不可大於10\r\n";
                             else
                                 if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 7)) == false)
-                                msg += "【最近一次開放是否有維修 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                                    msg += "【最近一次開放是否有維修 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 8) != null)
                             if (sheetRow(sheet, i, 8).Length > 10)
                                 msg += "【內容物側最小剩餘厚度(mm)】字數不可大於10\r\n";
                         if (sheetRow(sheet, i, 9) != null)
                             if (sheetRow(sheet, i, 9).Length > 20)
                                 msg += "【內容物側最大腐蝕速率(mm/yr)】字數不可大於20\r\n";
+                        if (sheetRow(sheet, i, 10) != null)
+                            if (sheetRow(sheet, i, 10).Length > 20)
+                                msg += "【土壤側最小剩餘厚度(mm)】字數不可大於20\r\n";
+                        if (sheetRow(sheet, i, 11) != null)
+                            if (sheetRow(sheet, i, 11).Length > 20)
+                                msg += "【土壤側最大腐蝕速率(mm/yr)】字數不可大於20\r\n";
+                        if (sheetRow(sheet, i, 12) != null)
+                            if (sheetRow(sheet, i, 12).Length > 10)
+                                msg += "【是否有更換過底板 1.有 2.無】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 12)) == false)
+                                msg += "【是否有更換過底板 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 13) != null)
+                            if (sheetRow(sheet, i, 13).Length > 10)
+                                msg += "【綜合判定 1.良好 2.須持續追蹤】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("037", sheetRow(sheet, i, 13)) == false)
+                                msg += "【綜合判定 1.良好 2.須持續追蹤】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         break;
 
                         #endregion
@@ -522,6 +540,8 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
     public void AddImportData(ISheet sheet, string category, SqlConnection oConn, SqlTransaction oTran, string cpid, string year)
     {
+        DataTable dt = new DataTable();
+
         for (int i = 1; i <= sheet.LastRowNum; i++)
         {
             IRow row = sheet.GetRow(i);
@@ -633,7 +653,19 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db4._修改者 = LogInfo.mGuid;
                         db4._資料狀態 = "A";
 
-                        db4.InsertData(oConn, oTran);
+                        dt = db4.GetDataBySPNO();
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db4.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db4.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+                        
                         break;
                     #endregion
                 }
