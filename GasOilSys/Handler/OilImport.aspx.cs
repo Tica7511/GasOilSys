@@ -22,6 +22,8 @@ public partial class Handler_OilImport : System.Web.UI.Page
     OilStorageTankBWT_DB db2 = new OilStorageTankBWT_DB();
     OilStorageTankInfoLiquefaction_DB db3 = new OilStorageTankInfoLiquefaction_DB();
     OilStorageTankButton_DB db4 = new OilStorageTankButton_DB();
+    OilButtonChange_DB db5 = new OilButtonChange_DB();
+    OilCathodicProtection_DB db6 = new OilCathodicProtection_DB();
     public string filePath = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -526,6 +528,121 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                 msg += "【綜合判定 1.良好 2.須持續追蹤】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         break;
 
+                    #endregion
+
+                    #region 底板更換紀錄
+
+                    case "buttonchange":
+
+                        if (sheetRow(sheet, i, 0) != null)
+                        {
+                            if (sheetRow(sheet, i, 0).Length > 50)
+                            {
+                                msg += "【轄區儲槽編號】字數不可大於50\r\n";
+                            }
+                            else
+                            {
+                                db1._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                                db1._業者guid = cpid;
+                                DataTable dt = db1.GetList();
+
+                                if (dt.Rows.Count < 1)
+                                {
+                                    msg += "儲槽基本資料內並沒有此編號【" + sheetRow(sheet, i, 0) + "】，請至儲槽基本資料頁面新增後再重新匯入\r\n";
+                                }
+                            }
+                        }
+                        if (sheetRow(sheet, i, 1) != null)
+                        {
+                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 1)))
+                            {
+                                msg += "【更換日期(YYYMMDD)】字串內不可包含特殊符號\r\n";
+                            }
+                            if (sheetRow(sheet, i, 1).Length > 10)
+                            {
+                                msg += "【更換日期(YYYMMDD)】字數不可大於10\r\n";
+                            }
+                            else
+                            {
+                                if ((sheetRow(sheet, i, 1).Length < 6) || (sheetRow(sheet, i, 1).Length > 7))
+                                {
+                                    msg += "【更換日期(YYYMMDD)】字數需6或7個字\r\n";
+                                }
+                            }
+                        }
+                        if (sheetRow(sheet, i, 2) != null)
+                            if (sheetRow(sheet, i, 2).Length > 10)
+                                msg += "【更換面積(M2)】字數不可大於10\r\n";
+                        break;
+
+                    #endregion
+
+                    #region 陰極防蝕系統
+
+                    case "cathodicprotection":
+
+                        if (sheetRow(sheet, i, 0) != null)
+                        {
+                            if (sheetRow(sheet, i, 0).Length > 50)
+                            {
+                                msg += "【轄區儲槽編號】字數不可大於50\r\n";
+                            }
+                            else
+                            {
+                                db1._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                                db1._業者guid = cpid;
+                                DataTable dt = db1.GetList();
+
+                                if (dt.Rows.Count < 1)
+                                {
+                                    msg += "儲槽基本資料內並沒有此編號【" + sheetRow(sheet, i, 0) + "】，請至儲槽基本資料頁面新增後再重新匯入\r\n";
+                                }
+                            }
+                        }
+                        if (sheetRow(sheet, i, 1) != null)
+                            if (sheetRow(sheet, i, 1).Length > 2)
+                                msg += "【設置 1.有 2.無】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 1)) == false)
+                                msg += "【設置 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 2) != null)
+                            if (sheetRow(sheet, i, 2).Length > 50)
+                                msg += "【整流站名稱】字數不可大於50\r\n";
+                        if (sheetRow(sheet, i, 3) != null)
+                            if (sheetRow(sheet, i, 3).Length > 50)
+                                msg += "【合格標準 1. 通電電位< -850mVCSE 2.極化電位< -850mVCSE 3.極化量>100mV 4.其他】字數不可大於50\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("038", sheetRow(sheet, i, 3)) == false)
+                                msg += "【合格標準 1. 通電電位< -850mVCSE 2.極化電位< -850mVCSE 3.極化量>100mV 4.其他】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 4) != null)
+                            if (sheetRow(sheet, i, 4).Length > 10)
+                                msg += "【整流站狀態 1.正常 2.異常】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("039", sheetRow(sheet, i, 4)) == false)
+                                msg += "【整流站狀態 1.正常 2.異常】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 5) != null)
+                            if (sheetRow(sheet, i, 5).Length > 10)
+                                msg += "【系統狀態 1.正常 2.異常】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("039", sheetRow(sheet, i, 5)) == false)
+                                msg += "【系統狀態 1.正常 2.異常】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 6) != null)
+                            if (sheetRow(sheet, i, 6).Length > 50)
+                                msg += "【設置長效型參考電極種類 1.鋅 2.飽和硫酸銅 3.無】字數不可大於50\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("040", sheetRow(sheet, i, 6)) == false)
+                                msg += "【設置長效型參考電極種類 1.鋅 2.飽和硫酸銅 3.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 7) != null)
+                            if (sheetRow(sheet, i, 7).Length > 10)
+                                msg += "【測試點數量】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 8) != null)
+                            if (sheetRow(sheet, i, 8).Length > 10)
+                                msg += "【陽極地床種類 1.深井 2.淺井】字數不可大於10\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("041", sheetRow(sheet, i, 8)) == false)
+                                msg += "【陽極地床種類 1.深井 2.淺井】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        break;
+
                         #endregion
                 }
             }
@@ -555,21 +672,21 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         db1._業者guid = cpid;
                         db1._年度 = year;
-                        db1._轄區儲槽編號 = (sheetRow(sheet, i, 0) == null) ? "" : sheetRow(sheet, i, 0);
-                        db1._能源局編號 = (sheetRow(sheet, i, 1) == null) ? "" : sheetRow(sheet, i, 1);
-                        db1._容量 = (sheetRow(sheet, i, 2) == null) ? "" : sheetRow(sheet, i, 2);
-                        db1._內徑 = (sheetRow(sheet, i, 3) == null) ? "" : sheetRow(sheet, i, 3);
-                        db1._內容物 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
-                        db1._油品種類 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
-                        db1._形式 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
-                        db1._啟用日期 = (sheetRow(sheet, i, 7) == null) ? "" : OnlyMonthDay(sheetRow(sheet, i, 7));
-                        db1._代行檢查_代檢機構1 = (sheetRow(sheet, i, 8) == null) ? "" : sheetRow(sheet, i, 8);
-                        db1._代行檢查_外部日期1 = (sheetRow(sheet, i, 9) == null) ? "" : sheetRow(sheet, i, 9);
-                        db1._代行檢查_代檢機構2 = (sheetRow(sheet, i, 10) == null) ? "" : sheetRow(sheet, i, 10);
-                        db1._代行檢查_外部日期2 = (sheetRow(sheet, i, 11) == null) ? "" : sheetRow(sheet, i, 11);
-                        db1._狀態 = (sheetRow(sheet, i, 12) == null) ? "" : sheetRow(sheet, i, 12);
-                        db1._延長開放年限 = (sheetRow(sheet, i, 13) == null) ? "" : sheetRow(sheet, i, 13);
-                        db1._差異說明 = (sheetRow(sheet, i, 14) == null) ? "" : sheetRow(sheet, i, 14);
+                        db1._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                        db1._能源局編號 = sheetRow(sheet, i, 1);
+                        db1._容量 = sheetRow(sheet, i, 2);
+                        db1._內徑 = sheetRow(sheet, i, 3);
+                        db1._內容物 = sheetRow(sheet, i, 4);
+                        db1._油品種類 = sheetRow(sheet, i, 5);
+                        db1._形式 = sheetRow(sheet, i, 6);
+                        db1._啟用日期 = OnlyMonthDay(sheetRow(sheet, i, 7));
+                        db1._代行檢查_代檢機構1 = sheetRow(sheet, i, 8);
+                        db1._代行檢查_外部日期1 = sheetRow(sheet, i, 9);
+                        db1._代行檢查_代檢機構2 = sheetRow(sheet, i, 10);
+                        db1._代行檢查_外部日期2 = sheetRow(sheet, i, 11);
+                        db1._狀態 = sheetRow(sheet, i, 12);
+                        db1._延長開放年限 = sheetRow(sheet, i, 13);
+                        db1._差異說明 = sheetRow(sheet, i, 14);
                         db1._建立者 = LogInfo.mGuid;
                         db1._修改者 = LogInfo.mGuid;
                         db1._資料狀態 = "A";
@@ -598,16 +715,16 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         db3._業者guid = cpid;
                         db3._年度 = year;
-                        db3._轄區儲槽編號 = (sheetRow(sheet, i, 0) == null) ? "" : sheetRow(sheet, i, 0);
-                        db3._能源局編號 = (sheetRow(sheet, i, 1) == null) ? "" : sheetRow(sheet, i, 1);
-                        db3._容量 = (sheetRow(sheet, i, 2) == null) ? "" : sheetRow(sheet, i, 2);
-                        db3._內徑 = (sheetRow(sheet, i, 3) == null) ? "" : sheetRow(sheet, i, 3);
-                        db3._內容物 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
-                        db3._油品種類 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
-                        db3._形式 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
-                        db3._啟用日期 = (sheetRow(sheet, i, 7) == null) ? "" : OnlyMonthDay(sheetRow(sheet, i, 7));
-                        db3._狀態 = (sheetRow(sheet, i, 8) == null) ? "" : sheetRow(sheet, i, 8);
-                        db3._差異說明 = (sheetRow(sheet, i, 9) == null) ? "" : sheetRow(sheet, i, 9);
+                        db3._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                        db3._能源局編號 = sheetRow(sheet, i, 1);
+                        db3._容量 = sheetRow(sheet, i, 2);
+                        db3._內徑 = sheetRow(sheet, i, 3);
+                        db3._內容物 = sheetRow(sheet, i, 4);
+                        db3._油品種類 = sheetRow(sheet, i, 5);
+                        db3._形式 = sheetRow(sheet, i, 6);
+                        db3._啟用日期 = OnlyMonthDay(sheetRow(sheet, i, 7));
+                        db3._狀態 = sheetRow(sheet, i, 8);
+                        db3._差異說明 = sheetRow(sheet, i, 9);
                         db3._建立者 = LogInfo.mGuid;
                         db3._修改者 = LogInfo.mGuid;
                         db3._資料狀態 = "A";
@@ -674,20 +791,20 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
                         db4._業者guid = cpid;
                         db4._年度 = year;
-                        db4._轄區儲槽編號 = (sheetRow(sheet, i, 0) == null) ? "" : sheetRow(sheet, i, 0);
-                        db4._執行MFL檢測 = (sheetRow(sheet, i, 1) == null) ? "" : sheetRow(sheet, i, 1);
-                        db4._防蝕塗層 = (sheetRow(sheet, i, 2) == null) ? "" : sheetRow(sheet, i, 2);
-                        db4._塗層全面重新施加日期 = (sheetRow(sheet, i, 3) == null) ? "" : sheetRow(sheet, i, 3);
-                        db4._最近一次開放塗層維修情形 = (sheetRow(sheet, i, 4) == null) ? "" : sheetRow(sheet, i, 4);
-                        db4._銲道腐蝕 = (sheetRow(sheet, i, 5) == null) ? "" : sheetRow(sheet, i, 5);
-                        db4._局部變形 = (sheetRow(sheet, i, 6) == null) ? "" : sheetRow(sheet, i, 6);
-                        db4._最近一次開放是否有維修 = (sheetRow(sheet, i, 7) == null) ? "" : sheetRow(sheet, i, 7);
-                        db4._內容物側最小剩餘厚度 = (sheetRow(sheet, i, 8) == null) ? "" : sheetRow(sheet, i, 8);
-                        db4._內容物側最大腐蝕速率 = (sheetRow(sheet, i, 9) == null) ? "" : sheetRow(sheet, i, 9);
-                        db4._土壤側最小剩餘厚度 = (sheetRow(sheet, i, 10) == null) ? "" : sheetRow(sheet, i, 10);
-                        db4._土壤側最大腐蝕速率 = (sheetRow(sheet, i, 11) == null) ? "" : sheetRow(sheet, i, 11);
-                        db4._是否有更換過底板 = (sheetRow(sheet, i, 12) == null) ? "" : sheetRow(sheet, i, 12);
-                        db4._綜合判定 = (sheetRow(sheet, i, 13) == null) ? "" : sheetRow(sheet, i, 13);
+                        db4._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                        db4._執行MFL檢測 = sheetRow(sheet, i, 1);
+                        db4._防蝕塗層 = sheetRow(sheet, i, 2);
+                        db4._塗層全面重新施加日期 = sheetRow(sheet, i, 3);
+                        db4._最近一次開放塗層維修情形 = sheetRow(sheet, i, 4);
+                        db4._銲道腐蝕 = sheetRow(sheet, i, 5);
+                        db4._局部變形 = sheetRow(sheet, i, 6);
+                        db4._最近一次開放是否有維修 = sheetRow(sheet, i, 7);
+                        db4._內容物側最小剩餘厚度 = sheetRow(sheet, i, 8);
+                        db4._內容物側最大腐蝕速率 = sheetRow(sheet, i, 9);
+                        db4._土壤側最小剩餘厚度 = sheetRow(sheet, i, 10);
+                        db4._土壤側最大腐蝕速率 = sheetRow(sheet, i, 11);
+                        db4._是否有更換過底板 = sheetRow(sheet, i, 12);
+                        db4._綜合判定 = sheetRow(sheet, i, 13);
                         db4._建立者 = LogInfo.mGuid;
                         db4._修改者 = LogInfo.mGuid;
                         db4._資料狀態 = "A";
@@ -708,6 +825,74 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         
                         break;
                     #endregion
+
+                    #region 底板更換紀錄
+
+                    case "buttonchange":
+
+                        db5._業者guid = cpid;
+                        db5._年度 = year;
+                        db5._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                        db5._更換日期 = sheetRow(sheet, i, 1);
+                        db5._更換面積 = sheetRow(sheet, i, 2);
+                        db5._更換原因 = sheetRow(sheet, i, 3);
+                        db5._建立者 = LogInfo.mGuid;
+                        db5._修改者 = LogInfo.mGuid;
+                        db5._資料狀態 = "A";
+
+                        dt = db5.GetDataBySPNO(oConn, oTran);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db5._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db5.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db5.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
+                        break;
+                    #endregion
+
+                    #region 陰極防蝕系統
+
+                    case "cathodicprotection":
+
+                        db6._業者guid = cpid;
+                        db6._年度 = year;
+                        db6._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                        db6._設置 = sheetRow(sheet, i, 1);
+                        db6._整流站名稱 = sheetRow(sheet, i, 2);
+                        db6._合格標準 = sheetRow(sheet, i, 3);
+                        db6._整流站狀態 = sheetRow(sheet, i, 4);
+                        db6._系統狀態 = sheetRow(sheet, i, 5);
+                        db6._設置長效型參考電極種類 = sheetRow(sheet, i, 6);
+                        db6._測試點數量 = sheetRow(sheet, i, 7);
+                        db6._陽極地床種類 = sheetRow(sheet, i, 8);
+                        db6._備註 = sheetRow(sheet, i, 9);
+                        db6._建立者 = LogInfo.mGuid;
+                        db6._修改者 = LogInfo.mGuid;
+                        db6._資料狀態 = "A";
+
+                        dt = db6.GetDataBySPNO(oConn, oTran);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db6._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db6.UpdateData2(oConn, oTran);
+                        }
+                        else
+                        {
+                            db6.InsertData2(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
+                        break;
+                        #endregion
                 }
             }
         }
@@ -720,7 +905,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
     /// </summary>
     public string sheetRow(ISheet sheet, int rowNum, int cellNum)
     {
-        return sheet.GetRow(rowNum).GetCell(cellNum).ToString().Trim();
+        return sheet.GetRow(rowNum).GetCell(cellNum, MissingCellPolicy.CREATE_NULL_AS_BLANK).ToString().Trim();
     }
 
     /// <summary>
