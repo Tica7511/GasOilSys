@@ -737,8 +737,8 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     hssfworkbook.SetSheetName(0, "槽區管線");
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("轄區儲槽編號");
-                    sheet.GetRow(0).CreateCell(1).SetCellValue("槽區管線 具保溫層管線 1.有 2.無");
-                    sheet.GetRow(0).CreateCell(2).SetCellValue("槽區管線 管線支撐座腐蝕疑慮 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("具保溫層管線 1.有 2.無");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("管線支撐座腐蝕疑慮 1.是 2.否");
                     sheet.GetRow(0).CreateCell(3).SetCellValue("備註");
                     if (dt.Rows.Count > 0)
                     {

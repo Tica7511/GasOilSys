@@ -24,6 +24,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
     OilStorageTankButton_DB db4 = new OilStorageTankButton_DB();
     OilButtonChange_DB db5 = new OilButtonChange_DB();
     OilCathodicProtection_DB db6 = new OilCathodicProtection_DB();
+    OilTankPipeline_DB db7 = new OilTankPipeline_DB();
     public string filePath = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -643,8 +644,51 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                 msg += "【陽極地床種類 1.深井 2.淺井】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         break;
 
+                    #endregion
+
+                    #region 槽區管線
+
+                    case "tankpipeline":
+
+                        if (sheetRow(sheet, i, 0) != null)
+                        {
+                            if (sheetRow(sheet, i, 0).Length > 50)
+                            {
+                                msg += "【轄區儲槽編號】字數不可大於50\r\n";
+                            }
+                            else
+                            {
+                                db1._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                                db1._業者guid = cpid;
+                                DataTable dt = db1.GetList();
+
+                                if (dt.Rows.Count < 1)
+                                {
+                                    msg += "儲槽基本資料內並沒有此編號【" + sheetRow(sheet, i, 0) + "】，請至儲槽基本資料頁面新增後再重新匯入\r\n";
+                                }
+                            }
+                        }
+                        if (sheetRow(sheet, i, 1) != null)
+                            if (sheetRow(sheet, i, 1).Length > 2)
+                                msg += "【具保溫層管線 1.有 2.無】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 1)) == false)
+                                msg += "【具保溫層管線 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 2) != null)
+                            if (sheetRow(sheet, i, 2).Length > 2)
+                                msg += "【管線支撐座腐蝕疑慮 1.是 2.否】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("042", sheetRow(sheet, i, 2)) == false)
+                                msg += "【管線支撐座腐蝕疑慮 1.是 2.否】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        break;
+
                         #endregion
                 }
+            }
+
+            if (!string.IsNullOrEmpty(msg))
+            {
+                break;
             }
         }
 
@@ -887,6 +931,37 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         else
                         {
                             db6.InsertData2(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
+                        break;
+                    #endregion
+
+                    #region 槽區管線
+
+                    case "tankpipeline":
+
+                        db7._業者guid = cpid;
+                        db7._年度 = year;
+                        db7._轄區儲槽編號 = sheetRow(sheet, i, 0);
+                        db7._管線具保溫層 = sheetRow(sheet, i, 1);
+                        db7._管線支撐座腐蝕疑慮 = sheetRow(sheet, i, 2);
+                        db7._備註 = sheetRow(sheet, i, 3);
+                        db7._建立者 = LogInfo.mGuid;
+                        db7._修改者 = LogInfo.mGuid;
+                        db7._資料狀態 = "A";
+
+                        dt = db7.GetDataBySPNO(oConn, oTran);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db7._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db7.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db7.InsertData(oConn, oTran);
                         }
 
                         dt.Clear();

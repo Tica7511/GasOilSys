@@ -237,6 +237,7 @@
 
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
+                                        $("#delallbtn").hide();
                                         $("#newbtn").hide();
                                         $("#editbtn").hide();
                                         $("#th_edit").hide();
