@@ -90,7 +90,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.GetRow(0).CreateCell(9).SetCellValue("包覆材料");
                     sheet.GetRow(0).CreateCell(10).SetCellValue("轄管長度(公里)");
                     sheet.GetRow(0).CreateCell(11).SetCellValue("內容物");
-                    sheet.GetRow(0).CreateCell(12).SetCellValue("八大油品_V");
+                    sheet.GetRow(0).CreateCell(12).SetCellValue("八大油品");
                     sheet.GetRow(0).CreateCell(13).SetCellValue("緊急遮斷閥(處)");
                     sheet.GetRow(0).CreateCell(14).SetCellValue("建置年(民國年月)");
                     sheet.GetRow(0).CreateCell(15).SetCellValue("設計壓力(Kg/cm2)");

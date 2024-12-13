@@ -67,6 +67,7 @@
                         async: false, //在沒有返回值之前,不會執行下一步動作
                         url: "../handler/DelOilTubeInfo.aspx",
                         data: {
+                            type: "data",
                             guid: $(this).attr("aid"),
                         },
                         error: function (xhr) {
@@ -80,6 +81,85 @@
                             else {
                                 alert($("Response", data).text());
                                 getData(0);
+                            }
+                        }
+                    });
+                }
+            });
+
+            //今年度全部資料刪除按鈕
+            $(document).on("click", "#delallbtn", function () {
+                if (confirm("將會刪除本年度【" + getTaiwanDate() + "】年度之資料，確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelOilTubeInfo.aspx",
+                        data: {
+                            type: "all",
+                            cpid: $.getQueryString("cp"),
+                            year: getTaiwanDate(),
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //匯入開窗
+            $(document).on("click", "#importbtn", function () {
+                $("#importFile").val('');
+                doOpenMagPopup();
+            });
+
+            //匯入按鈕
+            $(document).on("click", "#importSubbtn", function () {
+                if (confirm('請確認上傳的檔案內資料格式是否與範例檔案相同?')) {
+                    // Get form
+                    var form = $('#form1')[0];
+
+                    // Create an FormData object 
+                    var data = new FormData(form);
+
+                    // If you want to add an extra field for the FormData
+                    data.append("cpid", $.getQueryString("cp"));
+                    data.append("year", getTaiwanDate());
+                    data.append("category", "tubeinfo");
+                    $.each($("#importFile")[0].files, function (i, file) {
+                        data.append('file', file);
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/OilImport.aspx",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData(getTaiwanDate());
+                                $.magnificPopup.close();
                             }
                         }
                     });
@@ -159,12 +239,19 @@
 
                         //確認權限&按鈕顯示或隱藏
                         if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
-                                $("#newbtn").hide();
-                                $("#th_edit").hide();
-                                $("td[name='td_edit']").hide();
+                            $("#newbtn").hide();
+                            $("#delallbtn").hide();
+                            $("#importbtn").hide();
+                            $("#th_edit").hide();
+                            $("td[name='td_edit']").hide();
                         }
                         else {
+                            if (($("#Competence").val() == '02'))
+                                $("#delallbtn").hide();
+
                             $("#newbtn").show();
+                            $("#delallbtn").show();
+                            $("#importbtn").show();
                             $("#th_edit").show();
                             $("td[name='td_edit']").show();
                         }
@@ -289,6 +376,21 @@
 
             return nowTwYear;
         }
+
+        function doOpenMagPopup() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#importDialog'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
     </script>
 </head>
 <body class="bgB">
@@ -332,7 +434,9 @@
                                     <a id="searchbtn" href="javascript:void(0);" title="查詢" class="genbtnS">查詢</a>
                                 </div>
                                 <div class="right">
+                                    <a id="importbtn" href="javascript:void(0);" title="匯入" class="genbtn">匯入</a>
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="delallbtn" href="javascript:void(0);" title="刪除" class="genbtn">刪除</a>
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
                             </div><br />
@@ -420,6 +524,36 @@
 </form>
 </div>
 <!-- 結尾用div:修正mmenu form bug -->
+
+<!-- Magnific Popup -->
+<div id="importDialog" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle">匯入資料</div>
+<div class="padding10ALL">
+      <div class="OchiTrasTable width100 TitleLength08 font-size3">
+          <div class="OchiRow">
+              <div class="OchiCell OchiTitle IconCe TitleSetWidth">範例</div>
+              <div class="OchiCell width100">
+                  <i class="fa fa-file-excel-o IconCc" aria-hidden="true"></i><a href="../doc/import/Oil/石油_管線基本資料.xls">下載</a>
+              </div>
+          </div><!-- OchiRow -->
+          <div class="OchiRow">
+              <div class="OchiCell OchiTitle IconCe TitleSetWidth">匯入檔案</div>
+              <div class="OchiCell width100">
+                  <input id="importFile" type="file" class="inputex width100 font-size2" />
+              </div>
+          </div><!-- OchiRow -->
+      </div><!-- OchiTrasTable -->
+
+      <div class="twocol margin10T">
+            <div class="right">
+                <a id="importCancelbtn" href="javascript:void(0);" class="genbtn closemagnificPopup">取消</a>
+                <a id="importSubbtn" href="javascript:void(0);" class="genbtn">上傳</a>
+            </div>
+        </div>
+
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
 
 <!-- colorbox -->
 <div style="display:none;">

@@ -682,6 +682,33 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                 msg += "【管線支撐座腐蝕疑慮 1.是 2.否】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         break;
 
+                    #endregion
+
+                    #region 管線基本資料
+
+                    case "tubeinfo":
+
+                        if (sheetRow(sheet, i, 0) != null)
+                        {
+                            if (sheetRow(sheet, i, 0).Length > 50)
+                            {
+                                msg += "【長途管線識別碼】字數不可大於50\r\n";
+                            }
+                        }
+                        if (sheetRow(sheet, i, 1) != null)
+                            if (sheetRow(sheet, i, 1).Length > 2)
+                                msg += "【具保溫層管線 1.有 2.無】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 1)) == false)
+                                msg += "【具保溫層管線 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 2) != null)
+                            if (sheetRow(sheet, i, 2).Length > 2)
+                                msg += "【管線支撐座腐蝕疑慮 1.是 2.否】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("042", sheetRow(sheet, i, 2)) == false)
+                                msg += "【管線支撐座腐蝕疑慮 1.是 2.否】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        break;
+
                         #endregion
                 }
             }
