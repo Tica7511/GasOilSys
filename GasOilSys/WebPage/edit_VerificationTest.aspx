@@ -268,7 +268,8 @@
                         else {
                             alert($("Response", data).text());
 
-                            location.href = "edit_VerificationTest.aspx?guid=" + $("vguid", data).text();
+                            //location.href = "edit_VerificationTest.aspx?guid=" + $("vguid", data).text();
+                            location.href = "VerificationTest.aspx";
                         }
                     }
                 });
