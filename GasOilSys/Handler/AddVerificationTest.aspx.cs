@@ -110,6 +110,8 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
                 db.UpdateData(oConn, myTrans);
             }
 
+            string typeName = string.Empty;
+
            //檔案上傳
            HttpFileCollection uploadFiles = Request.Files;
             for (int i = 0; i < uploadFiles.Count; i++)
@@ -128,6 +130,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
                         {
                             UpLoadPath += "Check\\";
                             fdb._檔案類型 = "10";
+                            typeName = "10";
                             sn = "01";
                         }
                     }
@@ -135,6 +138,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
                     {
                         UpLoadPath += "Relation\\";
                         fdb._檔案類型 = "11";
+                        typeName = "11";
 
                         if (Server.UrlDecode(mode) == "new")
                         {
@@ -208,7 +212,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
 
                     //新檔名
                     //string newName = Server.UrlDecode(taiwanYear()) + "_" + cpName + LogInfo.name + "_" + typeName + sn;
-                    string newName = orgName;
+                    string newName = orgName + "_" + guid + "_" + typeName + "_" + sn;
 
                     string file_size = File.ContentLength.ToString();
 

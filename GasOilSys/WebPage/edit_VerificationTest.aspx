@@ -345,8 +345,8 @@
                                 }
                                 else {
                                     $("#filediv").empty();
-                                    $("#filediv").append('<a href=../DOWNLOAD.aspx?category=VerificationTest&type=Check&v=' + $(this).children("guid").text().trim() + '&sn=' + $(this).children("排序").text().trim() + '>' +
-                                        $(this).children("新檔名").text().trim() + $(this).children("附檔名").text().trim() + '</a> <a id="delfileCheck" aid="' + $(this).children("guid").text().trim() + '" atype="10" class="genbtn" >刪除</a>');
+                                    $("#filediv").append('<a href=../DOWNLOAD.aspx?category=VerificationTest&details=10&type=Check&v=' + $(this).children("guid").text().trim() + '&sn=' + $(this).children("排序").text().trim() + '>' +
+                                        $(this).children("原檔名").text().trim() + $(this).children("附檔名").text().trim() + '</a> <a id="delfileCheck" aid="' + $(this).children("guid").text().trim() + '" atype="10" class="genbtn" >刪除</a>');
                                 }
                             });
                         }
@@ -378,10 +378,10 @@
                         var tabstr = '';
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                var filename = $(this).children("新檔名").text().trim();
+                                var filename = $(this).children("原檔名").text().trim();
                                 var fileextension = $(this).children("附檔名").text().trim();
                                 tabstr += '<tr>'
-                                tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=VerificationTest&type=Relation&sn=' + $(this).children("排序").text().trim() +
+                                tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=VerificationTest&type=Relation&details=11&sn=' + $(this).children("排序").text().trim() +
                                     '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
                                 tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnFile" aid="' + $(this).children("guid").text().trim() +

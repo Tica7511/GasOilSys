@@ -138,7 +138,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 						if(dataType != "4" && dataType != "5" && dataType != "6")
                         {
 							dt.Rows[i]["CompanyFullName"] = dt.Rows[i]["公司名稱"].ToString().Trim() + dt.Rows[i]["事業部"].ToString().Trim() +
-								dt.Rows[i]["事業部"].ToString().Trim() + dt.Rows[i]["中心庫區儲運課工場"].ToString().Trim();
+								dt.Rows[i]["中心庫區儲運課工場"].ToString().Trim();
 						}
                         else
                         {
@@ -209,6 +209,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
                 if (dt.Rows.Count > 0)
                 {
 					dt.Columns.Add("新檔名", typeof(string));
+					dt.Columns.Add("原檔名", typeof(string));
 					dt.Columns.Add("排序", typeof(string));
 
 					for(int i = 0; i < dt.Rows.Count; i++)
@@ -221,6 +222,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 						if (fdt.Rows.Count > 0)
 						{
 							dt.Rows[i]["新檔名"] = fdt.Rows[0]["新檔名"].ToString().Trim();
+							dt.Rows[i]["原檔名"] = fdt.Rows[0]["原檔名"].ToString().Trim();
 							dt.Rows[i]["排序"] = fdt.Rows[0]["排序"].ToString().Trim();
 						}
 					}
