@@ -68,7 +68,7 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
             db._類別 = Server.UrlDecode(type);
             db._場次 = Server.UrlDecode(session);
             //db._改善情形 = Server.UrlDecode(situation);
-            db._報告編號 = Server.UrlDecode(year) + "-" + Server.UrlDecode(type) + "-" + Server.UrlDecode(session);
+            db._報告編號 = Server.UrlDecode(timeBegin.Substring(0, 3)) + "-" + Server.UrlDecode(type) + "-" + Server.UrlDecode(session);
             db._對象 = Server.UrlDecode(objectName);
             db._查核日期起 = Server.UrlDecode(timeBegin);
             db._查核日期迄 = Server.UrlDecode(timeEnd);
@@ -97,16 +97,18 @@ public partial class Handler_AddVerificationTest : System.Web.UI.Page
                 {
                     if (Server.UrlDecode(session) != dt.Rows[0]["場次"].ToString().Trim())
                     {
-                        dt.Clear();
-                        dt = db.GetSession(oConn, myTrans);
+                        DataTable sdt = db.GetSession(oConn, myTrans);
 
-                        if (dt.Rows.Count > 0)
+                        if (sdt.Rows.Count > 0)
                         {
                             throw new Exception("場次不可重複請重新填寫");
                         }
                     }
-                }
-                
+
+                    string[] reportNoAr = dt.Rows[0]["報告編號"].ToString().Trim().Split('-');
+                    db._報告編號 = reportNoAr[0] + "-" + reportNoAr[1] + "-" + Server.UrlDecode(session);
+                }                
+                 
                 db.UpdateData(oConn, myTrans);
             }
 

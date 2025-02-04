@@ -199,7 +199,7 @@ from 查核與檢測資料_基本資料表 where 資料狀態='A' and 類別=@�
 	public DataTable GetUpdateSession(SqlConnection oConn, SqlTransaction oTran)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.Append(@"select 場次 from 查核與檢測資料_基本資料表 where 資料狀態='A' and guid=@guid ");
+		sb.Append(@"select 報告編號, 場次 from 查核與檢測資料_基本資料表 where 資料狀態='A' and guid=@guid ");
 
 		SqlCommand oCmd = oConn.CreateCommand();
 		oCmd.CommandText = sb.ToString();
@@ -278,7 +278,8 @@ guid,
 	public void UpdateData(SqlConnection oConn, SqlTransaction oTran)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.Append(@"update 查核與檢測資料_基本資料表 set  
+		sb.Append(@"update 查核與檢測資料_基本資料表 set 
+報告編號=@報告編號,
 場次=@場次,
 查核日期起=@查核日期起,
 查核日期迄=@查核日期迄,
