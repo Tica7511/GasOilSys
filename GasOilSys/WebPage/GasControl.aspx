@@ -416,22 +416,65 @@
                                     </select> 年
                                 </div>
                                 <div class="right">
+                                </div>
+                            </div><br />
+
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">1. 依據文件資料</div>
+                                <div class="right">
+                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
+                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div><br />
+                            <div class="stripeMeG tbover margin5T">
+                                <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
+                            		<thead>
+                            			<tr>
+                            				<th >依據文件名稱<span style="color:red">(轄區非公司) </span></th>
+                            				<th >文件編號 </th>
+                            				<th >文件日期 </th>
+                                            <th id="th_edit" >功能</th>
+                            			</tr>
+                            		</thead>
+                            		<tbody></tbody>
+                                </table>
+                            </div><!-- stripeMe -->
+                            <br /><br />
+
+                            <div class="twocol">
+                                <div class="left font-size5 ">
+                                </div>
+                                <div class="right">
                                     <a id="editbtn" href="javascript:void(0);" title="編輯" class="genbtn">編輯</a>
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
                                     <a id="subbtn" href="javascript:void(0);" title="儲存" class="genbtn" style="display:none">儲存</a>
                                 </div>
                             </div><br />
-                            <div class="OchiTrasTable width100 TitleLength09 font-size3">
 
+                            <div class="OchiTrasTable width100 TitleLength09 font-size3">
                                 <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正頻率</div>
-                                        <div class="OchiCell width100"><input type="text" id="pressureHz" class="inputex width80" disabled> 次/年</div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
-                                        <div class="OchiCell width100"><input type="text" id="pressureRecentTime" class="inputex width40 pickDate" disabled></div>
-                                    </div><!-- OchiHalf -->
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">2. 為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期</div>
+                                    <div class="OchiCell width100"><input type="text" id="monitorTime" class="inputex width20" disabled></div>
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">3. 合格操作人員總數</div>
+                                    <div class="OchiCell width100"><input type="number" min="0" id="TotalOperator" class="inputex width20" disabled> 人</div>
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">                                    
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth left">4. 輪班制度</div>
+                                    <div class="OchiCell width100"><input type="radio" name="rbShift" value="01" disabled> 三班二輪 ；<input type="radio" name="rbShift" value="02" disabled > 四班三輪</div>
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">                                    
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">5. 每班人數</div>
+                                    <div class="OchiCell width100"><input type="number" min="0" id="classPerson" class="inputex width20" disabled> 人</div>
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">                                    
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">6. 每班時數</div>
+                                    <div class="OchiCell width100"><input type="radio" name="rbClassTime" value="01" disabled> 8小時  ;  <input type="radio" name="rbClassTime" value="02" disabled >12小時 ; <input type="radio" name="rbClassTime" value="03" disabled>其他</div>
+                                </div><!-- OchiRow -->
+                                <%--<div class="OchiRow">                                    
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
+                                    <div class="OchiCell width100"><input type="text" id="pressureRecentTime" class="inputex width40 pickDate" disabled></div>
                                 </div><!-- OchiRow -->
 
                                 <div class="OchiRow">
@@ -444,56 +487,11 @@
                                         <div class="OchiCell width100"><input type="text" id="flowRecentTime" class="inputex width40 pickDate" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
-
                                 <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期</div>
-                                        <div class="OchiCell width100"><input type="text" id="monitorTime" class="inputex width99" disabled></div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">合格操作人員總數</div>
-                                        <div class="OchiCell width100"><input type="number" min="0" id="TotalOperator" class="inputex width80" disabled> 人</div>
-                                    </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-
-                                <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">輪班制度</div>
-                                        <div class="OchiCell width100"><input type="radio" name="rbShift" value="01" disabled> 三班二輪 ；<input type="radio" name="rbShift" value="02" disabled > 四班三輪</div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">每班人數</div>
-                                        <div class="OchiCell width100"><input type="number" min="0" id="classPerson" class="inputex width80" disabled> 人</div>
-                                    </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-
-                                <div class="OchiRow">
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">每班時數</div>
-                                    <div class="OchiCell width100"><input type="radio" name="rbClassTime" value="01" disabled> 8小時  ;  <input type="radio" name="rbClassTime" value="02" disabled >12小時 ; <input type="radio" name="rbClassTime" value="03" disabled>其他</div>
-                                </div><!-- OchiRow -->
+                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正頻率</div>
+                                    <div class="OchiCell width100"><input type="text" id="pressureHz" class="inputex width80" disabled> 次/年</div>                                    
+                                </div><!-- OchiRow -->--%>
                             </div><!-- OchiTrasTable -->
-                            </br>
-
-                            <div class="twocol">
-                                <div class="left font-size4 margin10T font-bold">依據文件資料</div>
-                                <div class="right">
-                                    <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
-                                    <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
-                                </div>
-                            </div><br />
-                            <div class="stripeMeG tbover margin5T">
-                                <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
-									<thead>
-										<tr>
-											<th >依據文件名稱 </th>
-											<th >文件編號 </th>
-											<th >文件日期 </th>
-                                            <th id="th_edit" >功能</th>
-										</tr>
-									</thead>
-									<tbody></tbody>
-                                </table>
-                            </div><!-- stripeMe -->
                         </div><!-- col -->
                     </div><!-- row -->
                 </div>

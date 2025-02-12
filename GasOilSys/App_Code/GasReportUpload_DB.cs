@@ -138,6 +138,9 @@ else
 
         sb.Append(@"select * from 天然氣_查核簡報上傳 where 資料狀態='A' and 業者guid=@業者guid and 檔案名稱=@檔案名稱 ");
 
+        if (!string.IsNullOrEmpty(年度))
+            sb.Append(" and 年度=@年度 ");
+
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
@@ -145,6 +148,7 @@ else
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@檔案名稱", 檔案名稱);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
 
         oda.Fill(ds);
         return ds;
