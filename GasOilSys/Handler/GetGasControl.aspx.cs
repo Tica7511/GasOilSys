@@ -26,6 +26,7 @@ public partial class Handler_GetGasControl : System.Web.UI.Page
 			string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
 			string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
 			string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
+			string typeDetail = (string.IsNullOrEmpty(Request["typeDetail"])) ? LogInfo.companyGuid : Request["typeDetail"].ToString().Trim();
 
 			if (type == "list")
 			{
@@ -34,22 +35,41 @@ public partial class Handler_GetGasControl : System.Web.UI.Page
 
 				DataTable dt = db.GetList();
 				DataTable dt2 = db.GetList2();
+				DataTable dtS = db.GetListStress();
+				DataTable dtP = db.GetListPipe();
 				DataTable dt3 = db.GetYearList();
 				string xmlstr = string.Empty;
 				string xmlstr2 = string.Empty;
 				string xmlstr3 = string.Empty;
+				string xmlstr4 = string.Empty;
+				string xmlstr5 = string.Empty;
 
 				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
 				xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt2, "dataList2", "data_item2");
 				xmlstr3 = DataTableToXml.ConvertDatatableToXML(dt3, "dataList3", "data_item3");
-				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + xmlstr3 + "</root>";
+				xmlstr4 = DataTableToXml.ConvertDatatableToXML(dtS, "dataList4", "data_item4");
+				xmlstr5 = DataTableToXml.ConvertDatatableToXML(dtP, "dataList5", "data_item5");
+				xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + xmlstr3 + xmlstr4 + xmlstr5 + "</root>";
 				xDoc.LoadXml(xmlstr);
 			}
 			else
 			{
 				db._guid = guid;
+				DataTable dt = new DataTable();
 
-				DataTable dt = db.GetData();
+                switch (typeDetail)
+				{
+					case "01":
+                        dt = db.GetData();
+                        break;
+					case "02":
+						dt = db.GetDataStress();
+						break;
+					case "03":
+						dt = db.GetDataPipe();
+						break;
+				}
+
 				string xmlstr = string.Empty;
 
 				xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_GasControl.aspx.cs" Inherits="WebPage_edit_GasControl" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_GasControl_Pipe.aspx.cs" Inherits="WebPage_edit_GasControl_Pipe" %>
 
 <!DOCTYPE html>
 
@@ -17,6 +17,8 @@
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
         $(document).ready(function () {
+            getCheck();
+            getDDL();
             getData();
 
             //取消按鍵
@@ -31,17 +33,28 @@
             $(document).on("click", "#subbtn", function () {
                 var msg = '';
 
-                if ($("#txt1").val() == '')
-                    msg += "請輸入【依據文件名稱】\n";
-                if ($("#txt2").val() == '')
-                    msg += "請輸入【文件編號】\n";
-                if ($("#txt3").val() == '')
-                    msg += "請輸入【文件日期】\n";
+                if ($("#isPipe").val() == 'N') {
+                    if ($("#txt1_1").val() == '') {
+                        msg += "請選擇【長途管線識別碼】\n";
+                    }                        
+                }
+                else {
+                    if ($("#txt1").val() == '') {
+                        msg += "請選擇【長途管線識別碼】\n";
+                    } 
+                }
 
-                //if (msg != "") {
-                //    alert("Error message: \n" + msg);
-                //    return false;
-                //}
+                //if ($("#txt2").val() == '')
+                //    msg += "請輸入【前一年度管線變更性質】\n";
+                //if ($("#txt3").val() == '')
+                //    msg += "請輸入【長度】\n";
+                //if ($("#txt4").val() == '')
+                //    msg += "請選擇【管線位置】\n";
+
+                if (msg != "") {
+                    alert("Error message: \n" + msg);
+                    return false;
+                }
 
                 // Get form
                 var form = $('#form1')[0];
@@ -53,13 +66,17 @@
 
                 // If you want to add an extra field for the FormData
                 data.append("cp", $.getQueryString("cp"));
-                data.append("type", encodeURIComponent('01'));
                 data.append("guid", $.getQueryString("guid"));
+                data.append("type", encodeURIComponent('03'));
                 data.append("mode", encodeURIComponent(mode));
                 data.append("year", encodeURIComponent(getTaiwanDate()));
                 data.append("txt1", encodeURIComponent($("#txt1").val()));
                 data.append("txt2", encodeURIComponent($("#txt2").val()));
                 data.append("txt3", encodeURIComponent($("#txt3").val()));
+                data.append("txt4", encodeURIComponent($("#txt4").val()));
+                data.append("txt5", encodeURIComponent($("#txt5").val()));
+                data.append("txt6", encodeURIComponent($("#txt6").val()));
+                data.append("txt7", encodeURIComponent($("#txt7").val()));
 
                 $.ajax({
                     type: "POST",
@@ -103,7 +120,7 @@
                 data: {
                     guid: $.getQueryString("guid"),
                     type: "data",
-                    typeDetail: "01"
+                    typeDetail: "03"
                 },
                 error: function (xhr) {
                     alert("Error: " + xhr.status);
@@ -114,13 +131,123 @@
                         alert($(data).find("Error").attr("Message"));
                     }
                     else {
-                        var filestr = '';
-                        $("#fileContent").empty();
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                $("#txt1").val(getDate($(this).children("依據文件名稱").text().trim()));
-                                $("#txt2").val($(this).children("文件編號").text().trim());
-                                $("#txt3").val($(this).children("文件日期").text().trim());
+                                $("#txt1").val($(this).children("管線識別碼").text().trim());
+                                $("#txt2").val($(this).children("負責泵送或接收之控制室名稱").text().trim());
+                                $("#txt3").val($(this).children("操作壓力").text().trim());
+                                $("#txt4").val($(this).children("歷史操作壓力變動範圍").text().trim());
+                                $("#txt5").val($(this).children("壓力計警報設定值").text().trim());
+                                $("#txt6").val($(this).children("流量計警報設定值").text().trim());
+                                $("#txt7").val($(this).children("前一年度警報發生頻率").text().trim());
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+        function getDDL() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetGasTubeInfo.aspx",
+                data: {
+                    cpid: $.getQueryString("cp"),
+                    type: "list",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        var ddlstr = '<option value="">請選擇</option>';
+                        if ($(data).find("data_item3").length > 0) {
+                            $(data).find("data_item3").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("長途管線識別碼").text().trim() + '">' + $(this).children("長途管線識別碼").text().trim() + '</option>';
+                            });
+                        }
+
+                        $("#txt1").empty();
+                        $("#txt1").append(ddlstr);
+                    }
+                }
+            });
+        }
+
+        function getDDL2(gNo) {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetDDLlist.aspx",
+                data: {
+                    gNo: gNo,
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        var ddlstr = '<option value="">請選擇</option>';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("項目名稱").text().trim() + '">' + $(this).children("項目名稱").text().trim() + '</option>';
+                            });
+                        }
+                        switch (gNo) {
+                            case '032':
+                                $("#txt2").empty();
+                                $("#txt2").append(ddlstr);
+                                $("#txt6").empty();
+                                $("#txt6").append(ddlstr);
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+
+        //取得是否有管線管理
+        function getCheck() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Gas",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var isPipe = $(this).children("管線管理不顯示").text().trim();
+
+                                if (isPipe == 'N') {
+                                    $("#txt1").hide();
+                                    $("#txt1_1").show();
+                                    $("#isPipe").val('N');
+                                }
+                                else {
+                                    $("#txt1").show();
+                                    $("#txt1_1").hide();
+                                    $("#isPipe").val('');
+                                }
                             });
                         }
                     }
@@ -198,6 +325,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
 		<!--#include file="GasHeader.html"-->
+        <input type="hidden" id="isPipe" />
         <input type="hidden" id="Sno" />
         <div id="ContentWrapper">
             <div class="container margin15T">
@@ -210,6 +338,11 @@
                         </div>
 						<div class="col-lg-9 col-md-8 col-sm-7">
                             <div class="twocol">
+                                <div class="left font-size4" style="width:50%">
+                                    <i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
+                                    長途管線識別碼 : <select id="txt1" class="width40 inputex" ></select>
+                                    <input id="txt1_1" class="width40 inputex" />
+                                </div>
                                 <div class="right">
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" >取消</a>
                                     <a id="subbtn" href="javascript:void(0);" title="儲存" class="genbtn" >儲存</a>
@@ -217,17 +350,33 @@
                             </div><br />
                             <div class="OchiTrasTable width100 TitleLength09 font-size3">
                                 <div class="OchiRow">
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">依據文件名稱</div>
-                                    <div class="OchiCell width100"><input type="text" id="txt1" class="inputex width99"></div>
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">文件編號</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">負責泵送或接收之控制室名稱</div>
                                         <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">文件日期</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width40 pickDate" disabled></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">操作壓力</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100"> Kg/cm<sup>2</sup></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">歷史操作壓力變動範圍(%或絕對值)</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計警報設定值(上限/下限)</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計警報設定值</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt6" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">前一年度警報發生頻率</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
@@ -320,6 +469,7 @@
 	<script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
+
 
 
 

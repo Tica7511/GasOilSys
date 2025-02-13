@@ -43,6 +43,16 @@
                 location.href = "edit_GasControl.aspx?cp=" + $.getQueryString("cp");
             });
 
+            //新增按鈕
+            $(document).on("click", "#newstressbtn", function () {
+                location.href = "edit_GasControl_Stress.aspx?cp=" + $.getQueryString("cp");
+            });
+
+            //新增按鈕
+            $(document).on("click", "#newpipebtn", function () {
+                location.href = "edit_GasControl_Pipe.aspx?cp=" + $.getQueryString("cp");
+            });
+
             //編輯按鈕
             $(document).on("click", "#editbtn", function () {
                 $("#mode").val("edit");
@@ -141,6 +151,35 @@
                         async: false, //在沒有返回值之前,不會執行下一步動作
                         url: "../handler/DelGasControl.aspx",
                         data: {
+                            type: '01',
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
+
+            //刪除按鈕
+            $(document).on("click", "a[name='delbtn2']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelGasControl.aspx",
+                        data: {
+                            type: '02',
                             guid: $(this).attr("aid"),
                         },
                         error: function (xhr) {
@@ -232,23 +271,81 @@
 							tabstr += '<tr><td colspan="4">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
 
+                        $("#tablistStress tbody").empty();
+                        var tabstr = '';
+                        if ($(data).find("data_item4").length > 0) {
+                            $(data).find("data_item4").each(function (i) {
+                                tabstr += '<tr>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("管線識別碼").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("自有端是否有設置壓力計").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("壓力計校正週期").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + getDate($(this).children("壓力計最近一次校正日期").text().trim()) + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("壓力計最近一次校正結果").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("自有端是否有設置流量計").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("流量計型式").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("流量計最小精度").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("流量計校正週期").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + getDate($(this).children("流量計最近一次校正日期").text().trim()) + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("流量計最近一次校正結果").text().trim() + '</td>';
+                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn2" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_GasControl_Stress.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn2">編輯</a></td>';
+                                tabstr += '</tr>';
+                            });
+                        }
+                        else
+                            tabstr += '<tr><td colspan="13">查詢無資料</td></tr>';
+                        $("#tablistStress tbody").append(tabstr);
+
+                        $("#tablistPipe tbody").empty();
+                        var tabstr = '';
+                        if ($(data).find("data_item5").length > 0) {
+                            $(data).find("data_item5").each(function (i) {
+                                tabstr += '<tr>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("管線識別碼").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("負責泵送或接收之控制室名稱").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("操作壓力").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("歷史操作壓力變動範圍").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("壓力計警報設定值").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("流量計警報設定值").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("前一年度警報發生頻率").text().trim() + '</td>';
+                                tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn3" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
+                                tabstr += ' <a href="edit_GasControl_Pipe.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn3">編輯</a></td>';
+                                tabstr += '</tr>';
+                            });
+                        }
+                        else
+                            tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
+                        $("#tablistPipe tbody").append(tabstr);
+
                         //確認權限&按鈕顯示或隱藏
                         if ($("#sellist").val() != getTaiwanDate()) {
                             $("#editbtn").hide();
+                            $("#editbtn2").hide();
+                            $("#editbtn3").hide();
                             $("#newbtn").hide();
+                            $("#newstressbtn").hide();
+                            $("#newpipebtn").hide();
                             $("#th_edit").hide();
                             $("td[name='td_edit']").hide();
                         }
                         else {
                             if (($("#Competence").val() == '01') || ($("#Competence").val() == '04') || ($("#Competence").val() == '05') || ($("#Competence").val() == '06')) {
                                 $("#newbtn").hide();
+                                $("#newstressbtn").hide();
+                                $("#newpipebtn").hide();
                                 $("#editbtn").hide();
+                                $("#editbtn2").hide();
+                                $("#editbtn3").hide();
                                 $("#th_edit").hide();
                                 $("td[name='td_edit']").hide();
                             }
                             else {
                                 $("#newbtn").show();
+                                $("#newstressbtn").show();
+                                $("#newpipebtn").show();
                                 $("#editbtn").show();
+                                $("#editbtn2").show();
+                                $("#editbtn3").show();
                                 $("#th_edit").show();
                                 $("td[name='td_edit']").show();
                             }
@@ -286,6 +383,8 @@
                                 if ($("#Competence").val() != '03') {
                                     if (dataConfirm == "是") {
                                         $("#newbtn").hide();
+                                        $("#newstressbtn").hide();
+                                        $("#newpipebtn").hide();
                                         $("#editbtn").hide();
                                         $("#th_edit").hide();
                                         $("td[name='td_edit']").hide();
@@ -418,19 +517,18 @@
                                 <div class="right">
                                 </div>
                             </div><br />
-
                             <div class="twocol">
                                 <div class="left font-size3 margin10T">1. 依據文件資料</div>
                                 <div class="right">
                                     <a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>
                                     <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
                                 </div>
-                            </div><br />
+                            </div>
                             <div class="stripeMeG tbover margin5T">
                                 <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
                             		<thead>
                             			<tr>
-                            				<th >依據文件名稱<span style="color:red">(轄區非公司) </span></th>
+                            				<th >依據文件名稱 </th>
                             				<th >文件編號 </th>
                             				<th >文件日期 </th>
                                             <th id="th_edit" >功能</th>
@@ -438,9 +536,7 @@
                             		</thead>
                             		<tbody></tbody>
                                 </table>
-                            </div><!-- stripeMe -->
-                            <br /><br />
-
+                            </div><!-- stripeMe --><br />
                             <div class="twocol">
                                 <div class="left font-size5 ">
                                 </div>
@@ -449,32 +545,99 @@
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" style="display:none">返回</a>
                                     <a id="subbtn" href="javascript:void(0);" title="儲存" class="genbtn" style="display:none">儲存</a>
                                 </div>
-                            </div><br />
+                            </div>
 
-                            <div class="OchiTrasTable width100 TitleLength09 font-size3">
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">2. 為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期 : <input type="text" id="monitorTime" class="inputex width20" disabled></div>
+                                <div class="right">
+                                </div>
+                            </div>
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">3. 合格操作人員總數 : <input type="number" min="0" id="TotalOperator" class="inputex width20" disabled> 人</div>
+                                <div class="right">
+                                </div>
+                            </div>
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">4. 輪班制度 : <input type="radio" name="rbShift" value="01" disabled> 三班二輪 ；<input type="radio" name="rbShift" value="02" disabled > 四班三輪</div>
+                                <div class="right">
+                                </div>
+                            </div>
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">5. 每班人數 : <input type="number" min="0" id="classPerson" class="inputex width20" disabled> 人</div>
+                                <div class="right">
+                                </div>
+                            </div>
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">6. 每班時數 : <input type="radio" name="rbClassTime" value="01" disabled> 8小時  ;  <input type="radio" name="rbClassTime" value="02" disabled >12小時 ; <input type="radio" name="rbClassTime" value="03" disabled>其他</div>
+                                <div class="right">
+                                </div>
+                            </div>
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">7. 壓力計及流量計資料 : </div>
+                                <div class="right">
+                                    <%--<a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>--%>
+                                    <a id="newstressbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div>
+                            <div class="stripeMeG tbover margin5T">
+                                <table id="tablistStress" width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                  	<thead>
+                                    	<tr>
+                                    		<th width="10%" >管線識別碼<br>(名稱) </th>
+                                    		<th width="10%" >自有端是否有設置壓力計(有/無) </th>
+                                    		<th width="5%" >壓力計校正週期 </th>
+                                    		<th width="10%" >壓力計最近一次校正日期 </th>
+                                    		<th width="5%" >壓力計最近一次校正結果 </th>
+                                    		<th width="10%" >自有端是否有設置流量計(有/無) </th>
+                                    		<th width="10%" >流量計型式(質量/超音波/…) </th>
+                                    		<th width="5%" >流量計最小精度 </th>
+                                    		<th width="5%" >流量計校正週期 </th>
+                                    		<th width="10%" >流量計最近一次校正日期 </th>
+                                    		<th width="5%" >流量計最近一次校正結果 </th>
+                                            <th width="5%" id="th_editStress" >功能</th>
+                                    	</tr>
+                                  	</thead>
+                                  	<tbody></tbody>
+                                </table>
+                            </div><!-- stripeMe --><br />
+
+                            <div class="twocol">
+                                <div class="left font-size3 margin10T">8. 管線輸送/接收資料 : </div>
+                                <div class="right">
+                                    <%--<a id="exportbtn" href="javascript:void(0);" title="匯出" class="genbtn">匯出</a>--%>
+                                    <a id="newpipebtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a>
+                                </div>
+                            </div>
+                            <div class="stripeMeG tbover margin5T">
+                                <table id="tablistPipe" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                    <tr>
+                                      	<th width="10%" >管線識別碼 </th>
+                                      	<th width="15%" >負責泵送或接收之控制室名稱 </th>
+                                      	<th width="10%" >操作壓力<br>(Kg/cm<sup>2</sup>) </th>
+                                      	<th width="20%" >歷史操作壓力變動範圍<br>(%或絕對值) </th>
+                                      	<th width="10%" >壓力計警報設定值<br>(上限/下限) </th>
+                                      	<th width="10%" >流量計警報設定值<br>(上限/下限) </th>
+                                      	<th width="10%" >前一年度警報發生頻率<br>(次/年) </th>
+                                        <th width="5%" id="th_editPipe" >功能</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div><!-- stripeMe --><br />
+
+                            <%--<div class="OchiTrasTable width100 TitleLength09 font-size3">
+
                                 <div class="OchiRow">
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">2. 為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期</div>
-                                    <div class="OchiCell width100"><input type="text" id="monitorTime" class="inputex width20" disabled></div>
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">3. 合格操作人員總數</div>
-                                    <div class="OchiCell width100"><input type="number" min="0" id="TotalOperator" class="inputex width20" disabled> 人</div>
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">                                    
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth left">4. 輪班制度</div>
-                                    <div class="OchiCell width100"><input type="radio" name="rbShift" value="01" disabled> 三班二輪 ；<input type="radio" name="rbShift" value="02" disabled > 四班三輪</div>
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">                                    
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">5. 每班人數</div>
-                                    <div class="OchiCell width100"><input type="number" min="0" id="classPerson" class="inputex width20" disabled> 人</div>
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">                                    
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">6. 每班時數</div>
-                                    <div class="OchiCell width100"><input type="radio" name="rbClassTime" value="01" disabled> 8小時  ;  <input type="radio" name="rbClassTime" value="02" disabled >12小時 ; <input type="radio" name="rbClassTime" value="03" disabled>其他</div>
-                                </div><!-- OchiRow -->
-                                <%--<div class="OchiRow">                                    
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
-                                    <div class="OchiCell width100"><input type="text" id="pressureRecentTime" class="inputex width40 pickDate" disabled></div>
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正頻率</div>
+                                        <div class="OchiCell width100"><input type="text" id="pressureHz" class="inputex width80" disabled> 次/年</div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">最近一次校正時間</div>
+                                        <div class="OchiCell width100"><input type="text" id="pressureRecentTime" class="inputex width40 pickDate" disabled></div>
+                                    </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
 
                                 <div class="OchiRow">
@@ -487,11 +650,40 @@
                                         <div class="OchiCell width100"><input type="text" id="flowRecentTime" class="inputex width40 pickDate" disabled></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
+
                                 <div class="OchiRow">
-                                    <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正頻率</div>
-                                    <div class="OchiCell width100"><input type="text" id="pressureHz" class="inputex width80" disabled> 次/年</div>                                    
-                                </div><!-- OchiRow -->--%>
-                            </div><!-- OchiTrasTable -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">2. 為使監控中心之時鐘、電腦系統、監視器時間一致，定期調整之週期</div>
+                                        <div class="OchiCell width100"><input type="text" id="monitorTime" class="inputex width99" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">3. 合格操作人員總數</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="TotalOperator" class="inputex width80" disabled> 人</div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">4. 輪班制度</div>
+                                        <div class="OchiCell width100"><input type="radio" name="rbShift" value="01" disabled> 三班二輪 ；<input type="radio" name="rbShift" value="02" disabled > 四班三輪</div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">5. 每班人數</div>
+                                        <div class="OchiCell width100"><input type="number" min="0" id="classPerson" class="inputex width80" disabled> 人</div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">6. 每班時數</div>
+                                        <div class="OchiCell width100"><input type="radio" name="rbClassTime" value="01" disabled> 8小時  ;  <input type="radio" name="rbClassTime" value="02" disabled >12小時 ; <input type="radio" name="rbClassTime" value="03" disabled>其他</div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                            </div><!-- OchiTrasTable -->--%>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div>

@@ -27,12 +27,25 @@ public partial class Handler_DelGasControl : System.Web.UI.Page
             #endregion
 
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+            string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
             string xmlstr = string.Empty;
 
             db._guid = guid;
             db._修改者 = LogInfo.mGuid;
 
-            db.DeleteData();
+            if (type == "01")
+            {
+                db.DeleteData();
+            }
+            else if (type == "02")
+            {
+                db.DeleteDataStress();
+            }
+            else
+            {
+                db.DeleteDataPipe();
+            }
+            
 
             xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>刪除成功</Response></root>";
             xDoc.LoadXml(xmlstr);
