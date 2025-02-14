@@ -220,6 +220,46 @@
             });
         }
 
+        //取得是否有管線管理
+        function getCheck() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var isPipe = $(this).children("管線管理不顯示").text().trim();
+
+                                if (isPipe == 'N') {
+                                    $("#txt1").hide();
+                                    $("#txt1_1").show();
+                                    $("#isPipe").val('N');
+                                }
+                                else {
+                                    $("#txt1").show();
+                                    $("#txt1_1").hide();
+                                    $("#isPipe").val('');
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
         function splitYearMonth(arrylenth, fulldate) {
 
             if (fulldate != '') {
@@ -323,6 +363,7 @@
                                 <div class="left font-size4" style="width:50%">
                                     <i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
                                     長途管線識別碼 : <select id="txt1" class="width40 inputex" ></select>
+                                    <input id="txt1_1" class="width40 inputex" />
                                 </div>
                                 <div class="right">
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" >取消</a>

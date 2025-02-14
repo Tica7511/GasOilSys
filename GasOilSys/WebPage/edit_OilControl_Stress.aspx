@@ -349,6 +349,7 @@
                                 <div class="left font-size4" style="width:50%">
                                     <i class="fa fa-chevron-circle-right IconCa" aria-hidden="true"></i> 
                                     長途管線識別碼 : <select id="txt1" class="width40 inputex" ></select>
+                                    <input id="txt1_1" class="width40 inputex" />
                                 </div>
                                 <div class="right">
                                     <a id="cancelbtn" href="javascript:void(0);" title="返回" class="genbtn" >取消</a>
