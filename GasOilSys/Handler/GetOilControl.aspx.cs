@@ -18,7 +18,7 @@ public partial class Handler_GetOilControl : System.Web.UI.Page
 		/// * Request["cpid"]: 業者Guid 
         /// * Request["year"]: 年度 
 		/// * Request["type"]: list=列表 data=資料列 
-		/// * Request["no"]: 1=石油_控制室_儲槽泵送接收資料 2=石油_控制室_管線輸送接收資料 
+		/// * Request["no"]: 1=石油_控制室_儲槽泵送接收資料 2=石油_控制室_管線輸送接收資料 3=石油_控制室_壓力計及流量計資料
 		///-----------------------------------------------------
 		XmlDocument xDoc = new XmlDocument();
         try
@@ -38,16 +38,19 @@ public partial class Handler_GetOilControl : System.Web.UI.Page
                 DataTable dt2 = db.GetList2();
                 DataTable dt3 = db.GetList3();
                 DataTable dt4 = db.GetYearList();
+                DataTable dt5 = db.GetList4();
                 string xmlstr = string.Empty;
                 string xmlstr2 = string.Empty;
                 string xmlstr3 = string.Empty;
                 string xmlstr4 = string.Empty;
+                string xmlstr5 = string.Empty;
 
                 xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
                 xmlstr2 = DataTableToXml.ConvertDatatableToXML(dt2, "dataList2", "data_item2");
                 xmlstr3 = DataTableToXml.ConvertDatatableToXML(dt3, "dataList3", "data_item3");
                 xmlstr4 = DataTableToXml.ConvertDatatableToXML(dt4, "dataList4", "data_item4");
-                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + xmlstr3 + xmlstr4 + "</root>";
+                xmlstr5 = DataTableToXml.ConvertDatatableToXML(dt5, "dataList5", "data_item5");
+                xmlstr = "<?xml version='1.0' encoding='utf-8'?><root>" + xmlstr + xmlstr2 + xmlstr3 + xmlstr4 + xmlstr5 + "</root>";
                 xDoc.LoadXml(xmlstr);
             }
             else
@@ -55,10 +58,18 @@ public partial class Handler_GetOilControl : System.Web.UI.Page
                 db._guid = guid;
                 DataTable dt = new DataTable();
 
-                if (no == "1")
-                    dt = db.GetData();
-                else
-                    dt = db.GetData2();
+                switch (no)
+                {
+                    case "1":
+                        dt = db.GetData();
+                        break;
+                    case "2":
+                        dt = db.GetData2();
+                        break;
+                    case "3":
+                        dt = db.GetDataStress();
+                        break;
+                }
 
                 string xmlstr = string.Empty;
 

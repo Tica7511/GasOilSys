@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilControl_Pipe.aspx.cs" Inherits="WebPage_edit_OilControl_Pipe" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="edit_OilControl_Stress.aspx.cs" Inherits="WebPage_edit_OilControl_Stress" %>
 
 <!DOCTYPE html>
 
@@ -17,8 +17,9 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
+            getCheck();
             getDDL();
-            getDDL2('044');
+            getDDL2('032');
             getData();
 
             //取消按鍵
@@ -33,24 +34,23 @@
             $(document).on("click", "#subbtn", function () {
                 var msg = '';
 
-                if ($("#txt1").val() == '')
-                    msg += "請選擇【長途管線識別碼】\n";
+                if ($("#isPipe").val() == 'N') {
+                    if ($("#txt1_1").val() == '') {
+                        msg += "請選擇【長途管線識別碼】\n";
+                    }
+                }
+                else {
+                    if ($("#txt1").val() == '') {
+                        msg += "請選擇【長途管線識別碼】\n";
+                    }
+                }
+
                 //if ($("#txt2").val() == '')
-                //    msg += "請選擇【負責泵送或接收之控制室名稱】\n";
+                //    msg += "請輸入【前一年度管線變更性質】\n";
                 //if ($("#txt3").val() == '')
-                //    msg += "請輸入【洩漏監控系統】\n";
-                //if ($("#txt8").val() == '')
-                //    msg += "請輸入【自有端是否有設置壓力】\n";
-                //if ($("#txt9").val() == '')
-                //    msg += "請輸入【自有端是否有設置流量】\n";
+                //    msg += "請輸入【長度】\n";
                 //if ($("#txt4").val() == '')
-                //    msg += "請輸入【操作壓力值】\n";
-                //if ($("#txt5").val() == '')
-                //    msg += "請選擇【壓力警報設定值】\n";
-                //if ($("#txt6").val() == '')
-                //    msg += "請選擇【流量警報設定值】\n";
-                //if ($("#txt7").val() == '')
-                //    msg += "請選擇【前一年度異常下降警報發生頻率】\n";
+                //    msg += "請選擇【管線位置】\n";
 
                 if (msg != "") {
                     alert("Error message: \n" + msg);
@@ -79,11 +79,14 @@
                 data.append("txt7", encodeURIComponent($("#txt7").val()));
                 data.append("txt8", encodeURIComponent($("#txt8").val()));
                 data.append("txt9", encodeURIComponent($("#txt9").val()));
+                data.append("txt10", encodeURIComponent($("#txt10").val()));
+                data.append("txt11", encodeURIComponent($("#txt11").val()));
+                data.append("txt12", encodeURIComponent($("#txt12").val()));
 
                 $.ajax({
                     type: "POST",
                     async: false, //在沒有返回值之前,不會執行下一步動作
-                    url: "../handler/AddOilControlTubeData.aspx",
+                    url: "../handler/AddOilControlStress.aspx",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -112,46 +115,46 @@
                 buttonImage: '../images/calendar.gif',
                 yearRange: 'c-60:c+10'
             }).BootStrap(); //BootStrap() 產生符合 BootStrap 的樣式內容
-		}); // end js
+        }); // end js
 
-		function getData() {
-			$.ajax({
-				type: "POST",
-				async: false, //在沒有返回值之前,不會執行下一步動作
+        function getData() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../Handler/GetOilControl.aspx",
-				data: {
+                data: {
                     guid: $.getQueryString("guid"),
                     type: "data",
-                    no: "2"
-				},
-				error: function (xhr) {
-					alert("Error: " + xhr.status);
-					console.log(xhr.responseText);
-				},
-				success: function (data) {
-					if ($(data).find("Error").length > 0) {
-						alert($(data).find("Error").attr("Message"));
-					}
-					else {
-						if ($(data).find("data_item").length > 0) {
+                    no: "3"
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                $("#txt1").val($(this).children("管線編號").text().trim());
-                                $("#txt2").val($(this).children("控制室名稱").text().trim());
-                                $("#txt3").val($(this).children("接收泵送路過").text().trim());
-                                //$("#txt3").val($(this).children("洩漏監控系統").text().trim());
-                                //$("#txt8").val($(this).children("自有端是否有設置壓力").text().trim());
-                                //$("#txt9").val($(this).children("自有端是否有設置流量").text().trim());
-                                $("#txt4").val($(this).children("操作壓力值").text().trim());
-                                $("#txt5").val($(this).children("壓力警報設定值").text().trim());
-                                $("#txt6").val($(this).children("流量警報設定值").text().trim());
-                                $("#txt7").val($(this).children("前一年度異常下降警報發生頻率").text().trim());
-                                $("#txt8").val($(this).children("歷史操作壓力變動範圍").text().trim());
-                                $("#txt9").val($(this).children("起泵至穩態之時間").text().trim());
-							});
-						}
-					}
-				}
-			});
+                                $("#txt1").val($(this).children("管線識別碼").text().trim());
+                                $("#txt2").val($(this).children("自有端是否有設置壓力計").text().trim());
+                                $("#txt3").val($(this).children("壓力計校正週期").text().trim());
+                                $("#txt4").val($(this).children("壓力計最近一次校正日期").text().trim());
+                                $("#txt5").val($(this).children("壓力計最近一次校正結果").text().trim());
+                                $("#txt6").val($(this).children("自有端是否有設置流量計").text().trim());
+                                $("#txt7").val($(this).children("流量計型式").text().trim());
+                                $("#txt8").val($(this).children("流量計最小精度").text().trim());
+                                $("#txt9").val($(this).children("流量計校正週期").text().trim());
+                                $("#txt10").val($(this).children("流量計最近一次校正日期").text().trim());
+                                $("#txt11").val($(this).children("流量計最近一次校正結果").text().trim());
+                                $("#txt12").val($(this).children("洩漏監控系統").text().trim());
+                            });
+                        }
+                    }
+                }
+            });
         }
 
         function getDDL() {
@@ -210,10 +213,52 @@
                             });
                         }
                         switch (gNo) {
-                            case '044':
-                                $("#txt3").empty();
-                                $("#txt3").append(ddlstr);
+                            case '032':
+                                $("#txt2").empty();
+                                $("#txt2").append(ddlstr);
+                                $("#txt6").empty();
+                                $("#txt6").append(ddlstr);
                                 break;
+                        }
+                    }
+                }
+            });
+        }
+
+        //取得是否有管線管理
+        function getCheck() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../Handler/GetCompanyName.aspx",
+                data: {
+                    type: "Oil",
+                    cpid: $.getQueryString("cp"),
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                var isPipe = $(this).children("管線管理不顯示").text().trim();
+
+                                if (isPipe == 'N') {
+                                    $("#txt1").hide();
+                                    $("#txt1_1").show();
+                                    $("#isPipe").val('N');
+                                }
+                                else {
+                                    $("#txt1").show();
+                                    $("#txt1_1").hide();
+                                    $("#isPipe").val('');
+                                }
+                            });
                         }
                     }
                 }
@@ -265,26 +310,6 @@
 
             return nowTwYear;
         }
-
-        //function getTaiwanDate() {
-        //    var nowDate = new Date();
-
-        //    var nowYear = nowDate.getFullYear();
-        //    var nowTwYear = (nowYear - 1911);
-
-        //    var ddlstr = '<option value="">請選擇</option>';
-
-        //    for (var i = 10; i >= 0; i--) {
-        //        ddlstr += '<option value="' + (nowTwYear - i).toString() + '">' + (nowTwYear - i).toString() + '</option>';
-        //    }
-
-        //    for (var j = 1; j <= 10; j++) {
-        //        ddlstr += '<option value="' + (nowTwYear + j).toString() + '">' + (nowTwYear + j).toString() + '</option>';
-        //    }
-
-        //    $("#sellist").empty();
-        //    $("#sellist").append(ddlstr);
-        //}
     </script>
 </head>
 <body class="bgB">
@@ -309,6 +334,7 @@
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
         <!--#include file="OilHeader.html"-->
+        <input type="hidden"id="isPipe" />
         <div id="ContentWrapper">
             <div class="container margin15T">
                 <div class="padding10ALL">
@@ -332,59 +358,58 @@
                             <div class="OchiTrasTable width100 TitleLength09 font-size3">
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">負責泵送或接收之</br>控制室名稱</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt2" class="inputex width100"></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">洩漏監控系統(LDS,防盜油系統,DCS系統...)</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt12" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <%--<div class="OchiCell OchiTitle IconCe TitleSetWidth">洩漏監控系統</div>--%>
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">接收/泵送/路過</div>
-                                        <div class="OchiCell width100"><select id="txt3" class="inputex width100"></select></div>
-                                    </div><!-- OchiHalf -->
-                                </div><!-- OchiRow -->
-                                <div class="OchiRow">
-                                    <div class="OchiHalf">
-                                        <%--<div class="OchiCell OchiTitle IconCe TitleSetWidth">自有端是否有設置壓力</div>
-                                        <div class="OchiCell width100">
-                                            <select id="txt8" class="inputex width100">
-                                                <option value="">請選擇</option>
-                                                <option value="有">有</option>
-                                                <option value="無">無</option>
-                                            </select>
-                                        </div>--%>
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">操作壓力值</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt4" class="inputex width100"></div>
-                                    </div><!-- OchiHalf -->
-                                    <div class="OchiHalf">
-                                        <%--<div class="OchiCell OchiTitle IconCe TitleSetWidth">自有端是否有設置流量</div>
-                                        <div class="OchiCell width100">
-                                            <select id="txt9" class="inputex width100">
-                                                <option value="">請選擇</option>
-                                                <option value="有">有</option>
-                                                <option value="無">無</option>
-                                            </select>
-                                        </div>--%>
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">歷史操作壓力變動範圍(%或絕對值)</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt8" class="inputex width100"></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計校正週期</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">起泵至穩態之時間(約XX分鐘)</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt9" class="inputex width100"></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計最近一次校正日期</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt4" class="inputex pickDate width40" disabled></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計警報設定值</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">壓力計最近一次校正結果</div>
                                         <div class="OchiCell width100"><input type="text" id="txt5" class="inputex width100"></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計警報設定值</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt6" class="inputex width100"></div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">自有端是否有設置流量計</div>
+                                        <div class="OchiCell width100"><select id="txt6" class="inputex width100"></select></div>
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
-                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">前一年度警報發生頻率</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt7" class="inputex width80"> 次/年</div>
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計型式(質量/超音波/…)</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt7" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計最小精度</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt8" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計校正週期</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt9" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計最近一次校正日期</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt10" class="inputex pickDate width40" disabled></div>
+                                    </div><!-- OchiHalf -->
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">流量計最近一次校正結果</div>
+                                        <div class="OchiCell width100"><input type="text" id="txt11" class="inputex width100"></div>
+                                    </div><!-- OchiHalf -->
+                                </div><!-- OchiRow -->
+                                <div class="OchiRow">
+                                    <div class="OchiHalf">
+                                        <div class="OchiCell OchiTitle IconCe TitleSetWidth">自有端是否有設置壓力計</div>
+                                        <div class="OchiCell width100"><select id="txt2" class="inputex width100"></select></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                             </div><!-- OchiTrasTable -->
@@ -460,3 +485,4 @@
     <script type="text/javascript" src="../js/autoHeight.js"></script><!-- 高度不足頁面的絕對置底footer -->
 </body>
 </html>
+

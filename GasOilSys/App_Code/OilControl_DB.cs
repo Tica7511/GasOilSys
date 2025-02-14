@@ -38,8 +38,21 @@ public class OilControl_DB
     DateTime 修改日期;
     string 資料狀態 = string.Empty;
 
+    //壓力計及流量計資料
+    string 自有端是否有設置壓力計 = string.Empty;
+    string 壓力計校正週期 = string.Empty;
+    string 壓力計最近一次校正日期 = string.Empty;
+    string 壓力計最近一次校正結果 = string.Empty;
+    string 自有端是否有設置流量計 = string.Empty;
+    string 流量計型式 = string.Empty;
+    string 流量計最小精度 = string.Empty;
+    string 流量計校正週期 = string.Empty;
+    string 流量計最近一次校正日期 = string.Empty;
+    string 流量計最近一次校正結果 = string.Empty;
+
     //儲槽泵送接收資料
     string 轄區儲槽編號 = string.Empty;
+    string 洩漏監控系統 = string.Empty;
     string 控制室名稱 = string.Empty;
     string 液位監測方式 = string.Empty;
     string 液位監測靈敏度 = string.Empty;
@@ -50,7 +63,9 @@ public class OilControl_DB
 
     //管線輸送接收資料
     string 管線編號 = string.Empty;
-    string 洩漏監控系統 = string.Empty;
+    string 接收泵送路過 = string.Empty;
+    string 歷史操作壓力變動範圍 = string.Empty;
+    string 起泵至穩態之時間 = string.Empty;
     string 自有端是否有設置壓力 = string.Empty;
     string 自有端是否有設置流量 = string.Empty;
     string 操作壓力值 = string.Empty;
@@ -81,6 +96,18 @@ public class OilControl_DB
     public DateTime _修改日期 { set { 修改日期 = value; } }
     public string _資料狀態 { set { 資料狀態 = value; } }
 
+    //壓力計及流量計資料
+    public string _自有端是否有設置壓力計 { set { 自有端是否有設置壓力計 = value; } }
+    public string _壓力計校正週期 { set { 壓力計校正週期 = value; } }
+    public string _壓力計最近一次校正日期 { set { 壓力計最近一次校正日期 = value; } }
+    public string _壓力計最近一次校正結果 { set { 壓力計最近一次校正結果 = value; } }
+    public string _自有端是否有設置流量計 { set { 自有端是否有設置流量計 = value; } }
+    public string _流量計型式 { set { 流量計型式 = value; } }
+    public string _流量計最小精度 { set { 流量計最小精度 = value; } }
+    public string _流量計校正週期 { set { 流量計校正週期 = value; } }
+    public string _流量計最近一次校正日期 { set { 流量計最近一次校正日期 = value; } }
+    public string _流量計最近一次校正結果 { set { 流量計最近一次校正結果 = value; } }
+
     //儲槽泵送接收資料
     public string _轄區儲槽編號 { set { 轄區儲槽編號 = value; } }
     public string _洩漏監控系統 { set { 洩漏監控系統 = value; } }
@@ -93,6 +120,9 @@ public class OilControl_DB
 
     //管線輸送接收資料
     public string _管線編號 { set { 管線編號 = value; } }
+    public string _接收泵送路過 { set { 接收泵送路過 = value; } }
+    public string _歷史操作壓力變動範圍 { set { 歷史操作壓力變動範圍 = value; } }
+    public string _起泵至穩態之時間 { set { 起泵至穩態之時間 = value; } }
     public string _控制室名稱 { set { 控制室名稱 = value; } }
     public string _自有端是否有設置壓力 { set { 自有端是否有設置壓力 = value; } }
     public string _自有端是否有設置流量 { set { 自有端是否有設置流量 = value; } }
@@ -152,6 +182,28 @@ public class OilControl_DB
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 石油_控制室_管線輸送接收資料 where 資料狀態='A' and 業者guid=@業者guid ");
+        if (!string.IsNullOrEmpty(年度))
+            sb.Append(@" and 年度=@年度 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetList4()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_控制室_壓力計及流量計資料 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
             sb.Append(@" and 年度=@年度 ");
 
@@ -231,6 +283,25 @@ else
         StringBuilder sb = new StringBuilder();
 
         sb.Append(@"select * from 石油_控制室_管線輸送接收資料 where guid=@guid and 資料狀態='A' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetDataStress()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_控制室_壓力計及流量計資料 where guid=@guid and 資料狀態='A' ");
 
         oCmd.CommandText = sb.ToString();
         oCmd.CommandType = CommandType.Text;
@@ -487,6 +558,9 @@ where guid=@guid ";
 年度,
 業者guid,
 管線編號,
+接收泵送路過,
+歷史操作壓力變動範圍,
+起泵至穩態之時間,
 控制室名稱,
 洩漏監控系統,
 自有端是否有設置壓力,
@@ -503,6 +577,9 @@ where guid=@guid ";
 @年度,
 @業者guid,
 @管線編號,
+@接收泵送路過,
+@歷史操作壓力變動範圍,
+@起泵至穩態之時間,
 @控制室名稱,
 @洩漏監控系統,
 @自有端是否有設置壓力,
@@ -523,6 +600,9 @@ where guid=@guid ";
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@管線編號", 管線編號);
+        oCmd.Parameters.AddWithValue("@接收泵送路過", 接收泵送路過);
+        oCmd.Parameters.AddWithValue("@歷史操作壓力變動範圍", 歷史操作壓力變動範圍);
+        oCmd.Parameters.AddWithValue("@起泵至穩態之時間", 起泵至穩態之時間);
         oCmd.Parameters.AddWithValue("@控制室名稱", 控制室名稱);
         oCmd.Parameters.AddWithValue("@洩漏監控系統", 洩漏監控系統);
         oCmd.Parameters.AddWithValue("@自有端是否有設置壓力", 自有端是否有設置壓力);
@@ -547,6 +627,9 @@ where guid=@guid ";
         sb.Append(@"update 石油_控制室_管線輸送接收資料 set  
 年度=@年度, 
 管線編號=@管線編號,
+接收泵送路過=@接收泵送路過,
+歷史操作壓力變動範圍=@歷史操作壓力變動範圍,
+起泵至穩態之時間=@起泵至穩態之時間,
 控制室名稱=@控制室名稱,
 洩漏監控系統=@洩漏監控系統,
 自有端是否有設置壓力=@自有端是否有設置壓力,
@@ -564,6 +647,9 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@管線編號", 管線編號);
+        oCmd.Parameters.AddWithValue("@接收泵送路過", 接收泵送路過);
+        oCmd.Parameters.AddWithValue("@歷史操作壓力變動範圍", 歷史操作壓力變動範圍);
+        oCmd.Parameters.AddWithValue("@起泵至穩態之時間", 起泵至穩態之時間);
         oCmd.Parameters.AddWithValue("@控制室名稱", 控制室名稱);
         oCmd.Parameters.AddWithValue("@自有端是否有設置壓力", 自有端是否有設置壓力);
         oCmd.Parameters.AddWithValue("@自有端是否有設置流量", 自有端是否有設置流量);
@@ -585,6 +671,143 @@ where guid=@guid and 資料狀態=@資料狀態
         SqlCommand oCmd = new SqlCommand();
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         oCmd.CommandText = @"update 石油_控制室_管線輸送接收資料 set 
+修改日期=@修改日期, 
+修改者=@修改者, 
+資料狀態='D' 
+where guid=@guid ";
+
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+
+        oCmd.Connection.Open();
+        oCmd.ExecuteNonQuery();
+        oCmd.Connection.Close();
+    }
+
+    public void InsertDataStress(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into 石油_控制室_壓力計及流量計資料(  
+年度,
+業者guid,
+管線識別碼,
+洩漏監控系統,
+自有端是否有設置壓力計,
+壓力計校正週期,
+壓力計最近一次校正日期,
+壓力計最近一次校正結果,
+自有端是否有設置流量計,
+流量計型式,
+流量計最小精度,
+流量計校正週期,
+流量計最近一次校正日期,
+流量計最近一次校正結果,
+修改者, 
+修改日期, 
+建立者, 
+建立日期, 
+資料狀態 ) values ( 
+@年度,
+@業者guid,
+@管線識別碼,
+@洩漏監控系統,
+@自有端是否有設置壓力計,
+@壓力計校正週期,
+@壓力計最近一次校正日期,
+@壓力計最近一次校正結果,
+@自有端是否有設置流量計,
+@流量計型式,
+@流量計最小精度,
+@流量計校正週期,
+@流量計最近一次校正日期,
+@流量計最近一次校正結果,
+@修改者, 
+@修改日期, 
+@建立者, 
+@建立日期, 
+@資料狀態  
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@洩漏監控系統", 洩漏監控系統);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置壓力計", 自有端是否有設置壓力計);
+        oCmd.Parameters.AddWithValue("@壓力計校正週期", 壓力計校正週期);
+        oCmd.Parameters.AddWithValue("@壓力計最近一次校正日期", 壓力計最近一次校正日期);
+        oCmd.Parameters.AddWithValue("@壓力計最近一次校正結果", 壓力計最近一次校正結果);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置流量計", 自有端是否有設置流量計);
+        oCmd.Parameters.AddWithValue("@流量計型式", 流量計型式);
+        oCmd.Parameters.AddWithValue("@流量計最小精度", 流量計最小精度);
+        oCmd.Parameters.AddWithValue("@流量計校正週期", 流量計校正週期);
+        oCmd.Parameters.AddWithValue("@流量計最近一次校正日期", 流量計最近一次校正日期);
+        oCmd.Parameters.AddWithValue("@流量計最近一次校正結果", 流量計最近一次校正結果);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@建立日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void UpdateDataStress(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"update 石油_控制室_壓力計及流量計資料 set  
+年度=@年度,
+管線識別碼=@管線識別碼,
+洩漏監控系統=@洩漏監控系統,
+自有端是否有設置壓力計=@自有端是否有設置壓力計,
+壓力計校正週期=@壓力計校正週期,
+壓力計最近一次校正日期=@壓力計最近一次校正日期,
+壓力計最近一次校正結果=@壓力計最近一次校正結果,
+自有端是否有設置流量計=@自有端是否有設置流量計,
+流量計型式=@流量計型式,
+流量計最小精度=@流量計最小精度,
+流量計校正週期=@流量計校正週期,
+流量計最近一次校正日期=@流量計最近一次校正日期,
+流量計最近一次校正結果=@流量計最近一次校正結果,
+修改者=@修改者, 
+修改日期=@修改日期
+where guid=@guid and 資料狀態=@資料狀態 
+ ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@管線識別碼", 長途管線識別碼);
+        oCmd.Parameters.AddWithValue("@洩漏監控系統", 洩漏監控系統);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置壓力計", 自有端是否有設置壓力計);
+        oCmd.Parameters.AddWithValue("@壓力計校正週期", 壓力計校正週期);
+        oCmd.Parameters.AddWithValue("@壓力計最近一次校正日期", 壓力計最近一次校正日期);
+        oCmd.Parameters.AddWithValue("@壓力計最近一次校正結果", 壓力計最近一次校正結果);
+        oCmd.Parameters.AddWithValue("@自有端是否有設置流量計", 自有端是否有設置流量計);
+        oCmd.Parameters.AddWithValue("@流量計型式", 流量計型式);
+        oCmd.Parameters.AddWithValue("@流量計最小精度", 流量計最小精度);
+        oCmd.Parameters.AddWithValue("@流量計校正週期", 流量計校正週期);
+        oCmd.Parameters.AddWithValue("@流量計最近一次校正日期", 流量計最近一次校正日期);
+        oCmd.Parameters.AddWithValue("@流量計最近一次校正結果", 流量計最近一次校正結果);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", 'A');
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public void DeleteDataStress()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        oCmd.CommandText = @"update 石油_控制室_壓力計及流量計資料 set 
 修改日期=@修改日期, 
 修改者=@修改者, 
 資料狀態='D' 

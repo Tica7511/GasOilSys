@@ -356,7 +356,7 @@
                                     </div><!-- OchiHalf -->
                                     <div class="OchiHalf">
                                         <div class="OchiCell OchiTitle IconCe TitleSetWidth">操作壓力</div>
-                                        <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width100"> Kg/cm<sup>2</sup></div>
+                                        <div class="OchiCell width100"><input type="text" id="txt3" class="inputex width70"> Kg/cm<sup>2</sup></div>
                                     </div><!-- OchiHalf -->
                                 </div><!-- OchiRow -->
                                 <div class="OchiRow">
