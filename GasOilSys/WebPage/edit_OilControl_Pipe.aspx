@@ -17,6 +17,7 @@
     <!--#include file="Head_Include.html"-->
     <script type="text/javascript">
         $(document).ready(function () {
+            getCheck();
             getDDL();
             getDDL2('044');
             getData();
