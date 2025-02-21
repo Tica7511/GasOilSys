@@ -497,7 +497,7 @@
 
 <div class="container BoxBgWa BoxShadowD">
 <div class="WrapperBody" id="WrapperBody">
-		<!--#include file="GasHeader.html"-->
+		<!--#include file="PublicGasHeader.html"-->
         <input type="hidden" id="Competence" value="<%= competence %>" />
         <div id="ContentWrapper">
             <div class="container margin15T">

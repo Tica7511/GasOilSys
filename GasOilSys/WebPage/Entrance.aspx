@@ -177,7 +177,7 @@
                         </a>
                     </td>
                    <td width="33%" id="tdPublicGas">
-                        <a href="javascript:void(0);" target="_self" class="enerbtn">
+                        <a href="PublicGasInfo.aspx" target="_blank" class="enerbtn">
                             <i class="fa fa-cloud font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">公用天然氣事業輸儲設備</div>
                             <div class="font-size3">現場查核</div>
