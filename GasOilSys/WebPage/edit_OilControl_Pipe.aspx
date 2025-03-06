@@ -34,8 +34,16 @@
             $(document).on("click", "#subbtn", function () {
                 var msg = '';
 
-                if ($("#txt1").val() == '')
-                    msg += "請選擇【長途管線識別碼】\n";
+                if ($("#isPipe").val() == 'N') {
+                    if ($("#txt1_1").val() == '') {
+                        msg += "請輸入【長途管線識別碼】\n";
+                    }
+                }
+                else {
+                    if ($("#txt1").val() == '') {
+                        msg += "請選擇【長途管線識別碼】\n";
+                    }
+                }
                 //if ($("#txt2").val() == '')
                 //    msg += "請選擇【負責泵送或接收之控制室名稱】\n";
                 //if ($("#txt3").val() == '')
@@ -71,7 +79,12 @@
                 data.append("guid", $.getQueryString("guid"));
                 data.append("mode", encodeURIComponent(mode));
                 data.append("year", encodeURIComponent(getTaiwanDate()));
-                data.append("txt1", encodeURIComponent($("#txt1").val()));
+                if ($("#isPipe").val() == 'N') {
+                    data.append("txt1", encodeURIComponent($("#txt1_1").val()));
+                }
+                else {
+                    data.append("txt1", encodeURIComponent($("#txt1").val()));
+                }
                 data.append("txt2", encodeURIComponent($("#txt2").val()));
                 data.append("txt3", encodeURIComponent($("#txt3").val()));
                 data.append("txt4", encodeURIComponent($("#txt4").val()));
@@ -136,7 +149,12 @@
 					else {
 						if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                $("#txt1").val($(this).children("管線編號").text().trim());
+                                if ($("#isPipe").val() == 'N') {
+                                    $("#txt1_1").val($(this).children("管線識別碼").text().trim());
+                                }
+                                else {
+                                    $("#txt1").val($(this).children("管線識別碼").text().trim());
+                                }
                                 $("#txt2").val($(this).children("控制室名稱").text().trim());
                                 $("#txt3").val($(this).children("接收泵送路過").text().trim());
                                 //$("#txt3").val($(this).children("洩漏監控系統").text().trim());
@@ -247,12 +265,12 @@
                                 if (isPipe == 'N') {
                                     $("#txt1").hide();
                                     $("#txt1_1").show();
-                                    $("#isPipe").val('N');
+                                    $("#isPipe").val(isPipe);
                                 }
                                 else {
                                     $("#txt1").show();
                                     $("#txt1_1").hide();
-                                    $("#isPipe").val('');
+                                    $("#isPipe").val(isPipe);
                                 }
                             });
                         }

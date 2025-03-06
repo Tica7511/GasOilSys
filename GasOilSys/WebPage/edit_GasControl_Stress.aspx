@@ -71,7 +71,12 @@
                 data.append("type", encodeURIComponent('02'));
                 data.append("mode", encodeURIComponent(mode));
                 data.append("year", encodeURIComponent(getTaiwanDate()));
-                data.append("txt1", encodeURIComponent($("#txt1").val()));
+                if ($("#isPipe").val() == 'N') {
+                    data.append("txt1", encodeURIComponent($("#txt1_1").val()));
+                }
+                else {
+                    data.append("txt1", encodeURIComponent($("#txt1").val()));
+                }
                 data.append("txt2", encodeURIComponent($("#txt2").val()));
                 data.append("txt3", encodeURIComponent($("#txt3").val()));
                 data.append("txt4", encodeURIComponent($("#txt4").val()));
@@ -138,7 +143,12 @@
                     else {
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
-                                $("#txt1").val($(this).children("管線識別碼").text().trim());
+                                if ($("#isPipe").val() == 'N') {
+                                    $("#txt1_1").val($(this).children("管線識別碼").text().trim());
+                                }
+                                else {
+                                    $("#txt1").val($(this).children("管線識別碼").text().trim());
+                                }
                                 $("#txt2").val($(this).children("自有端是否有設置壓力計").text().trim());
                                 $("#txt3").val($(this).children("壓力計校正週期").text().trim());
                                 $("#txt4").val($(this).children("壓力計最近一次校正日期").text().trim());
@@ -250,12 +260,12 @@
                                 if (isPipe == 'N') {
                                     $("#txt1").hide();
                                     $("#txt1_1").show();
-                                    $("#isPipe").val('N');
+                                    $("#isPipe").val(isPipe);
                                 }
                                 else {
                                     $("#txt1").show();
                                     $("#txt1_1").hide();
-                                    $("#isPipe").val('');
+                                    $("#isPipe").val(isPipe);
                                 }
                             });
                         }
