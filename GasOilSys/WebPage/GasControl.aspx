@@ -198,6 +198,34 @@
                     });
                 }
             });
+
+            //刪除按鈕
+            $(document).on("click", "a[name='delbtn3']", function () {
+                if (confirm("確定刪除?")) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../handler/DelGasControl.aspx",
+                        data: {
+                            type: '03',
+                            guid: $(this).attr("aid"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getData($("#sellist").val());
+                            }
+                        }
+                    });
+                }
+            });
         }); // end js
 
         function setDisplayed(status) {
