@@ -408,7 +408,7 @@
                                             <th nowrap>沈陷量測<br>點數 </th>
                                             <th nowrap>沈陷量測<br>日期 </th>
                                             <th nowrap>接地電阻<br>&lt;10Ω </th>
-                                            <th nowrap>壁板是否具<br>包附層 </th>
+                                            <th nowrap>壁板是否具<br>包覆層 </th>
                                             <th nowrap>壁板外部<br>嚴重腐蝕或點蝕 </th>
                                             <th nowrap>第一層壁板<br>內部下方腐蝕 </th>
                                             <th nowrap>維修方式<br>是否有符合API653</th>

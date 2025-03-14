@@ -42,8 +42,10 @@ public partial class Handler_DelFile : System.Web.UI.Page
             string fguid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
             string category = (string.IsNullOrEmpty(Request["category"])) ? "" : Request["category"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
+            string details = (string.IsNullOrEmpty(Request["details"])) ? "" : Request["details"].ToString().Trim();
             string xmlstr = string.Empty;
             string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
+            string NewName = string.Empty;
 
             db._guid = fguid;
             db._修改者 = LogInfo.mGuid;
@@ -63,6 +65,36 @@ public partial class Handler_DelFile : System.Web.UI.Page
                         }
                         break;
                     case "Gas":
+                        break;
+                    case "PublicGas":
+                        UpLoadPath += "PublicGas\\";
+                        switch (type)
+                        {
+                            case "Info":
+                                switch (details)
+                                {
+                                    case "14":
+                                        UpLoadPath += "info\\checkreport\\";
+                                        break;
+                                    case "15":
+                                        UpLoadPath += "info\\report\\";
+                                        break;
+                                    case "16":
+                                        UpLoadPath += "info\\resultreport\\";
+                                        break;
+                                }
+
+                                db._guid = fguid;
+                                db._檔案類型 = details;
+                                dt = db.GetFileData();
+                                if (dt.Rows.Count > 0)
+                                {
+                                    NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["附檔名"].ToString());
+                                }
+
+                                UpLoadPath += NewName;
+                                break;
+                        }
                         break;
                 }
                 FileInfo fi = new FileInfo(UpLoadPath);

@@ -14,6 +14,7 @@ public partial class Handler_AddFile : System.Web.UI.Page
 {
     OilReportUpload_DB odb = new OilReportUpload_DB();
     GasReportUpload_DB gdb = new GasReportUpload_DB();
+    FileTable fdb = new FileTable();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -41,8 +42,11 @@ public partial class Handler_AddFile : System.Web.UI.Page
             }
             #endregion            
 
+            string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
+            string detail = (string.IsNullOrEmpty(Request["detail"])) ? "" : Request["detail"].ToString().Trim();
+            string sn = (string.IsNullOrEmpty(Request["sn"])) ? "" : Request["sn"].ToString().Trim();
             string xmlstr = string.Empty;
 
             #region 檢查資料庫是否有檔案
@@ -58,6 +62,14 @@ public partial class Handler_AddFile : System.Web.UI.Page
                     odb._業者guid = cpid;
                     DataTable odt = odb.GetList();
                     if (odt.Rows.Count > 0)
+                        throw new Exception("請先刪除報告再上傳");
+                    break;
+                case "publicgas":
+                    fdb._guid = guid;
+                    fdb._檔案類型 = type;
+                    fdb._排序 = sn;
+                    DataTable fdt = fdb.GetFileData();
+                    if (fdt.Rows.Count > 0)
                         throw new Exception("請先刪除報告再上傳");
                     break;
             }
@@ -79,6 +91,21 @@ public partial class Handler_AddFile : System.Web.UI.Page
                             break;
                         case "oil":
                             UpLoadPath += "Oil_Upload\\report\\";
+                            break;
+                        case "publicgas":
+                            UpLoadPath += "PublicGas\\";
+                            switch (detail)
+                            {
+                                case "14":
+                                    UpLoadPath += "CheckReport\\";
+                                    break;
+                                case "15":
+                                    UpLoadPath += "Report\\";
+                                    break;
+                                case "16":
+                                    UpLoadPath += "ResultReport\\";
+                                    break;
+                            }
                             break;
                     }
 

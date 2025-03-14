@@ -31,6 +31,7 @@ namespace ED.HR.DOWNLOAD.WebForm
 			try
 			{
                 string isZip = (string.IsNullOrEmpty(Request["isZip"])) ? "" : Common.FilterCheckMarxString(Request["isZip"].ToString().Trim());
+                string cpid = Common.FilterCheckMarxString(Request.QueryString["cpid"]);
                 string category = Common.FilterCheckMarxString(Request.QueryString["category"]);
                 string type = Common.FilterCheckMarxString(Request.QueryString["type"]);
                 string details = Common.FilterCheckMarxString(Request.QueryString["details"]);
@@ -255,9 +256,20 @@ namespace ED.HR.DOWNLOAD.WebForm
                             switch (type)
                             {
                                 case "Info":
-                                    dirPath += "Check\\";
+                                    switch (details)
+                                    {
+                                        case "14":
+                                            dirPath += "info\\checkreport\\";
+                                            break;
+                                        case "15":
+                                            dirPath += "info\\report\\";
+                                            break;
+                                        case "16":
+                                            dirPath += "info\\resultreport\\";
+                                            break;
+                                    }
+
                                     Fdb._guid = Common.FilterCheckMarxString(Request.QueryString["v"]);
-                                    Fdb._排序 = sn;
                                     Fdb._檔案類型 = details;
                                     dt = Fdb.GetFileData();
                                     if (dt.Rows.Count > 0)

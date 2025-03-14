@@ -21,6 +21,99 @@
 
             getData();
 
+            //上傳檔案
+            $(document).on("click", "#savebtn", function () {
+                var msg = '';
+
+                if ($("#fileUpload").val() == "")
+                    msg += "請先選擇檔案再上傳";
+                if (msg != "") {
+                    alert(msg);
+                    return false;
+                }
+
+                // Get form
+                var form = $('#form1')[0];
+
+                // Create an FormData object 
+                var data = new FormData(form);
+
+                // If you want to add an extra field for the FormData
+                data.append("cpid", $("#CPID").val());
+                data.append("category", "publicgas");
+                data.append("year", getTaiwanDate());
+                data.append("type", "info");
+                data.append("details", $("#FType").val());
+                $.each($("#fileUpload")[0].files, function (i, file) {
+                    data.append('file', file);
+                });
+
+                $.ajax({
+                    type: "POST",
+                    async: true, //在沒有返回值之前,不會執行下一步動作
+                    url: "../Handler/AddDownload.aspx",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    error: function (xhr) {
+                        alert("Error: " + xhr.status);
+                        console.log(xhr.responseText);
+                    },
+                    beforeSend: function () {
+                        $("#alertText").show();
+                        $("#subbtn").prop("disabled", true);
+                    },
+                    complete: function () {
+                        $("#alertText").hide();
+                        $("#subbtn").prop("disabled", false);
+                    },
+                    success: function (data) {
+                        if ($(data).find("Error").length > 0) {
+                            alert($(data).find("Error").attr("Message"));
+                        }
+                        else {
+                            alert($("Response", data).text());
+                            getFileData($("#FType").val(), 'PublicGas', 'Info');
+                            $("#filediv").hide();
+                            $("#filebtn").show();
+                            $("#fileUpload").val("");
+                        }
+                    }
+                });
+            });
+
+            //刪除檔案
+            $(document).on("click", "a[name='delbtn']", function () {
+                var isDel = confirm("確定刪除檔案嗎?");
+                if (isDel) {
+                    $.ajax({
+                        type: "POST",
+                        async: false, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/DelFile.aspx",
+                        data: {
+                            guid: $(this).attr("aid"),
+                            category: "PublicGas",
+                            type: "Info",
+                            details: $(this).attr("atype"),
+                        },
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                alert($("Response", data).text());
+                                getFileData($("#FType").val(), 'PublicGas', 'Info');
+                            }
+                        }
+                    });
+                }
+            });
+
             //上傳檔案按鈕
             $(document).on("click", "#filebtn", function () {
                 $("#filebtn").hide();
@@ -36,7 +129,9 @@
 
             //上傳查核報告開窗
             $(document).on("click", "a[name='checkreportbtn']", function () {
-                getFileData('14', 'PublicGas', 'Info');
+                $("#FType").val($(this).attr("atype"));
+                $("#CPID").val($(this).attr("acpid"));
+                getFileData($("#FType").val(), 'PublicGas', 'Info');
                 $("#filediv").hide();
                 $("#sp_fileName").html('上傳查核報告');
                 doOpenMagPopup();
@@ -44,7 +139,9 @@
 
             //上傳簡報開窗
             $(document).on("click", "a[name='reportbtn']", function () {
-                getFileData('15', 'PublicGas', 'Info');
+                $("#FType").val($(this).attr("atype"));
+                $("#CPID").val($(this).attr("acpid"));
+                getFileData($("#FType").val(), 'PublicGas', 'Info');
                 $("#filediv").hide();
                 $("#sp_fileName").html('上傳簡報');
                 doOpenMagPopup();
@@ -52,7 +149,9 @@
 
             //查核結果報告開窗
             $(document).on("click", "a[name='resultreportbtn']", function () {
-                getFileData('16', 'PublicGas', 'Info');
+                $("#FType").val($(this).attr("atype"));
+                $("#CPID").val($(this).attr("acpid"));
+                getFileData($("#FType").val(), 'PublicGas', 'Info');
                 $("#sp_fileName").html('查核結果報告');
                 $("#filediv").hide();
                 doOpenMagPopup();
@@ -86,9 +185,12 @@
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("人數").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("地址").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("北中南分類").text().trim() + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a name="checkreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a name="reportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a name="resultreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="14" acpid="' + $(this).children("guid").text().trim() +
+                                    '" name="checkreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="15" acpid="' + $(this).children("guid").text().trim() +
+                                    '" name="reportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="16" acpid="' + $(this).children("guid").text().trim() +
+                                    '" name="resultreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
                                 tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a href="GasInfo.aspx?cp=' + $(this).children("guid").text().trim() + '">檢視</a>';
                                 tabstr += '</tr>';
                             });
@@ -107,8 +209,10 @@
                 async: false, //在沒有返回值之前,不會執行下一步動作
                 url: "../handler/GetFile.aspx",
                 data: {
-                    guid: $.getQueryString("guid"),
+                    cpid: $("#CPID").val(),
+                    category: category,
                     type: details,
+                    filetype: 'list'
                 },
                 error: function (xhr) {
                     alert("Error: " + xhr.status);
@@ -126,11 +230,11 @@
                                 var filename = $(this).children("原檔名").text().trim();
                                 var fileextension = $(this).children("附檔名").text().trim();
                                 tabstr += '<tr>'
-                                tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?category=' + category + '&type=' + type + '&details=' + details + '&sn=' + $(this).children("排序").text().trim() +
+                                tabstr += '<td nowrap><a href="../DOWNLOAD.aspx?cpid=' + $(this).children("guid").text().trim() + '&category=' + category + '&type=' + type + '&details=' + details + 
                                     '&v=' + $(this).children("guid").text().trim() + '">' + filename + fileextension + '</a></td>';
                                 tabstr += '<td nowrap>' + $(this).children("上傳日期").text().trim() + '</td>';
-                                tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtnFile" aid="' + $(this).children("guid").text().trim() +
-                                    '" asn="' + $(this).children("排序").text().trim() + '" atype="' + type + '">刪除</a></td>';
+                                tabstr += '<td name="td_editFile" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() +
+                                    '" asn="' + $(this).children("排序").text().trim() + '" atype="' + $(this).children("檔案類型").text().trim() + '">刪除</a></td>';
                                 tabstr += '</tr>';
                             });
                         }
@@ -139,8 +243,6 @@
                         $("#tablistFile tbody").append(tabstr);
 
                         $("#fileall").show();
-                        $("#thFunc").show();
-                        $("td[name='ftd']").show();
                     }
                 }
             });
@@ -176,6 +278,8 @@
 	<!-- 開頭用div:修正mmenu form bug -->
 	<div>
 	<form id="form1">
+        <input id="FType" type="hidden" />
+        <input id="CPID" type="hidden" />
 		<!-- Preloader -->
 		<div id="preloader" >
 			<div id="status" >
@@ -279,7 +383,7 @@
             <div id="fileall" >
                 <input type="button" id="filebtn" name="filebtn" value="上傳檔案" class="genbtn" />
             <div id="filediv">
-                <input type="file" id="fileUpload" name="fileUpload" />
+                <input type="file" id="fileUpload" multiple="multiple" name="fileUpload" />
                 <input type="button" id="savebtn" value="上傳" class="genbtn" />
                 <input type="button" id="cancelbtn" value="取消" class="genbtn" />
             </div>                                
@@ -287,7 +391,7 @@
         </div>
     </div><br>
       <div class="stripeMeB tbover">
-          <table id="Rtablist" border="0" cellspacing="0" cellpadding="0" width="100%">
+          <table id="tablistFile" border="0" cellspacing="0" cellpadding="0" width="100%">
               <thead>
 		        	<tr>
 		        		<th nowrap="nowrap" align="center" width="200">檔案名稱</th>

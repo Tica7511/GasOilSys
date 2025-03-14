@@ -789,7 +789,7 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
 
                     #endregion
                     break;
-                case "control2":
+                case "controlpipe":
                     #region 控制室 管線輸送/接收資料
 
                     db15._業者guid = cpid;
@@ -800,10 +800,10 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                     sheet.CreateRow(0);
                     sheet.GetRow(0).CreateCell(0).SetCellValue("管線編號");
                     sheet.GetRow(0).CreateCell(1).SetCellValue("負責泵送或接收之控制室名稱");
-                    sheet.GetRow(0).CreateCell(2).SetCellValue("洩漏監控系統(LDS,防盜油系統,DCS系統...)");
-                    sheet.GetRow(0).CreateCell(3).SetCellValue("自有端是否有設置壓力");
-                    sheet.GetRow(0).CreateCell(4).SetCellValue("自有端是否有設置流量");
-                    sheet.GetRow(0).CreateCell(5).SetCellValue("操作壓力值");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("接收/泵送/路過");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("操作壓力值");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("歷史操作壓力變動範圍(%或絕對值)");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("起泵至穩態之時間(約XX分鐘)");
                     sheet.GetRow(0).CreateCell(6).SetCellValue("壓力計警報設定值(上限/下限)");
                     sheet.GetRow(0).CreateCell(7).SetCellValue("流量計警報設定值(上限/下限)");
                     sheet.GetRow(0).CreateCell(8).SetCellValue("前一年度警報發生頻率 次/年");
@@ -814,16 +814,60 @@ namespace ED.HR.Oil_EXPORTEXCEL.WebForm
                             sheet.CreateRow(i + 1);
                             sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["管線編號"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["控制室名稱"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["洩漏監控系統"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["自有端是否有設置壓力"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["自有端是否有設置流量"].ToString().Trim());
-                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["操作壓力值"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["接收泵送路過"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["操作壓力值"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["歷史操作壓力變動範圍"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["起泵至穩態之時間"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["壓力警報設定值"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["流量警報設定值"].ToString().Trim());
                             sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["前一年度異常下降警報發生頻率"].ToString().Trim());
                         }
                     }
                     fileName = cpName + "_控制室_管線輸送接收資料.xls";
+
+                    #endregion
+                    break;
+                case "controlstress":
+                    #region 控制室 壓力計及流量計資料
+
+                    db15._業者guid = cpid;
+                    db15._年度 = year;
+                    dt = db15.GetList4();
+
+                    hssfworkbook.SetSheetName(0, "控制室 壓力計及流量計資料");
+                    sheet.CreateRow(0);
+                    sheet.GetRow(0).CreateCell(0).SetCellValue("管線識別碼");
+                    sheet.GetRow(0).CreateCell(1).SetCellValue("洩漏監控系統(LDS,防盜油系統,DCS系統...)");
+                    sheet.GetRow(0).CreateCell(2).SetCellValue("自有端是否有設置壓力計(有/無)");
+                    sheet.GetRow(0).CreateCell(3).SetCellValue("壓力計校正週期");
+                    sheet.GetRow(0).CreateCell(4).SetCellValue("壓力計最近一次校正日期");
+                    sheet.GetRow(0).CreateCell(5).SetCellValue("壓力計最近一次校正結果");
+                    sheet.GetRow(0).CreateCell(6).SetCellValue("自有端是否有設置流量計(有/無)");
+                    sheet.GetRow(0).CreateCell(7).SetCellValue("流量計型式(質量/超音波/…)");
+                    sheet.GetRow(0).CreateCell(8).SetCellValue("流量計最小精度");
+                    sheet.GetRow(0).CreateCell(9).SetCellValue("流量計校正週期");
+                    sheet.GetRow(0).CreateCell(10).SetCellValue("流量計最近一次校正日期");
+                    sheet.GetRow(0).CreateCell(11).SetCellValue("流量計最近一次校正結果");
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            sheet.CreateRow(i + 1);
+                            sheet.GetRow(i + 1).CreateCell(0).SetCellValue(dt.Rows[i]["管線識別碼"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(1).SetCellValue(dt.Rows[i]["洩漏監控系統"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(2).SetCellValue(dt.Rows[i]["自有端是否有設置壓力計"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(3).SetCellValue(dt.Rows[i]["壓力計校正週期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(4).SetCellValue(dt.Rows[i]["壓力計最近一次校正日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(5).SetCellValue(dt.Rows[i]["壓力計最近一次校正結果"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(6).SetCellValue(dt.Rows[i]["自有端是否有設置流量計"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(7).SetCellValue(dt.Rows[i]["流量計型式"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(8).SetCellValue(dt.Rows[i]["流量計最小精度"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(9).SetCellValue(dt.Rows[i]["流量計校正週期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(10).SetCellValue(dt.Rows[i]["流量計最近一次校正日期"].ToString().Trim());
+                            sheet.GetRow(i + 1).CreateCell(11).SetCellValue(dt.Rows[i]["流量計最近一次校正結果"].ToString().Trim());
+                        }
+                    }
+                    fileName = cpName + "_控制室_壓力計及流量計資料.xls";
 
                     #endregion
                     break;

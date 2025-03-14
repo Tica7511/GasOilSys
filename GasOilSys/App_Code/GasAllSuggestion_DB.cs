@@ -255,7 +255,7 @@ select A.天然氣自評表分類guid, A.天然氣自評表分類負責類別 as
 A.天然氣自評表分類名稱,A.天然氣自評表分類排序, B.guid as 總評guid, B.委員guid, B.委員, B.委員意見 
 into #tmp from 天然氣_自評表分類檔 A
 left join 天然氣_自評表委員總評 B on A.天然氣自評表分類guid = B.題目guid 
-WHERE A.天然氣自評表分類年份=@年度 and B.業者guid=@業者guid and B.資料狀態='A' 
+WHERE A.天然氣自評表分類年份=@年度 and B.年度=@年度 and B.業者guid=@業者guid and B.資料狀態='A' 
   
 
 select C.項目名稱 as 項目, Ap.* from #tmp Ap 

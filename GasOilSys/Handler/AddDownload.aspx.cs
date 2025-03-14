@@ -9,6 +9,7 @@ using System.Configuration;
 using System.IO;
 using System.Data;
 using System.Data.SqlClient;
+using NPOI.SS.Formula.Functions;
 
 public partial class Handler_AddDownload : System.Web.UI.Page
 {
@@ -19,6 +20,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
     OilInternalAudit_DB oiadb = new OilInternalAudit_DB();
     GasOnlineEvaluation_DB goedb = new GasOnlineEvaluation_DB();
     OilOnlineEvaluation_DB ooedb = new OilOnlineEvaluation_DB();
+    FileTable fdb = new FileTable();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -109,6 +111,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
             dt.Clear();
             #endregion
 
+            string sn = string.Empty;
+
             // 檔案上傳
             HttpFileCollection uploadFiles = Request.Files;
             for (int i = 0; i < uploadFiles.Count; i++)
@@ -185,6 +189,25 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     break;
                             }                           
                             break;
+                        case "publicgas":
+                            switch (type)
+                            {
+                                case "info":
+                                    switch (details)
+                                    {
+                                        case "14":
+                                            UpLoadPath += "PublicGas\\info\\checkreport\\";
+                                            break;
+                                        case "15":
+                                            UpLoadPath += "PublicGas\\info\\report\\";
+                                            break;
+                                        case "16":
+                                            UpLoadPath += "PublicGas\\info\\resultreport\\";
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
                     }
 
                     //原檔名
@@ -213,13 +236,15 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                         newFullName = orgName + "_" + tmpGuid + extension;
                     }
 
+                    string file_size = File.ContentLength.ToString();
+
                     //如果上傳路徑中沒有該目錄，則自動新增
                     if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
                     {
                         Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
                     }
 
-                    File.SaveAs(UpLoadPath + newFullName);                    
+                    File.SaveAs(UpLoadPath + newFullName);
 
                     switch (category)
                     {
@@ -321,6 +346,68 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     ooedb.SaveFile(oConn, myTrans);
                                     break;
                             }                            
+                            break;
+                        case "publicgas":
+                            switch (type)
+                            {
+                                case "info":
+                                    fdb._guid = "";
+                                    fdb._業者guid = cpid;
+                                    fdb._檔案類型 = details;
+                                    DataTable fdt = new DataTable();
+                                    fdt = fdb.GetData(oConn, myTrans);
+
+                                    if (fdt.Rows.Count == 0)
+                                    {
+                                        sn = "0" + (i + 1).ToString();
+                                    }
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(sn))
+                                        {
+                                            if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
+                                            {
+                                                sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
+                                            }
+                                            else
+                                            {
+                                                sn = (Convert.ToInt32(sn) + 1).ToString();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            DataTable ffdt = fdb.GetNoYearMaxSn();
+
+                                            if (ffdt.Rows.Count > 0)
+                                            {
+                                                int maxsn = Convert.ToInt32(ffdt.Rows[0]["Sort"].ToString().Trim());
+                                                if (maxsn > 9)
+                                                    sn = maxsn.ToString();
+                                                else
+                                                    sn = "0" + maxsn.ToString();
+                                            }
+                                            else
+                                            {
+                                                sn = "01";
+                                            }
+                                        }
+                                    }
+
+                                    fdb._guid = tmpGuid;
+                                    fdb._年度 = year;
+                                    fdb._原檔名 = orgName;
+                                    fdb._新檔名 = newName;
+                                    fdb._附檔名 = extension;
+                                    fdb._排序 = sn;
+                                    fdb._檔案大小 = file_size;
+                                    fdb._修改者 = LogInfo.mGuid;
+                                    fdb._修改日期 = DateTime.Now;
+                                    fdb._建立者 = LogInfo.mGuid;
+                                    fdb._建立日期 = DateTime.Now;
+
+                                    fdb.UpdateFile_Trans(oConn, myTrans);
+                                    break;
+                            }
                             break;
                     }
                 }

@@ -27,13 +27,23 @@ public partial class Handler_GetFile : System.Web.UI.Page
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
             string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
+            string filetype = (string.IsNullOrEmpty(Request["filetype"])) ? LogInfo.companyGuid : Request["filetype"].ToString().Trim();
 
             db._guid = guid;
             db._業者guid = cpid;
             db._檔案類型 = type;
             db._年度 = year;
 
-            DataTable dt = db.GetData();
+            DataTable dt = new DataTable();
+
+            if (filetype == "list")
+            {
+                dt = db.GetList();
+            }
+            else {
+                dt = db.GetData();
+            }
+
             string xmlstr = string.Empty;
 
             xmlstr = DataTableToXml.ConvertDatatableToXML(dt, "dataList", "data_item");
