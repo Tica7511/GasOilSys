@@ -57,6 +57,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
             string category = (string.IsNullOrEmpty(Request["category"])) ? "" : Request["category"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
             string details = (string.IsNullOrEmpty(Request["details"])) ? "" : Request["details"].ToString().Trim();
+            string PublicNewName = string.Empty;
+            string PublicExtension = string.Empty;
             string xmlstr = string.Empty;
             DataTable dt = new DataTable();
 
@@ -167,6 +169,9 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                 case "storageinspect":
                                     UpLoadPath += "Oil_Upload\\storageinspect\\";
                                     break;
+                                case "suggestionimport":
+                                    UpLoadPath += "Oil_Upload\\suggestionimport\\";
+                                    break;
                                 case "online":
                                     switch (details)
                                     {
@@ -232,8 +237,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                     }
                     else
                     {
-                        newName = orgName + "_" + tmpGuid;
-                        newFullName = orgName + "_" + tmpGuid + extension;
+                        newName = orgName;
+                        newFullName = orgName+ extension;
                     }
 
                     string file_size = File.ContentLength.ToString();
@@ -321,6 +326,26 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     oidb._修改者 = LogInfo.mGuid;
 
                                     oidb.SaveFile(oConn, myTrans);
+                                    break;
+                                case "suggestionimport":
+                                    PublicNewName = newName;
+                                    PublicExtension = extension;
+
+                                    fdb._guid = tmpGuid;
+                                    fdb._年度 = year;
+                                    fdb._業者guid = cpid;
+                                    fdb._檔案類型 = details;
+                                    fdb._原檔名 = orgName;
+                                    fdb._新檔名 = newName;
+                                    fdb._附檔名 = extension;
+                                    fdb._排序 = sn;
+                                    fdb._檔案大小 = file_size;
+                                    fdb._修改者 = LogInfo.mGuid;
+                                    fdb._修改日期 = DateTime.Now;
+                                    fdb._建立者 = LogInfo.mGuid;
+                                    fdb._建立日期 = DateTime.Now;
+
+                                    fdb.UpdateFile_Trans(oConn, myTrans);                                    
                                     break;
                                 case "storageinspect":
                                     oiadb._guid = guid;
@@ -415,7 +440,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
 
             myTrans.Commit();
 
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>儲存完成</Response></root>";
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>儲存完成</Response><fileName>" + PublicNewName + PublicExtension + "</fileName></root>";
             xDoc.LoadXml(xmlstr);
         }
         catch (Exception ex)

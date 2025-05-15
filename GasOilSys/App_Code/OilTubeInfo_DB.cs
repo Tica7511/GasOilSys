@@ -349,6 +349,26 @@ where 識別碼 like '%' + @識別碼 + '%'");
         return ds;
     }
 
+    public DataTable GetDataBySPNO(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_管線基本資料 where 業者guid=@業者guid and 長途管線識別碼=@長途管線識別碼 and 資料狀態='A' ");
+
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+
+        oCmd.Transaction = oTran;
+        oda.Fill(ds);
+        oCmd.ExecuteNonQuery();
+        return ds;
+    }
+
     public void InsertData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();

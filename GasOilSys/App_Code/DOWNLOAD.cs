@@ -14,6 +14,7 @@ namespace ED.HR.DOWNLOAD.WebForm
     {
         string OrgName = string.Empty;
         string NewName = string.Empty;
+        bool isWord = false;
         string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
         FileTable Fdb = new FileTable();
         GasCompanyInfo_DB GCdb = new GasCompanyInfo_DB();
@@ -188,6 +189,12 @@ namespace ED.HR.DOWNLOAD.WebForm
                                         NewName = Common.FilterCheckMarxString(dt.Rows[0]["新檔名"].ToString()) + Common.FilterCheckMarxString(dt.Rows[0]["佐證資料副檔名"].ToString());
                                     }                                        
                                     break;
+                                case "suggestionimport":
+                                    dirPath += "suggestionimport\\";
+                                    OrgName = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    NewName = Common.FilterCheckMarxString(Request.QueryString["v"]);
+                                    isWord = true;
+                                    break;
                                 case "online":
                                     dirPath += "online\\";
                                     switch (details)
@@ -328,16 +335,31 @@ namespace ED.HR.DOWNLOAD.WebForm
 
                     // 判斷檔案是否存在
                     if (file != null && file.Exists)
-                        Download(file);
+                    {
+                        if (isWord == true)
+                        {
+                            StreamDocxForOnlyOffice(file);
+                        }
+                        else
+                        {
+                            Download(file);
+                        }
+                    }
                     else
+                    {
                         throw new Exception("File not exist");
+                    }                        
                 }
 			}
 			catch (Exception ex)
 			{
-				//Response.Write("Error Message: " + ex.Message);
-				//Response.End();
-			}
+                string logPath = @"D:\log.txt";
+                File.AppendAllText(logPath, string.Format("[{0}] 錯誤：{1}\n", DateTime.Now, ex.Message));
+
+                Response.StatusCode = 500;
+                Response.Write("Download error");
+                Response.End();
+            }
         }
 
 
@@ -354,6 +376,31 @@ namespace ED.HR.DOWNLOAD.WebForm
             Response.WriteFile(DownloadFile.FullName);
             Response.Flush();
             Response.End();
+        }
+
+        private void StreamDocxForOnlyOffice(FileInfo docFile)
+        {
+            File.AppendAllText(@"D:\log.txt", string.Format("[{0}] 觸發 OnlyOffice 檔案串流：{1}\n", DateTime.Now, docFile.FullName));
+            string encodedFileName = Uri.EscapeDataString(docFile.Name);
+
+            HttpResponse response = HttpContext.Current.Response;
+            response.Clear();
+            response.ClearHeaders();
+            response.ClearContent();
+            response.Buffer = false;
+
+            response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            response.AddHeader("Content-Disposition", "inline; filename=\"test1.docx\""); // 避免 filename*= 問題
+            response.AddHeader("Content-Length", docFile.Length.ToString());
+            response.AddHeader("Access-Control-Allow-Origin", "*");
+            response.AppendHeader("Content-Encoding", "identity");
+
+            // 建議使用 TransmitFile 比 WriteFile 穩定
+            response.TransmitFile(docFile.FullName);
+            response.Flush();
+
+            // 正確結束流程，不要用 End()
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
 
         #region 傳回 ContentType

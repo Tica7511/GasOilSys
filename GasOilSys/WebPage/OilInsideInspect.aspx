@@ -92,8 +92,8 @@
 								tabstr += '<tr>';
                                 tabstr += '<td nowrap="nowrap">' + getDate($(this).children("日期").text().trim()) + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("執行單位").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + $(this).children("稽核範圍").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + $(this).children("缺失改善執行狀況").text().trim() + '</td>';
+                                tabstr += '<td >' + $(this).children("稽核範圍").text().trim() + '</td>';
+                                tabstr += '<td >' + $(this).children("缺失改善執行狀況").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("佐證資料").text().trim() + '</td>';
                                 tabstr += '<td nowrap="nowrap">';                                
                                 tabstr += '<img width="200px" height="200px" name="img_' + $(this).children("guid").text().trim() + '" src="../DOWNLOAD.aspx?category=Oil&type=pipeinspect&v=' + $(this).children("guid").text().trim() +
@@ -347,8 +347,8 @@
                                         <tr>
                                             <th nowrap>日期 </th>
                                             <th nowrap>執行單位 </th>
-                                            <th nowrap valign="top">稽核缺失 </th>
-                                            <th nowrap valign="top">缺失改善執行狀況 </th>
+                                            <th width="30%" nowrap valign="top">稽核缺失 </th>
+                                            <th width="30%" nowrap valign="top">缺失改善執行狀況 </th>
                                             <th nowrap>佐證資料說明 </th>
                                             <th nowrap>佐證檔案 </th>
                                             <th id="th_edit" nowrap>功能</th>

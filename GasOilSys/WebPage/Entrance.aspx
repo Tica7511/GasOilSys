@@ -87,6 +87,8 @@
                     $("#tdWeekReport").hide();                    
                     $("#tdStatistics").hide();
                     $("#tdPublicGas").hide();
+                    $("#tdGasSuggestionImport").hide();
+                    $("#tdOilSuggestionImport").hide();
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
                             $("#tdGas").hide();
@@ -99,14 +101,18 @@
                 case "02":
                     $("#tdStatistics").hide();
                     $("#tdCheckCounseling").hide();
+                    $("#tdGasSuggestionImport").hide();
+                    $("#tdOilSuggestionImport").hide();
                     break;
                 case "03":
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
                             $("#tdGas").hide();
+                            $("#tdGasSuggestionImport").hide();
                             break;
                         case "gas":
                             $("#tdOil").hide();
+                            $("#tdOilSuggestionImport").hide();
                             break;
                     }
                     break;
@@ -114,6 +120,8 @@
                     $("#tdStatistics").hide();
                     $("#tdWeekReport").hide();
                     $("#tdPublicGas").hide();
+                    $("#tdGasSuggestionImport").hide();
+                    $("#tdOilSuggestionImport").hide();
                     break;
                 //中油長官
                 case "05":
@@ -121,6 +129,8 @@
                     $("#tdStatistics").hide();
                     $("#tdWeekReport").hide();
                     $("#tdPublicGas").hide();
+                    $("#tdGasSuggestionImport").hide();
+                    $("#tdOilSuggestionImport").hide();
                     break;
                 //台塑長官
                 case "06":
@@ -129,6 +139,8 @@
                     $("#tdGas").hide();
                     $("#tdWeekReport").hide();
                     $("#tdPublicGas").hide();
+                    $("#tdGasSuggestionImport").hide();
+                    $("#tdOilSuggestionImport").hide();
                     break;
             }
 
@@ -210,6 +222,22 @@
                         <a href="week-index.html" target="_blank" class="enerbtn">
                             <i class="fa fa-briefcase font-sizeIcon" aria-hidden="true"></i>
                             <div class="font-size5 font-bold">計劃管理文件</div>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="33%" id="tdOilSuggestionImport">
+                        <a href="OilSuggestionImport.aspx" target="_blank" class="enerbtn">
+                            <i class="fa fa-check-square-o font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">石油查核建議</div>
+                            <div class="font-size3">管理系統</div>
+                        </a>
+                    </td>
+                    <td width="33%" id="tdGasSuggestionImport">
+                        <a href="GasSuggestionImport.aspx" target="_blank" class="enerbtn">
+                            <i class="fa fa-check-square-o font-sizeIcon" aria-hidden="true"></i>
+                            <div class="font-size5 font-bold">天然氣查核建議</div>
+                            <div class="font-size3">管理系統</div>
                         </a>
                     </td>
                 </tr>

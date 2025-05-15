@@ -25,6 +25,8 @@ public partial class Handler_OilImport : System.Web.UI.Page
     OilButtonChange_DB db5 = new OilButtonChange_DB();
     OilCathodicProtection_DB db6 = new OilCathodicProtection_DB();
     OilTankPipeline_DB db7 = new OilTankPipeline_DB();
+    OilTubeInfo_DB db9 = new OilTubeInfo_DB();
+    OilTubeEnvironment_DB db10 = new OilTubeEnvironment_DB();
     public string filePath = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -689,24 +691,95 @@ public partial class Handler_OilImport : System.Web.UI.Page
                     case "tubeinfo":
 
                         if (sheetRow(sheet, i, 0) != null)
-                        {
                             if (sheetRow(sheet, i, 0).Length > 50)
-                            {
                                 msg += "【長途管線識別碼】字數不可大於50\r\n";
-                            }
-                        }
                         if (sheetRow(sheet, i, 1) != null)
-                            if (sheetRow(sheet, i, 1).Length > 2)
-                                msg += "【具保溫層管線 1.有 2.無】字數不可大於2\r\n";
-                            else
-                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 1)) == false)
-                                msg += "【具保溫層管線 1.有 2.無】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                            if (sheetRow(sheet, i, 1).Length > 250)
+                                msg += "【轄區長途管線名稱(公司)】字數不可大於250\r\n";
                         if (sheetRow(sheet, i, 2) != null)
-                            if (sheetRow(sheet, i, 2).Length > 2)
-                                msg += "【管線支撐座腐蝕疑慮 1.是 2.否】字數不可大於2\r\n";
+                            if (sheetRow(sheet, i, 2).Length > 150)
+                                msg += "【銜接管線識別碼(上游)】字數不可大於150\r\n";
+                        if (sheetRow(sheet, i, 3) != null)
+                            if (sheetRow(sheet, i, 3).Length > 150)
+                                msg += "【銜接管線識別碼(下游)】字數不可大於150\r\n";
+                        if (sheetRow(sheet, i, 4) != null)
+                            if (sheetRow(sheet, i, 4).Length > 150)
+                                msg += "【起點】字數不可大於150\r\n";
+                        if (sheetRow(sheet, i, 5) != null)
+                            if (sheetRow(sheet, i, 5).Length > 150)
+                                msg += "【迄點】字數不可大於150\r\n";
+                        if (sheetRow(sheet, i, 6) != null)
+                            if (sheetRow(sheet, i, 6).Length > 10)
+                                msg += "【管徑(吋)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 7) != null)
+                            if (sheetRow(sheet, i, 7).Length > 10)
+                                msg += "【厚度(mm)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 8) != null)
+                            if (sheetRow(sheet, i, 8).Length > 15)
+                                msg += "【管材(詳細規格)】字數不可大於15\r\n";
+                        if (sheetRow(sheet, i, 9) != null)
+                            if (sheetRow(sheet, i, 9).Length > 10)
+                                msg += "【包覆材料】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 10) != null)
+                            if (sheetRow(sheet, i, 10).Length > 10)
+                                msg += "【轄管長度(公里)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 11) != null)
+                            if (sheetRow(sheet, i, 11).Length > 10)
+                                msg += "【內容物】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 12) != null)
+                            if (sheetRow(sheet, i, 12).Length > 20)
+                                msg += "【八大油品】字數不可大於20\r\n";
                             else
-                                if (cdb.GetDataOnlyChineseIfExist("042", sheetRow(sheet, i, 2)) == false)
-                                msg += "【管線支撐座腐蝕疑慮 1.是 2.否】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                                if (cdb.GetDataOnlyChineseIfExist("030", sheetRow(sheet, i, 12)) == false)
+                                msg += "【八大油品】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 13) != null)
+                            if (sheetRow(sheet, i, 13).Length > 10)
+                                msg += "【緊急遮斷閥(處)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 14) != null)
+                            if (sheetRow(sheet, i, 14).Length > 3)
+                                msg += "【建置年】字數不可大於3\r\n";
+                        if (sheetRow(sheet, i, 15) != null)
+                            if (sheetRow(sheet, i, 15).Length > 10)
+                                msg += "【設計壓力(Kg/cm2)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 16) != null)
+                            if (sheetRow(sheet, i, 16).Length > 10)
+                                msg += "【使用壓力(Kg/cm2)】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 17) != null)
+                            if (sheetRow(sheet, i, 17).Length > 20)
+                                msg += "【使用狀態】字數不可大於20\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("043", sheetRow(sheet, i, 17)) == false)
+                                msg += "【使用狀態】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 18) != null)
+                            if (sheetRow(sheet, i, 18).Length > 10)
+                                msg += "【附掛橋樑數量】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 19) != null)
+                            if (sheetRow(sheet, i, 19).Length > 10)
+                                msg += "【管線穿越箱涵數量】字數不可大於10\r\n";
+                        if (sheetRow(sheet, i, 20) != null)
+                            if (sheetRow(sheet, i, 20).Length > 2)
+                                msg += "【活動斷層敏感區】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 20)) == false)
+                                msg += "【活動斷層敏感區】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 21) != null)
+                            if (sheetRow(sheet, i, 21).Length > 2)
+                                msg += "【土壤液化區】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 21)) == false)
+                                msg += "【土壤液化區】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 22) != null)
+                            if (sheetRow(sheet, i, 22).Length > 2)
+                                msg += "【土石流潛勢區】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 22)) == false)
+                                msg += "【土石流潛勢區】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
+                        if (sheetRow(sheet, i, 23) != null)
+                            if (sheetRow(sheet, i, 23).Length > 2)
+                                msg += "【淹水潛勢區】字數不可大於2\r\n";
+                            else
+                                if (cdb.GetDataOnlyChineseIfExist("032", sheetRow(sheet, i, 23)) == false)
+                                msg += "【淹水潛勢區】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         break;
 
                         #endregion
@@ -994,7 +1067,81 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         dt.Clear();
 
                         break;
-                        #endregion
+                    #endregion
+
+                    #region 管線基本資料
+
+                    case "tubeinfo":
+
+                        db9._業者guid = cpid;
+                        db9._年度 = "110";
+                        db9._長途管線識別碼 = sheetRow(sheet, i, 0);
+                        db9._轄區長途管線名稱 = sheetRow(sheet, i, 1);
+                        db9._銜接管線識別碼_上游 = sheetRow(sheet, i, 2);
+                        db9._銜接管線識別碼_下游 = sheetRow(sheet, i, 3);
+                        db9._起點 = sheetRow(sheet, i, 4);
+                        db9._迄點 = sheetRow(sheet, i, 5);
+                        db9._管徑吋 = sheetRow(sheet, i, 6);
+                        db9._厚度 = OnlyMonthDay(sheetRow(sheet, i, 7));
+                        db9._管材 = sheetRow(sheet, i, 8);
+                        db9._包覆材料 = sheetRow(sheet, i, 9);
+                        db9._轄管長度 = sheetRow(sheet, i, 10);
+                        db9._內容物 = sheetRow(sheet, i, 11);
+                        db9._八大油品 = sheetRow(sheet, i, 12);
+                        db9._緊急遮斷閥 = sheetRow(sheet, i, 13);
+                        db9._建置年 = sheetRow(sheet, i, 14);
+                        db9._設計壓力 = sheetRow(sheet, i, 15);
+                        db9._使用壓力 = sheetRow(sheet, i, 16);
+                        db9._使用狀態 = sheetRow(sheet, i, 17);
+                        db9._附掛橋樑數量 = sheetRow(sheet, i, 18);
+                        db9._管線穿越箱涵數量 = sheetRow(sheet, i, 19);
+                        db9._建立者 = LogInfo.mGuid;
+                        db9._修改者 = LogInfo.mGuid;
+                        db9._資料狀態 = "A";
+
+                        dt = db9.GetDataBySPNO(oConn, oTran);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db9._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db9.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db9.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
+                        db10._業者guid = cpid;
+                        db10._年度 = "110";
+                        db10._長途管線識別碼 = sheetRow(sheet, i, 0);
+                        db10._轄區長途管線名稱 = sheetRow(sheet, i, 1);
+                        db10._活動斷層敏感區 = sheetRow(sheet, i, 20);
+                        db10._土壤液化區 = sheetRow(sheet, i, 21);
+                        db10._土石流潛勢區 = sheetRow(sheet, i, 22);
+                        db10._淹水潛勢區 = sheetRow(sheet, i, 23);
+                        db10._建立者 = LogInfo.mGuid;
+                        db10._修改者 = LogInfo.mGuid;
+                        db10._資料狀態 = "A";
+
+                        dt = db10.GetDataBySPNO(oConn, oTran);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            db10._guid = dt.Rows[0]["guid"].ToString().Trim();
+                            db10.UpdateData(oConn, oTran);
+                        }
+                        else
+                        {
+                            db10.InsertData(oConn, oTran);
+                        }
+
+                        dt.Clear();
+
+                        break;
+
+                    #endregion
                 }
             }
         }

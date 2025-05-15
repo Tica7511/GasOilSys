@@ -153,6 +153,27 @@ else
         return ds;
     }
 
+    public DataTable GetDataBySPNO(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select * from 石油_管線路徑環境特質表 where 年度=@年度 and 業者guid=@業者guid and 長途管線識別碼=@長途管線識別碼 and 資料狀態='A' ");
+
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@長途管線識別碼", 長途管線識別碼);
+
+        oCmd.Transaction = oTran;
+        oda.Fill(ds);
+        oCmd.ExecuteNonQuery();
+        return ds;
+    }
+
     public void InsertData(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();

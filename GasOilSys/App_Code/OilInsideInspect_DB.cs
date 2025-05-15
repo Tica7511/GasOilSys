@@ -61,7 +61,8 @@ public class OilInsideInspect_DB
         oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
         StringBuilder sb = new StringBuilder();
 
-        sb.Append(@"select * from 石油_管線內部稽核表 where 資料狀態='A' and 業者guid=@業者guid ");
+        sb.Append(@"select id, guid, 年度, 業者guid, 日期, 執行單位, 稽核範圍, 缺失改善執行狀況, 佐證資料, 佐證資料檔名, 新檔名, 
+         佐證資料副檔名, 建立者, 建立日期, 修改者, 修改日期, 資料狀態 from 石油_管線內部稽核表 where 資料狀態='A' and 業者guid=@業者guid ");
         if (!string.IsNullOrEmpty(年度))
             sb.Append(@" and 年度=@年度");
 
