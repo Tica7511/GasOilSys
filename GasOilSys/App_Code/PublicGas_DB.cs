@@ -65,4 +65,25 @@ where 資料狀態='A' order by 公司名稱 ");
 		oda.Fill(ds);
 		return ds;
 	}
+
+    public DataTable GetCompanyDetail()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select 
+* from 公用天然氣_業者基本資料表 
+where 資料狀態='A' and guid=@guid 
+order by 公司名稱 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oda.Fill(ds);
+        return ds;
+    }
 }

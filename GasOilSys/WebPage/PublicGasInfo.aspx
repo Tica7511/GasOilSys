@@ -13,13 +13,18 @@
 	<meta name="author" content="工研院 資訊處" /><!--告訴搜尋引擎這篇網頁是由誰製作的。-->
 	<meta name="copyright" content="本網頁著作權所有" /><!--告訴搜尋引擎這篇網頁是...... --> 
 	<meta name="revisit-after" content="3 days" /><!--告訴搜尋引擎3天之後再來一次這篇網頁，也許要重新登錄。-->
-	<title>天然氣事業輸儲設備查核及檢測資訊系統</title>
+	<title>公用天然氣事業輸儲設備現場查核系統</title>
 	<!--#include file="Head_Include.html"-->
 	<script type="text/javascript">
         $(document).ready(function () {
             $(".container").css("max-width", "1800px");
 
             getData();
+
+            //報告開窗
+            $(document).on("click", "a[name='reportbtn']", function () {
+                doOpenMagPopup2();
+            });
 
             //上傳檔案
             $(document).on("click", "#savebtn", function () {
@@ -180,23 +185,24 @@
                         if ($(data).find("data_item").length > 0) {
                             $(data).find("data_item").each(function (i) {
                                 tabstr += '<tr>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("排序編號").text().trim() + '</td>';
+                                //tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("排序編號").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("公司名稱").text().trim() + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("人數").text().trim() + '</td>';
+                                //tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("人數").text().trim() + '</td>';
                                 tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("地址").text().trim() + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("北中南分類").text().trim() + '</td>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="14" acpid="' + $(this).children("guid").text().trim() +
-                                    '" name="checkreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="15" acpid="' + $(this).children("guid").text().trim() +
-                                    '" name="reportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="16" acpid="' + $(this).children("guid").text().trim() +
-                                    '" name="resultreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
-                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a href="GasInfo.aspx?cp=' + $(this).children("guid").text().trim() + '">檢視</a>';
+                                //tabstr += '<td align="center" nowrap="nowrap">' + $(this).children("北中南分類").text().trim() + '</td>';
+                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a name="reportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                //tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="14" acpid="' + $(this).children("guid").text().trim() +
+                                //    '" name="checkreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                //tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="15" acpid="' + $(this).children("guid").text().trim() +
+                                //    '" name="reportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                //tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a atype="16" acpid="' + $(this).children("guid").text().trim() +
+                                //    '" name="resultreportbtn" href="javascript:void(0);"><i class="fa fa-paperclip" aria-hidden="true"></i></a>';
+                                tabstr += '<td align="center" nowrap="nowrap" class="font-normal"><a href="PublicGasDetail.aspx?cp=' + $(this).children("guid").text().trim() + '">檢視</a>';
                                 tabstr += '</tr>';
                             });
                         }
                         else
-                            tabstr += '<tr><td colspan="9">查詢無資料</td></tr>';
+                            tabstr += '<tr><td colspan="4">查詢無資料</td></tr>';
                         $("#tablist tbody").append(tabstr);
                     }
                 }
@@ -252,6 +258,21 @@
             $.magnificPopup.open({
                 items: {
                     src: '#messageblock'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
+
+        function doOpenMagPopup2() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock2'
                 },
                 type: 'inline',
                 midClick: false, // 是否使用滑鼠中鍵
@@ -336,14 +357,15 @@
                         <table id="tablist" width="100%" border="0" cellspacing="0" cellpadding="0">
                             <thead>
 								<tr>
-									<th width="5%" nowrap="nowrap">序號</th>
-									<th width="30%" nowrap="nowrap">事業名稱</th>
-									<th width="5%" nowrap="nowrap">人數</th>
-									<th width="30%" nowrap="nowrap">公司地址</th>
-									<th width="5%" nowrap="nowrap">北中南分類</th>
+									<%--<th width="5%" nowrap="nowrap">序號</th>--%>
+									<th width="40%" nowrap="nowrap">事業名稱</th>
+									<%--<th width="5%" nowrap="nowrap">人數</th>--%>
+									<th width="20%" nowrap="nowrap">公司地址</th>
+									<th width="5%" nowrap="nowrap">報告</th>
+									<%--<th width="5%" nowrap="nowrap">北中南分類</th>
 									<th width="5%" nowrap="nowrap">上傳查核報告</th>
 									<th width="5%" nowrap="nowrap">上傳簡報</th>
-									<th width="5%" nowrap="nowrap">查核結果報告</th>
+									<th width="5%" nowrap="nowrap">查核結果報告</th>--%>
 									<th width="5%" nowrap="nowrap" width="100">功能</th>
 								</tr>
                             </thead>
@@ -400,6 +422,38 @@
 		        	</tr>
               </thead>
               <tbody>
+              </tbody>
+          </table>
+      </div>
+  </div><!-- padding10ALL -->
+
+</div><!--magpopup -->
+
+<div id="messageblock2" class="magpopup magSizeS mfp-hide">
+  <div class="magpopupTitle"><span id="cpNameIsConfirm2"></span>報告列表</div>
+  <div class="padding10ALL">
+      <div class="twocol">
+      </div><br />
+      <div class="stripeMeB tbover">
+          <table id="Rtablist" border="0" cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+		        	<tr>
+		        		<th nowrap="nowrap" align="center" width="200">檔案名稱</th>
+		        		<th nowrap="nowrap" align="center" width="50">上傳日期</th>
+		        		<th nowrap="nowrap" align="center" width="50">功能</th>
+		        	</tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td align="center"><a href="javascript:void(0);">欣隆天然氣_上傳報告.docx</a></td>
+                      <td align="center">2025/01/31</td>
+                      <td align="center"><a href="javascript:void(0);">刪除</a></td>
+                  </tr>
+                   <tr>
+                       <td align="center"><a href="javascript:void(0);">欣隆天然氣_上傳報告_2.docx</a></td>
+                       <td align="center">2025/01/31</td>
+                       <td align="center"><a href="javascript:void(0);">刪除</a></td>
+                   </tr>
               </tbody>
           </table>
       </div>

@@ -190,7 +190,14 @@ namespace ED.HR.DOWNLOAD.WebForm
                                     }                                        
                                     break;
                                 case "suggestionimport":
-                                    dirPath += "suggestionimport\\";
+                                    Fdb._業者guid = cpid;
+                                    dt = Fdb.GetOnlyOfficeData();
+
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        dirPath += "suggestionimport\\" + dt.Rows[0]["guid"].ToString().Trim() + "\\";
+                                    }
+
                                     OrgName = Common.FilterCheckMarxString(Request.QueryString["v"]);
                                     NewName = Common.FilterCheckMarxString(Request.QueryString["v"]);
                                     isWord = true;

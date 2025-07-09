@@ -182,15 +182,27 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $("a[name='Gconfirmbtn']").click(function () {
-            if (confirm("是否確定資料都已正確?")) {
+        //取消資料確認視窗
+        $(document).on("click", "#mgcancelbtn", function () {
+            $.magnificPopup.close();
+        });
 
-                // Create an FormData object 
+        //資料確認儲存
+        $("a[name='Gconfirmbtn']").click(function () {
+            //$("#mgsellist").append('<option value="' + getTaiwanDate() + '">' + getTaiwanDate() + '</option>');
+            //getGasconfirmData(getTaiwanDate());
+            //doOpenMagPopupConfirmData();
+
+            if (confirm("點選確定後今年度所有頁面之檔案以及資料(不包含自評表)將無法做修正，是否確定資料都已正確?")) {
+
+                // Create an FormData object
                 var data = new FormData();
 
                 // If you want to add an extra field for the FormData
                 data.append("type", "Gas");
                 data.append("cpid", $.getQueryString("cp"));
+                data.append("year", getTaiwanDate());
+                data.append("category", "confirm");
 
                 $.ajax({
                     type: "POST",
@@ -349,5 +361,20 @@
         $("a[name='menubtn']").click(function () {
             location.href = ($.getQueryString("cp") != "") ? $(this).attr("link") + "?cp=" + $.getQueryString("cp") : $(this).attr("link");
         });
-	});
+    });
+
+    function doOpenMagPopupConfirmData() {
+        $.magnificPopup.open({
+            items: {
+                src: '#messageblockConfirm'
+            },
+            type: 'inline',
+            midClick: false, // 是否使用滑鼠中鍵
+            closeOnBgClick: true,//點擊背景關閉視窗
+            showCloseBtn: true,//隱藏關閉按鈕
+            fixedContentPos: true,//彈出視窗是否固定在畫面上
+            mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+            tClose: '關閉',//翻譯字串
+        });
+    }
 </script>

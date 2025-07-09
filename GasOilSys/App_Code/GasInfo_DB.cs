@@ -541,6 +541,44 @@ where 年度=@年度 and 業者guid=@業者guid and 場站類別=@場站類別 a
         oCmd.Connection.Close();
     }
 
+    public void UpdateCompanyInfoOnlyContact(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"
+        update 天然氣_事業單位基本資料表 set
+        年度查核姓名=@年度查核姓名,
+        年度查核職稱=@年度查核職稱,
+        年度查核分機=@年度查核分機,
+        年度查核email=@年度查核email,
+        年度檢測姓名=@年度檢測姓名,
+        年度檢測職稱=@年度檢測職稱,
+        年度檢測分機=@年度檢測分機,
+        年度檢測email=@年度檢測email,
+        修改者 =@修改者,
+        修改日期=@修改日期 
+        where 業者guid=@業者guid and 年度=@年度 and 資料狀態=@資料狀態 
+");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@年度查核姓名", 年度查核姓名);
+        oCmd.Parameters.AddWithValue("@年度查核職稱", 年度查核職稱);
+        oCmd.Parameters.AddWithValue("@年度查核分機", 年度查核分機);
+        oCmd.Parameters.AddWithValue("@年度查核email", 年度查核email);
+        oCmd.Parameters.AddWithValue("@年度檢測姓名", 年度檢測姓名);
+        oCmd.Parameters.AddWithValue("@年度檢測職稱", 年度檢測職稱);
+        oCmd.Parameters.AddWithValue("@年度檢測分機", 年度檢測分機);
+        oCmd.Parameters.AddWithValue("@年度檢測email", 年度檢測email);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
     public void DeleteData()
     {
         SqlCommand oCmd = new SqlCommand();

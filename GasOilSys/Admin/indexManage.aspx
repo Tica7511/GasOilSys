@@ -25,12 +25,18 @@
 
                 var cguid = $("#CGguid").val();
                 
-                var sp2 = $("span[name='sp2_" + $("#CGguid").val() + "']").text();
+                var sp1 = $("span[name='sp1_" + cguid + "']").text();
+                var sp2 = $("span[name='sp2_" + cguid + "']").text();
                 var sp3 = $("span[name='sp3_" + cguid + "']").text();
                 var sp4 = $("span[name='sp4_" + cguid + "']").text();
                 var txt1 = $("input[name='rd_" + cguid + "']:checked").val();
 
-                $("#cpNameIsConfirm").html(sp2 + sp3 + sp4);
+                if (sp2 == "" && sp3 == "" && sp4 == "") {
+                    $("#cpNameIsConfirm").html(sp1);
+                }
+                else {
+                    $("#cpNameIsConfirm").html(sp2 + sp3 + sp4);
+                }
                 $("input[name='txt1'][value='" + txt1 + "']").prop("checked", true);
 
                 doOpenMagPopup();

@@ -1,0 +1,21 @@
+.dm-uploader{cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.dm-uploader .btn{position:relative;overflow:hidden}.dm-uploader .btn input[type=file]{position:absolute;top:0;right:0;margin:0;border:solid transparent;width:100%;opacity:0;cursor:pointer}
+.dm-uploader {
+    border: 0.35rem dashed #cccccc;
+    text-align: center;
+}
+.btntype{
+   font-size: 2em;
+    border:1px solid #d1d1d1;*padding:5px;_padding:5px;color:#434343; font-size:15px; margin:0px 2px;font-weight:bold;
+    background-color:#fafafa;text-shadow: 1px 1px 1px #fff;
+    background-image: -webkit-linear-gradient(top, #fafafa, #dddddd);
+    background-image: -moz-linear-gradient(top, #fafafa, #dddddd);
+    background-image: -ms-linear-gradient(top, #fafafa, #dddddd);
+    background-image: -o-linear-gradient(top, #fafafa, #dddddd);
+    background-image: linear-gradient(to bottom, #fafafa, #dddddd);
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    transition: all ease-in-out 0.2s;
+    padding: 5px 25px;
+    display: inline-block;
+}

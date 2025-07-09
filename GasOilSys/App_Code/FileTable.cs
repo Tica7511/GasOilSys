@@ -58,6 +58,8 @@ public class FileTable
         sb.Append(@"select *, CONVERT(nvarchar(100),建立日期, 20) as 上傳日期 from 附件檔 where 資料狀態='A' and (@業者guid='' or 業者guid=@業者guid) and (@年度='' or 年度=@年度) and (@guid='' or guid=@guid) ");
         if (!string.IsNullOrEmpty(檔案類型))
             sb.Append(@"and 檔案類型=@檔案類型 ");
+        if (!string.IsNullOrEmpty(排序))
+            sb.Append(@"and 排序=@排序 ");
         if (!string.IsNullOrEmpty(guid))
             sb.Append(@"and guid=@guid ");
 
@@ -69,6 +71,7 @@ public class FileTable
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
         oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
 
         oda.Fill(ds);
@@ -84,6 +87,8 @@ public class FileTable
         sb.Append(@"select *, CONVERT(nvarchar(100),建立日期, 20) as 上傳日期 from 附件檔 where 資料狀態='A' and (@業者guid='' or 業者guid=@業者guid) and (@年度='' or 年度=@年度) ");
         if (!string.IsNullOrEmpty(檔案類型))
             sb.Append(@"and 檔案類型=@檔案類型 ");
+        if (!string.IsNullOrEmpty(排序))
+            sb.Append(@"and 排序=@排序 ");
         if (!string.IsNullOrEmpty(guid))
             sb.Append(@"and guid=@guid ");
         else
@@ -96,6 +101,63 @@ public class FileTable
 
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetMaxOnlyOfficeData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+declare @maxSort int 
+
+select @maxSort=max(CONVERT(int, 排序)) from 附件檔 
+where 資料狀態='A' and guid=@guid 
+
+select *, CONVERT(nvarchar(100),建立日期, 20) as 上傳日期 from 附件檔 where 資料狀態='A' and 排序=@maxSort and (@業者guid='' or 業者guid=@業者guid) and (@年度='' or 年度=@年度) ");
+        if (!string.IsNullOrEmpty(檔案類型))
+            sb.Append(@"and 檔案類型=@檔案類型 ");
+        if (!string.IsNullOrEmpty(guid))
+            sb.Append(@"and guid=@guid ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetOnlyOfficeData()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"select *, CONVERT(nvarchar(100),建立日期, 20) as 上傳日期 from 附件檔 where 資料狀態='A' and 業者guid=@業者guid and (@年度='' or 年度=@年度) ");
+        if (!string.IsNullOrEmpty(檔案類型))
+            sb.Append(@"and 檔案類型=@檔案類型 ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
 
@@ -194,6 +256,60 @@ else
 
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetOnlyOfficeFileMax()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+declare @maxSort int 
+
+select @maxSort=max(CONVERT(int, 排序)) from 附件檔 
+where 資料狀態='A' and guid=@guid 
+
+SELECT CONVERT(int, @maxSort)+1 as Sort");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public DataTable GetMaxSn(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+declare @maxSort int 
+
+select @maxSort=max(CONVERT(int, 排序)) from 附件檔 
+where 資料狀態='A' and guid=@guid 
+
+SELECT CONVERT(int, @maxSort)+1 as Sort
+");
+
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+        oCmd.Transaction = oTran;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@年度", 年度);
         oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
 
@@ -338,6 +454,114 @@ guid,
         oCmd.ExecuteNonQuery();
     }
 
+    public DataTable InsertFile()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"
+insert into 附件檔 (
+guid,
+業者guid,
+年度,
+檔案類型,
+原檔名,
+新檔名, 
+附檔名, 
+排序, 
+檔案大小,
+建立者,
+修改者,
+資料狀態
+) values (
+@guid,
+@業者guid,
+@年度,
+@檔案類型,
+@原檔名,
+@新檔名, 
+@附檔名, 
+@排序, 
+@檔案大小,
+@建立者,
+@修改者,
+@資料狀態 
+) ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@年度", 年度);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@檔案類型", 檔案類型);
+        oCmd.Parameters.AddWithValue("@原檔名", 原檔名);
+        oCmd.Parameters.AddWithValue("@新檔名", 新檔名);
+        oCmd.Parameters.AddWithValue("@附檔名", 附檔名);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@檔案大小", 檔案大小);
+        oCmd.Parameters.AddWithValue("@建立者", 建立者);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oda.Fill(ds);
+        return ds;
+    }
+
+    public void UpdateFileByOnlyOffice_Trans(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"
+update 附件檔 set 
+業者guid=@業者guid,
+修改者=@修改者,
+修改日期=@修改日期 
+where guid=@guid and 資料狀態=@資料狀態 
+ ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+
+    public DataTable UpdateFileByOnlyOffice()
+    {
+        SqlCommand oCmd = new SqlCommand();
+        oCmd.Connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(@"update 附件檔 set 
+業者guid=@業者guid,
+修改者=@修改者,
+修改日期=@修改日期 
+where guid=@guid and 資料狀態=@資料狀態 and 排序='0' ");
+
+        oCmd.CommandText = sb.ToString();
+        oCmd.CommandType = CommandType.Text;
+        SqlDataAdapter oda = new SqlDataAdapter(oCmd);
+        DataTable ds = new DataTable();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@排序", 排序);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "A");
+
+        oda.Fill(ds);
+        return ds;
+    }
+
     public void DelFile(SqlConnection oConn, SqlTransaction oTran)
     {
         StringBuilder sb = new StringBuilder();
@@ -420,5 +644,27 @@ guid,
 
         oda.Fill(ds);
         return ds;
+    }
+
+    public void DelOnlyOfficeFile(SqlConnection oConn, SqlTransaction oTran)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"update 附件檔 set
+            資料狀態=@資料狀態,
+            修改者=@修改者,
+            修改日期=@修改日期
+            where guid=@guid and 業者guid=@業者guid 
+");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
+        oCmd.Parameters.AddWithValue("@修改者", 修改者);
+        oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
+        oCmd.Parameters.AddWithValue("@資料狀態", "D");
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
     }
 }

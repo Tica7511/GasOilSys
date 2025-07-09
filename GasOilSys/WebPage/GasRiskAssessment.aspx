@@ -97,7 +97,7 @@
 								tabstr += '<td nowrap="nowrap">' + $(this).children("各等級風險管段數量_高").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("各等級風險管段數量_中").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("各等級風險管段數量_低").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("降低中高風險管段之相關作為文件名稱").text().trim() + '</td>';
+								tabstr += '<td>' + $(this).children("降低中高風險管段之相關作為文件名稱").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("改善後風險等級高中低").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_GasRiskAssessment.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';

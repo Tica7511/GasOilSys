@@ -143,15 +143,27 @@
 
         //$(".Oconfirmlist").append('<a name="Oconfirmbtn" href="javascript:void(0);" >資料確認</a>');
 
+        //取消資料確認視窗
+        $(document).on("click", "#mgcancelbtn", function () {
+            $.magnificPopup.close();
+        });
+
+        //資料確認開窗
         $("a[name='Oconfirmbtn']").click(function () {
+            //$("#mgsellist").append('<option value="' + getTaiwanDate() + '">' + getTaiwanDate() + '</option>');
+            //getOilConfirmData(getTaiwanDate());
+            //doOpenMagPopupConfirmData();
+
             if (confirm("點選確定後今年度所有頁面之檔案以及資料(不包含自評表)將無法做修正，是否確定資料都已正確?")) {
 
-                // Create an FormData object 
+                // Create an FormData object
                 var data = new FormData();
 
                 // If you want to add an extra field for the FormData
                 data.append("type", "Oil");
                 data.append("cpid", $.getQueryString("cp"));
+                data.append("year", getTaiwanDate());
+                data.append("category", "confirm");
 
                 $.ajax({
                     type: "POST",
@@ -214,7 +226,7 @@
                                 $("#Ononelist").hide();
                                 $("#OOceanlist").show();
                             }
-                            else{
+                            else {
                                 if ((pipeDisplay == 'N') && (storageDisplay == 'N')) {
                                     $("#Oalllist").hide();
                                     $("#Onopipelist").hide();
@@ -290,10 +302,10 @@
         var pathParentName = pathNameAry[(pathNameAry.length - 1)];
         $("#navmenuV a[link='" + pathParentName + "']").parent().addClass("active");
         $("#navmenuV a[link='" + pathParentName + "']").parent().parent().parent().addClass("open");
-		$('.nav').navgoco();
+        $('.nav').navgoco();
 
         $("a[name='menubtn']").click(function () {
             location.href = ($.getQueryString("cp") != "") ? $(this).attr("link") + "?cp=" + $.getQueryString("cp") : $(this).attr("link");
-		});
-	});
+        });
+    });
 </script>

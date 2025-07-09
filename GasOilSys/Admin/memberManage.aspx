@@ -279,9 +279,9 @@
                                 tabstr += '<td nowrap="nowrap">' + $(this).children("cName").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("使用者帳號").text().trim() + '</td>';
 								//tabstr += '<td nowrap="nowrap">' + $(this).children("使用者密碼").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("mail").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("電話").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("單位名稱").text().trim() + '</td>';
+								//tabstr += '<td nowrap="nowrap">' + $(this).children("mail").text().trim() + '</td>';
+								//tabstr += '<td nowrap="nowrap">' + $(this).children("電話").text().trim() + '</td>';
+								//tabstr += '<td nowrap="nowrap">' + $(this).children("單位名稱").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_memberManage.aspx?guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
                                 tabstr += '</tr>';
@@ -450,10 +450,10 @@
 							        		<th nowrap="nowrap">網站類別</th>
                                             <th nowrap="nowrap">業者名稱</th>
 							        		<th nowrap="nowrap">帳號</th>
-							        		<%--<th nowrap="nowrap">密碼</th>--%>
+							        		<%--<th nowrap="nowrap">密碼</th>
 							        		<th nowrap="nowrap">email</th>
 							        		<th nowrap="nowrap">電話</th>
-							        		<th nowrap="nowrap">單位名稱</th>
+							        		<th nowrap="nowrap">單位名稱</th>--%>
 							        		<th nowrap="nowrap" width="100">功能</th>
 							        	</tr>
                                     </thead>

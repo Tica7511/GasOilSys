@@ -9,7 +9,11 @@ using System.Configuration;
 using System.IO;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using NPOI.SS.Formula.Functions;
+using System.Text;
+using System.Security.Claims;
 
 public partial class Handler_AddDownload : System.Web.UI.Page
 {
@@ -57,6 +61,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
             string category = (string.IsNullOrEmpty(Request["category"])) ? "" : Request["category"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
             string details = (string.IsNullOrEmpty(Request["details"])) ? "" : Request["details"].ToString().Trim();
+            string PublicGuid = string.Empty;
+            string PublicOrgName = string.Empty;
             string PublicNewName = string.Empty;
             string PublicExtension = string.Empty;
             string xmlstr = string.Empty;
@@ -170,7 +176,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     UpLoadPath += "Oil_Upload\\storageinspect\\";
                                     break;
                                 case "suggestionimport":
-                                    UpLoadPath += "Oil_Upload\\suggestionimport\\";
+                                    UpLoadPath += "Oil_Upload\\suggestionimport\\" + tmpGuid + "\\";
                                     break;
                                 case "online":
                                     switch (details)
@@ -235,10 +241,15 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                         newName = orgName + "_" + guid;
                         newFullName = orgName + "_" + guid + extension;
                     }
+                    else if (type == "suggestionimport")
+                    {
+                        newName = orgName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                        newFullName = newName + extension;
+                    }
                     else
                     {
                         newName = orgName;
-                        newFullName = orgName+ extension;
+                        newFullName = orgName + extension;
                     }
 
                     string file_size = File.ContentLength.ToString();
@@ -250,6 +261,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                     }
 
                     File.SaveAs(UpLoadPath + newFullName);
+
+                    PublicGuid = tmpGuid;
 
                     switch (category)
                     {
@@ -328,17 +341,18 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                     oidb.SaveFile(oConn, myTrans);
                                     break;
                                 case "suggestionimport":
+                                    PublicOrgName = orgName;
                                     PublicNewName = newName;
                                     PublicExtension = extension;
 
                                     fdb._guid = tmpGuid;
                                     fdb._年度 = year;
-                                    fdb._業者guid = cpid;
+                                    fdb._業者guid = tmpGuid;
                                     fdb._檔案類型 = details;
                                     fdb._原檔名 = orgName;
                                     fdb._新檔名 = newName;
                                     fdb._附檔名 = extension;
-                                    fdb._排序 = sn;
+                                    fdb._排序 = "1";
                                     fdb._檔案大小 = file_size;
                                     fdb._修改者 = LogInfo.mGuid;
                                     fdb._修改日期 = DateTime.Now;
@@ -440,7 +454,11 @@ public partial class Handler_AddDownload : System.Web.UI.Page
 
             myTrans.Commit();
 
-            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>儲存完成</Response><fileName>" + PublicNewName + PublicExtension + "</fileName></root>";
+            string jwtToken = GenerateJwt(PublicGuid, PublicOrgName, PublicNewName, PublicExtension);
+
+            xmlstr = "<?xml version='1.0' encoding='utf-8'?><root><Response>儲存完成</Response><fileName>" + PublicOrgName + PublicExtension + 
+                "</fileName><fileNewName>" + PublicNewName + PublicExtension + "</fileNewName><onlyofficeguid>" + PublicGuid + "</onlyofficeguid><token>" + 
+                jwtToken + "</token><mGuid>" + LogInfo.mGuid + "</mGuid><mName>" + LogInfo.name + "</mName><cGuid>" + PublicGuid + "</cGuid></root>";
             xDoc.LoadXml(xmlstr);
         }
         catch (Exception ex)
@@ -455,5 +473,73 @@ public partial class Handler_AddDownload : System.Web.UI.Page
         }
         Response.ContentType = System.Net.Mime.MediaTypeNames.Text.Xml;
         xDoc.Save(Response.Output);
+
+
     }
+
+    public static string GenerateJwt(string tmpGuid, string fileName, string fileNewName, string fileextension)
+    {
+        //將 JWT secret 包成 HmacSha256 的加密格式
+        var secret = ConfigurationManager.AppSettings["JwtSecret"];
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        //將payload用JSON格式包成跟前端一樣
+        var payload = new JwtPayload
+        {
+            { "document", new Dictionary<string, object> 
+                { 
+                    { "fileType", "docx" }, 
+                    { "key", tmpGuid }, 
+                    { "title", fileName + fileextension }, 
+                    { "url", "http://172.20.10.5:54315/DOWNLOAD.aspx?category=Oil&type=suggestionimport&cpid=" + tmpGuid + "&v=" + fileNewName + fileextension }
+                } 
+            },
+            { "documentType", "word" },
+            { "editorConfig", new Dictionary<string, object>
+                {
+                    { "mode", "edit" },
+                    { "lang", "zh-TW" },
+                    { "callbackUrl", "http://172.20.10.5:54315/Handler/SaveCallback.aspx" },
+                    { "customization", new Dictionary<string, object>
+                        {
+                            { "forcesave", true },
+                            { "autosave", true }
+                            //{ "trackChanges", true },
+                        }
+                    },
+                    { "user", new Dictionary<string, object>
+                        {
+                            { "id", LogInfo.mGuid },
+                            { "name", LogInfo.name }
+                        }
+                    },
+                    { "history", new Dictionary<string, object>
+                        {
+                            { "serverVersion", true }
+                        }
+                    }
+                }
+            },
+            { "permissions", new Dictionary<string, object>
+                {
+                    { "edit", true },
+                    //{ "review", true },
+                    { "comment", true },
+                    { "print", false },
+                    { "download", false }
+                }
+            },
+            { "height", "100%" },
+            { "width", "100%" },
+            { "type", "desktop" }
+        };
+
+        //組合 header + payload + signature
+        var token = new JwtSecurityToken(new JwtHeader(creds), payload);
+
+        //回傳 token 字串
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
 }

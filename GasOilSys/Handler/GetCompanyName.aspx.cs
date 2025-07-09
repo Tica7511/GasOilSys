@@ -11,6 +11,7 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
 {
 	GasCompanyInfo_DB gdb = new GasCompanyInfo_DB();
 	OilCompanyInfo_DB odb = new OilCompanyInfo_DB();
+	PublicGas_DB pgdb = new PublicGas_DB();
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		///-----------------------------------------------------
@@ -62,38 +63,70 @@ public partial class Handler_GetCompanyName : System.Web.UI.Page
 					}
 				}				
 			}
-            else
+            else if (type == "PublicGas")
             {
+                pgdb._guid = cpid;
+                dt = pgdb.GetCompanyDetail();
+    //            if (dt.Rows.Count > 0)
+    //            {
+				//	for (int i = 0; i < dt.Rows.Count; i++)
+				//	{
+				//		if (dt.Rows[i]["單獨公司名稱"].ToString().Trim() == "Y")
+				//			dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
+				//	}
+
+				//	dt.Columns.Add("competence", typeof(string));
+    //                dt.Rows[0]["competence"] = LogInfo.competence;
+    //            }
+
+    //            if (!string.IsNullOrEmpty(cpid))
+    //            {
+				//	dt2 = odb.GetCpNameToNcree();
+				//	if (dt2.Rows.Count > 0)
+				//	{
+				//		for (int i = 0; i < dt.Rows.Count; i++)
+				//		{
+				//			if (dt2.Rows[i]["cpname"].ToString().Trim() == "深澳港供輸中心")
+				//				dt2.Rows[i]["cpname"] = "深澳港輸中心";
+
+				//			dt3 = odb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+				//		}
+
+				//	}
+				//}
+			}
+			else
+			{
                 odb._guid = cpid;
                 dt = odb.GetCpName();
                 if (dt.Rows.Count > 0)
                 {
-					for (int i = 0; i < dt.Rows.Count; i++)
-					{
-						if (dt.Rows[i]["單獨公司名稱"].ToString().Trim() == "Y")
-							dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
-					}
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (dt.Rows[i]["單獨公司名稱"].ToString().Trim() == "Y")
+                            dt.Rows[i]["cpname"] = dt.Rows[i]["公司名稱"].ToString().Trim();
+                    }
 
-					dt.Columns.Add("competence", typeof(string));
+                    dt.Columns.Add("competence", typeof(string));
                     dt.Rows[0]["competence"] = LogInfo.competence;
                 }
 
                 if (!string.IsNullOrEmpty(cpid))
                 {
-					dt2 = odb.GetCpNameToNcree();
-					if (dt2.Rows.Count > 0)
-					{
-						for (int i = 0; i < dt.Rows.Count; i++)
-						{
-							if (dt2.Rows[i]["cpname"].ToString().Trim() == "深澳港供輸中心")
-								dt2.Rows[i]["cpname"] = "深澳港輸中心";
+                    dt2 = odb.GetCpNameToNcree();
+                    if (dt2.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            if (dt2.Rows[i]["cpname"].ToString().Trim() == "深澳港供輸中心")
+                                dt2.Rows[i]["cpname"] = "深澳港輸中心";
 
-							dt3 = odb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
-						}
+                            dt3 = odb.GetCpNameToNcreeList(dt2.Rows[i]["cpname"].ToString().Trim());
+                        }
 
-					}
-				}
-			}                
+                    }
+                }
+            }
 
             string xmlstr = string.Empty;
 			string xmlstr2 = string.Empty;
