@@ -46,9 +46,13 @@
             //本年度聯絡資料詳細內容儲存按鈕
             $(document).on("click", "#mgsubbtn", function () {
                 var msg = '';
+                var regex = /^[\u4e00-\u9fa5]+$/;
 
                 if ($("#mgtxt1").val() == '')
                     msg += "請輸入【本年度查核聯絡窗口 姓名】\n";
+                else
+                    if (regex.test($("#mgtxt1").val()) == false)
+                        msg += "【本年度查核聯絡窗口 姓名】請輸入中文\n";
                 if ($("#mgtxt2").val() == '')
                     msg += "請輸入【本年度查核聯絡窗口 職稱】\n";
                 if ($("#mgtxt3").val() == '')
@@ -473,10 +477,10 @@
                 partname = name;
             }
             else if (name.length == 2) {
-                partname = name.substring(0, name.length - 1) + "X";
+                partname = name.substring(0, 1) + "X";
             }
             else {
-                partname = name.substring(0, name.length - 2) + "XX";
+                partname = name.substring(0, 1) + "X" + name.substring(name.length - 1);
             }
 
             return partname;

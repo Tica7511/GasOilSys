@@ -32,6 +32,68 @@
                 $("#div_container").empty();
                 getData();
             }
+            else {
+                if ($.getQueryString("filetype") != "new") {
+
+                    // Get form
+                    var form = $('#form1')[0];
+
+                    // Create an FormData object 
+                    var data = new FormData(form);
+
+                    // If you want to add an extra field for the FormData
+                    data.append("cpid", "");
+                    data.append("category", "oil");
+                    data.append("filecategory", $.getQueryString("filecategory"));
+                    data.append("year", getTaiwanDate());
+                    data.append("type", "suggestionimport");
+                    data.append("details", "17");
+                    $.each($("#fileUpload")[0].files, function (i, file) {
+                        data.append('file', file);
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        async: true, //在沒有返回值之前,不會執行下一步動作
+                        url: "../Handler/AddDownload.aspx",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        error: function (xhr) {
+                            alert("Error: " + xhr.status);
+                            console.log(xhr.responseText);
+                        },
+                        beforeSend: function () {
+                            $("#alertText").show();
+                            $("#subbtn").prop("disabled", true);
+                        },
+                        complete: function () {
+                            $("#alertText").hide();
+                            $("#subbtn").prop("disabled", false);
+                        },
+                        success: function (data) {
+                            if ($(data).find("Error").length > 0) {
+                                alert($(data).find("Error").attr("Message"));
+                            }
+                            else {
+                                $("#div_container").empty();
+                                console.log("後端回傳檔案名：", $("fileName", data).text());
+                                const fileName = $("fileName", data).text();
+                                const fileNewName = $("fileNewName", data).text();
+                                const authToken = $("token", data).text();
+                                const onlyofficeguid = $("onlyofficeguid", data).text();
+                                $("#cGuid").val($("cGuid", data).text());
+                                $("#pGuid").val($("onlyofficeguid", data).text());
+                                const mGuid = $("mGuid", data).text();
+                                const mName = $("mName", data).text();
+                                localStorage.setItem('authToken', authToken);
+                                initOnlyOfficeViewer(fileName, fileNewName, authToken, onlyofficeguid, mGuid, mName);
+                            }
+                        }
+                    });
+                }
+            }
 
             //上傳檔案
             $(document).on("change", "#fileUpload", function () {
@@ -53,6 +115,7 @@
                 // If you want to add an extra field for the FormData
                 data.append("cpid", "");
                 data.append("category", "oil");
+                data.append("filecategory", $.getQueryString("filecategory"));
                 data.append("year", getTaiwanDate());
                 data.append("type", "suggestionimport");
                 data.append("details", "17");
@@ -120,7 +183,8 @@
                         "callbackUrl": "http://172.20.10.5:54315/Handler/SaveCallback.aspx",
                         "customization": {
                             "forcesave": true,
-                            "autosave": true
+                            "autosave": true,
+                            "autosaveInterval": 60
                             /*"trackChanges": true*/
                         },
                         "user": {
@@ -327,6 +391,7 @@
                                         "customization": {
                                             "forcesave": true,
                                             "autosave": true,
+                                            "autosaveInterval": 60,
                                             /*"trackChanges": true,*/
                                             "buttons": {
                                                 "print": false,
@@ -362,6 +427,12 @@
 
                                 lastEditorConfig = editorConfig;
                                 docEditor = new DocsAPI.DocEditor("placeholder", editorConfig);
+
+                                //setInterval(function () {
+                                //    $.post("../Handler/TriggerForceSave.aspx", {
+                                //        key: onlyofficeguid
+                                //    });
+                                //}, 60000); 
                             });
                         }
                     }

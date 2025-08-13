@@ -284,7 +284,6 @@ mail,
         sb.Append(@"update 會員檔 set 
 業者guid=@業者guid,
 使用者帳號=@使用者帳號,
-使用者密碼=@使用者密碼,
 姓名=@姓名,
 mail=@mail,
 電話=@電話,
@@ -301,7 +300,6 @@ where guid=@guid and 資料狀態=@資料狀態
         oCmd.Parameters.AddWithValue("@guid", guid);
         oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@使用者帳號", 使用者帳號);
-        oCmd.Parameters.AddWithValue("@使用者密碼", 使用者密碼);
         oCmd.Parameters.AddWithValue("@姓名", 姓名);
         oCmd.Parameters.AddWithValue("@mail", mail);
         oCmd.Parameters.AddWithValue("@電話", 電話);

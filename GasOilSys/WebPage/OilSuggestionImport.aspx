@@ -21,11 +21,22 @@
             $("#sellist").val(getTaiwanDate());
             getData(getTaiwanDate());
 
+            //新增按鈕
+            $(document).on("click", "#newbtn", function () {
+                location.href = "edit_OilSuggestionImport.aspx?filetype=new";
+            });
+
             //版本差異開窗
             $(document).on("click", "a[name='historybtn']", function () {
                 $("#cGuid").val($(this).attr("aid"));
                 getFileData();
                 doOpenMagPopup();
+            });
+
+            //範本新增開窗
+            $(document).on("click", "#newDemobtn", function () {
+                getFileDemoData();
+                doOpenMagPopup2();
             });
 
             //刪除按鈕
@@ -153,6 +164,79 @@
             });
         }
 
+        function getFileDemoData() {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetDDLlist.aspx",
+                data: {
+                    gNo: "047",
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        $("#tablist3 tbody").empty();
+                        var tabstr = '';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                tabstr += '<tr>'
+                                tabstr += '<td nowrap>' + $(this).children("項目名稱").text().trim() + '</td>';
+                                tabstr += '<td nowrap align="center"><a href="edit_OilSuggestionImport.aspx?filetype=demo&filecategory=' + $(this).children("項目代碼").text().trim() + '" class="grebtn font-size3">新增</a></td>';
+                                tabstr += '</tr>';
+                            });
+                        }
+                        else
+                            tabstr += '<tr><td colspan="2">查詢無資料</td></tr>';
+                        $("#tablist3 tbody").append(tabstr);
+                    }
+                }
+            });
+        }
+
+        function getDDL(gNo) {
+            $.ajax({
+                type: "POST",
+                async: false, //在沒有返回值之前,不會執行下一步動作
+                url: "../handler/GetDDLlist.aspx",
+                data: {
+                    gNo: gNo,
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status);
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    if ($(data).find("Error").length > 0) {
+                        alert($(data).find("Error").attr("Message"));
+                    }
+                    else {
+                        var ddlstr = '<option value="">請選擇</option>';
+                        if ($(data).find("data_item").length > 0) {
+                            $(data).find("data_item").each(function (i) {
+                                ddlstr += '<option value="' + $(this).children("項目代碼").text().trim() + '">' + $(this).children("項目名稱").text().trim() + '</option>';
+                            });
+                        }
+                        switch (gNo) {
+                            case '001':
+                                $("#txt2").empty();
+                                $("#txt2").append(ddlstr);
+                                break;
+                            case '002':
+                                $("#txt3").empty();
+                                $("#txt3").append(ddlstr);
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+
         //取得民國年份之下拉選單
         function getYearList() {
             $.ajax({
@@ -213,6 +297,20 @@
                 tClose: '關閉',//翻譯字串
             });
         }
+        function doOpenMagPopup2() {
+            $.magnificPopup.open({
+                items: {
+                    src: '#messageblock2'
+                },
+                type: 'inline',
+                midClick: false, // 是否使用滑鼠中鍵
+                closeOnBgClick: true,//點擊背景關閉視窗
+                showCloseBtn: true,//隱藏關閉按鈕
+                fixedContentPos: true,//彈出視窗是否固定在畫面上
+                mainClass: 'mfp-fade',//加入CSS淡入淡出效果
+                tClose: '關閉',//翻譯字串
+            });
+        }
     </script>
 </head>
 <body class="bgB">
@@ -254,7 +352,8 @@
 					        </select> 年
 					    </div>
 					    <div class="right">
-					        <a id="newbtn" href="edit_OilSuggestionImport.aspx" title="新增" class="genbtn">新增</a>
+					        <a id="newbtn" href="javascript:void(0);" title="新增" class="genbtn">新增</a> 
+                            <a id="newDemobtn" href="javascript:void(0);" title="範本新增" class="genbtn">範本新增</a> 
 					    </div>
 					</div><br />
                     <div class="stripeMeB font-size3 margin10T">
@@ -314,6 +413,25 @@
     		        		<th nowrap="nowrap" align="center" width="5%">修改者</th>
     		        		<th nowrap="nowrap" align="center" width="10%">修改日期</th>
     		        	</tr>
+                  </thead>
+                  <tbody></tbody>
+              </table>
+          </div>
+    
+      </div><!-- padding10ALL -->
+    
+    </div><!--magpopup -->
+
+    <div id="messageblock2" class="magpopup magSizeS mfp-hide">
+      <div class="magpopupTitle">文件範本</div>
+      <div class="padding10ALL">
+          <div class="stripeMeB tbover">
+              <table id="tablist3" border="0" cellspacing="0" cellpadding="0" width="100%">
+                  <thead>
+       		        	<tr>
+       		        		<th nowrap="nowrap" align="center" width="85%">範本名稱</th>
+       		        		<th nowrap="nowrap" align="center" width="15%">功能</th>
+       		        	</tr>
                   </thead>
                   <tbody></tbody>
               </table>

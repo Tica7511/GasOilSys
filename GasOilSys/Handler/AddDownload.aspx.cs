@@ -1,4 +1,5 @@
 ﻿using System;
+using Aspose.Words;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
     GasOnlineEvaluation_DB goedb = new GasOnlineEvaluation_DB();
     OilOnlineEvaluation_DB ooedb = new OilOnlineEvaluation_DB();
     FileTable fdb = new FileTable();
+    CodeTable_DB cdb = new CodeTable_DB();
+    Oil_CommitteeSuggestionDemoFile_DB ocsdfdb = new Oil_CommitteeSuggestionDemoFile_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -59,6 +62,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
             string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
             string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
             string category = (string.IsNullOrEmpty(Request["category"])) ? "" : Request["category"].ToString().Trim();
+            string filecategory = (string.IsNullOrEmpty(Request["filecategory"])) ? "" : Request["filecategory"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
             string details = (string.IsNullOrEmpty(Request["details"])) ? "" : Request["details"].ToString().Trim();
             string PublicGuid = string.Empty;
@@ -67,6 +71,9 @@ public partial class Handler_AddDownload : System.Web.UI.Page
             string PublicExtension = string.Empty;
             string xmlstr = string.Empty;
             DataTable dt = new DataTable();
+
+            Aspose.Words.License license = new Aspose.Words.License();
+            license.SetLicense(Server.MapPath("~/Bin/Aspose.Total.lic"));
 
             #region 檢查資料庫是否有檔案
             switch (category)
@@ -121,336 +128,448 @@ public partial class Handler_AddDownload : System.Web.UI.Page
 
             string sn = string.Empty;
 
-            // 檔案上傳
-            HttpFileCollection uploadFiles = Request.Files;
-            for (int i = 0; i < uploadFiles.Count; i++)
+            if(filecategory != "new")
             {
-                HttpPostedFile File = uploadFiles[i];
-                if (File.FileName.Trim() != "")
+                string tmpGuid = Guid.NewGuid().ToString("N");
+                string UpLoadPath = string.Empty;
+
+                cdb._群組代碼 = "047";
+                cdb._項目代碼 = filecategory;
+                DataTable cdt = cdb.GetList();
+
+                if (cdt.Rows.Count > 0)
                 {
-                    string tmpGuid = (string.IsNullOrEmpty(guid)) ? Guid.NewGuid().ToString("N") : guid;
-                    string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
-                    switch (category)
+                    ocsdfdb._項目代碼 = cdt.Rows[0]["項目代碼"].ToString().Trim();
+                    DataTable ocdt = ocsdfdb.GetList();
+
+                    if (ocdt.Rows.Count > 0)
                     {
-                        case "gas":
-                            switch (type)
-                            {
-                                case "report":
-                                    UpLoadPath += "Gas_Upload\\report\\";
-                                    break;
-                                case "pipeinspect":
-                                    UpLoadPath += "Gas_Upload\\pipeinspect\\";
-                                    break;
-                                case "online":
-                                    switch (details)
-                                    {
-                                        case "1":
-                                            UpLoadPath += "Gas_Upload\\online\\pipeline\\";
-                                            break;
-                                        case "2":
-                                            UpLoadPath += "Gas_Upload\\online\\storage\\";
-                                            break;
-                                        case "3":
-                                            UpLoadPath += "Gas_Upload\\online\\disaster\\";
-                                            break;
-                                        case "4":
-                                            UpLoadPath += "Gas_Upload\\online\\installation\\";
-                                            break;
-                                        case "5":
-                                            UpLoadPath += "Gas_Upload\\online\\law\\";
-                                            break;
-                                    }
-                                    break;
-                            }                                                      
-                            break;
-                        case "oil":
-                            switch (type)
-                            {
-                                case "report":
-                                    UpLoadPath += "Oil_Upload\\report\\";
-                                    break;
-                                case "pipeinspect":
-                                    UpLoadPath += "Oil_Upload\\pipeinspect\\";
-                                    break;
-                                case "storageinspect":
-                                    UpLoadPath += "Oil_Upload\\storageinspect\\";
-                                    break;
-                                case "suggestionimport":
-                                    UpLoadPath += "Oil_Upload\\suggestionimport\\" + tmpGuid + "\\";
-                                    break;
-                                case "online":
-                                    switch (details)
-                                    {
-                                        case "1":
-                                            UpLoadPath += "Oil_Upload\\online\\pipeline\\";
-                                            break;
-                                        case "2":
-                                            UpLoadPath += "Oil_Upload\\online\\storage\\";
-                                            break;
-                                        case "3":
-                                            UpLoadPath += "Oil_Upload\\online\\disaster\\";
-                                            break;
-                                        case "4":
-                                            UpLoadPath += "Oil_Upload\\online\\installation\\";
-                                            break;
-                                        case "5":
-                                            UpLoadPath += "Oil_Upload\\online\\law\\";
-                                            break;
-                                    }
-                                    break;
-                            }                           
-                            break;
-                        case "publicgas":
-                            switch (type)
-                            {
-                                case "info":
-                                    switch (details)
-                                    {
-                                        case "14":
-                                            UpLoadPath += "PublicGas\\info\\checkreport\\";
-                                            break;
-                                        case "15":
-                                            UpLoadPath += "PublicGas\\info\\report\\";
-                                            break;
-                                        case "16":
-                                            UpLoadPath += "PublicGas\\info\\resultreport\\";
-                                            break;
-                                    }
-                                    break;
-                            }
-                            break;
-                    }
+                        UpLoadPath += Server.MapPath("~/Sample/" + cdt.Rows[0]["項目名稱"].ToString().Trim() + "/" + ocdt.Rows[0]["項目名稱"].ToString().Trim());
+                        //原檔名
+                        string orgName = Path.GetFileNameWithoutExtension(UpLoadPath);
 
-                    //原檔名
-                    string orgName = Path.GetFileNameWithoutExtension(File.FileName);
+                        //副檔名
+                        string extension = Path.GetExtension(UpLoadPath);
 
-                    //副檔名
-                    string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
+                        //原檔名完整名稱
+                        string orgFullName = orgName + extension;
 
-                    //原檔名完整名稱
-                    string orgFullName = orgName + extension;
+                        //新檔名
+                        string newName = string.Empty;
 
-                    //新檔名
-                    string newName = string.Empty;
+                        //新檔名完整名稱
+                        string newFullName = string.Empty;
 
-                    //新檔名完整名稱
-                    string newFullName = string.Empty;
-
-                    if (type == "pipeinspect" || type == "storageinspect")
-                    {
-                        newName = orgName + "_" + guid;
-                        newFullName = orgName + "_" + guid + extension;
-                    }
-                    else if (type == "suggestionimport")
-                    {
                         newName = orgName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
                         newFullName = newName + extension;
+
+                        string file_size = new FileInfo(UpLoadPath).Length.ToString();
+
+                        string targetDir = ConfigurationManager.AppSettings["UploadFileRootDir"] + "Oil_Upload\\suggestionimport\\" + tmpGuid + "\\";
+                        string targetPath = Path.Combine(targetDir, newFullName);
+
+                        if (!Directory.Exists(targetDir))
+                        {
+                            Directory.CreateDirectory(targetDir);
+                        }
+
+                        File.Copy(UpLoadPath, targetPath, true);
+
+                        PublicGuid = tmpGuid;
+
+                        PublicOrgName = orgName;
+                        PublicNewName = newName;
+                        PublicExtension = extension;
+
+                        fdb._guid = tmpGuid;
+                        fdb._年度 = year;
+                        fdb._業者guid = tmpGuid;
+                        fdb._檔案類型 = details;
+                        fdb._原檔名 = orgName;
+                        fdb._新檔名 = newName;
+                        fdb._附檔名 = extension;
+                        fdb._排序 = "1";
+                        fdb._檔案大小 = file_size;
+                        fdb._修改者 = LogInfo.mGuid;
+                        fdb._修改日期 = DateTime.Now;
+                        fdb._建立者 = LogInfo.mGuid;
+                        fdb._建立日期 = DateTime.Now;
+
+                        fdb.UpdateFile_Trans(oConn, myTrans);
                     }
                     else
                     {
-                        newName = orgName;
-                        newFullName = orgName + extension;
+                        throw new Exception("資料庫內尚無此範例檔，請通知系統管理員新增檔案");
                     }
-
-                    string file_size = File.ContentLength.ToString();
-
-                    //如果上傳路徑中沒有該目錄，則自動新增
-                    if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
+                }
+                else
+                {
+                    throw new Exception("資料庫內尚無此範例檔，請通知系統管理員新增檔案");
+                }
+            }
+            else
+            {
+                // 檔案上傳
+                HttpFileCollection uploadFiles = Request.Files;
+                for (int i = 0; i < uploadFiles.Count; i++)
+                {
+                    HttpPostedFile File = uploadFiles[i];
+                    if (File.FileName.Trim() != "")
                     {
-                        Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
-                    }
-
-                    File.SaveAs(UpLoadPath + newFullName);
-
-                    PublicGuid = tmpGuid;
-
-                    switch (category)
-                    {
-                        case "gas":
-                            switch (type)
-                            {
-                                case "report":
-                                    grdb._guid = tmpGuid;
-                                    grdb._業者guid = cpid;
-                                    grdb._年度 = year;
-                                    grdb._檔案名稱 = orgFullName;
-                                    grdb._新檔名 = newFullName;
-                                    grdb._建立者 = LogInfo.mGuid;
-                                    grdb._修改者 = LogInfo.mGuid;
-
-                                    dt = grdb.GetDataFileName();
-                                    if (dt.Rows.Count > 0)
-                                        if (!string.IsNullOrEmpty(dt.Rows[0]["檔案名稱"].ToString().Trim()))
-                                            throw new Exception("有相同的檔案名稱，請先刪除檔案再上傳");
-
-                                    grdb.SaveFile(oConn, myTrans);
-                                    break;
-                                case "pipeinspect":
-                                    gidb._guid = guid;
-                                    gidb._佐證資料檔名 = orgName;
-                                    gidb._佐證資料副檔名 = extension;
-                                    gidb._新檔名 = newName;
-                                    gidb._佐證資料路徑 = UpLoadPath;
-                                    gidb._建立者 = LogInfo.mGuid;
-                                    gidb._修改者 = LogInfo.mGuid;
-
-                                    gidb.SaveFile(oConn, myTrans);
-                                    break;
-                                case "online":
-                                    goedb._guid = tmpGuid;
-                                    goedb._業者guid = cpid;
-                                    goedb._年度 = year;
-                                    goedb._檔案類型 = details;
-                                    goedb._檔案名稱 = orgFullName;
-                                    goedb._新檔名 = newFullName;
-                                    goedb._建立者 = LogInfo.mGuid;
-                                    goedb._修改者 = LogInfo.mGuid;
-
-                                    goedb.SaveFile(oConn, myTrans);
-                                    break;
-                            }                            
-                            break;
-                        case "oil":
-                            switch (type)
-                            {
-                                case "report":
-                                    ordb._guid = tmpGuid;
-                                    ordb._業者guid = cpid;
-                                    ordb._年度 = year;
-                                    ordb._檔案名稱 = orgFullName;
-                                    ordb._新檔名 = newFullName;
-                                    ordb._建立者 = LogInfo.mGuid;
-                                    ordb._修改者 = LogInfo.mGuid;
-
-                                    dt = ordb.GetDataFileName();
-                                    if (dt.Rows.Count > 0)
-                                        if (!string.IsNullOrEmpty(dt.Rows[0]["檔案名稱"].ToString().Trim()))
-                                            throw new Exception("有相同的檔案名稱，請先刪除檔案再上傳");
-
-                                    ordb.SaveFile(oConn, myTrans);
-                                    break;
-                                case "pipeinspect":
-                                    oidb._guid = guid;
-                                    oidb._佐證資料檔名 = orgName;
-                                    oidb._佐證資料副檔名 = extension;
-                                    oidb._新檔名 = newName;
-                                    oidb._佐證資料路徑 = UpLoadPath;
-                                    oidb._建立者 = LogInfo.mGuid;
-                                    oidb._修改者 = LogInfo.mGuid;
-
-                                    oidb.SaveFile(oConn, myTrans);
-                                    break;
-                                case "suggestionimport":
-                                    PublicOrgName = orgName;
-                                    PublicNewName = newName;
-                                    PublicExtension = extension;
-
-                                    fdb._guid = tmpGuid;
-                                    fdb._年度 = year;
-                                    fdb._業者guid = tmpGuid;
-                                    fdb._檔案類型 = details;
-                                    fdb._原檔名 = orgName;
-                                    fdb._新檔名 = newName;
-                                    fdb._附檔名 = extension;
-                                    fdb._排序 = "1";
-                                    fdb._檔案大小 = file_size;
-                                    fdb._修改者 = LogInfo.mGuid;
-                                    fdb._修改日期 = DateTime.Now;
-                                    fdb._建立者 = LogInfo.mGuid;
-                                    fdb._建立日期 = DateTime.Now;
-
-                                    fdb.UpdateFile_Trans(oConn, myTrans);                                    
-                                    break;
-                                case "storageinspect":
-                                    oiadb._guid = guid;
-                                    oiadb._佐證資料檔名 = orgName;
-                                    oiadb._新檔名 = newName;
-                                    oiadb._佐證資料副檔名 = extension;
-                                    oiadb._佐證資料路徑 = UpLoadPath;
-                                    oiadb._建立者 = LogInfo.mGuid;
-                                    oiadb._修改者 = LogInfo.mGuid;
-
-                                    oiadb.SaveFile(oConn, myTrans);
-                                    break;
-                                case "online":
-                                    ooedb._guid = tmpGuid;
-                                    ooedb._業者guid = cpid;
-                                    ooedb._年度 = year;
-                                    ooedb._檔案類型 = details;
-                                    ooedb._檔案名稱 = orgFullName;
-                                    ooedb._新檔名 = newFullName;
-                                    ooedb._建立者 = LogInfo.mGuid;
-                                    ooedb._修改者 = LogInfo.mGuid;
-
-                                    ooedb.SaveFile(oConn, myTrans);
-                                    break;
-                            }                            
-                            break;
-                        case "publicgas":
-                            switch (type)
-                            {
-                                case "info":
-                                    fdb._guid = "";
-                                    fdb._業者guid = cpid;
-                                    fdb._檔案類型 = details;
-                                    DataTable fdt = new DataTable();
-                                    fdt = fdb.GetData(oConn, myTrans);
-
-                                    if (fdt.Rows.Count == 0)
-                                    {
-                                        sn = "0" + (i + 1).ToString();
-                                    }
-                                    else
-                                    {
-                                        if (!string.IsNullOrEmpty(sn))
+                        string tmpGuid = (string.IsNullOrEmpty(guid)) ? Guid.NewGuid().ToString("N") : guid;
+                        string UpLoadPath = ConfigurationManager.AppSettings["UploadFileRootDir"];
+                        switch (category)
+                        {
+                            case "gas":
+                                switch (type)
+                                {
+                                    case "report":
+                                        UpLoadPath += "Gas_Upload\\report\\";
+                                        break;
+                                    case "pipeinspect":
+                                        UpLoadPath += "Gas_Upload\\pipeinspect\\";
+                                        break;
+                                    case "online":
+                                        switch (details)
                                         {
-                                            if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
-                                            {
-                                                sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
-                                            }
-                                            else
-                                            {
-                                                sn = (Convert.ToInt32(sn) + 1).ToString();
-                                            }
+                                            case "1":
+                                                UpLoadPath += "Gas_Upload\\online\\pipeline\\";
+                                                break;
+                                            case "2":
+                                                UpLoadPath += "Gas_Upload\\online\\storage\\";
+                                                break;
+                                            case "3":
+                                                UpLoadPath += "Gas_Upload\\online\\disaster\\";
+                                                break;
+                                            case "4":
+                                                UpLoadPath += "Gas_Upload\\online\\installation\\";
+                                                break;
+                                            case "5":
+                                                UpLoadPath += "Gas_Upload\\online\\law\\";
+                                                break;
+                                        }
+                                        break;
+                                }
+                                break;
+                            case "oil":
+                                switch (type)
+                                {
+                                    case "report":
+                                        UpLoadPath += "Oil_Upload\\report\\";
+                                        break;
+                                    case "pipeinspect":
+                                        UpLoadPath += "Oil_Upload\\pipeinspect\\";
+                                        break;
+                                    case "storageinspect":
+                                        UpLoadPath += "Oil_Upload\\storageinspect\\";
+                                        break;
+                                    case "suggestionimport":
+                                        UpLoadPath += "Oil_Upload\\suggestionimport\\" + tmpGuid + "\\";
+                                        break;
+                                    case "online":
+                                        switch (details)
+                                        {
+                                            case "1":
+                                                UpLoadPath += "Oil_Upload\\online\\pipeline\\";
+                                                break;
+                                            case "2":
+                                                UpLoadPath += "Oil_Upload\\online\\storage\\";
+                                                break;
+                                            case "3":
+                                                UpLoadPath += "Oil_Upload\\online\\disaster\\";
+                                                break;
+                                            case "4":
+                                                UpLoadPath += "Oil_Upload\\online\\installation\\";
+                                                break;
+                                            case "5":
+                                                UpLoadPath += "Oil_Upload\\online\\law\\";
+                                                break;
+                                        }
+                                        break;
+                                }
+                                break;
+                            case "publicgas":
+                                switch (type)
+                                {
+                                    case "info":
+                                        switch (details)
+                                        {
+                                            case "14":
+                                                UpLoadPath += "PublicGas\\info\\checkreport\\";
+                                                break;
+                                            case "15":
+                                                UpLoadPath += "PublicGas\\info\\report\\";
+                                                break;
+                                            case "16":
+                                                UpLoadPath += "PublicGas\\info\\resultreport\\";
+                                                break;
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+
+                        //原檔名
+                        string orgName = Path.GetFileNameWithoutExtension(File.FileName);
+
+                        //副檔名
+                        string extension = System.IO.Path.GetExtension(File.FileName).ToLower();
+
+                        //原檔名完整名稱
+                        string orgFullName = orgName + extension;
+
+                        //新檔名
+                        string newName = string.Empty;
+
+                        //新檔名完整名稱
+                        string newFullName = string.Empty;
+
+                        if (type == "pipeinspect" || type == "storageinspect")
+                        {
+                            newName = orgName + "_" + guid;
+                            newFullName = orgName + "_" + guid + extension;
+                        }
+                        else if (type == "suggestionimport")
+                        {
+                            newName = orgName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                            newFullName = newName + extension;
+                        }
+                        else
+                        {
+                            newName = orgName;
+                            newFullName = orgName + extension;
+                        }
+
+                        string file_size = File.ContentLength.ToString();
+
+                        //如果上傳路徑中沒有該目錄，則自動新增
+                        if (!Directory.Exists(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\"))))
+                        {
+                            Directory.CreateDirectory(UpLoadPath.Substring(0, UpLoadPath.LastIndexOf("\\")));
+                        }
+
+                        File.SaveAs(UpLoadPath + newFullName);
+
+                        if (type == "suggestionimport")
+                        {
+                            string savedFilePath = Path.Combine(UpLoadPath, newFullName);
+
+                            Document doc = new Document(savedFilePath);
+
+                            // 取得自訂屬性集合
+                            var customProps = doc.CustomDocumentProperties;
+
+                            if (!customProps.Contains("TemplateID"))
+                            {
+                                throw new Exception("文件未包含金鑰，禁止上傳。");
+                            }
+
+                            string value = customProps["TemplateID"].ToString();
+                            if (value != "F-AD-2-10B")
+                            {
+                                throw new Exception("金鑰不正確，請使用系統範本上傳。");
+                            }
+
+                            DocumentBuilder builder = new DocumentBuilder(doc);
+                            if (doc.Range.Bookmarks["FormNumber"] != null)
+                            {
+                                builder.MoveToBookmark("FormNumber");
+                                builder.Write("F-AD-2-10B-01");
+                            }
+
+                            doc.Save(savedFilePath);
+                        }
+
+                        PublicGuid = tmpGuid;
+
+                        switch (category)
+                        {
+                            case "gas":
+                                switch (type)
+                                {
+                                    case "report":
+                                        grdb._guid = tmpGuid;
+                                        grdb._業者guid = cpid;
+                                        grdb._年度 = year;
+                                        grdb._檔案名稱 = orgFullName;
+                                        grdb._新檔名 = newFullName;
+                                        grdb._建立者 = LogInfo.mGuid;
+                                        grdb._修改者 = LogInfo.mGuid;
+
+                                        dt = grdb.GetDataFileName();
+                                        if (dt.Rows.Count > 0)
+                                            if (!string.IsNullOrEmpty(dt.Rows[0]["檔案名稱"].ToString().Trim()))
+                                                throw new Exception("有相同的檔案名稱，請先刪除檔案再上傳");
+
+                                        grdb.SaveFile(oConn, myTrans);
+                                        break;
+                                    case "pipeinspect":
+                                        gidb._guid = guid;
+                                        gidb._佐證資料檔名 = orgName;
+                                        gidb._佐證資料副檔名 = extension;
+                                        gidb._新檔名 = newName;
+                                        gidb._佐證資料路徑 = UpLoadPath;
+                                        gidb._建立者 = LogInfo.mGuid;
+                                        gidb._修改者 = LogInfo.mGuid;
+
+                                        gidb.SaveFile(oConn, myTrans);
+                                        break;
+                                    case "online":
+                                        goedb._guid = tmpGuid;
+                                        goedb._業者guid = cpid;
+                                        goedb._年度 = year;
+                                        goedb._檔案類型 = details;
+                                        goedb._檔案名稱 = orgFullName;
+                                        goedb._新檔名 = newFullName;
+                                        goedb._建立者 = LogInfo.mGuid;
+                                        goedb._修改者 = LogInfo.mGuid;
+
+                                        goedb.SaveFile(oConn, myTrans);
+                                        break;
+                                }
+                                break;
+                            case "oil":
+                                switch (type)
+                                {
+                                    case "report":
+                                        ordb._guid = tmpGuid;
+                                        ordb._業者guid = cpid;
+                                        ordb._年度 = year;
+                                        ordb._檔案名稱 = orgFullName;
+                                        ordb._新檔名 = newFullName;
+                                        ordb._建立者 = LogInfo.mGuid;
+                                        ordb._修改者 = LogInfo.mGuid;
+
+                                        dt = ordb.GetDataFileName();
+                                        if (dt.Rows.Count > 0)
+                                            if (!string.IsNullOrEmpty(dt.Rows[0]["檔案名稱"].ToString().Trim()))
+                                                throw new Exception("有相同的檔案名稱，請先刪除檔案再上傳");
+
+                                        ordb.SaveFile(oConn, myTrans);
+                                        break;
+                                    case "pipeinspect":
+                                        oidb._guid = guid;
+                                        oidb._佐證資料檔名 = orgName;
+                                        oidb._佐證資料副檔名 = extension;
+                                        oidb._新檔名 = newName;
+                                        oidb._佐證資料路徑 = UpLoadPath;
+                                        oidb._建立者 = LogInfo.mGuid;
+                                        oidb._修改者 = LogInfo.mGuid;
+
+                                        oidb.SaveFile(oConn, myTrans);
+                                        break;
+                                    case "suggestionimport":
+                                        PublicOrgName = orgName;
+                                        PublicNewName = newName;
+                                        PublicExtension = extension;
+
+                                        fdb._guid = tmpGuid;
+                                        fdb._年度 = year;
+                                        fdb._業者guid = tmpGuid;
+                                        fdb._檔案類型 = details;
+                                        fdb._原檔名 = orgName;
+                                        fdb._新檔名 = newName;
+                                        fdb._附檔名 = extension;
+                                        fdb._排序 = "1";
+                                        fdb._檔案大小 = file_size;
+                                        fdb._修改者 = LogInfo.mGuid;
+                                        fdb._修改日期 = DateTime.Now;
+                                        fdb._建立者 = LogInfo.mGuid;
+                                        fdb._建立日期 = DateTime.Now;
+
+                                        fdb.UpdateFile_Trans(oConn, myTrans);
+                                        break;
+                                    case "storageinspect":
+                                        oiadb._guid = guid;
+                                        oiadb._佐證資料檔名 = orgName;
+                                        oiadb._新檔名 = newName;
+                                        oiadb._佐證資料副檔名 = extension;
+                                        oiadb._佐證資料路徑 = UpLoadPath;
+                                        oiadb._建立者 = LogInfo.mGuid;
+                                        oiadb._修改者 = LogInfo.mGuid;
+
+                                        oiadb.SaveFile(oConn, myTrans);
+                                        break;
+                                    case "online":
+                                        ooedb._guid = tmpGuid;
+                                        ooedb._業者guid = cpid;
+                                        ooedb._年度 = year;
+                                        ooedb._檔案類型 = details;
+                                        ooedb._檔案名稱 = orgFullName;
+                                        ooedb._新檔名 = newFullName;
+                                        ooedb._建立者 = LogInfo.mGuid;
+                                        ooedb._修改者 = LogInfo.mGuid;
+
+                                        ooedb.SaveFile(oConn, myTrans);
+                                        break;
+                                }
+                                break;
+                            case "publicgas":
+                                switch (type)
+                                {
+                                    case "info":
+                                        fdb._guid = "";
+                                        fdb._業者guid = cpid;
+                                        fdb._檔案類型 = details;
+                                        DataTable fdt = new DataTable();
+                                        fdt = fdb.GetData(oConn, myTrans);
+
+                                        if (fdt.Rows.Count == 0)
+                                        {
+                                            sn = "0" + (i + 1).ToString();
                                         }
                                         else
                                         {
-                                            DataTable ffdt = fdb.GetNoYearMaxSn();
-
-                                            if (ffdt.Rows.Count > 0)
+                                            if (!string.IsNullOrEmpty(sn))
                                             {
-                                                int maxsn = Convert.ToInt32(ffdt.Rows[0]["Sort"].ToString().Trim());
-                                                if (maxsn > 9)
-                                                    sn = maxsn.ToString();
+                                                if (0 < Convert.ToInt32(sn) && Convert.ToInt32(sn) < 9)
+                                                {
+                                                    sn = "0" + (Convert.ToInt32(sn) + 1).ToString();
+                                                }
                                                 else
-                                                    sn = "0" + maxsn.ToString();
+                                                {
+                                                    sn = (Convert.ToInt32(sn) + 1).ToString();
+                                                }
                                             }
                                             else
                                             {
-                                                sn = "01";
+                                                DataTable ffdt = fdb.GetNoYearMaxSn();
+
+                                                if (ffdt.Rows.Count > 0)
+                                                {
+                                                    int maxsn = Convert.ToInt32(ffdt.Rows[0]["Sort"].ToString().Trim());
+                                                    if (maxsn > 9)
+                                                        sn = maxsn.ToString();
+                                                    else
+                                                        sn = "0" + maxsn.ToString();
+                                                }
+                                                else
+                                                {
+                                                    sn = "01";
+                                                }
                                             }
                                         }
-                                    }
 
-                                    fdb._guid = tmpGuid;
-                                    fdb._年度 = year;
-                                    fdb._原檔名 = orgName;
-                                    fdb._新檔名 = newName;
-                                    fdb._附檔名 = extension;
-                                    fdb._排序 = sn;
-                                    fdb._檔案大小 = file_size;
-                                    fdb._修改者 = LogInfo.mGuid;
-                                    fdb._修改日期 = DateTime.Now;
-                                    fdb._建立者 = LogInfo.mGuid;
-                                    fdb._建立日期 = DateTime.Now;
+                                        fdb._guid = tmpGuid;
+                                        fdb._年度 = year;
+                                        fdb._原檔名 = orgName;
+                                        fdb._新檔名 = newName;
+                                        fdb._附檔名 = extension;
+                                        fdb._排序 = sn;
+                                        fdb._檔案大小 = file_size;
+                                        fdb._修改者 = LogInfo.mGuid;
+                                        fdb._修改日期 = DateTime.Now;
+                                        fdb._建立者 = LogInfo.mGuid;
+                                        fdb._建立日期 = DateTime.Now;
 
-                                    fdb.UpdateFile_Trans(oConn, myTrans);
-                                    break;
-                            }
-                            break;
+                                        fdb.UpdateFile_Trans(oConn, myTrans);
+                                        break;
+                                }
+                                break;
+                        }
                     }
                 }
-            }
+            }            
 
             myTrans.Commit();
 
@@ -504,7 +623,8 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                     { "customization", new Dictionary<string, object>
                         {
                             { "forcesave", true },
-                            { "autosave", true }
+                            { "autosave", true },
+                            { "autosaveInterval", 60 }
                             //{ "trackChanges", true },
                         }
                     },

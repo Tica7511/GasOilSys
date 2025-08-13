@@ -182,6 +182,7 @@ public partial class Handler_GetFile : System.Web.UI.Page
                         {
                             { "forcesave", true },
                             { "autosave", true },
+                            { "autosaveInterval", 60 },
                             //{ "trackChanges", true },
                             { "buttons", new Dictionary<string, object>
                                 {
