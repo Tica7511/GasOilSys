@@ -22,8 +22,8 @@
 	<link href="../css/OchiRWD.css" rel="stylesheet" type="text/css" /><!-- ochsion layout RWD -->
 	<link href="../css/login.css" rel="stylesheet" type="text/css" />
     <link href="../css/style.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="../js/jquery-migrate-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery.magnific-popup.min.js"></script><!-- popup dialog -->
 	<script type="text/javascript">
         $(document).ready(function () {
@@ -88,7 +88,7 @@
                     $("#tdStatistics").hide();
                     $("#tdPublicGas").hide();
                     $("#tdGasSuggestionImport").hide();
-                    $("#tdOilSuggestionImport").hide();
+                    //$("#tdOilSuggestionImport").hide();
                     switch ($("#EnterCtrl").val()) {
                         case "oil":
                             $("#tdGas").hide();

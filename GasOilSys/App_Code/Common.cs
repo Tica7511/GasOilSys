@@ -348,7 +348,34 @@ public class Common
 		rVal = HttpContext.Current.Server.HtmlDecode(rVal);
 		return rVal;
 	}
-	#endregion
+    #endregion
+
+    #region 新增Logs
+    public static void InsertLogsTran(SqlConnection oConn, SqlTransaction oTran, string pageName, string tableName, string content)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"insert into Logs(  
+PageName,
+TableName,
+LogContent,
+InsertTime ) values ( 
+@PageName,
+@TableName,
+@LogContent,
+@InsertTime  
+) ");
+        SqlCommand oCmd = oConn.CreateCommand();
+        oCmd.CommandText = sb.ToString();
+
+        oCmd.Parameters.AddWithValue("@PageName", pageName);
+        oCmd.Parameters.AddWithValue("@TableName", tableName);
+        oCmd.Parameters.AddWithValue("@LogContent", content);
+        oCmd.Parameters.AddWithValue("@InsertTime", DateTime.Now);
+
+        oCmd.Transaction = oTran;
+        oCmd.ExecuteNonQuery();
+    }
+    #endregion
 }
 
 

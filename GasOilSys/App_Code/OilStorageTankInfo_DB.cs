@@ -474,11 +474,11 @@ where guid=@guid and 資料狀態=@資料狀態
 修改日期=@修改日期, 
 修改者=@修改者, 
 資料狀態='D' 
-where 資料狀態='A' and guid=@guid ";
+where 資料狀態='A' and 業者guid=@業者guid ";
 
         oCmd.CommandType = CommandType.Text;
         SqlDataAdapter oda = new SqlDataAdapter(oCmd);
-        oCmd.Parameters.AddWithValue("@guid", guid);
+        oCmd.Parameters.AddWithValue("@業者guid", 業者guid);
         oCmd.Parameters.AddWithValue("@修改日期", DateTime.Now);
         oCmd.Parameters.AddWithValue("@修改者", 修改者);
 

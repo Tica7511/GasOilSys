@@ -27,10 +27,11 @@ public partial class Handler_DelOilStorageTankInfoLiquefaction : System.Web.UI.P
             #endregion
 
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+            string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 
             string xmlstr = string.Empty;
-            db._guid = guid;
+            db._業者guid = cpid;
             db._修改者 = LogInfo.mGuid;
 
             if(type == "all")

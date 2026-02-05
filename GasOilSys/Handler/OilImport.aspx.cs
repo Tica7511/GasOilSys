@@ -46,6 +46,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
         oCmmd.Connection = oConn;
         SqlTransaction myTrans = oConn.BeginTransaction();
         oCmmd.Transaction = myTrans;
+
         try
         {
             #region 檢查登入資訊
@@ -131,6 +132,7 @@ public partial class Handler_OilImport : System.Web.UI.Page
 
     public string checkValid(ISheet sheet, string category, string cpid, string year)
     {
+        DateTime ValidDate;
         string msg = string.Empty;
 
         for (int i = 1; i <= sheet.LastRowNum; i++)
@@ -188,21 +190,25 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                     msg += "【形式】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 7) != null)
                         {
-                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 7)))
+                            if(!TryParseTaiwanDateWithoutDate(sheetRow(sheet, i, 7), out ValidDate))
                             {
-                                msg += "【啟用日期】字串內不可包含特殊符號\r\n";
+                                msg += "【啟用日期】【" + sheetRow(sheet, i, 7) + "】日期格式不正確\r\n";
                             }
-                            if (sheetRow(sheet, i, 7).Length > 10)
-                            {
-                                msg += "【啟用日期】字數不可大於10\r\n";
-                            }
-                            else
-                            {
-                                if ((sheetRow(sheet, i, 7).Length < 4) || (sheetRow(sheet, i, 7).Length > 5))
-                                {
-                                    msg += "【啟用日期】字數需4或5個字\r\n";
-                                }
-                            }        
+                            //if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 7)))
+                            //{
+                            //    msg += "【啟用日期】字串內不可包含特殊符號\r\n";
+                            //}
+                            //if (sheetRow(sheet, i, 7).Length > 10)
+                            //{
+                            //    msg += "【啟用日期】字數不可大於10\r\n";
+                            //}
+                            //else
+                            //{
+                            //    if ((sheetRow(sheet, i, 7).Length < 4) || (sheetRow(sheet, i, 7).Length > 5))
+                            //    {
+                            //        msg += "【啟用日期】字數需4或5個字\r\n";
+                            //    }
+                            //}        
                         }
                             
                         if (sheetRow(sheet, i, 8) != null)
@@ -213,21 +219,25 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                     msg += "【代行檢查有效期限 代檢機構(填表說明)】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 9) != null)
                         {
-                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 9)))
+                            if (!TryParseTaiwanDate(sheetRow(sheet, i, 9), out ValidDate))
                             {
-                                msg += "【代行檢查有效期限 外部 年/月/日】字串內不可包含特殊符號\r\n";
+                                msg += "【代行檢查有效期限 外部 年/月/日】【" + sheetRow(sheet, i, 9) + "】日期格式不正確\r\n";
                             }
-                            if (sheetRow(sheet, i, 9).Length > 10)
-                            {
-                                msg += "【代行檢查有效期限 外部 年/月/日】字數不可大於10\r\n";
-                            }
-                            else
-                            {
-                                if ((sheetRow(sheet, i, 9).Length < 6) || (sheetRow(sheet, i, 9).Length > 7))
-                                {
-                                    msg += "【代行檢查有效期限 外部 年/月/日】字數需6或7個字\r\n";
-                                }                                    
-                            }
+                            //if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 9)))
+                            //{
+                            //    msg += "【代行檢查有效期限 外部 年/月/日】字串內不可包含特殊符號\r\n";
+                            //}
+                            //if (sheetRow(sheet, i, 9).Length > 10)
+                            //{
+                            //    msg += "【代行檢查有效期限 外部 年/月/日】字數不可大於10\r\n";
+                            //}
+                            //else
+                            //{
+                            //    if ((sheetRow(sheet, i, 9).Length < 6) || (sheetRow(sheet, i, 9).Length > 7))
+                            //    {
+                            //        msg += "【代行檢查有效期限 外部 年/月/日】字數需6或7個字\r\n";
+                            //    }                                    
+                            //}
                                 
                         }                            
                         if (sheetRow(sheet, i, 10) != null)
@@ -238,21 +248,26 @@ public partial class Handler_OilImport : System.Web.UI.Page
                                     msg += "【代行檢查有效期限 代檢機構(填表說明)】有數字或標點符號或是文字格式不正確，請參照excel範例欄位\r\n";
                         if (sheetRow(sheet, i, 11) != null)
                         {
-                            if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 11)))
+                            if (!TryParseTaiwanDate(sheetRow(sheet, i, 11), out ValidDate))
                             {
-                                msg += "【代行檢查有效期限 內部 年/月/日】字串內不可包含特殊符號\r\n";
+                                msg += "【代行檢查有效期限 外部 年/月/日】【" + sheetRow(sheet, i, 11) + "】日期格式不正確\r\n";
                             }
-                            if (sheetRow(sheet, i, 11).Length > 10)
-                            {
-                                msg += "【代行檢查有效期限 內部 年/月/日】字數不可大於10\r\n";
-                            }
-                            else
-                            {
-                                if ((sheetRow(sheet, i, 11).Length < 6) || (sheetRow(sheet, i, 11).Length > 7))
-                                {
-                                    msg += "【代行檢查有效期限 內部 年/月/日】字數需6或7個字\r\n";
-                                }                                    
-                            }                                
+
+                            //if (!ContainsOnlyAlphanumeric(sheetRow(sheet, i, 11)))
+                            //{
+                            //    msg += "【代行檢查有效期限 內部 年/月/日】字串內不可包含特殊符號\r\n";
+                            //}
+                            //if (sheetRow(sheet, i, 11).Length > 10)
+                            //{
+                            //    msg += "【代行檢查有效期限 內部 年/月/日】字數不可大於10\r\n";
+                            //}
+                            //else
+                            //{
+                            //    if ((sheetRow(sheet, i, 11).Length < 6) || (sheetRow(sheet, i, 11).Length > 7))
+                            //    {
+                            //        msg += "【代行檢查有效期限 內部 年/月/日】字數需6或7個字\r\n";
+                            //    }                                    
+                            //}                                
                         }   
                         if (sheetRow(sheet, i, 12) != null)
                             if (sheetRow(sheet, i, 12).Length > 20)
@@ -825,9 +840,9 @@ public partial class Handler_OilImport : System.Web.UI.Page
                         db1._形式 = sheetRow(sheet, i, 6);
                         db1._啟用日期 = OnlyMonthDay(sheetRow(sheet, i, 7));
                         db1._代行檢查_代檢機構1 = sheetRow(sheet, i, 8);
-                        db1._代行檢查_外部日期1 = sheetRow(sheet, i, 9);
+                        db1._代行檢查_外部日期1 = NormalizeDateString(sheetRow(sheet, i, 9));
                         db1._代行檢查_代檢機構2 = sheetRow(sheet, i, 10);
-                        db1._代行檢查_外部日期2 = sheetRow(sheet, i, 11);
+                        db1._代行檢查_外部日期2 = NormalizeDateString(sheetRow(sheet, i, 11));
                         db1._狀態 = sheetRow(sheet, i, 12);
                         db1._延長開放年限 = sheetRow(sheet, i, 13);
                         db1._差異說明 = sheetRow(sheet, i, 14);
@@ -1167,19 +1182,107 @@ public partial class Handler_OilImport : System.Web.UI.Page
     }
 
     /// <summary>
+    /// 驗證民國年日期格式 (允許 106/12/08 或 1061208)
+    /// </summary>
+    public static bool TryParseTaiwanDate(string input, out DateTime result)
+    {
+        result = DateTime.MinValue;
+        if (string.IsNullOrWhiteSpace(input)) return false;
+
+        // 106/12/08 或 6/02/01
+        Regex rxSlash = new Regex(@"^\s*(?<year>\d{1,3})[\/-](?<month>\d{2})[\/-](?<day>\d{2})\s*$");
+        // 1061208 或 60201
+        Regex rxPlain = new Regex(@"^\s*(?<year>\d{1,3})(?<month>\d{2})(?<day>\d{2})\s*$");
+
+        Match m = rxSlash.Match(input);
+        if (!m.Success) m = rxPlain.Match(input);
+        if (!m.Success) return false;
+
+        try
+        {
+            int roc = int.Parse(m.Groups["year"].Value);
+            int month = int.Parse(m.Groups["month"].Value);
+            int day = int.Parse(m.Groups["day"].Value);
+            int adYear = roc + 1911;
+
+            result = new DateTime(adYear, month, day); // 會自動檢查合法性
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 驗證民國年日期格式 (允許 106/12 或 10612)
+    /// </summary>
+    public static bool TryParseTaiwanDateWithoutDate(string input, out DateTime result)
+    {
+        result = DateTime.MinValue;
+
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+
+        // 1. 判斷格式：106/12
+        var regexWithSlashYM = new Regex(@"^\s*(?<year>\d{1,3})[\/-](?<month>\d{2})\s*$");
+        // 2. 判斷格式：10612
+        var regexWithoutSlashYM = new Regex(@"^\s*(?<year>\d{1,3})(?<month>\d{2})\s*$");
+
+        Match match = regexWithSlashYM.Match(input);
+        if (!match.Success)
+            match = regexWithoutSlashYM.Match(input);
+
+        if (!match.Success)
+            return false; // 格式不符
+
+        try
+        {
+            int rocYear = int.Parse(match.Groups["year"].Value); // 民國年
+            int month = int.Parse(match.Groups["month"].Value);
+            int day = 1;
+
+            int adYear = rocYear + 1911; // 轉西元年
+
+            result = new DateTime(adYear, month, day); // 會自動檢查日期是否合法
+            return true;
+        }
+        catch
+        {
+            return false; // 無效日期
+        }
+    }
+
+    /// <summary>
+    /// 去除日期的斜線
+    /// </summary>
+    public static string NormalizeDateString(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return input;
+
+        // 去掉所有斜線
+        string normalized = input.Replace("/", "");
+
+        return normalized;
+    }
+
+    /// <summary>
     /// 字串是只有月份+日期回傳 月份/日期
     /// </summary>
     public string OnlyMonthDay(string str)
     {
-        if(str.Length == 4)
+        string cleaned = str.Replace("/", "");
+
+        if (cleaned.Length == 4)
         {
-            str = str.Substring(0, 2) + "/" + str.Substring(2, 2);
+            cleaned = cleaned.Substring(0, 2) + "/" + cleaned.Substring(2, 2);
         }
         else
         {
-            str = str.Substring(0, 3) + "/" + str.Substring(3, 2);
+            cleaned = cleaned.Substring(0, 3) + "/" + cleaned.Substring(3, 2);
         }
 
-        return str;
+        return cleaned;
     }
 }

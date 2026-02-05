@@ -88,6 +88,10 @@ public partial class Handler_SaveCallback : System.Web.UI.Page
 
             key = Guid.NewGuid().ToString("N");
 
+            Common.InsertLogsTran(oConn, myTrans, Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath),
+                    System.Reflection.MethodBase.GetCurrentMethod().Name, "status=" + status.ToString() + "\nkey=" + key + "\nfileUrl=" + fileUrl + "\nfileName=" + fileName +
+                "\neditorUser=" + LogInfo.mGuid + "\nchange=" + changesurl);
+
             File.AppendAllText(Server.MapPath("~/log-callback.txt"),
                 DateTime.Now + "\nstatus=" + status.ToString() + "\nkey=" + key + "\nfileUrl=" + fileUrl + "\nfileName=" + fileName + 
                 "\neditorUser=" + LogInfo.mGuid + "\nchange=" + changesurl + "\n\n");
@@ -399,13 +403,12 @@ public partial class Handler_SaveCallback : System.Web.UI.Page
                     filepath = UpLoadPath + "Oil_Upload\\suggestionimport\\" + fileGuid + "\\" + PublicFileFullName + PublicFileExtension;
 
                     File.WriteAllBytes(filepath, fileBytes);
-
-                    File.AppendAllText(Server.MapPath("~/log-callback.txt"),DateTime.Now + " 儲存進資料夾了\n\n");
                 }
 
                 myTrans.Commit();
 
-                File.AppendAllText(Server.MapPath("~/log-callback.txt"), DateTime.Now + " 儲存進資料庫了\n\n");
+                Common.InsertLogsTran(oConn, myTrans, Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath),
+                    System.Reflection.MethodBase.GetCurrentMethod().Name, "儲存進資料庫了");
             }
 
             File.WriteAllText(Server.MapPath("~/log-fulljson.txt"), json);
@@ -420,8 +423,8 @@ public partial class Handler_SaveCallback : System.Web.UI.Page
         {
             myTrans.Rollback();
 
-            File.AppendAllText(Server.MapPath("~/log-callback.txt"),
-                DateTime.Now + " 錯誤：" + ex.Message + "\n" + ex.StackTrace + "\n\n");
+            Common.InsertLogsTran(oConn, myTrans, Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath),
+                    System.Reflection.MethodBase.GetCurrentMethod().Name, "錯誤：" + ex.Message + "\r\n" + ex.StackTrace);
 
             Response.Clear();
             Response.ContentType = "application/json";

@@ -64,7 +64,7 @@
 			$.ajax({
 				type: "POST",
 				async: false, //在沒有返回值之前,不會執行下一步動作
-				url: "../Handler/GetGasUnusualRectifier.aspx",
+                url: "../Handler/GetPublicGasDoorRecord.aspx",
 				data: {
                     cpid: $.getQueryString("cp"),
                     year: year,
@@ -84,12 +84,23 @@
 						if ($(data).find("data_item").length > 0) {
 							$(data).find("data_item").each(function (i) {
 								tabstr += '<tr>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("異常整流站名稱").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("異常起始日期年月").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("異常狀況").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("整流站修復進度").text().trim() + '</td>';
-								tabstr += '<td nowrap="nowrap">' + $(this).children("影響長途管線識別碼").text().trim() + '</td>';
-                                tabstr += '<td nowrap="nowrap">' + getDate($(this).children("預計完成日期").text().trim()) + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("序號").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("編號").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("設置年月").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("設施種類").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("位置描述").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("壓力別").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("口徑").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("隸屬管線").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("檢查日期").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("漏氣檢測_正常").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("漏氣檢測_檢查值").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("漏氣檢測_漏氣處理").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("抽水").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("閥門試轉").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("油漆").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("汙泥").text().trim() + '</td>';
+                                tabstr += '<td nowrap="nowrap">' + $(this).children("防滑蓋改善").text().trim() + '</td>';
 								tabstr += '<td nowrap="nowrap">' + $(this).children("備註").text().trim() + '</td>';
                                 tabstr += '<td name="td_edit" nowrap="" align="center"><a href="javascript:void(0);" name="delbtn" aid="' + $(this).children("guid").text().trim() + '">刪除</a>';
                                 tabstr += ' <a href="edit_GasUnusualRectifier.aspx?cp=' + $.getQueryString("cp") + '&guid=' + $(this).children("guid").text().trim() + '" name="editbtn">編輯</a></td>';
@@ -97,7 +108,7 @@
 							});
 						}
 						else
-							tabstr += '<tr><td colspan="8">查詢無資料</td></tr>';
+							tabstr += '<tr><td colspan="14">查詢無資料</td></tr>';
 						$("#tablist tbody").append(tabstr);
 
                         //確認權限&按鈕顯示或隱藏
@@ -291,8 +302,7 @@
 													<tr>
 														<th rowspan="3">序號</th>
 														<th rowspan="3">編號</th>
-														<th rowspan="3">設置年</th>
-														<th rowspan="3">月</th>
+														<th rowspan="3">設置年/月</th>
 														<th rowspan="3">設施種類</th>
 														<th rowspan="3">位置描述</th>
 														<th rowspan="3">壓力別</th>

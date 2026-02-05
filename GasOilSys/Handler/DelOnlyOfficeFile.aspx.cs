@@ -13,6 +13,7 @@ using System.Xml;
 public partial class Handler_DelOnlyOfficeFile : System.Web.UI.Page
 {
     FileTable db = new FileTable();
+    OilCommitteeSuggestionData_DB ocsdb = new OilCommitteeSuggestionData_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -50,6 +51,11 @@ public partial class Handler_DelOnlyOfficeFile : System.Web.UI.Page
             db._修改者 = LogInfo.mGuid;
 
             db.DelOnlyOfficeFile(oConn, myTrans); //更新資料庫此資料列
+
+            ocsdb._guid = pguid;
+            ocsdb._修改者 = LogInfo.mGuid;
+
+            ocsdb.DelOnlyOfficeFile(oConn, myTrans);
 
             myTrans.Commit();
 

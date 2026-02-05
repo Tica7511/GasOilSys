@@ -27,9 +27,11 @@ public partial class Handler_DelOilStorageTankInfo : System.Web.UI.Page
             #endregion
 
             string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+            string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
             string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
 
             string xmlstr = string.Empty;
+            db._業者guid = cpid;
             db._guid = guid;
             db._修改者 = LogInfo.mGuid;
 

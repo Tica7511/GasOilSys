@@ -1,0 +1,6 @@
+// /Sample/fill.docbuilder  (暫時測試用)
+builder.CreateFile("docx");
+var doc = Api.GetDocument();
+doc.GetRange().SetText("hello from docbuilder");
+builder.SaveFile("docx", "out.docx");
+builder.CloseFile();

@@ -10,6 +10,7 @@ using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 
 public partial class Handler_GetFile : System.Web.UI.Page
 {
@@ -30,11 +31,12 @@ public partial class Handler_GetFile : System.Web.UI.Page
 		XmlDocument xDoc = new XmlDocument();
         try
         {
-            string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? LogInfo.companyGuid : Request["cpid"].ToString().Trim();
-            string guid = (string.IsNullOrEmpty(Request["guid"])) ? LogInfo.companyGuid : Request["guid"].ToString().Trim();
-            string type = (string.IsNullOrEmpty(Request["type"])) ? LogInfo.companyGuid : Request["type"].ToString().Trim();
-            string year = (string.IsNullOrEmpty(Request["year"])) ? LogInfo.companyGuid : Request["year"].ToString().Trim();
-            string filetype = (string.IsNullOrEmpty(Request["filetype"])) ? LogInfo.companyGuid : Request["filetype"].ToString().Trim();
+            string cpid = (string.IsNullOrEmpty(Request["cpid"])) ? "" : Request["cpid"].ToString().Trim();
+            string guid = (string.IsNullOrEmpty(Request["guid"])) ? "" : Request["guid"].ToString().Trim();
+            string type = (string.IsNullOrEmpty(Request["type"])) ? "" : Request["type"].ToString().Trim();
+            string year = (string.IsNullOrEmpty(Request["year"])) ? "" : Request["year"].ToString().Trim();
+            string filetype = (string.IsNullOrEmpty(Request["filetype"])) ? "" : Request["filetype"].ToString().Trim();
+            string pagetype = (string.IsNullOrEmpty(Request["pagetype"])) ? "" : Request["pagetype"].ToString().Trim();
             string newGuid = Guid.NewGuid().ToString("N");
 
             db._guid = guid;
@@ -101,6 +103,11 @@ public partial class Handler_GetFile : System.Web.UI.Page
 
                 if(type == "17" || type == "18")
                 {
+                    //File.AppendAllText(Server.MapPath("~/log-callback.txt"),
+                    //            DateTime.Now + "\r\n guid:" + guid + "\r\n業者guid:" + cpid + "\r\n檔案類型:"
+                    //            + type + "\r\n年度:" + year + "\r\n");
+
+
                     db._guid = guid;
                     dt = db.GetMaxOnlyOfficeData();
 
@@ -110,7 +117,7 @@ public partial class Handler_GetFile : System.Web.UI.Page
                         fileName = dt.Rows[0]["原檔名"].ToString().Trim();
                         fileNewName = dt.Rows[0]["新檔名"].ToString().Trim();
                         fileExtension = dt.Rows[0]["附檔名"].ToString().Trim();
-                        jwtToken = GenerateJwt(guid, uGuid, fileName, fileNewName, fileExtension);
+                        jwtToken = GenerateJwt(guid, uGuid, fileName, fileNewName, fileExtension, pagetype);
 
                         //db._業者guid = newGuid;
                         //db.UpdateFileByOnlyOffice();
@@ -153,8 +160,15 @@ public partial class Handler_GetFile : System.Web.UI.Page
         xDoc.Save(Response.Output);
     }
 
-    public static string GenerateJwt(string guid, string tmpGuid, string fileName, string fileNewname, string fileextension)
+    public static string GenerateJwt(string guid, string tmpGuid, string fileName, string fileNewname, string fileextension, string pagetype)
     {
+        bool status = true;
+
+        if(pagetype == "view")
+        {
+            status = false;
+        }
+
         //將 JWT secret 包成 HmacSha256 的加密格式
         var secret = ConfigurationManager.AppSettings["JwtSecret"];
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
@@ -174,7 +188,7 @@ public partial class Handler_GetFile : System.Web.UI.Page
             { "documentType", "word" },
             { "editorConfig", new Dictionary<string, object>
                 {
-                    { "mode", "edit" },
+                    { "mode", pagetype },
                     { "lang", "zh-TW" },
                     { "callbackUrl", "http://172.20.10.5:54315/Handler/SaveCallback.aspx" },
                     { "canUseHistory", true },
@@ -188,6 +202,39 @@ public partial class Handler_GetFile : System.Web.UI.Page
                                 {
                                     { "print", false },
                                     { "download", false }
+                                }
+                            },
+                            { "logo", new Dictionary<string, object>
+                                {
+                                    { "image", "http://172.20.10.5:54315/images/tccLogo.png" },
+                                    { "url", "https://www.cogen.com.tw/tw/" }
+                                }
+                            },
+                            { "layout", new Dictionary<string, object>
+                                {
+                                    { "leftMenu", new Dictionary<string, object>
+                                        {
+                                            { "mode", false }
+                                        }
+                                    },
+                                    { "rightMenu", new Dictionary<string, object>
+                                        {
+                                            { "mode", false }
+                                        }
+                                    },
+                                    { "toolbar", new Dictionary<string, object>
+                                        {
+                                            { "layout", false },
+                                            { "references", false },
+                                            { "protect", false },
+                                            { "plugins", false }
+                                        }
+                                    }
+                                }
+                            },
+                            { "features", new Dictionary<string, object>
+                                {
+                                    { "watermark", false }
                                 }
                             }
                         }
@@ -207,14 +254,14 @@ public partial class Handler_GetFile : System.Web.UI.Page
             },
             { "permissions", new Dictionary<string, object>
                 {
-                    { "edit", true },
+                    { "edit", status },
                     //{ "review", true },
-                    { "comment", true },
+                    { "comment", status },
                     { "print", false },
                     { "download", false }
                 }
             },
-            { "height", "100%" },
+            { "height", "800px" },
             { "width", "100%" },
             { "type", "desktop" }
         };

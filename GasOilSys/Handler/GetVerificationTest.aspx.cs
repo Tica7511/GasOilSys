@@ -138,7 +138,7 @@ public partial class Handler_GetVerificationTest : System.Web.UI.Page
 						if(dataType != "4" && dataType != "5" && dataType != "6")
                         {
 							dt.Rows[i]["CompanyFullName"] = dt.Rows[i]["公司名稱"].ToString().Trim() + dt.Rows[i]["事業部"].ToString().Trim() +
-								dt.Rows[i]["中心庫區儲運課工場"].ToString().Trim();
+								dt.Rows[i]["營業處廠"].ToString().Trim() + dt.Rows[i]["中心庫區儲運課工場"].ToString().Trim();
 						}
                         else
                         {

@@ -28,72 +28,78 @@
         var lastEditorConfig = null; 
 
         $(document).ready(function () {
-            if ($.getQueryString("fguid") != "") {
-                $("#div_container").empty();
-                getData();
-            }
-            else {
-                if ($.getQueryString("filetype") != "new") {
+            if ($.getQueryString("mode") == 'edit') {
+                if ($.getQueryString("fguid") != "") {
+                    $("#div_container").empty();
+                    getData($.getQueryString("mode"));
+                }
+                else {
+                    if ($.getQueryString("filetype") != "new") {
 
-                    // Get form
-                    var form = $('#form1')[0];
+                        // Get form
+                        var form = $('#form1')[0];
 
-                    // Create an FormData object 
-                    var data = new FormData(form);
+                        // Create an FormData object 
+                        var data = new FormData(form);
 
-                    // If you want to add an extra field for the FormData
-                    data.append("cpid", "");
-                    data.append("category", "oil");
-                    data.append("filecategory", $.getQueryString("filecategory"));
-                    data.append("year", getTaiwanDate());
-                    data.append("type", "suggestionimport");
-                    data.append("details", "17");
-                    $.each($("#fileUpload")[0].files, function (i, file) {
-                        data.append('file', file);
-                    });
+                        // If you want to add an extra field for the FormData
+                        data.append("cpid", "");
+                        data.append("category", "oil");
+                        data.append("filecategory", $.getQueryString("filecategory"));
+                        data.append("year", getTaiwanDate());
+                        data.append("type", "suggestionimport");
+                        data.append("details", "17");
+                        $.each($("#fileUpload")[0].files, function (i, file) {
+                            data.append('file', file);
+                        });
 
-                    $.ajax({
-                        type: "POST",
-                        async: true, //在沒有返回值之前,不會執行下一步動作
-                        url: "../Handler/AddDownload.aspx",
-                        data: data,
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        error: function (xhr) {
-                            alert("Error: " + xhr.status);
-                            console.log(xhr.responseText);
-                        },
-                        beforeSend: function () {
-                            $("#alertText").show();
-                            $("#subbtn").prop("disabled", true);
-                        },
-                        complete: function () {
-                            $("#alertText").hide();
-                            $("#subbtn").prop("disabled", false);
-                        },
-                        success: function (data) {
-                            if ($(data).find("Error").length > 0) {
-                                alert($(data).find("Error").attr("Message"));
+                        $.ajax({
+                            type: "POST",
+                            async: true, //在沒有返回值之前,不會執行下一步動作
+                            url: "../Handler/AddDownload.aspx",
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            error: function (xhr) {
+                                alert("Error: " + xhr.status);
+                                console.log(xhr.responseText);
+                            },
+                            beforeSend: function () {
+                                $("#alertText").show();
+                                $("#subbtn").prop("disabled", true);
+                            },
+                            complete: function () {
+                                $("#alertText").hide();
+                                $("#subbtn").prop("disabled", false);
+                            },
+                            success: function (data) {
+                                if ($(data).find("Error").length > 0) {
+                                    alert($(data).find("Error").attr("Message"));
+                                }
+                                else {
+                                    $("#div_container").empty();
+                                    console.log("後端回傳檔案名：", $("fileName", data).text());
+                                    const fileName = $("fileName", data).text();
+                                    const fileNewName = $("fileNewName", data).text();
+                                    const authToken = $("token", data).text();
+                                    const onlyofficeguid = $("onlyofficeguid", data).text();
+                                    $("#cGuid").val($("cGuid", data).text());
+                                    $("#pGuid").val($("onlyofficeguid", data).text());
+                                    const mGuid = $("mGuid", data).text();
+                                    const mName = $("mName", data).text();
+                                    localStorage.setItem('authToken', authToken);
+                                    initOnlyOfficeViewer(fileName, fileNewName, authToken, onlyofficeguid, mGuid, mName);
+                                }
                             }
-                            else {
-                                $("#div_container").empty();
-                                console.log("後端回傳檔案名：", $("fileName", data).text());
-                                const fileName = $("fileName", data).text();
-                                const fileNewName = $("fileNewName", data).text();
-                                const authToken = $("token", data).text();
-                                const onlyofficeguid = $("onlyofficeguid", data).text();
-                                $("#cGuid").val($("cGuid", data).text());
-                                $("#pGuid").val($("onlyofficeguid", data).text());
-                                const mGuid = $("mGuid", data).text();
-                                const mName = $("mName", data).text();
-                                localStorage.setItem('authToken', authToken);
-                                initOnlyOfficeViewer(fileName, fileNewName, authToken, onlyofficeguid, mGuid, mName);
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
             }
+            else {
+                $("#div_container").empty();
+                getData($.getQueryString("mode"));
+            }            
 
             //上傳檔案
             $(document).on("change", "#fileUpload", function () {
@@ -184,7 +190,22 @@
                         "customization": {
                             "forcesave": true,
                             "autosave": true,
-                            "autosaveInterval": 60
+                            "autosaveInterval": 60,
+                            "logo": {
+                                image: "http://172.20.10.5:54315/images/tccLogo.png",
+                                url: "https://www.cogen.com.tw/tw/"
+                            },
+                            "layout": {
+                                "leftMenu": { mode: false },  // 左側欄初始隱藏
+                                "rightMenu": { mode: false },   // 右側欄初始隱藏
+                                "toolbar": {
+                                    "layout": false, // 版面配置
+                                    "references": false, // 參考文獻
+                                    "protect": false, // 保護
+                                    "plugins": false  // 外掛程式
+                                    // 其他可控分頁（示意）：file, home, insert, layout, draw, view, collaboration ...
+                                }
+                            },
                             /*"trackChanges": true*/
                         },
                         "user": {
@@ -203,7 +224,7 @@
                         "download": false
                     },
                     "token": authToken,
-                    "height": "100%",
+                    "height": "800px",
                     "width": "100%",
                     "type": "desktop",
                     "events": {
@@ -339,7 +360,11 @@
         }
 
         //取得資料庫檔案
-        function getData() {
+        function getData(pagetype) {
+            var status = true;
+            if (pagetype == 'view')
+                status = false; // 如果是查看模式，則不允許編輯
+
             $.ajax({
                 type: "POST",
                 async: true,
@@ -347,7 +372,8 @@
                 data: {
                     guid: $.getQueryString("fguid"),
                     filetype: "data",
-                    type: "17"
+                    type: "17",
+                    pagetype: pagetype
                 },
                 error: function (xhr) {
                     alert("Error: " + xhr.status);
@@ -380,13 +406,13 @@
                                         "fileType": "docx",
                                         "key": onlyofficeguid,
                                         "title": fileName,
-                                        "url": "http://172.20.10.5:54315/DOWNLOAD.aspx?category=Oil&type=suggestionimport&cpid=" + onlyofficeguid +"&v=" + encodeURIComponent(fileNewName)
+                                        "url": "http://172.20.10.5:54315/DOWNLOAD.aspx?category=Oil&type=suggestionimport&cpid=" + onlyofficeguid + "&v=" + encodeURIComponent(fileNewName)
                                     },
                                     "documentType": "word",
                                     "editorConfig": {
-                                        "mode": "edit",
+                                        "mode": pagetype,
                                         "lang": "zh-TW",
-                                        "canUseHistory" : true,
+                                        "canUseHistory": true,
                                         "callbackUrl": "http://172.20.10.5:54315/Handler/SaveCallback.aspx",
                                         "customization": {
                                             "forcesave": true,
@@ -396,25 +422,40 @@
                                             "buttons": {
                                                 "print": false,
                                                 "download": false
-                                            }
+                                            },
+                                            "logo": {
+                                                image: "http://172.20.10.5:54315/images/tccLogo.png",
+                                                url: "https://www.cogen.com.tw/tw/"
+                                            },
+                                            "layout": {
+                                                "leftMenu": { mode: false },  // 左側欄初始隱藏
+                                                "rightMenu": { mode: false },   // 右側欄初始隱藏
+                                                "toolbar": {
+                                                    "layout": false, // 版面配置
+                                                    "references": false, // 參考文獻
+                                                    "protect": false, // 保護
+                                                    "plugins": false  // 外掛程式
+                                                    // 其他可控分頁（示意）：file, home, insert, layout, draw, view, collaboration ...
+                                                }
+                                            },
                                         },
                                         "user": {
                                             "id": mGuid,
                                             "name": mName
                                         },
                                         "history": {
-                                            "serverVersion": true 
+                                            "serverVersion": true
                                         }
                                     },
                                     "permissions": {
-                                        "edit": true,
+                                        "edit": status,
                                         /*"review": true,*/  // 開啟追蹤修訂按鈕
-                                        "comment": true,
+                                        "comment": status,
                                         "print": false,
                                         "download": false
                                     },
                                     "token": authToken,
-                                    "height": "100%",
+                                    "height": "800px",
                                     "width": "100%",
                                     "type": "desktop",
                                     "events": {
@@ -434,6 +475,9 @@
                                 //    });
                                 //}, 60000); 
                             });
+                        }
+                        else {
+                            alert("nothing");
                         }
                     }
                 }

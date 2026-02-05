@@ -122,7 +122,7 @@
                         url: "../handler/DelOilStorageTankInfo.aspx",
                         data: {
                             type: "all",
-                            guid: $(this).attr("aid"),
+                            cpid: $.getQueryString("cp")
                         },
                         error: function (xhr) {
                             alert("Error: " + xhr.status);
@@ -150,7 +150,7 @@
                         url: "../handler/DelOilStorageTankInfoLiquefaction.aspx",
                         data: {
                             type: "all",
-                            guid: $(this).attr("aid"),
+                            cpid: $.getQueryString("cp")
                         },
                         error: function (xhr) {
                             alert("Error: " + xhr.status);

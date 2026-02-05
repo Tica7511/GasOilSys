@@ -233,10 +233,12 @@
                 else
                     isCheck = 'Y';
 
+                var beginYear = $("#txt_timeBegin").val();
+
                 // If you want to add an extra field for the FormData
                 data.append("guid", $.getQueryString("guid"));
                 data.append("mode", encodeURIComponent(mode));
-                data.append("year", encodeURIComponent(getTaiwanDate()));
+                data.append("year", encodeURIComponent(beginYear.substring(0, 3)));
                 data.append("isCheck", encodeURIComponent(isCheck));
                 data.append("type", encodeURIComponent($("#sel_type").val()));
                 data.append("objectName", encodeURIComponent($("#txt_object").val()));

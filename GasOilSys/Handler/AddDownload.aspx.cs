@@ -15,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using NPOI.SS.Formula.Functions;
 using System.Text;
 using System.Security.Claims;
+using Aspose.Words.Markup;
 
 public partial class Handler_AddDownload : System.Web.UI.Page
 {
@@ -28,6 +29,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
     FileTable fdb = new FileTable();
     CodeTable_DB cdb = new CodeTable_DB();
     Oil_CommitteeSuggestionDemoFile_DB ocsdfdb = new Oil_CommitteeSuggestionDemoFile_DB();
+    OilCommitteeSuggestionData_DB ocsdb = new OilCommitteeSuggestionData_DB();
     protected void Page_Load(object sender, EventArgs e)
     {
         ///-----------------------------------------------------
@@ -175,6 +177,84 @@ public partial class Handler_AddDownload : System.Web.UI.Page
 
                         File.Copy(UpLoadPath, targetPath, true);
 
+                        Document doc = new Document(targetPath);
+
+                        // 取得自訂屬性集合
+                        var customProps = doc.CustomDocumentProperties;
+
+                        if (!customProps.Contains("TemplateID"))
+                        {
+                            throw new Exception("文件未包含金鑰，禁止上傳。");
+                        }
+
+                        string value = customProps["TemplateID"].ToString();
+                        if (value != cdt.Rows[0]["項目名稱"].ToString().Trim())
+                        {
+                            throw new Exception("金鑰不正確，請使用系統範本上傳。");
+                        }
+
+                        string osn = string.Empty;
+
+                        ocsdb._類型 = ocdt.Rows[0]["項目代碼"].ToString().Trim();
+                        DataTable oscdt = ocsdb.GetMaxSn(oConn, myTrans);
+                        if (oscdt.Rows.Count > 0)
+                        {
+                            if (string.IsNullOrEmpty(oscdt.Rows[0]["Sort"].ToString()))
+                            {
+                                osn = "1";
+                            }
+                            else
+                            {
+                                osn = oscdt.Rows[0]["Sort"].ToString();
+                            }                            
+                        }
+                        else
+                        {
+                            osn = "1";
+                        }
+
+                        //DocumentBuilder builder = new DocumentBuilder(doc);
+                        //if (doc.Range.Bookmarks["FormNumber"] != null)
+                        //{
+                        //    builder.MoveToBookmark("FormNumber");
+                        //    builder.Write(cdt.Rows[0]["項目名稱"].ToString().Trim() + "-" + osn);
+                        //}
+
+                        NodeCollection allContentControls = doc.GetChildNodes(NodeType.StructuredDocumentTag, true);
+
+                        // 建立一個 DocumentBuilder 實例
+                        DocumentBuilder builder = new DocumentBuilder(doc);
+
+                        // 遍歷所有內容控制項
+                        foreach (StructuredDocumentTag sdt in allContentControls)
+                        {
+                            // 在檢查標籤之前先檢查 sdt.Tag 是否為 null，避免 NullReferenceException
+                            if (sdt.Tag != null && sdt.Tag == "FormNo")
+                            {
+                                // 如果找到標籤為 "FormNo" 的內容控制項，則執行以下操作
+
+                                // 清除內容控制項內的現有內容
+                                sdt.RemoveAllChildren();
+
+                                // 檢查內容控制項是否為空，如果是則新增一個段落來避免 MoveTo 的 null 錯誤
+                                if (sdt.FirstChild == null)
+                                {
+                                    sdt.AppendChild(new Aspose.Words.Paragraph(doc));
+                                }
+
+                                // 將 builder 移動到內容控制項的第一個子節點
+                                builder.MoveTo(sdt.FirstChild);
+
+                                // 寫入您想要的文字
+                                // 在寫入之前，也確保 cdt 和 osn 不為 null
+                                string writeText = "表單編號: " + cdt.Rows[0]["項目名稱"].ToString().Trim() + "-" + osn;
+                                builder.Write(writeText);
+                            }
+                        }
+
+                        doc.Save(targetPath);
+
+
                         PublicGuid = tmpGuid;
 
                         PublicOrgName = orgName;
@@ -196,6 +276,19 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                         fdb._建立日期 = DateTime.Now;
 
                         fdb.UpdateFile_Trans(oConn, myTrans);
+
+                        ocsdb._guid = tmpGuid;
+                        ocsdb._年度 = year;
+                        ocsdb._標題 = orgName;
+                        ocsdb._狀態 = "0";
+                        ocsdb._類型 = ocdt.Rows[0]["項目代碼"].ToString().Trim();
+                        ocsdb._排序 = osn;
+                        ocsdb._修改者 = LogInfo.mGuid;
+                        ocsdb._修改日期 = DateTime.Now;
+                        ocsdb._建立者 = LogInfo.mGuid;
+                        ocsdb._建立日期 = DateTime.Now;
+
+                        ocsdb.InsertData_Trans(oConn, myTrans);
                     }
                     else
                     {
@@ -350,35 +443,35 @@ public partial class Handler_AddDownload : System.Web.UI.Page
 
                         File.SaveAs(UpLoadPath + newFullName);
 
-                        if (type == "suggestionimport")
-                        {
-                            string savedFilePath = Path.Combine(UpLoadPath, newFullName);
+                        //if (type == "suggestionimport")
+                        //{
+                        //    string savedFilePath = Path.Combine(UpLoadPath, newFullName);
 
-                            Document doc = new Document(savedFilePath);
+                        //    Document doc = new Document(savedFilePath);
 
-                            // 取得自訂屬性集合
-                            var customProps = doc.CustomDocumentProperties;
+                        //    // 取得自訂屬性集合
+                        //    var customProps = doc.CustomDocumentProperties;
 
-                            if (!customProps.Contains("TemplateID"))
-                            {
-                                throw new Exception("文件未包含金鑰，禁止上傳。");
-                            }
+                        //    if (!customProps.Contains("TemplateID"))
+                        //    {
+                        //        throw new Exception("文件未包含金鑰，禁止上傳。");
+                        //    }
 
-                            string value = customProps["TemplateID"].ToString();
-                            if (value != "F-AD-2-10B")
-                            {
-                                throw new Exception("金鑰不正確，請使用系統範本上傳。");
-                            }
+                        //    string value = customProps["TemplateID"].ToString();
+                        //    if (value != "F-AD-2-10B")
+                        //    {
+                        //        throw new Exception("金鑰不正確，請使用系統範本上傳。");
+                        //    }
 
-                            DocumentBuilder builder = new DocumentBuilder(doc);
-                            if (doc.Range.Bookmarks["FormNumber"] != null)
-                            {
-                                builder.MoveToBookmark("FormNumber");
-                                builder.Write("F-AD-2-10B-01");
-                            }
+                        //    DocumentBuilder builder = new DocumentBuilder(doc);
+                        //    if (doc.Range.Bookmarks["FormNumber"] != null)
+                        //    {
+                        //        builder.MoveToBookmark("FormNumber");
+                        //        builder.Write("F-AD-2-10B-01");
+                        //    }
 
-                            doc.Save(savedFilePath);
-                        }
+                        //    doc.Save(savedFilePath);
+                        //}
 
                         PublicGuid = tmpGuid;
 
@@ -477,7 +570,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                                         fdb._建立者 = LogInfo.mGuid;
                                         fdb._建立日期 = DateTime.Now;
 
-                                        fdb.UpdateFile_Trans(oConn, myTrans);
+                                        fdb.UpdateFile_Trans(oConn, myTrans);                                        
                                         break;
                                     case "storageinspect":
                                         oiadb._guid = guid;
@@ -624,7 +717,35 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                         {
                             { "forcesave", true },
                             { "autosave", true },
-                            { "autosaveInterval", 60 }
+                            { "autosaveInterval", 60 },
+                            { "logo", new Dictionary<string, object>
+                                {
+                                    { "image", "http://172.20.10.5:54315/images/tccLogo.png" },
+                                    { "url", "https://www.cogen.com.tw/tw/" }
+                                }
+                            },
+                            { "layout", new Dictionary<string, object>
+                                {
+                                    { "leftMenu", new Dictionary<string, object>
+                                        {
+                                            { "mode", false }
+                                        }
+                                    },
+                                    { "rightMenu", new Dictionary<string, object>
+                                        {
+                                            { "mode", false }
+                                        }
+                                    },
+                                    { "toolbar", new Dictionary<string, object>
+                                        {
+                                            { "layout", false },
+                                            { "references", false },
+                                            { "protect", false },
+                                            { "plugins", false }
+                                        }
+                                    }
+                                }
+                            }
                             //{ "trackChanges", true },
                         }
                     },
@@ -650,7 +771,7 @@ public partial class Handler_AddDownload : System.Web.UI.Page
                     { "download", false }
                 }
             },
-            { "height", "100%" },
+            { "height", "800px" },
             { "width", "100%" },
             { "type", "desktop" }
         };
